@@ -2,7 +2,7 @@ enum Gender { male, female, other }
 
 enum GoalType { lose, maintain, gain }
 
-enum ActivityLevel { sedentary, light, moderate, active, veryActive }
+enum ActivityLevel { sedentary, light, moderate, active }
 
 enum DietType { classic, vegetarian, vegan, pescatarian, keto }
 

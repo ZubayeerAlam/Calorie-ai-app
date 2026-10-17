@@ -42,7 +42,6 @@ extension ActivityLevelLabel on ActivityLevel {
     ActivityLevel.light => 'Lightly active',
     ActivityLevel.moderate => 'Moderately active',
     ActivityLevel.active => 'Very active',
-    ActivityLevel.veryActive => 'Athlete',
   };
 
   String get description => switch (this) {
@@ -50,7 +49,6 @@ extension ActivityLevelLabel on ActivityLevel {
     ActivityLevel.light => 'Light exercise 1–3 days a week',
     ActivityLevel.moderate => 'Moderate exercise 3–5 days a week',
     ActivityLevel.active => 'Hard exercise 6–7 days a week',
-    ActivityLevel.veryActive => 'Twice-daily training or physical job',
   };
 
   IconData get icon => switch (this) {
@@ -58,7 +56,6 @@ extension ActivityLevelLabel on ActivityLevel {
     ActivityLevel.light => Icons.directions_walk,
     ActivityLevel.moderate => Icons.directions_bike,
     ActivityLevel.active => Icons.directions_run,
-    ActivityLevel.veryActive => Icons.fitness_center,
   };
 }
 

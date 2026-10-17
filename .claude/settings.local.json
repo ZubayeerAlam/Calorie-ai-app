@@ -7,7 +7,12 @@
       "Bash(dart format *)",
       "Bash(flutter analyze *)",
       "Bash(flutter test *)",
-      "Bash(python3 -)"
+      "Bash(python3 -)",
+      "Bash(sed -i '' 's/enum ActivityLevel { sedentary, light, moderate, active, veryActive }/enum ActivityLevel { sedentary, light, moderate, active }/' data/models/user_profile.dart)",
+      "Bash(sed -i '' '/ActivityLevel.veryActive =>/d' presentation/profile_labels.dart)",
+      "Bash(rm data/services/nutrition_calculator.dart)",
+      "Bash(rmdir data/services)",
+      "Read(//Users/zubayeeralam/FluterDev/Project/**)"
     ]
   }
 }

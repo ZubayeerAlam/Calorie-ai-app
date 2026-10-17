@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+import '../../../core/utils/calorie_calculator.dart';
 import '../../profile/data/models/user_goals.dart';
 import '../../profile/data/models/user_profile.dart';
-import '../../profile/data/services/nutrition_calculator.dart';
 
 enum OnboardingStep {
   name,
@@ -18,14 +18,8 @@ enum OnboardingStep {
 }
 
 class OnboardingProvider extends ChangeNotifier {
-  OnboardingProvider({
-    NutritionCalculator calculator = const NutritionCalculator(),
-  }) : _calculator = calculator;
-
   static const int minAge = 13;
   static const int maxAge = 100;
-
-  final NutritionCalculator _calculator;
 
   OnboardingStep _step = OnboardingStep.name;
   String _name = '';
@@ -92,8 +86,8 @@ class OnboardingProvider extends ChangeNotifier {
     useMetric: _useMetric,
   );
 
-  UserGoals get goals => _calculator.calculate(profile);
-  double get weeklyChangeKg => _calculator.weeklyChangeKg(profile);
+  UserGoals get goals => CalorieCalculator.calculate(profile);
+  double get weeklyChangeKg => CalorieCalculator.weeklyChangeKg(_goal!);
 
   // Profile with placeholders, used only for age validation mid-flow.
   UserProfile _draftProfile() => UserProfile(
