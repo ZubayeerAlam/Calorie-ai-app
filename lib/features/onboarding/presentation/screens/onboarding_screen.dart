@@ -15,6 +15,7 @@ import '../pages/gender_page.dart';
 import '../pages/goal_page.dart';
 import '../pages/height_page.dart';
 import '../pages/name_page.dart';
+import '../pages/personalizing_page.dart';
 import '../pages/plan_page.dart';
 import '../pages/weight_page.dart';
 
@@ -54,6 +55,9 @@ class OnboardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final onboarding = context.watch<OnboardingProvider>();
     final base = AppTheme.light;
+    // After the last setup step, show the loader until the plan is ready.
+    final isPersonalizing =
+        onboarding.step == OnboardingStep.plan && !onboarding.planReady;
 
     return Theme(
       data: base.copyWith(
@@ -71,39 +75,44 @@ class OnboardingScreen extends StatelessWidget {
             bottom: false,
             child: DefaultTextStyle.merge(
               style: const TextStyle(fontFamily: 'Outfit'),
-              child: Column(
-                children: [
-                  _ProgressHeader(onboarding: onboarding),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        // Pin pages to the top instead of centering them.
-                        layoutBuilder: (current, previous) => Stack(
-                          alignment: Alignment.topCenter,
-                          children: [...previous, ?current],
+              child: isPersonalizing
+                  ? PersonalizingPage(
+                      onCompleted: onboarding.markPlanReady,
+                      onClose: onboarding.back,
+                    )
+                  : Column(
+                      children: [
+                        _ProgressHeader(onboarding: onboarding),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              // Pin pages to the top instead of centering them.
+                              layoutBuilder: (current, previous) => Stack(
+                                alignment: Alignment.topCenter,
+                                children: [...previous, ?current],
+                              ),
+                              child: KeyedSubtree(
+                                key: ValueKey(onboarding.step),
+                                child: _pageFor(onboarding.step),
+                              ),
+                            ),
+                          ),
                         ),
-                        child: KeyedSubtree(
-                          key: ValueKey(onboarding.step),
-                          child: _pageFor(onboarding.step),
+                        const Divider(
+                          height: 1,
+                          thickness: 1,
+                          color: OnboardingColors.divider,
                         ),
-                      ),
+                        _BottomButton(
+                          label: onboarding.isLastStep ? 'Finish' : 'Continue',
+                          onPressed: onboarding.canContinue
+                              ? () => _onContinue(context, onboarding)
+                              : null,
+                        ),
+                      ],
                     ),
-                  ),
-                  const Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: OnboardingColors.divider,
-                  ),
-                  _BottomButton(
-                    label: onboarding.isLastStep ? 'Finish' : 'Continue',
-                    onPressed: onboarding.canContinue
-                        ? () => _onContinue(context, onboarding)
-                        : null,
-                  ),
-                ],
-              ),
             ),
           ),
         ),

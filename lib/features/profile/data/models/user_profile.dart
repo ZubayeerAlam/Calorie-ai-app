@@ -41,4 +41,28 @@ class UserProfile {
   }
 
   double get bmi => weightKg / ((heightCm / 100) * (heightCm / 100));
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'gender': gender.name,
+    'birthday': birthday.toIso8601String(),
+    'heightCm': heightCm,
+    'weightKg': weightKg,
+    'goal': goal.name,
+    'activityLevel': activityLevel.name,
+    'dietType': dietType.name,
+    'useMetric': useMetric,
+  };
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
+    name: json['name'] as String,
+    gender: Gender.values.byName(json['gender'] as String),
+    birthday: DateTime.parse(json['birthday'] as String),
+    heightCm: json['heightCm'] as int,
+    weightKg: (json['weightKg'] as num).toDouble(),
+    goal: GoalType.values.byName(json['goal'] as String),
+    activityLevel: ActivityLevel.values.byName(json['activityLevel'] as String),
+    dietType: DietType.values.byName(json['dietType'] as String),
+    useMetric: json['useMetric'] as bool? ?? true,
+  );
 }

@@ -5,21 +5,9 @@ import '../../providers/onboarding_provider.dart';
 import '../onboarding_colors.dart';
 import '../widgets/step_header.dart';
 
-class PlanPage extends StatefulWidget {
+/// The plan summary, shown after [PersonalizingPage] marks the plan ready.
+class PlanPage extends StatelessWidget {
   const PlanPage({super.key});
-
-  @override
-  State<PlanPage> createState() => _PlanPageState();
-}
-
-class _PlanPageState extends State<PlanPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) context.read<OnboardingProvider>().markPlanReady();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

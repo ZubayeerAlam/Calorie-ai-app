@@ -1,11 +1,22 @@
+import '../../../../core/services/local_storage_service.dart';
 import '../models/food_entry.dart';
 
-/// In-memory store for now; swap for local DB or remote API later.
+/// Stores food entries in local storage (shared_preferences) as JSON.
 class FoodLogRepository {
-  final List<FoodEntry> _entries = [];
+  FoodLogRepository(this._storage);
+
+  final LocalStorageService _storage;
+
+  List<FoodEntry> _readAll() =>
+      _storage.readList(StorageKeys.foodEntries, FoodEntry.fromJson);
+
+  Future<void> _writeAll(List<FoodEntry> entries) => _storage.setJsonList(
+    StorageKeys.foodEntries,
+    entries.map((e) => e.toJson()).toList(),
+  );
 
   Future<List<FoodEntry>> getEntriesFor(DateTime day) async {
-    return _entries
+    return _readAll()
         .where(
           (e) =>
               e.loggedAt.year == day.year &&
@@ -15,8 +26,8 @@ class FoodLogRepository {
         .toList();
   }
 
-  Future<void> add(FoodEntry entry) async => _entries.add(entry);
+  Future<void> add(FoodEntry entry) => _writeAll([..._readAll(), entry]);
 
-  Future<void> remove(String id) async =>
-      _entries.removeWhere((e) => e.id == id);
+  Future<void> remove(String id) =>
+      _writeAll(_readAll()..removeWhere((e) => e.id == id));
 }

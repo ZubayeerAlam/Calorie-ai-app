@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'app.dart';
+import 'core/services/local_storage_service.dart';
 
-void main() {
-  runApp(const CalAiApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final storage = await LocalStorageService.init();
+  runApp(CalAiApp(storage: storage));
 }

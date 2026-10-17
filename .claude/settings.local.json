@@ -6,7 +6,8 @@
       "Bash(rmdir lib/features/home/providers)",
       "Bash(dart format *)",
       "Bash(flutter analyze *)",
-      "Bash(flutter test *)"
+      "Bash(flutter test *)",
+      "Bash(python3 -)"
     ]
   }
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'core/constants/app_constants.dart';
 import 'core/routes/app_router.dart';
 import 'core/services/image_picker_service.dart';
+import 'core/services/local_storage_service.dart';
 import 'core/services/permission_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/food_log/data/repositories/food_log_repository.dart';
@@ -13,7 +14,10 @@ import 'features/food_scan/providers/food_scan_provider.dart';
 import 'features/profile/providers/profile_provider.dart';
 
 class CalAiApp extends StatefulWidget {
-  const CalAiApp({super.key, this.profileProvider});
+  const CalAiApp({super.key, required this.storage, this.profileProvider});
+
+  /// Local storage, initialised in `main` before the app starts.
+  final LocalStorageService storage;
 
   /// Optional pre-built profile state; tests pass an onboarded one to start
   /// on the dashboard instead of onboarding.
@@ -27,7 +31,7 @@ class _CalAiAppState extends State<CalAiApp> {
   // Created once so the router (which listens to the profile) is never
   // rebuilt and navigation state survives app rebuilds.
   late final ProfileProvider _profile =
-      widget.profileProvider ?? ProfileProvider();
+      widget.profileProvider ?? ProfileProvider(storage: widget.storage);
   late final GoRouter _router = createAppRouter(_profile);
 
   @override
@@ -42,9 +46,12 @@ class _CalAiAppState extends State<CalAiApp> {
     return MultiProvider(
       providers: [
         // Services
+        Provider.value(value: widget.storage),
         Provider(create: (_) => PermissionService()),
         Provider(create: (_) => ImagePickerService()),
-        Provider(create: (_) => FoodLogRepository()),
+        Provider(
+          create: (ctx) => FoodLogRepository(ctx.read<LocalStorageService>()),
+        ),
 
         // Feature state
         ChangeNotifierProvider.value(value: _profile),
