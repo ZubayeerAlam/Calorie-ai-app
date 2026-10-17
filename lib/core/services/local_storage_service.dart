@@ -9,6 +9,7 @@ class StorageKeys {
   static const String userProfile = 'user_profile';
   static const String userGoals = 'user_goals';
   static const String foodEntries = 'food_entries';
+  static const String activityKcal = 'activity_kcal';
 }
 
 /// Wraps shared_preferences so features don't depend on it directly.

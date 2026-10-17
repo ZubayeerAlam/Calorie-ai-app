@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 /// Two pill buttons, metric first (e.g. `kg` | `lb`).
 class UnitToggle extends StatelessWidget {
@@ -60,12 +60,10 @@ class _UnitPill extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: selected ? OnboardingColors.primary : Colors.white,
+          color: selected ? AppColors.primary : Colors.white,
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
-            color: selected
-                ? OnboardingColors.primary
-                : OnboardingColors.chipBorder,
+            color: selected ? AppColors.primary : AppColors.chipBorder,
           ),
         ),
         child: Text(
@@ -73,7 +71,7 @@ class _UnitPill extends StatelessWidget {
           style: const TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w500,
-            color: OnboardingColors.textDark,
+            color: AppColors.textDark,
           ),
         ),
       ),

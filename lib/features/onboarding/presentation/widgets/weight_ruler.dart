@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 /// Horizontal ruler: drag left/right to change the value.
 /// One tick = 1 unit, a long labelled tick every 10 units.
@@ -63,7 +63,7 @@ class _RulerPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final centerX = size.width / 2;
     final tickPaint = Paint()
-      ..color = OnboardingColors.tick
+      ..color = AppColors.tick
       ..strokeWidth = 1.5;
 
     for (int i = min.ceil(); i <= max.floor(); i++) {
@@ -80,7 +80,7 @@ class _RulerPainter extends CustomPainter {
             style: const TextStyle(
               fontFamily: 'Outfit',
               fontSize: 18,
-              color: OnboardingColors.tickLabel,
+              color: AppColors.tickLabel,
             ),
           ),
           textDirection: TextDirection.ltr,
@@ -90,7 +90,7 @@ class _RulerPainter extends CustomPainter {
     }
 
     final indicatorPaint = Paint()
-      ..color = OnboardingColors.primary
+      ..color = AppColors.primary
       ..strokeWidth = 5
       ..strokeCap = StrokeCap.round;
     canvas.drawLine(

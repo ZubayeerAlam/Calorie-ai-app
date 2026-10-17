@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/onboarding_provider.dart';
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../widgets/step_header.dart';
 
 /// The plan summary, shown after [PersonalizingPage] marks the plan ready.
@@ -25,14 +25,14 @@ class PlanPage extends StatelessWidget {
               fontSize: 74,
               fontWeight: FontWeight.w600,
               letterSpacing: -1,
-              color: OnboardingColors.primary,
+              color: AppColors.primary,
             ),
           ),
         ),
         const Center(
           child: Text(
             'calories per day',
-            style: TextStyle(fontSize: 18, color: OnboardingColors.textGrey),
+            style: TextStyle(fontSize: 18, color: AppColors.textGrey),
           ),
         ),
         const SizedBox(height: 36),
@@ -45,10 +45,7 @@ class PlanPage extends StatelessWidget {
             child: Text(
               '${weekly > 0 ? '+' : ''}${weekly.toStringAsFixed(2)} kg per week',
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                color: OnboardingColors.textGrey,
-              ),
+              style: const TextStyle(fontSize: 16, color: AppColors.textGrey),
             ),
           ),
       ],
@@ -74,7 +71,7 @@ class _MacroRow extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 22),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: OnboardingColors.card,
+        color: AppColors.card,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
@@ -91,10 +88,7 @@ class _MacroRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(
-                fontSize: 19,
-                color: OnboardingColors.textDark,
-              ),
+              style: const TextStyle(fontSize: 19, color: AppColors.textDark),
             ),
           ),
           Text(
@@ -102,7 +96,7 @@ class _MacroRow extends StatelessWidget {
             style: const TextStyle(
               fontSize: 19,
               fontWeight: FontWeight.w600,
-              color: OnboardingColors.textDark,
+              color: AppColors.textDark,
             ),
           ),
         ],

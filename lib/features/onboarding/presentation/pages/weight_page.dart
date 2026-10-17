@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/onboarding_provider.dart';
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../widgets/step_header.dart';
 import '../widgets/unit_toggle.dart';
 import '../widgets/weight_ruler.dart';
@@ -46,7 +46,7 @@ class WeightPage extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     letterSpacing: -1,
                     height: 1.15,
-                    color: OnboardingColors.textDark,
+                    color: AppColors.textDark,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -56,7 +56,7 @@ class WeightPage extends StatelessWidget {
                     metric ? 'kg' : 'lb',
                     style: const TextStyle(
                       fontSize: 26,
-                      color: OnboardingColors.textGrey,
+                      color: AppColors.textGrey,
                     ),
                   ),
                 ),

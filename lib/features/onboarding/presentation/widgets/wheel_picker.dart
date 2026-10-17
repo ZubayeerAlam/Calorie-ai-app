@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 /// Scroll-wheel picker over a list of integer [values], styled like the
 /// mockup: the selected number is large and green between two thin lines,
@@ -41,7 +41,7 @@ class _WheelPickerState extends State<WheelPicker>
   static const List<double> _offsets = [0, 93, 159, 215, 262];
   static const List<double> _fontSizes = [45, 37, 29, 22, 17];
   static const List<Color> _colors = [
-    OnboardingColors.primary,
+    AppColors.primary,
     Color(0xFF555555),
     Color(0xFF666666),
     Color(0xFF8A8A8A),
@@ -51,7 +51,7 @@ class _WheelPickerState extends State<WheelPicker>
   static const double _lineGap = 99;
   static const TextStyle _suffixStyle = TextStyle(
     fontSize: 16,
-    color: OnboardingColors.textDark,
+    color: AppColors.textDark,
   );
 
   late final AnimationController _position;
@@ -194,7 +194,7 @@ class _WheelPickerState extends State<WheelPicker>
             left: 0,
             right: 0,
             top: centerY + dy - 0.75,
-            child: Container(height: 1.5, color: OnboardingColors.primaryLight),
+            child: Container(height: 1.5, color: AppColors.primaryLight),
           ),
         ?suffix,
       ],

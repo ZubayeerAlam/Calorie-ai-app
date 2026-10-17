@@ -12,7 +12,10 @@
       "Bash(sed -i '' '/ActivityLevel.veryActive =>/d' presentation/profile_labels.dart)",
       "Bash(rm data/services/nutrition_calculator.dart)",
       "Bash(rmdir data/services)",
-      "Read(//Users/zubayeeralam/FluterDev/Project/**)"
+      "Read(//Users/zubayeeralam/FluterDev/Project/**)",
+      "Bash(sed -i '' \"s/context.select<ProfileProvider, dynamic>\\(\\(p\\) => p.goals\\);/context.select<ProfileProvider, UserGoals>\\(\\(p\\) => p.goals\\);/; s#import '../../../profile/providers/profile_provider.dart';#import '../../../profile/data/models/user_goals.dart';\\\\nimport '../../../profile/providers/profile_provider.dart';#\" screens/dashboard_screen.dart)",
+      "Bash(rm widgets/calorie_summary_card.dart)",
+      "Read(//Users/zubayeeralam/FluterDev/**)"
     ]
   }
 }

@@ -1,20 +1,37 @@
 import 'package:flutter/material.dart';
 
+import 'app_colors.dart';
+
 class AppTheme {
   AppTheme._();
 
-  static const Color _seed = Color(0xFF2E7D32);
+  static const String fontFamily = 'Outfit';
 
   static ThemeData get light => ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: _seed),
     useMaterial3: true,
+    fontFamily: fontFamily,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: AppColors.primary,
+      primary: AppColors.primary,
+      onPrimary: AppColors.textDark,
+      surface: AppColors.surface,
+    ),
+    scaffoldBackgroundColor: AppColors.background,
+    dividerColor: AppColors.line,
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.background,
+      foregroundColor: AppColors.textDark,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+    ),
   );
 
   static ThemeData get dark => ThemeData(
+    useMaterial3: true,
+    fontFamily: fontFamily,
     colorScheme: ColorScheme.fromSeed(
-      seedColor: _seed,
+      seedColor: AppColors.primary,
       brightness: Brightness.dark,
     ),
-    useMaterial3: true,
   );
 }

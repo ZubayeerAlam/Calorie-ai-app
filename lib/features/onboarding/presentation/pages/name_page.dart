@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/onboarding_provider.dart';
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../widgets/step_header.dart';
 
 class NamePage extends StatefulWidget {
@@ -43,7 +43,7 @@ class _NamePageState extends State<NamePage> {
           decoration: InputDecoration(
             hintText: 'Your name',
             filled: true,
-            fillColor: OnboardingColors.card,
+            fillColor: AppColors.card,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 22,
@@ -55,7 +55,7 @@ class _NamePageState extends State<NamePage> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6),
               borderSide: const BorderSide(
-                color: OnboardingColors.primary,
+                color: AppColors.primary,
                 width: 1.5,
               ),
             ),

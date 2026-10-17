@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class StepHeader extends StatelessWidget {
   const StepHeader({super.key, required this.title, this.subtitle});
@@ -21,7 +21,7 @@ class StepHeader extends StatelessWidget {
               fontSize: 30,
               fontWeight: FontWeight.w600,
               height: 1.5,
-              color: OnboardingColors.textDark,
+              color: AppColors.textDark,
             ),
           ),
           if (subtitle != null) ...[
@@ -29,10 +29,7 @@ class StepHeader extends StatelessWidget {
             Text(
               subtitle!,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                color: OnboardingColors.textGrey,
-              ),
+              style: const TextStyle(fontSize: 16, color: AppColors.textGrey),
             ),
           ],
         ],

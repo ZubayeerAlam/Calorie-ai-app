@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 
 /// A selectable card used by the choice onboarding steps.
 /// Shows an [emoji] (or an [icon]) on the left and a check when selected.
@@ -33,12 +33,10 @@ class OptionTile extends StatelessWidget {
           constraints: const BoxConstraints(minHeight: 68),
           padding: const EdgeInsets.fromLTRB(20, 12, 22, 12),
           decoration: BoxDecoration(
-            color: OnboardingColors.card,
+            color: AppColors.card,
             borderRadius: BorderRadius.circular(6),
             border: Border.all(
-              color: selected
-                  ? OnboardingColors.primary
-                  : OnboardingColors.card,
+              color: selected ? AppColors.primary : AppColors.card,
               width: 1.5,
             ),
           ),
@@ -53,7 +51,7 @@ class OptionTile extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: const TextStyle(fontSize: 28),
                         )
-                      : Icon(icon, size: 28, color: OnboardingColors.textDark),
+                      : Icon(icon, size: 28, color: AppColors.textDark),
                 ),
                 const SizedBox(width: 20),
               ],
@@ -66,7 +64,7 @@ class OptionTile extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w400,
-                        color: OnboardingColors.textDark,
+                        color: AppColors.textDark,
                       ),
                     ),
                     if (subtitle != null)
@@ -74,18 +72,14 @@ class OptionTile extends StatelessWidget {
                         subtitle!,
                         style: const TextStyle(
                           fontSize: 14,
-                          color: OnboardingColors.textGrey,
+                          color: AppColors.textGrey,
                         ),
                       ),
                   ],
                 ),
               ),
               if (selected)
-                const Icon(
-                  Icons.check,
-                  size: 24,
-                  color: OnboardingColors.primary,
-                ),
+                const Icon(Icons.check, size: 24, color: AppColors.primary),
             ],
           ),
         ),

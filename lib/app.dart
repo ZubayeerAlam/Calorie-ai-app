@@ -8,6 +8,8 @@ import 'core/services/image_picker_service.dart';
 import 'core/services/local_storage_service.dart';
 import 'core/services/permission_service.dart';
 import 'core/theme/app_theme.dart';
+import 'features/activity/data/activity_log_repository.dart';
+import 'features/activity/providers/activity_log_provider.dart';
 import 'features/food_log/data/repositories/food_log_repository.dart';
 import 'features/food_log/providers/food_log_provider.dart';
 import 'features/food_scan/providers/food_scan_provider.dart';
@@ -52,11 +54,19 @@ class _CalAiAppState extends State<CalAiApp> {
         Provider(
           create: (ctx) => FoodLogRepository(ctx.read<LocalStorageService>()),
         ),
+        Provider(
+          create: (ctx) =>
+              ActivityLogRepository(ctx.read<LocalStorageService>()),
+        ),
 
         // Feature state
         ChangeNotifierProvider.value(value: _profile),
         ChangeNotifierProvider(
           create: (ctx) => FoodLogProvider(ctx.read<FoodLogRepository>()),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) =>
+              ActivityLogProvider(ctx.read<ActivityLogRepository>()),
         ),
         ChangeNotifierProvider(
           create: (ctx) => FoodScanProvider(
@@ -70,6 +80,8 @@ class _CalAiAppState extends State<CalAiApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
+        // The current designs are light-only.
+        themeMode: ThemeMode.light,
         routerConfig: _router,
       ),
     );

@@ -6,7 +6,7 @@ import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../profile/providers/profile_provider.dart';
 import '../../providers/onboarding_provider.dart';
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../pages/activity_page.dart';
 import '../pages/birthday_page.dart';
 import '../pages/diet_page.dart';
@@ -103,7 +103,7 @@ class OnboardingScreen extends StatelessWidget {
                         const Divider(
                           height: 1,
                           thickness: 1,
-                          color: OnboardingColors.divider,
+                          color: AppColors.divider,
                         ),
                         _BottomButton(
                           label: onboarding.isLastStep ? 'Finish' : 'Continue',
@@ -149,7 +149,7 @@ class _ProgressHeader extends StatelessWidget {
                   child: const Icon(
                     Icons.arrow_back,
                     size: 26,
-                    color: OnboardingColors.textDark,
+                    color: AppColors.textDark,
                   ),
                 ),
               ),
@@ -161,8 +161,8 @@ class _ProgressHeader extends StatelessWidget {
                 builder: (_, value, _) => LinearProgressIndicator(
                   value: value,
                   minHeight: 12,
-                  backgroundColor: OnboardingColors.track,
-                  color: OnboardingColors.primary,
+                  backgroundColor: AppColors.track,
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(6),
                 ),
               ),
@@ -172,10 +172,7 @@ class _ProgressHeader extends StatelessWidget {
               child: Text(
                 '${onboarding.stepIndex + 1} / ${onboarding.stepCount}',
                 textAlign: TextAlign.right,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: OnboardingColors.textDark,
-                ),
+                style: const TextStyle(fontSize: 18, color: AppColors.textDark),
               ),
             ),
           ],
@@ -206,14 +203,10 @@ class _BottomButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: OnboardingColors.primary,
-            foregroundColor: OnboardingColors.textDark,
-            disabledBackgroundColor: OnboardingColors.primary.withValues(
-              alpha: 0.4,
-            ),
-            disabledForegroundColor: OnboardingColors.textDark.withValues(
-              alpha: 0.5,
-            ),
+            backgroundColor: AppColors.primary,
+            foregroundColor: AppColors.textDark,
+            disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.4),
+            disabledForegroundColor: AppColors.textDark.withValues(alpha: 0.5),
             elevation: 0,
             shape: const StadiumBorder(),
           ),

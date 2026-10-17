@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_constants.dart';
-import '../onboarding_colors.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../shared/widgets/progress_ring.dart';
 
 /// Full-screen loader shown after the last setup step: a ring fills from
 /// 0% to 100%, then [onCompleted] fires. [onClose] backs out of it.
@@ -67,7 +67,7 @@ class _PersonalizingPageState extends State<PersonalizingPage>
             padding: const EdgeInsets.fromLTRB(12, 4, 0, 0),
             child: IconButton(
               onPressed: widget.onClose,
-              icon: const Icon(Icons.close, color: OnboardingColors.textDark),
+              icon: const Icon(Icons.close, color: AppColors.textDark),
             ),
           ),
         ),
@@ -80,7 +80,7 @@ class _PersonalizingPageState extends State<PersonalizingPage>
               fontSize: 24,
               fontWeight: FontWeight.w600,
               height: 1.4,
-              color: OnboardingColors.textDark,
+              color: AppColors.textDark,
             ),
           ),
         ),
@@ -88,7 +88,19 @@ class _PersonalizingPageState extends State<PersonalizingPage>
           child: Center(
             child: AnimatedBuilder(
               animation: _progress,
-              builder: (context, _) => _ProgressRing(value: _progress.value),
+              builder: (context, _) => ProgressRing(
+                value: _progress.value,
+                size: 220,
+                trackColor: AppColors.track,
+                child: Text(
+                  '${(_progress.value * 100).round()}%',
+                  style: const TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.textDark,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -107,67 +119,4 @@ class _PersonalizingPageState extends State<PersonalizingPage>
       ],
     );
   }
-}
-
-class _ProgressRing extends StatelessWidget {
-  const _ProgressRing({required this.value});
-
-  static const double _size = 220;
-
-  final double value;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox.square(
-      dimension: _size,
-      child: CustomPaint(
-        painter: _RingPainter(value),
-        child: Center(
-          child: Text(
-            '${(value * 100).round()}%',
-            style: const TextStyle(
-              fontSize: 48,
-              fontWeight: FontWeight.w500,
-              color: OnboardingColors.textDark,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _RingPainter extends CustomPainter {
-  _RingPainter(this.value);
-
-  static const double _stroke = 12;
-
-  final double value;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromLTWH(
-      _stroke / 2,
-      _stroke / 2,
-      size.width - _stroke,
-      size.height - _stroke,
-    );
-    final track = Paint()
-      ..color = OnboardingColors.track
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = _stroke;
-    canvas.drawArc(rect, 0, math.pi * 2, false, track);
-
-    if (value <= 0) return;
-    final arc = Paint()
-      ..color = OnboardingColors.primary
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = _stroke
-      ..strokeCap = StrokeCap.round;
-    // Starts at 12 o'clock and fills clockwise.
-    canvas.drawArc(rect, -math.pi / 2, math.pi * 2 * value, false, arc);
-  }
-
-  @override
-  bool shouldRepaint(_RingPainter oldDelegate) => oldDelegate.value != value;
 }
