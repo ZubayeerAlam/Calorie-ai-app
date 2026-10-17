@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/routes/app_routes.dart';
@@ -52,8 +53,9 @@ class FoodScanScreen extends StatelessWidget {
                 width: double.infinity,
                 child: FilledButton.tonal(
                   onPressed: () async {
-                    await Navigator.of(context)
-                        .pushNamed(AppRoutes.addFood, arguments: image.path);
+                    await context.push(
+                      AppRoutes.addFoodLocation(imagePath: image.path),
+                    );
                     scan.clear();
                   },
                   child: const Text('Log this meal'),

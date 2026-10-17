@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../dashboard/presentation/screens/dashboard_screen.dart';
-import '../../../food_scan/presentation/screens/food_scan_screen.dart';
-import '../../../profile/presentation/screens/profile_screen.dart';
-import '../../providers/navigation_provider.dart';
-
+/// Bottom-navigation scaffold around the tab branches of the router.
 class HomeShell extends StatelessWidget {
-  const HomeShell({super.key});
+  const HomeShell({super.key, required this.navigationShell});
 
-  static const _pages = [DashboardScreen(), FoodScanScreen(), ProfileScreen()];
+  final StatefulNavigationShell navigationShell;
 
   @override
   Widget build(BuildContext context) {
-    final nav = context.watch<NavigationProvider>();
     return Scaffold(
-      body: IndexedStack(index: nav.index, children: _pages),
+      body: navigationShell,
       bottomNavigationBar: NavigationBar(
-        selectedIndex: nav.index,
-        onDestinationSelected: nav.setIndex,
+        selectedIndex: navigationShell.currentIndex,
+        // Tapping the current tab again returns it to its first page.
+        onDestinationSelected: (index) => navigationShell.goBranch(
+          index,
+          initialLocation: index == navigationShell.currentIndex,
+        ),
         destinations: const [
           NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
           NavigationDestination(

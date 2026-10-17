@@ -1,22 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'core/constants/app_constants.dart';
-import 'core/routes/app_routes.dart';
+import 'core/routes/app_router.dart';
 import 'core/services/image_picker_service.dart';
 import 'core/services/permission_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/food_log/data/repositories/food_log_repository.dart';
 import 'features/food_log/providers/food_log_provider.dart';
 import 'features/food_scan/providers/food_scan_provider.dart';
-import 'features/home/providers/navigation_provider.dart';
 import 'features/profile/providers/profile_provider.dart';
 
-class CalAiApp extends StatelessWidget {
-  const CalAiApp({super.key, this.initialRoute = AppRoutes.onboarding});
+class CalAiApp extends StatefulWidget {
+  const CalAiApp({super.key, this.profileProvider});
 
-  /// Defaults to onboarding; tests pass [AppRoutes.home] to skip it.
-  final String initialRoute;
+  /// Optional pre-built profile state; tests pass an onboarded one to start
+  /// on the dashboard instead of onboarding.
+  final ProfileProvider? profileProvider;
+
+  @override
+  State<CalAiApp> createState() => _CalAiAppState();
+}
+
+class _CalAiAppState extends State<CalAiApp> {
+  // Created once so the router (which listens to the profile) is never
+  // rebuilt and navigation state survives app rebuilds.
+  late final ProfileProvider _profile =
+      widget.profileProvider ?? ProfileProvider();
+  late final GoRouter _router = createAppRouter(_profile);
+
+  @override
+  void dispose() {
+    _router.dispose();
+    if (widget.profileProvider == null) _profile.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +47,7 @@ class CalAiApp extends StatelessWidget {
         Provider(create: (_) => FoodLogRepository()),
 
         // Feature state
-        ChangeNotifierProvider(create: (_) => NavigationProvider()),
-        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider.value(value: _profile),
         ChangeNotifierProvider(
           create: (ctx) => FoodLogProvider(ctx.read<FoodLogRepository>()),
         ),
@@ -40,13 +58,12 @@ class CalAiApp extends StatelessWidget {
           ),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: AppConstants.appName,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
-        initialRoute: initialRoute,
-        onGenerateRoute: AppRoutes.onGenerateRoute,
+        routerConfig: _router,
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app_constants.dart';
@@ -22,7 +23,7 @@ class DashboardScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text(AppConstants.appName)),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed(AppRoutes.addFood),
+        onPressed: () => context.push(AppRoutes.addFoodLocation()),
         child: const Icon(Icons.add),
       ),
       body: Column(

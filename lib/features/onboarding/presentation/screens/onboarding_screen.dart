@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/routes/app_routes.dart';
@@ -45,7 +46,8 @@ class OnboardingScreen extends StatelessWidget {
       onboarding.profile,
       onboarding.goals,
     );
-    Navigator.pushReplacementNamed(context, AppRoutes.home);
+    // The router's redirect would also do this once the profile notifies.
+    context.go(AppRoutes.home);
   }
 
   @override
@@ -128,9 +130,13 @@ class _ProgressHeader extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
-                  onTap: () => onboarding.isFirstStep
-                      ? Navigator.maybePop(context)
-                      : onboarding.back(),
+                  onTap: () {
+                    if (!onboarding.isFirstStep) {
+                      onboarding.back();
+                    } else if (context.canPop()) {
+                      context.pop();
+                    }
+                  },
                   child: const Icon(
                     Icons.arrow_back,
                     size: 26,

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(flutter pub *)",
+      "Bash(rm lib/features/home/providers/navigation_provider.dart)",
+      "Bash(rmdir lib/features/home/providers)",
+      "Bash(dart format *)",
+      "Bash(flutter analyze *)",
+      "Bash(flutter test *)"
+    ]
+  }
+}

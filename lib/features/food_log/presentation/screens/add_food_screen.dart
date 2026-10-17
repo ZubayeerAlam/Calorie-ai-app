@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/models/food_entry.dart';
@@ -46,7 +47,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
       imagePath: widget.imagePath,
     );
     await context.read<FoodLogProvider>().addEntry(entry);
-    if (mounted) Navigator.of(context).pop();
+    if (mounted) context.pop();
   }
 
   Widget _numberField(
