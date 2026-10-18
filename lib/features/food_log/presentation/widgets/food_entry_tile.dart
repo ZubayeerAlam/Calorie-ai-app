@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../data/models/food_entry.dart';
+import '../meal_type_labels.dart';
 
 class FoodEntryTile extends StatelessWidget {
   const FoodEntryTile({super.key, required this.entry, this.onDelete});
@@ -20,8 +21,9 @@ class FoodEntryTile extends StatelessWidget {
       ),
       title: Text(entry.name),
       subtitle: Text(
-        '${entry.mealType.name} · P ${entry.protein.toStringAsFixed(0)}g '
-        'C ${entry.carbs.toStringAsFixed(0)}g F ${entry.fat.toStringAsFixed(0)}g',
+        '${entry.mealType.label} · P ${entry.protein.toStringAsFixed(0)}g '
+        'C ${entry.carbs.toStringAsFixed(0)}g F ${entry.fat.toStringAsFixed(0)}g'
+        '${entry.macrosEstimated ? ' (est.)' : ''}',
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

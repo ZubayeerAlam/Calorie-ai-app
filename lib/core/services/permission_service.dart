@@ -6,6 +6,11 @@ enum AppPermissionResult { granted, denied, permanentlyDenied }
 class PermissionService {
   Future<AppPermissionResult> requestCamera() => _request(Permission.camera);
 
+  /// Android step counting. (On iOS the system asks for Motion access
+  /// itself the first time steps are read.)
+  Future<AppPermissionResult> requestActivityRecognition() =>
+      _request(Permission.activityRecognition);
+
   Future<bool> openSettings() => openAppSettings();
 
   Future<AppPermissionResult> _request(Permission permission) async {

@@ -7,8 +7,10 @@ import 'core/routes/app_router.dart';
 import 'core/services/image_picker_service.dart';
 import 'core/services/local_storage_service.dart';
 import 'core/services/permission_service.dart';
+import 'core/services/step_counter_service.dart';
 import 'core/theme/app_theme.dart';
 import 'features/activity/data/activity_log_repository.dart';
+import 'features/activity/data/step_log_repository.dart';
 import 'features/activity/providers/activity_log_provider.dart';
 import 'features/food_log/data/repositories/food_log_repository.dart';
 import 'features/food_log/providers/food_log_provider.dart';
@@ -16,7 +18,12 @@ import 'features/food_scan/providers/food_scan_provider.dart';
 import 'features/profile/providers/profile_provider.dart';
 
 class CalAiApp extends StatefulWidget {
-  const CalAiApp({super.key, required this.storage, this.profileProvider});
+  const CalAiApp({
+    super.key,
+    required this.storage,
+    this.profileProvider,
+    this.stepCounter,
+  });
 
   /// Local storage, initialised in `main` before the app starts.
   final LocalStorageService storage;
@@ -24,6 +31,9 @@ class CalAiApp extends StatefulWidget {
   /// Optional pre-built profile state; tests pass an onboarded one to start
   /// on the dashboard instead of onboarding.
   final ProfileProvider? profileProvider;
+
+  /// Step source; defaults to the phone's pedometer. Tests pass a fake.
+  final StepCounterService? stepCounter;
 
   @override
   State<CalAiApp> createState() => _CalAiAppState();
@@ -58,6 +68,14 @@ class _CalAiAppState extends State<CalAiApp> {
           create: (ctx) =>
               ActivityLogRepository(ctx.read<LocalStorageService>()),
         ),
+        Provider(
+          create: (ctx) => StepLogRepository(ctx.read<LocalStorageService>()),
+        ),
+        Provider<StepCounterService>(
+          create: (ctx) =>
+              widget.stepCounter ??
+              PedometerStepCounter(ctx.read<PermissionService>()),
+        ),
 
         // Feature state
         ChangeNotifierProvider.value(value: _profile),
@@ -65,8 +83,11 @@ class _CalAiAppState extends State<CalAiApp> {
           create: (ctx) => FoodLogProvider(ctx.read<FoodLogRepository>()),
         ),
         ChangeNotifierProvider(
-          create: (ctx) =>
-              ActivityLogProvider(ctx.read<ActivityLogRepository>()),
+          create: (ctx) => ActivityLogProvider(
+            ctx.read<ActivityLogRepository>(),
+            ctx.read<StepLogRepository>(),
+            ctx.read<StepCounterService>(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (ctx) => FoodScanProvider(

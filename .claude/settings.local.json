@@ -15,7 +15,8 @@
       "Read(//Users/zubayeeralam/FluterDev/Project/**)",
       "Bash(sed -i '' \"s/context.select<ProfileProvider, dynamic>\\(\\(p\\) => p.goals\\);/context.select<ProfileProvider, UserGoals>\\(\\(p\\) => p.goals\\);/; s#import '../../../profile/providers/profile_provider.dart';#import '../../../profile/data/models/user_goals.dart';\\\\nimport '../../../profile/providers/profile_provider.dart';#\" screens/dashboard_screen.dart)",
       "Bash(rm widgets/calorie_summary_card.dart)",
-      "Read(//Users/zubayeeralam/FluterDev/**)"
+      "Read(//Users/zubayeeralam/FluterDev/**)",
+      "Bash(P=/Users/zubayeeralam/.pub-cache/hosted/pub.dev/pedometer-4.2.0; grep -n -A12 \"startUpdates\\\\|class StepCountHandler\\\\|onListen\" $P/ios/pedometer/Sources/pedometer/PedometerPlugin.swift | head -60; grep -n \"uses-permission\\\\|ACTIVITY\" -r $P/android/src/main/AndroidManifest.xml; sed -n 1,30p \"/Users/zubayeeralam/FluterDev/Project/Own/Cal Ai app/android/app/src/main/AndroidManifest.xml\"; grep -n \"NSCamera\\\\|NSPhoto\\\\|NSMotion\" \"/Users/zubayeeralam/FluterDev/Project/Own/Cal Ai app/ios/Runner/Info.plist\"; ls \"/Users/zubayeeralam/FluterDev/Project/Own/Cal Ai app/ios/\"; grep -n \"PERMISSION_\" \"/Users/zubayeeralam/FluterDev/Project/Own/Cal Ai app/ios/Podfile\" 2>/dev/null)"
     ]
   }
 }

@@ -9,11 +9,15 @@ import '../../../food_log/data/models/food_entry.dart';
 import '../../../food_log/presentation/meal_type_labels.dart';
 import '../../../food_log/providers/food_log_provider.dart';
 import '../../../profile/data/models/user_goals.dart';
+import '../../../profile/data/models/user_profile.dart';
+import '../../../profile/presentation/profile_labels.dart';
 import '../../../profile/providers/profile_provider.dart';
 import '../widgets/burned_section.dart';
 import '../widgets/calorie_overview.dart';
+import '../widgets/calorie_plan_card.dart';
 import '../widgets/dashboard_card.dart';
 import '../widgets/date_selector.dart';
+import '../widgets/empty_log_hint.dart';
 import '../widgets/header_wave_background.dart';
 import '../widgets/home_header.dart';
 import '../widgets/log_activity_sheet.dart';
@@ -21,14 +25,43 @@ import '../widgets/macros_row.dart';
 import '../widgets/meal_entries_sheet.dart';
 import '../widgets/meal_tile.dart';
 import '../widgets/meals_card.dart';
+import '../widgets/profile_summary_card.dart';
 import '../widgets/section_label.dart';
 
 /// Home tab: daily calories, macros, burned calories and meals for the
 /// selected day.
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
   static const double _headerHeight = 64;
+
+  /// Used for walking kcal until a profile exists.
+  static const double _fallbackWeightKg = 70;
+
+  @override
+  void initState() {
+    super.initState();
+    // Ask for step access and start counting once Home is shown.
+    context.read<ActivityLogProvider>().startStepTracking();
+  }
+
+  static String? _walkingCaption(ActivityLogProvider activity, int steps) =>
+      switch (activity.stepStatus) {
+        StepTrackingStatus.tracking => '${_withCommas(steps)} steps',
+        StepTrackingStatus.denied => 'Allow step access',
+        StepTrackingStatus.unavailable => 'No step sensor',
+        StepTrackingStatus.off => null,
+      };
+
+  static String _withCommas(int n) => n.toString().replaceAllMapped(
+    RegExp(r'\B(?=(\d{3})+(?!\d))'),
+    (_) => ',',
+  );
 
   Future<void> _pickDate(BuildContext context, FoodLogProvider log) async {
     final picked = await showDatePicker(
@@ -57,7 +90,12 @@ class DashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final log = context.watch<FoodLogProvider>();
     final activity = context.watch<ActivityLogProvider>();
-    final goals = context.select<ProfileProvider, UserGoals>((p) => p.goals);
+    // Profile, targets and calculator breakdown, all from local storage.
+    final profileState = context.watch<ProfileProvider>();
+    final UserGoals goals = profileState.goals;
+    final UserProfile? profile = profileState.profile;
+    final breakdown = profileState.calorieBreakdown;
+    final weightKg = profile?.weightKg ?? _fallbackWeightKg;
     final date = log.selectedDate;
     final topInset = MediaQuery.paddingOf(context).top;
 
@@ -71,6 +109,11 @@ class DashboardScreen extends StatelessWidget {
               child: Column(
                 children: [
                   HomeHeader(
+                    name: profile?.name ?? '',
+                    subtitle: profile == null
+                        ? 'Daily goal: ${goals.dailyCalories} kcal'
+                        : '${profile.goal.label} · '
+                              '${goals.dailyCalories} kcal a day',
                     onNotificationsPressed: () => ScaffoldMessenger.of(context)
                         .showSnackBar(
                           const SnackBar(content: Text('No new notifications')),
@@ -91,7 +134,10 @@ class DashboardScreen extends StatelessWidget {
                         CalorieOverview(
                           target: goals.dailyCalories,
                           eaten: log.totalCalories,
-                          burned: activity.totalBurnedOn(date),
+                          burned: activity.totalBurnedOn(
+                            date,
+                            weightKg: weightKg,
+                          ),
                         ),
                         const SizedBox(height: 24),
                         const Padding(
@@ -114,7 +160,14 @@ class DashboardScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(right: 8),
                           child: BurnedSection(
-                            walking: activity.walkingOn(date),
+                            walking: activity.walkingOn(
+                              date,
+                              weightKg: weightKg,
+                            ),
+                            walkingCaption: _walkingCaption(
+                              activity,
+                              activity.stepsOn(date),
+                            ),
                             activity: activity.burnedOn(date),
                             onAddActivity: () =>
                                 _logActivity(context, activity, date),
@@ -123,6 +176,10 @@ class DashboardScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                  if (log.entries.isEmpty && !log.isLoading) ...[
+                    const SizedBox(height: 16),
+                    EmptyLogHint(isToday: log.isToday),
+                  ],
                   const SizedBox(height: 16),
                   MealsCard(
                     tiles: [
@@ -140,6 +197,18 @@ class DashboardScreen extends StatelessWidget {
                         ),
                     ],
                   ),
+                  if (profile != null) ...[
+                    const SizedBox(height: 16),
+                    ProfileSummaryCard(profile: profile),
+                  ],
+                  if (breakdown != null) ...[
+                    const SizedBox(height: 16),
+                    CaloriePlanCard(
+                      breakdown: breakdown,
+                      goals: goals,
+                      customized: profileState.goalsCustomized,
+                    ),
+                  ],
                 ],
               ),
             ),

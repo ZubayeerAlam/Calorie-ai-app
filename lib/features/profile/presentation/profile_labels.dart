@@ -84,3 +84,26 @@ extension DietTypeLabel on DietType {
     DietType.keto => Icons.local_fire_department_outlined,
   };
 }
+
+/// Display strings for a saved profile, in the user's chosen units.
+extension UserProfileDisplay on UserProfile {
+  static const double _lbPerKg = 2.20462;
+  static const double _cmPerInch = 2.54;
+
+  String get weightLabel => useMetric
+      ? '${weightKg.toStringAsFixed(1)} kg'
+      : '${(weightKg * _lbPerKg).toStringAsFixed(1)} lb';
+
+  String get heightLabel {
+    if (useMetric) return '$heightCm cm';
+    final inches = (heightCm / _cmPerInch).round();
+    return '${inches ~/ 12}′${inches % 12}″';
+  }
+
+  String get bmiCategory => switch (bmi) {
+    < 18.5 => 'Underweight',
+    < 25 => 'Healthy',
+    < 30 => 'Overweight',
+    _ => 'Obese',
+  };
+}

@@ -11,6 +11,7 @@ class FoodEntry {
     this.carbs = 0,
     this.fat = 0,
     this.imagePath,
+    this.macrosEstimated = false,
   });
 
   final String id;
@@ -23,6 +24,10 @@ class FoodEntry {
   final DateTime loggedAt;
   final String? imagePath;
 
+  /// True when protein/carbs/fat were estimated from calories because the
+  /// user left them blank.
+  final bool macrosEstimated;
+
   Map<String, dynamic> toJson() => {
     'id': id,
     'name': name,
@@ -33,6 +38,7 @@ class FoodEntry {
     'mealType': mealType.name,
     'loggedAt': loggedAt.toIso8601String(),
     'imagePath': imagePath,
+    'macrosEstimated': macrosEstimated,
   };
 
   factory FoodEntry.fromJson(Map<String, dynamic> json) => FoodEntry(
@@ -45,5 +51,6 @@ class FoodEntry {
     mealType: MealType.values.byName(json['mealType'] as String),
     loggedAt: DateTime.parse(json['loggedAt'] as String),
     imagePath: json['imagePath'] as String?,
+    macrosEstimated: json['macrosEstimated'] as bool? ?? false,
   );
 }

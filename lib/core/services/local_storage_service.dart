@@ -8,6 +8,7 @@ class StorageKeys {
 
   static const String userProfile = 'user_profile';
   static const String userGoals = 'user_goals';
+  static const String goalsCustomized = 'goals_customized';
   static const String foodEntries = 'food_entries';
   static const String activityKcal = 'activity_kcal';
 }
@@ -28,6 +29,10 @@ class LocalStorageService {
 
   Future<bool> setString(String key, String value) =>
       _prefs.setString(key, value);
+
+  bool? getBool(String key) => _prefs.getBool(key);
+
+  Future<bool> setBool(String key, bool value) => _prefs.setBool(key, value);
 
   Map<String, dynamic>? getJson(String key) {
     final raw = _prefs.getString(key);

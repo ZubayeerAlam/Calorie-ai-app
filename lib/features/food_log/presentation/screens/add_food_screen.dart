@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/routes/app_routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/utils/calorie_calculator.dart';
 import '../../data/models/food_entry.dart';
 import '../../providers/food_log_provider.dart';
 import '../meal_type_labels.dart';
@@ -45,13 +47,21 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
     // Log on the day being viewed on Home, at the current time of day.
     final now = DateTime.now();
     final day = log.selectedDate;
+    final calories = int.parse(_calories.text);
+    // All three macros blank → estimate them from calories (50/30/20) so
+    // the Home macro rings still move. Typed values are always kept as-is.
+    final estimate = [_protein, _carbs, _fat].every((c) => c.text.isEmpty);
+    final estimated = CalorieCalculator.estimateMacroGrams(calories);
     final entry = FoodEntry(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
       name: _name.text.trim(),
-      calories: int.parse(_calories.text),
-      protein: double.tryParse(_protein.text) ?? 0,
-      carbs: double.tryParse(_carbs.text) ?? 0,
-      fat: double.tryParse(_fat.text) ?? 0,
+      calories: calories,
+      protein: estimate
+          ? estimated.protein
+          : double.tryParse(_protein.text) ?? 0,
+      carbs: estimate ? estimated.carbs : double.tryParse(_carbs.text) ?? 0,
+      fat: estimate ? estimated.fat : double.tryParse(_fat.text) ?? 0,
+      macrosEstimated: estimate,
       mealType: _mealType,
       loggedAt: DateTime(
         day.year,
@@ -126,6 +136,14 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
               keyboardType: TextInputType.number,
               validator: (v) =>
                   int.tryParse(v ?? '') == null ? 'Enter whole calories' : null,
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 12),
+              child: Text(
+                'Leave protein, carbs and fat blank to estimate them from '
+                'calories.',
+                style: TextStyle(fontSize: 12, color: AppColors.textGrey),
+              ),
             ),
             _numberField(_protein, 'Protein (g)'),
             _numberField(_carbs, 'Carbs (g)'),
