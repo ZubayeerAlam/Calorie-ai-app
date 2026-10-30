@@ -29,6 +29,7 @@ class OnboardingProvider extends ChangeNotifier {
   double _weightKg = 70;
   bool _useMetric = true;
   GoalType? _goal;
+  final List<GoalFocus> _focuses = [];
   ActivityLevel? _activityLevel;
   DietType? _dietType;
   int _dinnerHour = 20;
@@ -48,7 +49,16 @@ class OnboardingProvider extends ChangeNotifier {
   int get heightCm => _heightCm;
   double get weightKg => _weightKg;
   bool get useMetric => _useMetric;
+
+  /// The chosen weight goal, if any. Only one can be chosen at a time.
   GoalType? get goal => _goal;
+
+  /// The weight goal used for the calorie plan: the chosen one, or maintain
+  /// when only focus goals were picked.
+  GoalType get effectiveGoal => _goal ?? GoalType.maintain;
+
+  /// Extra goals picked alongside (or instead of) a weight goal.
+  List<GoalFocus> get focuses => List.unmodifiable(_focuses);
   ActivityLevel? get activityLevel => _activityLevel;
   DietType? get dietType => _dietType;
   int get dinnerHour => _dinnerHour;
@@ -62,7 +72,8 @@ class OnboardingProvider extends ChangeNotifier {
     OnboardingStep.height ||
     OnboardingStep.weight ||
     OnboardingStep.dinner => true,
-    OnboardingStep.goal => _goal != null,
+    // At least one goal of either kind.
+    OnboardingStep.goal => _goal != null || _focuses.isNotEmpty,
     OnboardingStep.activity => _activityLevel != null,
     OnboardingStep.diet => _dietType != null,
     OnboardingStep.plan => _planReady,
@@ -80,16 +91,17 @@ class OnboardingProvider extends ChangeNotifier {
     birthday: _birthday,
     heightCm: _heightCm,
     weightKg: _weightKg,
-    goal: _goal!,
+    goal: effectiveGoal,
     activityLevel: _activityLevel!,
     dietType: _dietType!,
     useMetric: _useMetric,
     dinnerHour: _dinnerHour,
     dinnerMinute: _dinnerMinute,
+    focuses: List.of(_focuses),
   );
 
   UserGoals get goals => CalorieCalculator.calculate(profile);
-  double get weeklyChangeKg => CalorieCalculator.weeklyChangeKg(_goal!);
+  double get weeklyChangeKg => CalorieCalculator.weeklyChangeKg(effectiveGoal);
 
   // Profile with placeholders, used only for age validation mid-flow.
   UserProfile _draftProfile() => UserProfile(
@@ -98,7 +110,7 @@ class OnboardingProvider extends ChangeNotifier {
     birthday: _birthday,
     heightCm: _heightCm,
     weightKg: _weightKg,
-    goal: _goal ?? GoalType.maintain,
+    goal: effectiveGoal,
     activityLevel: _activityLevel ?? ActivityLevel.sedentary,
     dietType: _dietType ?? DietType.classic,
   );
@@ -122,7 +134,16 @@ class OnboardingProvider extends ChangeNotifier {
   void setHeightCm(int value) => _update(() => _heightCm = value);
   void setWeightKg(double value) => _update(() => _weightKg = value);
   void setUseMetric(bool value) => _update(() => _useMetric = value);
-  void setGoal(GoalType value) => _update(() => _goal = value);
+
+  /// Picks a weight goal. The three weight goals exclude each other, and
+  /// tapping the chosen one again clears it.
+  void setGoal(GoalType value) =>
+      _update(() => _goal = _goal == value ? null : value);
+
+  /// Adds or removes a focus goal; these can be combined freely.
+  void toggleFocus(GoalFocus value) => _update(() {
+    if (!_focuses.remove(value)) _focuses.add(value);
+  });
   void setActivityLevel(ActivityLevel value) =>
       _update(() => _activityLevel = value);
   void setDietType(DietType value) => _update(() => _dietType = value);

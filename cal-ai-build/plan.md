@@ -95,7 +95,8 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - [ ] **Test on a real phone.** Especially steps (the simulator has no step sensor), camera and gallery, and the permission prompts.
 - [x] **Save the dinner time.** Done: it's now stored in the profile (`dinnerHour`, `dinnerMinute`) and has a "8:30 PM" label ready for reminders (see 18). Profiles saved before this change get the default 8:30 PM instead of failing to load.
 - [x] **Check iOS permission setup.** Checked: no change needed. This project builds with Swift Package Manager (that's why there is no Podfile), and `permission_handler` switches permissions on from the usage descriptions in `Info.plist`. The build resolves camera, photos and motion to enabled.
-- [ ] **Decide on the onboarding goal.** The mockup showed several goals you could pick at once; the app allows one (lose / maintain / gain). Decide whether to add extra goals like "Boost energy" as non-calorie preferences.
+- [x] **Onboarding goal: multi-select.** Done: the goal step now has all six options from the mockup. The three weight goals (Lose, Maintain, Gain weight) exclude each other and set the calorie target. The focus goals (Gain muscle, Boost energy, Improve nutrition) can be combined freely and don't change the target. They are saved in the profile and shown as chips on Home.
+- [ ] **Decide what the focus goals do.** For now they are saved and shown only. Ideas: Gain muscle could raise the protein share, Boost energy could add reminders, Improve nutrition could add food tips. Say which, if any, you want.
 
 ---
 

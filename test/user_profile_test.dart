@@ -38,4 +38,24 @@ void main() {
     expect(_profile(hour: 0, minute: 5).dinnerLabel, '12:05 AM');
     expect(_profile(hour: 12, minute: 0).dinnerLabel, '12:00 PM');
   });
+
+  test('focus goals survive a JSON round trip, in order', () {
+    final profile = UserProfile.fromJson({
+      ..._profile().toJson(),
+      'focuses': ['improveNutrition', 'gainMuscle'],
+    });
+    expect(profile.focuses, [GoalFocus.improveNutrition, GoalFocus.gainMuscle]);
+    expect(UserProfile.fromJson(profile.toJson()).focuses, profile.focuses);
+  });
+
+  test('older profiles and unknown focus names are handled', () {
+    final old = _profile().toJson()..remove('focuses');
+    expect(UserProfile.fromJson(old).focuses, isEmpty);
+
+    final odd = {
+      ..._profile().toJson(),
+      'focuses': ['gainMuscle', 'somethingNew'],
+    };
+    expect(UserProfile.fromJson(odd).focuses, [GoalFocus.gainMuscle]);
+  });
 }

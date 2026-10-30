@@ -36,6 +36,20 @@ extension GoalTypeLabel on GoalType {
   };
 }
 
+extension GoalFocusLabel on GoalFocus {
+  String get label => switch (this) {
+    GoalFocus.gainMuscle => 'Gain muscle',
+    GoalFocus.boostEnergy => 'Boost energy',
+    GoalFocus.improveNutrition => 'Improve nutrition',
+  };
+
+  String get emoji => switch (this) {
+    GoalFocus.gainMuscle => '💪',
+    GoalFocus.boostEnergy => '⚡',
+    GoalFocus.improveNutrition => '🥗',
+  };
+}
+
 extension ActivityLevelLabel on ActivityLevel {
   String get label => switch (this) {
     ActivityLevel.sedentary => 'Sedentary',

@@ -5,6 +5,7 @@ import '../../../../core/utils/calorie_calculator.dart';
 import '../../../profile/data/models/user_profile.dart';
 import '../../../profile/presentation/profile_labels.dart';
 import 'dashboard_card.dart';
+import 'goal_focus_chips.dart';
 import 'profile_stat.dart';
 
 /// The user's goal and body stats from onboarding.
@@ -45,6 +46,13 @@ class ProfileSummaryCard extends StatelessWidget {
               ),
             ],
           ),
+          if (profile.focuses.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: GoalFocusChips(focuses: profile.focuses),
+            ),
+          ],
           const SizedBox(height: 16),
           const Divider(height: 1, color: AppColors.line),
           const SizedBox(height: 16),

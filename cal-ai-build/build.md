@@ -1,6 +1,6 @@
 # Cal AI — Build Status
 
-_Last updated: 2026-10-30 · 38 tests passing · `flutter analyze`: no issues_
+_Last updated: 2026-10-30 · 44 tests passing · `flutter analyze`: no issues_
 
 What the app is **right now**. For what's done and what's next, see the roadmap in [plan.md](plan.md).
 
@@ -86,7 +86,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
   3. Birthday
   4. Height (custom scroll wheel, cm or ft/in)
   5. Weight (drag ruler, kg or lb)
-  6. Goal (lose / maintain / gain)
+  6. Goal (multi-select: one weight goal plus any focus goals)
   7. Activity level (4 levels)
   8. Diet
   9. Dinner time (looping wheel with AM/PM)
@@ -161,7 +161,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 
 | Key | Contents |
 |---|---|
-| `user_profile` | `UserProfile` JSON, including dinner time (its presence means onboarding is done) |
+| `user_profile` | `UserProfile` JSON, including dinner time and focus goals (its presence means onboarding is done) |
 | `user_goals` | `UserGoals` JSON (kcal, protein, carbs, fat) |
 | `goals_customized` | `true` once targets were edited by hand on Account |
 | `food_entries` | List of `FoodEntry` JSON |
@@ -174,7 +174,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Theme:** `AppTheme` uses the Outfit font with a green theme. The app is fixed to **light mode** (`themeMode: ThemeMode.light`).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton`, `EmptyState`, `ComingSoonScreen`.
 
-## 8. Tests (38 passing)
+## 8. Tests (44 passing)
 
 | File | Covers |
 |---|---|
@@ -183,7 +183,8 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/step_log_repository_test.dart` | Daily steps, new day, phone restart |
 | `test/widget_test.dart` | Home, the 5 tabs, Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
 | `test/onboarding_test.dart` | Full onboarding flow, the loader (✕ and completion), the profile being saved, relaunch skipping onboarding |
-| `test/user_profile_test.dart` | Dinner time saved and restored, the default for profiles saved before it existed, the "8:30 PM" label |
+| `test/user_profile_test.dart` | Dinner time and focus goals saved and restored, defaults for older profiles, the "8:30 PM" label |
+| `test/onboarding_provider_test.dart` | Goal-step rules: at least one goal, weight goals exclude each other, focus goals combine |
 | `test/fake_step_counter.dart` | Fake step source used by the tests |
 
 Run them with:
@@ -198,7 +199,7 @@ flutter test
 - **Tabs:** Tracker, Insights and Articles are placeholders.
 - **Header:** the notification bell does nothing yet.
 - **Data:** there is no logout or "reset data" option.
-- **Onboarding goal:** you can pick only one (the mockup showed multi-select). The diet type no longer affects macros.
+- **Focus goals:** Gain muscle, Boost energy and Improve nutrition are saved and shown on Home, but don't change the calorie target yet. The diet type also doesn't affect macros.
 - **Visuals:** meal pictures are emoji placeholders, and dark mode is off.
 - **Backend:** there is no backend or account sync; data lives only on the device.
 - **Testing:** checked with automated tests and test renders, but not yet on a physical device.

@@ -40,9 +40,27 @@ void main() {
     expect(find.text('154.3'), findsOneWidget);
     await next();
 
+    // Goals: one weight goal plus any number of focus goals.
+    expect(find.byIcon(Icons.check), findsNothing);
+    await tester.tap(find.text('Lose weight'));
+    await tester.pump();
+    await tester.tap(find.text('Gain muscle'));
+    await tester.pump();
+    await tester.tap(find.text('Improve nutrition'));
+    await tester.pump();
+    expect(find.byIcon(Icons.check), findsNWidgets(3));
+    // Another weight goal replaces the first; focus goals stay.
+    await tester.tap(find.text('Gain weight'));
+    await tester.pump();
+    expect(find.byIcon(Icons.check), findsNWidgets(3));
+    // Tapping the chosen weight goal again clears it.
+    await tester.tap(find.text('Gain weight'));
+    await tester.pump();
+    expect(find.byIcon(Icons.check), findsNWidgets(2));
+    // Finally choose Lose weight: 1 weight goal + 2 focus goals.
     await tester.tap(find.text('Lose weight'));
     await tester.pumpAndSettle();
-    expect(find.byIcon(Icons.check), findsOneWidget);
+    expect(find.byIcon(Icons.check), findsNWidgets(3));
     await next();
 
     await tester.tap(find.text('Sedentary'));
@@ -88,6 +106,11 @@ void main() {
 
     // The finished profile is saved for the next launch.
     expect(storage.getJson(StorageKeys.userProfile)?['name'], 'Sam');
+    expect(storage.getJson(StorageKeys.userProfile)?['goal'], 'lose');
+    expect(storage.getJson(StorageKeys.userProfile)?['focuses'], [
+      'gainMuscle',
+      'improveNutrition',
+    ]);
     // ...including the dinner time picked on the wheel.
     expect(storage.getJson(StorageKeys.userProfile)?['dinnerHour'], 22);
     expect(storage.getJson(StorageKeys.userProfile)?['dinnerMinute'], 30);
@@ -98,5 +121,11 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Home'), findsOneWidget);
     expect(find.text("What's your name?"), findsNothing);
+
+    // The focus goals show on Home's profile card.
+    await tester.ensureVisible(find.text('BMI'));
+    await tester.pumpAndSettle();
+    expect(find.text('💪 Gain muscle'), findsOneWidget);
+    expect(find.text('🥗 Improve nutrition'), findsOneWidget);
   });
 }

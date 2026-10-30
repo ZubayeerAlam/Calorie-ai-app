@@ -1,6 +1,11 @@
 enum Gender { male, female, other }
 
+/// The weight goal. This is the one that sets the calorie target.
 enum GoalType { lose, maintain, gain }
+
+/// Extra goals the user can combine with a weight goal. They are saved and
+/// shown, but don't change the calorie target.
+enum GoalFocus { gainMuscle, boostEnergy, improveNutrition }
 
 enum ActivityLevel { sedentary, light, moderate, active }
 
@@ -19,6 +24,7 @@ class UserProfile {
     this.useMetric = true,
     this.dinnerHour = defaultDinnerHour,
     this.dinnerMinute = defaultDinnerMinute,
+    this.focuses = const [],
   });
 
   static const int defaultDinnerHour = 20;
@@ -37,6 +43,9 @@ class UserProfile {
   /// Usual dinner time (24-hour clock), e.g. for dinner reminders.
   final int dinnerHour;
   final int dinnerMinute;
+
+  /// Extra goals picked in onboarding (in selection order).
+  final List<GoalFocus> focuses;
 
   int get age => ageOn(DateTime.now());
 
@@ -63,6 +72,7 @@ class UserProfile {
     'useMetric': useMetric,
     'dinnerHour': dinnerHour,
     'dinnerMinute': dinnerMinute,
+    'focuses': [for (final f in focuses) f.name],
   };
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
@@ -78,5 +88,10 @@ class UserProfile {
     // Profiles saved before dinner time existed fall back to the default.
     dinnerHour: json['dinnerHour'] as int? ?? defaultDinnerHour,
     dinnerMinute: json['dinnerMinute'] as int? ?? defaultDinnerMinute,
+    // Older profiles have no focuses; unknown names are ignored.
+    focuses: [
+      for (final name in (json['focuses'] as List?) ?? const [])
+        ?GoalFocus.values.asNameMap()[name],
+    ],
   );
 }
