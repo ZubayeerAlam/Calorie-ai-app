@@ -146,18 +146,22 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - **Not real AI yet:** the app uses `DemoFoodAnalysisService`, which does **not** look at the photo. It returns one of three sample meals after 1.5 s, and the review screen shows a yellow "Demo result" notice so samples are never mistaken for a real analysis.
 - **To finish after Firebase (feature 15):** write one class that implements `FoodAnalysisService` (send the photo through Firebase to the AI, parse the reply with `FoodAnalysis.fromJson`, map errors to `FoodAnalysisFailure`), then pass it to `CalAiApp(foodAnalysis: …)` in `main.dart`. Nothing else changes.
 
-### 14. AI from manually entered details (manual option) ⬜
+### 14. AI from manually entered details (manual option) 🟡 built, real AI pending Firebase
 - **Goal:** the user types the food details and the AI generates the nutrition data.
-- **Flow:**
-  1. User writes what they ate, e.g. "2 scrambled eggs, 1 slice toast with butter, black coffee".
-  2. Optional extra details: portion size, cooking method, brand, ingredients.
-  3. The AI returns calories and macros per item.
-  4. Same review-and-edit screen as feature 13, then save.
-- **Tasks:**
-  - Manual-entry screen (description field and optional detail fields).
-  - Reuse `FoodAnalysisService` with a text-based method, plus the shared review screen from feature 13.
-  - Keep the current Add Food form as a "Enter numbers myself" option for people who already know the values, with no AI.
-- **Needs Firebase** (feature 15) for the real AI call.
+- **Flow (working now):**
+  1. Camera button → **Add manually** → the `/add-manually` screen: "What did you eat?" (e.g. "2 scrambled eggs, toast with butter, black coffee").
+  2. Optional details: portion size, cooking method, brand or restaurant, ingredients.
+  3. **Analyze with AI** opens the same analysis screen as photos: loading, then a review showing "You described" (the text and details) instead of a photo.
+  4. Same review as feature 13: edit any value, remove items, pick the meal, **Add to <meal>**. Entries are marked "(AI estimate)" and have no photo.
+  5. After saving, both screens close and you're back on the tab. Pressing Back from the review returns to the form with your text kept, so you can edit it.
+- **If it fails:** "No food recognised" offers **Edit description** (back to the form) or **Enter numbers myself**; other errors offer **Try again**.
+- **"Enter numbers myself":** a link on the manual screen (and on the error screen) opens the classic Add Food form, replacing the manual screen.
+- **Built:**
+  - `FoodDescription` model (`lib/features/food_scan/data/models/food_description.dart`) and `analyzeText()` on `FoodAnalysisService`.
+  - `AnalysisRequest` (photo or text) so `FoodAnalysisController` and all analysis screens are shared by both flows.
+  - `ManualEntryScreen`, `DetailField`, `DescriptionSummary`.
+- **Not real AI yet:** `DemoFoodAnalysisService.analyzeText` splits the description into foods (commas, "and", new lines) and gives each **sample** numbers. The review shows a "Demo result … sample numbers" notice.
+- **To finish after Firebase (feature 15):** the same class that implements `analyzePhoto` also implements `analyzeText`: send `description.toJson()` to the AI and parse the reply with `FoodAnalysis.fromJson`.
 
 ### 15. Firebase — you implement this ⬜
 - **Who:** you set up Firebase yourself when we reach this step. I won't add Firebase packages or config before then.
@@ -165,7 +169,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - **Authentication:** sign-in, so each user has their own data.
   - **Cloud Firestore:** profile, goals, food log, activity and steps, synced across devices.
   - **Cloud Storage:** food photos.
-  - **Server-side AI:** the AI call for features 13 and 14 goes through Firebase (for example Firebase AI Logic or a Cloud Function), so the AI key is never inside the app.
+  - **Server-side AI:** the AI calls for features 13 and 14 (`analyzePhoto` and `analyzeText`) go through Firebase (for example Firebase AI Logic or a Cloud Function), so the AI key is never inside the app.
 - **What we prepare beforehand:**
   - Every data class is already behind a repository (`FoodLogRepository`, `ActivityLogRepository`, `StepLogRepository`, `ProfileProvider`), so storage can be swapped without changing screens.
   - The `FoodAnalysisService` interface (built in feature 13), so the AI backend is one class to replace.
@@ -227,7 +231,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 ## Suggested order
 1. **Follow-ups:** commit, real-phone test, save the dinner time.
 2. **Camera bar and chooser (11, 12).** No Firebase needed.
-3. **AI screens with a fake service (13 ✅, 14).** The photo flow is built on a demo service; the manual flow (14) is next.
+3. **AI screens with a demo service (13 ✅, 14 ✅).** Both flows are built and work end to end on the demo service.
 4. **Account management (19).** Small, and makes weight changes possible.
 5. **Tracker with charts (17).**
 6. **Firebase (15), done by you.** Then we connect sign-in, sync and the real AI calls.

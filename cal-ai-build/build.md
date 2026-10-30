@@ -1,6 +1,6 @@
 # Cal AI — Build Status
 
-_Last updated: 2026-10-30 · 67 tests passing · `flutter analyze`: no issues_
+_Last updated: 2026-10-30 · 76 tests passing · `flutter analyze`: no issues_
 
 What the app is **right now**. For what's done and what's next, see the roadmap in [plan.md](plan.md).
 
@@ -73,10 +73,11 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/account` | Account tab (profile and goals) |
 | `/add-food?meal=lunch&imagePath=…` | Add Food, shown on top of the tabs |
 | `/scan` | Scan a photo. With `?returnPhoto=true` (opened from Add Food) it sends the photo back; otherwise (opened from the camera chooser) it sends the photo for analysis |
-| `/analyze-food?imagePath=…` | AI analysis of the photo, then review, edit and save |
+| `/add-manually` | Describe a meal in words (plus optional details) for AI analysis; "Enter numbers myself" opens Add Food |
+| `/analyze-food?imagePath=…` | AI analysis of a photo (or of a description passed along with the navigation), then review, edit and save |
 
 - **Tabs:** they use `StatefulShellRoute`, so each tab remembers its own screen.
-- **Bottom bar:** four tabs (Home, Tracker, Articles, Account) with a raised camera button in the middle. The camera button is an action, not a tab. It opens a chooser sheet with two options: **Scan with camera** (Scan screen, then AI analysis and review) and **Add manually** (the Add Food form).
+- **Bottom bar:** four tabs (Home, Tracker, Articles, Account) with a raised camera button in the middle. The camera button is an action, not a tab. It opens a chooser sheet with two options: **Scan with camera** (Scan screen, then AI analysis and review) and **Add manually** (describe the meal, then AI analysis and review).
 - **Redirect:** with no saved profile, every route goes to `/onboarding`. After onboarding, `/onboarding` sends you to `/`.
 
 ## 5. Features built
@@ -145,10 +146,11 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
   - If protein, carbs and fat are all left blank, they are **estimated from calories** and the entry is marked "(est.)".
 - **Scan:** the Scan screen opens the camera or gallery. From Add Food's "Scan a photo" button the chosen photo goes back into that form; from the camera button's chooser it goes to the AI analysis.
 
-### AI photo analysis (demo for now)
-- **Flow:** photo → "Analyzing your meal…" → a list of foods with portion, calories and macros → edit any value or remove items → pick the meal (suggested from the time of day) → **Add to <meal>**. Each item is saved as its own entry with the photo, marked "(AI estimate)".
+### AI analysis: photo and manual (demo for now)
+- **Manual flow:** describe the meal ("2 eggs, toast and coffee") plus optional portion, cooking method, brand and ingredients → **Analyze with AI** → the same review as photos, with "You described" in place of the photo. Back from the review keeps your text; saving closes both screens. "Enter numbers myself" opens the classic form.
+- **Photo flow:** photo → "Analyzing your meal…" → a list of foods with portion, calories and macros → edit any value or remove items → pick the meal (suggested from the time of day) → **Add to <meal>**. Each item is saved as its own entry with the photo, marked "(AI estimate)".
 - **Errors:** "No food found" offers another photo or manual entry; connection and other errors offer "Try again" or manual entry.
-- **Demo service:** real AI needs Firebase, so the app uses `DemoFoodAnalysisService`. It doesn't look at the photo; it returns sample meals, and the screen shows a "Demo result" notice. Swapping in the real service is one class (see plan.md, feature 13).
+- **Demo service:** real AI needs Firebase, so the app uses `DemoFoodAnalysisService`. For photos it returns sample meals without looking at the photo; for text it splits the description into foods and gives sample numbers. The review shows a "Demo result" notice either way. Swapping in the real service is one class (see plan.md, features 13 and 14).
 
 ### Steps
 - **Source:** the `pedometer` package reports steps since the phone was last switched on. The app saves a starting count each day and uses "now − start".
@@ -181,19 +183,19 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Theme:** `AppTheme` uses the Outfit font with a green theme. The app is fixed to **light mode** (`themeMode: ThemeMode.light`).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton`, `EmptyState`, `ComingSoonScreen`.
 
-## 8. Tests (67 passing)
+## 8. Tests (76 passing)
 
 | File | Covers |
 |---|---|
 | `test/calorie_calculator_test.dart` | BMR, TDEE, goal adjustment, minimum, macros, breakdown, walking kcal, macro estimate |
 | `test/profile_provider_test.dart` | Custom goals survive a relaunch; reset restores the recommended targets |
 | `test/step_log_repository_test.dart` | Daily steps, new day, phone restart |
-| `test/widget_test.dart` | Home, the bottom bar (4 tabs + camera button), the camera chooser and both of its options, the AI photo flow (review, edit, save, errors, demo notice), Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
+| `test/widget_test.dart` | Home, the bottom bar (4 tabs + camera button), the camera chooser and both of its options, the AI photo and manual flows (review, edit, save, errors, Back keeps text, "Enter numbers myself", demo notices), Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
 | `test/onboarding_test.dart` | Full onboarding flow, the loader (✕ and completion), the profile being saved, relaunch skipping onboarding |
 | `test/user_profile_test.dart` | Dinner time and focus goals saved and restored, defaults for older profiles, the "8:30 PM" label |
 | `test/onboarding_provider_test.dart` | Goal-step rules: at least one goal, weight goals exclude each other, focus goals combine |
-| `test/food_analysis_test.dart` | Parsing the AI reply (valid, not food, malformed), the demo service |
-| `test/food_analysis_controller_test.dart` | Analysis states, retry, editing/removing items, meal suggestion, saved entries, closing mid-analysis |
+| `test/food_analysis_test.dart` | Parsing the AI reply (valid, not food, malformed), `FoodDescription`, the demo service for photos and text |
+| `test/food_analysis_controller_test.dart` | Analysis states, retry, editing/removing items, meal suggestion, saved entries, closing mid-analysis, text requests |
 | `test/fake_step_counter.dart`, `test/fake_image_picker.dart`, `test/fake_food_analysis_service.dart` | Fake step source, camera/gallery and AI used by the tests |
 
 Run them with:
@@ -203,7 +205,7 @@ flutter test
 ```
 
 ## 9. Known limitations / not built yet
-- **AI analysis:** the photo flow is built but uses a demo service until Firebase is set up. Results are sample foods, clearly labelled.
+- **AI analysis:** the photo and manual flows are built but use a demo service until Firebase is set up. Results are samples, clearly labelled.
 - **Steps:** counting starts the first time the app is opened each day. There is no Apple Health or Health Connect integration.
 - **Tabs:** Tracker and Articles are placeholders.
 - **Header:** the notification bell does nothing yet.
@@ -217,7 +219,7 @@ flutter test
 
 The full roadmap, with each feature's tasks, is in [plan.md](plan.md). The planned direction:
 
-- **Camera options:** the photo option runs the AI review flow on a demo service; real AI comes with Firebase. The manual option (AI from typed details, feature 14) is next.
+- **Camera options:** both options (photo and manual) run the AI review flow on a demo service; real AI comes with Firebase (feature 15, which you're setting up).
 - **Camera button:** opens a chooser with two options: scan a food photo (AI analyses it) or add manually (AI generates the nutrition data from your details).
 - **Firebase:** you will set it up yourself when we reach that step; sign-in, sync and the AI calls depend on it.
 - **Before that:** commit the untracked files (the latest commit imports files that aren't in git yet, so a fresh clone won't build) and test on a real phone.

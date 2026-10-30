@@ -14,6 +14,7 @@ class AppRoutes {
   static const String addFood = '/add-food';
   static const String scan = '/scan';
   static const String analyzeFood = '/analyze-food';
+  static const String addManually = '/add-manually';
   static const String onboarding = '/onboarding';
 
   /// Query parameters for [addFood].
@@ -25,6 +26,8 @@ class AppRoutes {
   /// the photo for AI analysis.
   static const String returnPhotoParam = 'returnPhoto';
 
+  /// Analysis of a photo. (A typed description is passed as the route's
+  /// `extra` instead: `context.push(analyzeFood, extra: description)`.)
   static String analyzeFoodLocation(String imagePath) => Uri(
     path: analyzeFood,
     queryParameters: {imagePathParam: imagePath},

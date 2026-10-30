@@ -21,9 +21,7 @@ class HomeShell extends StatelessWidget {
       case AddFoodMethod.camera:
         context.push(AppRoutes.scanLocation());
       case AddFoodMethod.manual:
-        // The Add Food form for now; it becomes the AI-assisted manual
-        // screen later, with this form kept as "Enter numbers myself".
-        context.push(AppRoutes.addFoodLocation());
+        context.push(AppRoutes.addManually);
     }
   }
 

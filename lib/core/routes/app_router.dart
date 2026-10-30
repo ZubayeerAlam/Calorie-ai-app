@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/food_log/data/models/food_entry.dart';
 import '../../features/food_log/presentation/screens/add_food_screen.dart';
+import '../../features/food_log/presentation/screens/manual_entry_screen.dart';
+import '../../features/food_scan/data/models/analysis_request.dart';
+import '../../features/food_scan/data/models/food_description.dart';
 import '../../features/food_scan/presentation/screens/analyze_food_screen.dart';
 import '../../features/food_scan/presentation/screens/food_scan_screen.dart';
 import '../../features/food_scan/providers/food_analysis_controller.dart';
@@ -78,16 +81,33 @@ GoRouter createAppRouter(ProfileProvider profile) {
           );
         },
       ),
-      // AI analysis of a photo, then review and save.
+      // Describe a meal in words, then send it for AI analysis.
+      GoRoute(
+        path: AppRoutes.addManually,
+        builder: (context, state) => const ManualEntryScreen(),
+      ),
+      // AI analysis of a photo (`?imagePath=`) or a typed description
+      // (`extra: FoodDescription`), then review and save.
       GoRoute(
         path: AppRoutes.analyzeFood,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (ctx) => FoodAnalysisController(
-            service: ctx.read<FoodAnalysisService>(),
-            imagePath: state.uri.queryParameters[AppRoutes.imagePathParam]!,
-          ),
-          child: const AnalyzeFoodScreen(),
-        ),
+        builder: (context, state) {
+          final extra = state.extra;
+          final imagePath = state.uri.queryParameters[AppRoutes.imagePathParam];
+          final AnalysisRequest? request = extra is FoodDescription
+              ? TextAnalysisRequest(extra)
+              : imagePath != null
+              ? PhotoAnalysisRequest(imagePath)
+              : null;
+          // e.g. a description lost on a web refresh: nothing to analyse.
+          if (request == null) return const _NothingToAnalyze();
+          return ChangeNotifierProvider(
+            create: (ctx) => FoodAnalysisController(
+              service: ctx.read<FoodAnalysisService>(),
+              request: request,
+            ),
+            child: const AnalyzeFoodScreen(),
+          );
+        },
       ),
       // Opened from the camera chooser, or from Add Food (returnPhoto).
       GoRoute(
@@ -98,6 +118,16 @@ GoRouter createAppRouter(ProfileProvider profile) {
         ),
       ),
     ],
+  );
+}
+
+class _NothingToAnalyze extends StatelessWidget {
+  const _NothingToAnalyze();
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(),
+    body: const Center(child: Text('Nothing to analyse. Please go back.')),
   );
 }
 

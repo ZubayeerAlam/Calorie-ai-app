@@ -180,20 +180,160 @@ void main() {
     expect(find.text('Articles is coming soon'), findsOneWidget);
   });
 
-  testWidgets('Chooser → Add manually opens the Add Food form', (tester) async {
-    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
-
+  /// Camera button → Add manually.
+  Future<void> openManual(WidgetTester tester) async {
     await tester.tap(find.byKey(const ValueKey('camera-button')));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Add manually'));
     await tester.pumpAndSettle();
+  }
 
-    expect(find.text('Add Food'), findsOneWidget);
-    expect(find.widgetWithText(TextFormField, 'Food name'), findsOneWidget);
+  Finder analyzeButton() => find.byKey(const ValueKey('analyze-description'));
 
-    await tester.tap(find.byType(BackButton));
+  testWidgets('Add manually → describe → AI review → saved', (tester) async {
+    final ai = FakeFoodAnalysisService(hold: true);
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: ai,
+    );
+    await openManual(tester);
+    expect(find.text('What did you eat?'), findsOneWidget);
+
+    // Analyze is off until something is typed.
+    expect(tester.widget<ButtonStyleButton>(analyzeButton()).onPressed, isNull);
+    await tester.enterText(
+      find.byKey(const ValueKey('manual-description')),
+      'Grilled chicken with rice',
+    );
+    await tester.enterText(
+      find.widgetWithText(TextField, 'Portion size'),
+      '1 plate',
+    );
+    await tester.pump();
+    // The spinner never settles while the fake AI is held, so pump frames.
+    await tester.tap(analyzeButton());
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    // Loading shows what was typed, not a photo.
+    expect(find.text('Analyzing your meal…'), findsOneWidget);
+    expect(find.text('You described'), findsOneWidget);
+    ai.release();
     await tester.pumpAndSettle();
+
+    expect(ai.lastDescription?.text, 'Grilled chicken with rice');
+    expect(ai.lastDescription?.portion, '1 plate');
+    expect(find.text('We found 2 items'), findsOneWidget);
+    expect(find.text('Portion: 1 plate'), findsOneWidget);
+
+    await _tap(tester, find.text('🥪 Breakfast'));
+    await _tap(tester, find.byKey(const ValueKey('save-analysis')));
+
+    // Both screens closed; back on Home with the food in Breakfast.
+    expect(find.text('Added 2 items to Breakfast'), findsOneWidget);
+    expect(find.text('What did you eat?'), findsNothing);
+    expect(find.text('454 / 600 kcal'), findsOneWidget);
+    await _tap(tester, find.text('Breakfast'));
+    expect(find.textContaining('(AI estimate)'), findsNWidgets(2));
+  });
+
+  testWidgets('Back from the review keeps the description for editing', (
+    tester,
+  ) async {
+    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
+    await openManual(tester);
+    await tester.enterText(
+      find.byKey(const ValueKey('manual-description')),
+      'Pasta',
+    );
+    await tester.pump();
+    await _tap(tester, analyzeButton());
+    expect(find.text('We found 2 items'), findsOneWidget);
+
+    await _tap(tester, find.byType(BackButton));
+    expect(find.text('What did you eat?'), findsOneWidget);
+    expect(find.text('Pasta'), findsOneWidget);
+  });
+
+  testWidgets('No food recognised → Edit description goes back to the form', (
+    tester,
+  ) async {
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: FakeFoodAnalysisService(
+        failures: [FoodAnalysisFailure.notFood],
+      ),
+    );
+    await openManual(tester);
+    await tester.enterText(
+      find.byKey(const ValueKey('manual-description')),
+      'asdf',
+    );
+    await tester.pump();
+    await _tap(tester, analyzeButton());
+
+    expect(find.text('No food recognised'), findsOneWidget);
+    await _tap(tester, find.text('Edit description'));
+    expect(find.text('What did you eat?'), findsOneWidget);
+    expect(find.text('asdf'), findsOneWidget);
+  });
+
+  testWidgets('Enter numbers myself opens the classic Add Food form', (
+    tester,
+  ) async {
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: FakeFoodAnalysisService(
+        failures: [FoodAnalysisFailure.notFood],
+      ),
+    );
+
+    // From the manual screen…
+    await openManual(tester);
+    await _tap(tester, find.text('Enter numbers myself'));
+    expect(find.text('Add Food'), findsOneWidget);
+    await _tap(tester, find.byType(BackButton));
+    expect(find.textContaining('Today, '), findsOneWidget); // not the form
+
+    // …and from the "no food recognised" screen.
+    await openManual(tester);
+    await tester.enterText(
+      find.byKey(const ValueKey('manual-description')),
+      'qwerty',
+    );
+    await tester.pump();
+    await _tap(tester, analyzeButton());
+    await _tap(tester, find.text('Enter numbers myself'));
+    expect(find.text('Add Food'), findsOneWidget);
+    await _tap(tester, find.byType(BackButton));
     expect(find.textContaining('Today, '), findsOneWidget);
+  });
+
+  testWidgets('The demo service labels text results as sample numbers', (
+    tester,
+  ) async {
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: const DemoFoodAnalysisService(delay: Duration.zero),
+    );
+    await openManual(tester);
+    await tester.enterText(
+      find.byKey(const ValueKey('manual-description')),
+      'oatmeal, banana',
+    );
+    await tester.pump();
+    await _tap(tester, analyzeButton());
+    expect(find.textContaining('sample numbers'), findsOneWidget);
+    expect(find.text('Oatmeal'), findsOneWidget);
+    expect(find.text('Banana'), findsOneWidget);
   });
 
   /// Camera button → Scan with camera → Gallery → Use this photo.

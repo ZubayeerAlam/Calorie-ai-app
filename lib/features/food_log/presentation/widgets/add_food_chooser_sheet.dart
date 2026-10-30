@@ -67,7 +67,7 @@ class AddFoodChooserSheet extends StatelessWidget {
               key: const ValueKey('add-food-manual'),
               icon: Icons.edit_note_rounded,
               title: 'Add manually',
-              subtitle: 'Enter the details of your meal yourself',
+              subtitle: 'Describe your meal and get its nutrition',
               onTap: () => context.pop(AddFoodMethod.manual),
             ),
           ],
