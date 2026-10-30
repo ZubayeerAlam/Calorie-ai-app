@@ -19,6 +19,16 @@ class AppRoutes {
   static const String imagePathParam = 'imagePath';
   static const String mealParam = 'meal';
 
+  /// Query parameter for [scan]: when true, the scan screen hands the chosen
+  /// photo back to the screen that opened it (Add Food). Otherwise it opens
+  /// Add Food with the photo attached.
+  static const String returnPhotoParam = 'returnPhoto';
+
+  static String scanLocation({bool returnPhoto = false}) => Uri(
+    path: scan,
+    queryParameters: returnPhoto ? {returnPhotoParam: 'true'} : null,
+  ).toString();
+
   static String addFoodLocation({MealType? meal, String? imagePath}) {
     final query = {
       if (meal != null) mealParam: meal.name,

@@ -75,10 +75,13 @@ GoRouter createAppRouter(ProfileProvider profile) {
           );
         },
       ),
-      // Opened from Add Food; pops with the chosen photo's path.
+      // Opened from the camera chooser, or from Add Food (returnPhoto).
       GoRoute(
         path: AppRoutes.scan,
-        builder: (context, state) => const FoodScanScreen(),
+        builder: (context, state) => FoodScanScreen(
+          returnPhoto:
+              state.uri.queryParameters[AppRoutes.returnPhotoParam] == 'true',
+        ),
       ),
     ],
   );

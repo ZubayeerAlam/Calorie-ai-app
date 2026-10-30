@@ -105,7 +105,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 ### 11. Bottom bar: remove Insights, add the camera button ✅
 - **Goal:** the new bar from decision 4. No Firebase needed.
 - **Done:** Insights is gone (route, tab and placeholder). The bar has Home, Tracker, Articles and Account, with a raised green camera button in the middle. The button is an action, so it doesn't change the page behind it.
-- **For now** the camera button opens Add Food (which has "Scan a photo" and the manual form). Feature 12 replaces this with the two-option chooser.
+- The camera button opens the two-option chooser (feature 12).
 - **Original tasks:**
 - **Tasks:**
   - Remove the Insights tab: its route `/insights` in `app_router.dart`, its item in `app_bottom_nav.dart`, and its placeholder.
@@ -113,16 +113,19 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - Keep the other tabs as they are: Home, Tracker, Articles, Account.
   - Update the tests that look for the five tabs.
 
-### 12. Camera chooser: two ways to add food ⬜
+### 12. Camera chooser: two ways to add food ✅
 - **Goal:** tapping the camera button opens a bottom sheet with two options.
   - **Scan with camera:** take a photo of the food, or pick one from the gallery.
-  - **Add manually:** describe the food by hand.
-- **Tasks:**
-  - Build the chooser sheet as its own widget, with the two options as large cards.
-  - Route each option: `/scan` (existing, reused) and a new `/add-manually`.
-  - Reuse what exists: `FoodScanScreen` and `FoodScanProvider` for the camera/gallery step, `PermissionService` for camera access.
-  - The existing "Scan a photo" button in Add Food can stay for photos attached to a form entry, or be removed once this chooser exists. To be decided when we build it.
-- **Works without AI at first:** the chooser and screens can be built with a fake analysis service (see feature 13), so the screens can be tested before Firebase.
+  - **Add manually:** enter the food details by hand.
+- **Done:**
+  - The chooser sheet (`AddFoodChooserSheet`) with two option cards (`AddFoodOptionCard`). Dismiss it and nothing changes.
+  - **Scan with camera** opens the Scan screen. After "Use this photo", Add Food opens with the photo attached (Scan is replaced, so Back returns to the tab you came from).
+  - **Add manually** opens the Add Food form.
+  - Add Food's own "Scan a photo" button still works as before: the photo goes back to the same form.
+  - `/scan` has two modes (`?returnPhoto=true` hands the photo back; without it, Add Food is opened with the photo).
+  - A missing or unreadable photo shows a placeholder instead of an error.
+- **Changed from the original plan:** no separate `/add-manually` route yet. The manual option opens the existing Add Food form. The `/add-manually` screen (description plus optional details, AI-generated nutrition) is built in feature 14, and the current form stays as "Enter numbers myself".
+- **Works without AI:** nothing here needs Firebase. Features 13 and 14 add the AI analysis behind these two options.
 
 ### 13. AI analysis of a food photo (camera option) ⬜
 - **Goal:** from a photo, the AI returns what the food is and its nutrition, then the user reviews and saves.

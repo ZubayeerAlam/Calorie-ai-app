@@ -1,4 +1,5 @@
 import 'package:cal_ai_app/app.dart';
+import 'package:cal_ai_app/core/services/image_picker_service.dart';
 import 'package:cal_ai_app/core/services/local_storage_service.dart';
 import 'package:cal_ai_app/core/utils/calorie_calculator.dart';
 import 'package:cal_ai_app/features/food_log/data/models/food_entry.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'fake_image_picker.dart';
 import 'fake_step_counter.dart';
 
 /// Fresh in-memory shared_preferences for each test.
@@ -39,6 +41,7 @@ Future<void> _pumpApp(
   LocalStorageService storage, {
   ProfileProvider? profile,
   FakeStepCounter? steps,
+  ImagePickerService? picker,
 }) async {
   tester.view.physicalSize = const Size(1290, 2796);
   tester.view.devicePixelRatio = 3;
@@ -48,6 +51,7 @@ Future<void> _pumpApp(
       storage: storage,
       profileProvider: profile,
       stepCounter: steps ?? FakeStepCounter(),
+      imagePicker: picker ?? FakeImagePicker(),
     ),
   );
   await tester.pumpAndSettle();
@@ -149,7 +153,7 @@ void main() {
     expect(find.textContaining('Today, '), findsOneWidget);
   });
 
-  testWidgets('The camera button opens Add Food and back returns to the tab', (
+  testWidgets('The camera button opens a chooser with two options', (
     tester,
   ) async {
     await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
@@ -160,12 +164,79 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('camera-button')));
     await tester.pumpAndSettle();
+    expect(find.text('Add food'), findsOneWidget);
+    expect(find.text('Scan with camera'), findsOneWidget);
+    expect(find.text('Add manually'), findsOneWidget);
+
+    // Dismissing leaves everything as it was.
+    await tester.tapAt(const Offset(20, 40));
+    await tester.pumpAndSettle();
+    expect(find.text('Add food'), findsNothing);
+    expect(find.text('Articles is coming soon'), findsOneWidget);
+  });
+
+  testWidgets('Chooser → Add manually opens the Add Food form', (tester) async {
+    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
+
+    await tester.tap(find.byKey(const ValueKey('camera-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Add manually'));
+    await tester.pumpAndSettle();
+
     expect(find.text('Add Food'), findsOneWidget);
-    expect(find.text('Scan a photo'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, 'Food name'), findsOneWidget);
 
     await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
-    expect(find.text('Articles is coming soon'), findsOneWidget);
+    expect(find.textContaining('Today, '), findsOneWidget);
+  });
+
+  testWidgets('Chooser → Scan with camera → photo lands in Add Food', (
+    tester,
+  ) async {
+    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
+
+    await tester.tap(find.byKey(const ValueKey('camera-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Scan with camera'));
+    await tester.pumpAndSettle();
+    expect(find.text('Scan Food'), findsOneWidget);
+    expect(find.text('Use this photo'), findsNothing); // nothing picked yet
+
+    await tester.tap(find.text('Gallery'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Use this photo'));
+    await tester.pumpAndSettle();
+
+    // Add Food replaced Scan, with the photo attached ("Change photo").
+    expect(find.text('Add Food'), findsOneWidget);
+    expect(find.text('Scan Food'), findsNothing);
+    expect(find.text('Change photo'), findsOneWidget);
+
+    // Back goes to the tab the user came from, not to Scan.
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Today, '), findsOneWidget);
+  });
+
+  testWidgets('Add Food → Scan a photo still hands the photo back', (
+    tester,
+  ) async {
+    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
+
+    await _tap(tester, find.byKey(const ValueKey('add-meal-lunch')));
+    expect(find.text('Scan a photo'), findsOneWidget);
+    await _tap(tester, find.text('Scan a photo'));
+    // Gallery needs no permission, so it works in a test run.
+    await tester.tap(find.text('Gallery'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Use this photo'));
+    await tester.pumpAndSettle();
+
+    // Back on the same Add Food form (Lunch still selected), photo attached.
+    expect(find.text('Add Food'), findsOneWidget);
+    expect(find.text('Change photo'), findsOneWidget);
+    expect(find.text('Lunch'), findsOneWidget);
   });
 
   testWidgets("A meal's + opens Add Food for that meal and logs to it", (

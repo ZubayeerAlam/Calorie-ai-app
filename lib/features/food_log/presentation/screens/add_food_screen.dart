@@ -95,7 +95,9 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   }
 
   Future<void> _scanPhoto() async {
-    final path = await context.push<String>(AppRoutes.scan);
+    final path = await context.push<String>(
+      AppRoutes.scanLocation(returnPhoto: true),
+    );
     if (path != null && mounted) setState(() => _imagePath = path);
   }
 
@@ -122,6 +124,16 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                   File(imagePath),
                   height: 200,
                   fit: BoxFit.cover,
+                  // The photo may have been deleted or be unreadable.
+                  errorBuilder: (_, _, _) => Container(
+                    height: 200,
+                    alignment: Alignment.center,
+                    color: AppColors.card,
+                    child: const Icon(
+                      Icons.image_not_supported_outlined,
+                      color: AppColors.textLight,
+                    ),
+                  ),
                 ),
               ),
             TextFormField(

@@ -4,11 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/routes/app_routes.dart';
 import '../../../../shared/widgets/empty_state.dart';
 import '../../providers/food_scan_provider.dart';
 
 class FoodScanScreen extends StatelessWidget {
-  const FoodScanScreen({super.key});
+  const FoodScanScreen({super.key, this.returnPhoto = false});
+
+  /// True when Add Food opened this screen: the photo goes back to it.
+  /// Otherwise (opened from the camera chooser) Add Food is opened with
+  /// the photo attached, replacing this screen.
+  final bool returnPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +57,16 @@ class FoodScanScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.tonal(
-                  // Hand the photo back to Add Food, which opened this page.
                   onPressed: () {
                     final path = image.path;
                     scan.clear();
-                    context.pop(path);
+                    if (returnPhoto) {
+                      context.pop(path);
+                    } else {
+                      context.pushReplacement(
+                        AppRoutes.addFoodLocation(imagePath: path),
+                      );
+                    }
                   },
                   child: const Text('Use this photo'),
                 ),

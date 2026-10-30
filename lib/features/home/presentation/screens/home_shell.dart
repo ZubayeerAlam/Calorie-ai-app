@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/app_routes.dart';
+import '../../../food_log/presentation/add_food_method.dart';
+import '../../../food_log/presentation/widgets/add_food_chooser_sheet.dart';
 import '../widgets/app_bottom_nav.dart';
 import '../widgets/camera_button.dart';
 
@@ -12,10 +14,17 @@ class HomeShell extends StatelessWidget {
 
   final StatefulNavigationShell navigationShell;
 
-  void _onCameraPressed(BuildContext context) {
-    // For now this opens Add Food, which already has "Scan a photo" and the
-    // manual form. It will open the camera / manual chooser once that exists.
-    context.push(AppRoutes.addFoodLocation());
+  Future<void> _onCameraPressed(BuildContext context) async {
+    final method = await AddFoodChooserSheet.show(context);
+    if (method == null || !context.mounted) return;
+    switch (method) {
+      case AddFoodMethod.camera:
+        context.push(AppRoutes.scanLocation());
+      case AddFoodMethod.manual:
+        // The Add Food form for now; it becomes the AI-assisted manual
+        // screen later, with this form kept as "Enter numbers myself".
+        context.push(AppRoutes.addFoodLocation());
+    }
   }
 
   @override

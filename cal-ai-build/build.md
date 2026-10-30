@@ -1,6 +1,6 @@
 # Cal AI — Build Status
 
-_Last updated: 2026-10-30 · 45 tests passing · `flutter analyze`: no issues_
+_Last updated: 2026-10-30 · 48 tests passing · `flutter analyze`: no issues_
 
 What the app is **right now**. For what's done and what's next, see the roadmap in [plan.md](plan.md).
 
@@ -72,10 +72,10 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/tracker`, `/articles` | Placeholder tabs that say "coming soon" |
 | `/account` | Account tab (profile and goals) |
 | `/add-food?meal=lunch&imagePath=…` | Add Food, shown on top of the tabs |
-| `/scan` | Scan a photo; sends the photo back to Add Food |
+| `/scan` | Scan a photo. With `?returnPhoto=true` (opened from Add Food) it sends the photo back; otherwise (opened from the camera chooser) it opens Add Food with the photo attached |
 
 - **Tabs:** they use `StatefulShellRoute`, so each tab remembers its own screen.
-- **Bottom bar:** four tabs (Home, Tracker, Articles, Account) with a raised camera button in the middle. The camera button is an action, not a tab. It opens Add Food for now, and will open the camera / manual chooser later.
+- **Bottom bar:** four tabs (Home, Tracker, Articles, Account) with a raised camera button in the middle. The camera button is an action, not a tab. It opens a chooser sheet with two options: **Scan with camera** (Scan screen, then Add Food with the photo) and **Add manually** (the Add Food form).
 - **Redirect:** with no saved profile, every route goes to `/onboarding`. After onboarding, `/onboarding` sends you to `/`.
 
 ## 5. Features built
@@ -175,18 +175,18 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Theme:** `AppTheme` uses the Outfit font with a green theme. The app is fixed to **light mode** (`themeMode: ThemeMode.light`).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton`, `EmptyState`, `ComingSoonScreen`.
 
-## 8. Tests (45 passing)
+## 8. Tests (48 passing)
 
 | File | Covers |
 |---|---|
 | `test/calorie_calculator_test.dart` | BMR, TDEE, goal adjustment, minimum, macros, breakdown, walking kcal, macro estimate |
 | `test/profile_provider_test.dart` | Custom goals survive a relaunch; reset restores the recommended targets |
 | `test/step_log_repository_test.dart` | Daily steps, new day, phone restart |
-| `test/widget_test.dart` | Home, the bottom bar (4 tabs + camera button), Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
+| `test/widget_test.dart` | Home, the bottom bar (4 tabs + camera button), the camera chooser and both of its options, Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
 | `test/onboarding_test.dart` | Full onboarding flow, the loader (✕ and completion), the profile being saved, relaunch skipping onboarding |
 | `test/user_profile_test.dart` | Dinner time and focus goals saved and restored, defaults for older profiles, the "8:30 PM" label |
 | `test/onboarding_provider_test.dart` | Goal-step rules: at least one goal, weight goals exclude each other, focus goals combine |
-| `test/fake_step_counter.dart` | Fake step source used by the tests |
+| `test/fake_step_counter.dart`, `test/fake_image_picker.dart` | Fake step source and fake camera/gallery used by the tests |
 
 Run them with:
 
@@ -209,7 +209,7 @@ flutter test
 
 The full roadmap, with each feature's tasks, is in [plan.md](plan.md). The planned direction:
 
-- **Camera button:** it opens Add Food for now; the two-option chooser comes next (feature 12 in the plan).
+- **Camera options:** the chooser exists, but neither option uses AI yet. Features 13 and 14 add AI analysis of the photo and AI-generated nutrition from typed details.
 - **Camera button:** opens a chooser with two options: scan a food photo (AI analyses it) or add manually (AI generates the nutrition data from your details).
 - **Firebase:** you will set it up yourself when we reach that step; sign-in, sync and the AI calls depend on it.
 - **Before that:** commit the untracked files (the latest commit imports files that aren't in git yet, so a fresh clone won't build) and test on a real phone.

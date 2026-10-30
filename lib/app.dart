@@ -23,6 +23,7 @@ class CalAiApp extends StatefulWidget {
     required this.storage,
     this.profileProvider,
     this.stepCounter,
+    this.imagePicker,
   });
 
   /// Local storage, initialised in `main` before the app starts.
@@ -34,6 +35,9 @@ class CalAiApp extends StatefulWidget {
 
   /// Step source; defaults to the phone's pedometer. Tests pass a fake.
   final StepCounterService? stepCounter;
+
+  /// Photo source; defaults to the phone's camera and gallery. Tests pass a fake.
+  final ImagePickerService? imagePicker;
 
   @override
   State<CalAiApp> createState() => _CalAiAppState();
@@ -60,7 +64,7 @@ class _CalAiAppState extends State<CalAiApp> {
         // Services
         Provider.value(value: widget.storage),
         Provider(create: (_) => PermissionService()),
-        Provider(create: (_) => ImagePickerService()),
+        Provider(create: (_) => widget.imagePicker ?? ImagePickerService()),
         Provider(
           create: (ctx) => FoodLogRepository(ctx.read<LocalStorageService>()),
         ),
