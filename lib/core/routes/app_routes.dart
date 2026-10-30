@@ -7,7 +7,6 @@ class AppRoutes {
   // Bottom-nav tabs
   static const String home = '/';
   static const String tracker = '/tracker';
-  static const String insights = '/insights';
   static const String articles = '/articles';
   static const String account = '/account';
 

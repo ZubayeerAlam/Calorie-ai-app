@@ -102,8 +102,11 @@ These are agreed and will be built later, in the order shown under "Suggested or
 
 ## ⬜ Future features
 
-### 11. Bottom bar: remove Insights, add the camera button ⬜
+### 11. Bottom bar: remove Insights, add the camera button ✅
 - **Goal:** the new bar from decision 4. No Firebase needed.
+- **Done:** Insights is gone (route, tab and placeholder). The bar has Home, Tracker, Articles and Account, with a raised green camera button in the middle. The button is an action, so it doesn't change the page behind it.
+- **For now** the camera button opens Add Food (which has "Scan a photo" and the manual form). Feature 12 replaces this with the two-option chooser.
+- **Original tasks:**
 - **Tasks:**
   - Remove the Insights tab: its route `/insights` in `app_router.dart`, its item in `app_bottom_nav.dart`, and its placeholder.
   - Add a raised, centre camera button. It is an action, not a tab, so it doesn't change the page behind it; it opens the chooser (feature 12).

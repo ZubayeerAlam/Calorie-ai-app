@@ -15,6 +15,11 @@ class AppNavItem {
 }
 
 /// White bottom bar: green icon + label for the active tab, grey otherwise.
+///
+/// There are four tabs, two on each side of an empty middle slot. The
+/// camera button that sits in that slot is a floating button added by the
+/// scaffold (see `HomeShell`), because a button that rises above the bar
+/// must be outside the bar to receive taps.
 class AppBottomNav extends StatelessWidget {
   const AppBottomNav({
     super.key,
@@ -34,11 +39,6 @@ class AppBottomNav extends StatelessWidget {
       activeIcon: Icons.grid_view_rounded,
     ),
     AppNavItem(
-      label: 'Insights',
-      icon: Icons.insights_outlined,
-      activeIcon: Icons.insights_rounded,
-    ),
-    AppNavItem(
       label: 'Articles',
       icon: Icons.article_outlined,
       activeIcon: Icons.article_rounded,
@@ -50,8 +50,22 @@ class AppBottomNav extends StatelessWidget {
     ),
   ];
 
+  /// Width reserved in the middle for the camera button.
+  static const double cameraGap = 84;
+
+  /// How many tabs sit to the left of the camera gap; the rest sit right.
+  static const int _tabsOnLeft = 2;
+
   final int currentIndex;
   final ValueChanged<int> onTap;
+
+  Widget _tab(int i) => Expanded(
+    child: _NavButton(
+      item: items[i],
+      selected: i == currentIndex,
+      onTap: () => onTap(i),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +80,9 @@ class AppBottomNav extends StatelessWidget {
           height: 64,
           child: Row(
             children: [
-              for (var i = 0; i < items.length; i++)
-                Expanded(
-                  child: _NavButton(
-                    item: items[i],
-                    selected: i == currentIndex,
-                    onTap: () => onTap(i),
-                  ),
-                ),
+              for (var i = 0; i < _tabsOnLeft; i++) _tab(i),
+              const SizedBox(width: cameraGap),
+              for (var i = _tabsOnLeft; i < items.length; i++) _tab(i),
             ],
           ),
         ),

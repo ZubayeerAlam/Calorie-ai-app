@@ -54,13 +54,6 @@ GoRouter createAppRouter(ProfileProvider profile) {
             ),
           ),
           _tab(
-            AppRoutes.insights,
-            (_) => const ComingSoonScreen(
-              title: 'Insights',
-              icon: Icons.insights_rounded,
-            ),
-          ),
-          _tab(
             AppRoutes.articles,
             (_) => const ComingSoonScreen(
               title: 'Articles',

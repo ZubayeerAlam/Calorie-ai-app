@@ -119,26 +119,53 @@ void main() {
     expect(find.text('−0.45 kg / week'), findsOneWidget);
   });
 
-  testWidgets('Bottom navigation has five tabs', (tester) async {
+  testWidgets('Bottom bar has four tabs and a camera button, no Insights', (
+    tester,
+  ) async {
     await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
 
-    for (final label in [
-      'Home',
-      'Tracker',
-      'Insights',
-      'Articles',
-      'Account',
-    ]) {
+    for (final label in ['Home', 'Tracker', 'Articles', 'Account']) {
       expect(find.text(label), findsOneWidget);
     }
+    expect(find.text('Insights'), findsNothing);
+    expect(find.byKey(const ValueKey('camera-button')), findsOneWidget);
+    expect(find.byIcon(Icons.photo_camera_rounded), findsOneWidget);
 
+    // Tabs on both sides of the camera still work.
     await tester.tap(find.text('Tracker'));
     await tester.pumpAndSettle();
     expect(find.text('Tracker is coming soon'), findsOneWidget);
 
+    await tester.tap(find.text('Articles'));
+    await tester.pumpAndSettle();
+    expect(find.text('Articles is coming soon'), findsOneWidget);
+
     await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
     expect(find.text('Profile & Goals'), findsOneWidget);
+
+    await tester.tap(find.text('Home'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Today, '), findsOneWidget);
+  });
+
+  testWidgets('The camera button opens Add Food and back returns to the tab', (
+    tester,
+  ) async {
+    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
+
+    // From a tab other than Home, to show it is an action and not a tab.
+    await tester.tap(find.text('Articles'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('camera-button')));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Food'), findsOneWidget);
+    expect(find.text('Scan a photo'), findsOneWidget);
+
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
+    expect(find.text('Articles is coming soon'), findsOneWidget);
   });
 
   testWidgets("A meal's + opens Add Food for that meal and logs to it", (

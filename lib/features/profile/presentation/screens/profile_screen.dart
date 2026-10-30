@@ -19,7 +19,8 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Profile & Goals')),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        // Extra bottom space so the raised camera button never covers content.
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 48),
         children: [
           Text(
             'Daily calorie goal: ${goals.dailyCalories} kcal',
