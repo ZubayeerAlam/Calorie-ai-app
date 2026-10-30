@@ -100,6 +100,13 @@ extension UserProfileDisplay on UserProfile {
     return '${inches ~/ 12}′${inches % 12}″';
   }
 
+  /// Dinner time as "8:30 PM".
+  String get dinnerLabel {
+    final hour12 = dinnerHour % 12 == 0 ? 12 : dinnerHour % 12;
+    final period = dinnerHour >= 12 ? 'PM' : 'AM';
+    return '$hour12:${dinnerMinute.toString().padLeft(2, '0')} $period';
+  }
+
   String get bmiCategory => switch (bmi) {
     < 18.5 => 'Underweight',
     < 25 => 'Healthy',

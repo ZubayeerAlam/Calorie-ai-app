@@ -84,6 +84,8 @@ class OnboardingProvider extends ChangeNotifier {
     activityLevel: _activityLevel!,
     dietType: _dietType!,
     useMetric: _useMetric,
+    dinnerHour: _dinnerHour,
+    dinnerMinute: _dinnerMinute,
   );
 
   UserGoals get goals => CalorieCalculator.calculate(profile);

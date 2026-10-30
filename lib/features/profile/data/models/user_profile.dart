@@ -17,7 +17,12 @@ class UserProfile {
     required this.activityLevel,
     required this.dietType,
     this.useMetric = true,
+    this.dinnerHour = defaultDinnerHour,
+    this.dinnerMinute = defaultDinnerMinute,
   });
+
+  static const int defaultDinnerHour = 20;
+  static const int defaultDinnerMinute = 30;
 
   final String name;
   final Gender gender;
@@ -28,6 +33,10 @@ class UserProfile {
   final ActivityLevel activityLevel;
   final DietType dietType;
   final bool useMetric;
+
+  /// Usual dinner time (24-hour clock), e.g. for dinner reminders.
+  final int dinnerHour;
+  final int dinnerMinute;
 
   int get age => ageOn(DateTime.now());
 
@@ -52,6 +61,8 @@ class UserProfile {
     'activityLevel': activityLevel.name,
     'dietType': dietType.name,
     'useMetric': useMetric,
+    'dinnerHour': dinnerHour,
+    'dinnerMinute': dinnerMinute,
   };
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
@@ -64,5 +75,8 @@ class UserProfile {
     activityLevel: ActivityLevel.values.byName(json['activityLevel'] as String),
     dietType: DietType.values.byName(json['dietType'] as String),
     useMetric: json['useMetric'] as bool? ?? true,
+    // Profiles saved before dinner time existed fall back to the default.
+    dinnerHour: json['dinnerHour'] as int? ?? defaultDinnerHour,
+    dinnerMinute: json['dinnerMinute'] as int? ?? defaultDinnerMinute,
   );
 }

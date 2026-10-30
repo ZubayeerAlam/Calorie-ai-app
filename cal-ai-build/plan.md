@@ -1,0 +1,229 @@
+# Cal AI — Feature Plan & Roadmap
+
+What we have built and what comes next. For a detailed description of the app as it stands, see [build.md](build.md).
+
+**How we work on each feature**
+1. **Plan:** write the plan first and agree on it before coding.
+2. **Build:** each UI component is its own widget in its own file.
+3. **Test:** add or update tests; `flutter analyze` and `flutter test` must pass.
+4. **Record:** update [build.md](build.md) and tick the feature off here.
+
+Status: ✅ done · 🟡 partly done or needs follow-up · ⬜ not started
+
+---
+
+## 📌 Decisions for the next phase
+
+These are agreed and will be built later, in the order shown under "Suggested order" at the bottom.
+
+1. **Firebase is added by you.** When we reach that step you set up Firebase yourself (project, config files, packages, rules). Until then we only prepare the app so Firebase can be plugged in. See feature 15.
+2. **The Insights tab is removed** from the bottom bar. Its charts move into Tracker (see feature 17).
+3. **A camera button is added to the bottom bar** (centre). Tapping it opens a chooser with **two options**:
+   - **Camera:** take or upload a photo of the food, and AI analyses it.
+   - **Manual:** describe the food and details by hand, and AI generates the nutrition data.
+4. **The bottom bar becomes:** Home · Tracker · 📷 Camera (centre action, not a tab) · Articles · Account.
+
+---
+
+## ✅ Completed
+
+### 1. Project setup ✅
+- Feature-first folder structure, `provider` for state.
+- Camera and gallery through `image_picker`, permissions through `permission_handler`.
+- Services wrap the plugins, so features and tests don't depend on the plugins directly.
+
+### 2. Onboarding UI ✅
+- 10 steps: name, gender, birthday, height, weight, goal, activity, diet, dinner time, plan.
+- Built to match the mockups:
+  - shared header (back arrow, progress bar, "n / 10");
+  - Continue button, disabled until the step is complete;
+  - custom scroll wheel, weight ruler, option cards, kg/lb toggle.
+- Outfit font and the green brand colour.
+
+### 3. Navigation with go_router ✅
+- Every screen opens through go_router.
+- Onboarding redirect: users without a saved profile are sent to `/onboarding`.
+- 5 bottom tabs (Home, Tracker, Insights, Articles, Account). Each tab remembers its own screen.
+
+### 4. Local storage (shared_preferences) ✅
+- Profile, goals and food log are saved on the device.
+- Returning users skip onboarding.
+- Unreadable saved data is cleared safely instead of crashing the app.
+
+### 5. Personalizing loader ✅
+- After the last setup step: "Personalizing your Cal AI experience…", with a ring filling 0–100%.
+- Then the plan page (calories, macros, kg per week).
+
+### 6. Calorie engine — your "Phase 1" spec ✅
+- `lib/core/utils/calorie_calculator.dart`.
+- Mifflin-St Jeor BMR → activity multiplier (TDEE) → ±500 kcal for the goal (minimum 1200) → macros 50/30/20.
+
+### 7. Home dashboard ✅
+- Built from the mockup:
+  - date selector;
+  - Eaten / kcal-left ring / Burned;
+  - macro rings;
+  - Burned section;
+  - meal rows (30/30/30/10 split).
+- Meal ＋ opens Add Food with that meal chosen; tapping a meal lists its entries, with delete.
+- Activity calories entered by hand and saved per day.
+- Scan moved into Add Food ("Scan a photo").
+
+### 8. User info on Home ✅
+- Greeting with the user's name and initials avatar; goal and daily kcal in the header.
+- Profile card: goal, weight, height, age, BMI, in metric or imperial units.
+- "Your calorie plan" card showing how the target was calculated, step by step.
+
+### 9. Goal sync ✅
+- Targets are recalculated from the saved profile on every launch.
+- If changed by hand on Account, they're kept; "Reset to recommended" undoes that.
+- The Account slider re-splits macros 50/30/20.
+
+### 10. Eaten / Burned improvements ✅
+- **Macro estimates:** if only calories are entered, macros are estimated and marked "(est.)".
+- **Steps:**
+  - `pedometer` feeds Walking calories into Burned.
+  - Daily steps are saved; a new day and a phone restart are handled.
+  - Android and iOS permissions are set up.
+- **Hint:** a "Nothing logged yet" note on Home while nothing is logged.
+
+---
+
+## 🟡 Follow-ups for what's built
+
+- [x] **Commit all files.** The latest commit imports about 30 files that aren't in git yet, so a fresh clone won't build. Run `git add lib test cal-ai-build` and commit.
+- [ ] **Test on a real phone.** Especially steps (the simulator has no step sensor), camera and gallery, and the permission prompts.
+- [x] **Save the dinner time.** Done: it's now stored in the profile (`dinnerHour`, `dinnerMinute`) and has a "8:30 PM" label ready for reminders (see 18). Profiles saved before this change get the default 8:30 PM instead of failing to load.
+- [x] **Check iOS permission setup.** Checked: no change needed. This project builds with Swift Package Manager (that's why there is no Podfile), and `permission_handler` switches permissions on from the usage descriptions in `Info.plist`. The build resolves camera, photos and motion to enabled.
+- [ ] **Decide on the onboarding goal.** The mockup showed several goals you could pick at once; the app allows one (lose / maintain / gain). Decide whether to add extra goals like "Boost energy" as non-calorie preferences.
+
+---
+
+## ⬜ Future features
+
+### 11. Bottom bar: remove Insights, add the camera button ⬜
+- **Goal:** the new bar from decision 4. No Firebase needed.
+- **Tasks:**
+  - Remove the Insights tab: its route `/insights` in `app_router.dart`, its item in `app_bottom_nav.dart`, and its placeholder.
+  - Add a raised, centre camera button. It is an action, not a tab, so it doesn't change the page behind it; it opens the chooser (feature 12).
+  - Keep the other tabs as they are: Home, Tracker, Articles, Account.
+  - Update the tests that look for the five tabs.
+
+### 12. Camera chooser: two ways to add food ⬜
+- **Goal:** tapping the camera button opens a bottom sheet with two options.
+  - **Scan with camera:** take a photo of the food, or pick one from the gallery.
+  - **Add manually:** describe the food by hand.
+- **Tasks:**
+  - Build the chooser sheet as its own widget, with the two options as large cards.
+  - Route each option: `/scan` (existing, reused) and a new `/add-manually`.
+  - Reuse what exists: `FoodScanScreen` and `FoodScanProvider` for the camera/gallery step, `PermissionService` for camera access.
+  - The existing "Scan a photo" button in Add Food can stay for photos attached to a form entry, or be removed once this chooser exists. To be decided when we build it.
+- **Works without AI at first:** the chooser and screens can be built with a fake analysis service (see feature 13), so the screens can be tested before Firebase.
+
+### 13. AI analysis of a food photo (camera option) ⬜
+- **Goal:** from a photo, the AI returns what the food is and its nutrition, then the user reviews and saves.
+- **Flow:**
+  1. User takes or picks a photo.
+  2. The app uploads it and shows a loading state.
+  3. The AI returns one or more items, each with name, portion, calories, protein, carbs and fat.
+  4. The user can edit any field, remove an item, and pick the meal (suggested from the time of day).
+  5. Save to the food log, marked as AI-estimated.
+- **Tasks:**
+  - Define a `FoodAnalysisService` interface in `core/services/`, with a fake version for tests and development (same pattern as `StepCounterService`).
+  - Result model and parsing, plus handling when the photo isn't food or the AI isn't sure.
+  - Review screen, loading state and error state with "try again".
+  - Entries keep the photo and an "AI estimate" label (like the existing "(est.)").
+- **Needs Firebase** (feature 15) for the real AI call, so the API key never ships inside the app.
+
+### 14. AI from manually entered details (manual option) ⬜
+- **Goal:** the user types the food details and the AI generates the nutrition data.
+- **Flow:**
+  1. User writes what they ate, e.g. "2 scrambled eggs, 1 slice toast with butter, black coffee".
+  2. Optional extra details: portion size, cooking method, brand, ingredients.
+  3. The AI returns calories and macros per item.
+  4. Same review-and-edit screen as feature 13, then save.
+- **Tasks:**
+  - Manual-entry screen (description field and optional detail fields).
+  - Reuse `FoodAnalysisService` with a text-based method, plus the shared review screen from feature 13.
+  - Keep the current Add Food form as a "Enter numbers myself" option for people who already know the values, with no AI.
+- **Needs Firebase** (feature 15) for the real AI call.
+
+### 15. Firebase — you implement this ⬜
+- **Who:** you set up Firebase yourself when we reach this step. I won't add Firebase packages or config before then.
+- **What the app needs from it** (so you know what to set up):
+  - **Authentication:** sign-in, so each user has their own data.
+  - **Cloud Firestore:** profile, goals, food log, activity and steps, synced across devices.
+  - **Cloud Storage:** food photos.
+  - **Server-side AI:** the AI call for features 13 and 14 goes through Firebase (for example Firebase AI Logic or a Cloud Function), so the AI key is never inside the app.
+- **What we prepare beforehand:**
+  - Every data class is already behind a repository (`FoodLogRepository`, `ActivityLogRepository`, `StepLogRepository`, `ProfileProvider`), so storage can be swapped without changing screens.
+  - A `FoodAnalysisService` interface (feature 13), so the AI backend is one class to replace.
+- **When you're done:** tell me, and we will:
+  - connect the repositories to Firestore (local cache + remote);
+  - move existing on-device data to the account;
+  - add sign-in screens and the logout option;
+  - connect `FoodAnalysisService` to the real AI call.
+
+### 16. Apple Health / Health Connect ⬜
+- **Goal:** accurate steps for the whole day, and imported workouts for the Activity number.
+- **Tasks:**
+  - Add the `health` package.
+  - Set up the iOS HealthKit capability and Android Health Connect permissions.
+  - Use it as the step source, with `pedometer` as a fallback.
+- **Fixes:** today, steps are only counted from the first time the app is opened each day.
+
+### 17. Tracker tab (now includes the trend charts) ⬜
+- **Goal:** history of meals and weight, plus the trends that Insights was going to show.
+- **Tasks:**
+  - A weight log (add today's weight, see the list).
+  - Daily history with totals.
+  - Update the profile weight, which recalculates the targets.
+  - Weekly and monthly charts inside Tracker: calories vs target, macro breakdown, steps, weight trend, streaks.
+
+### 18. Notifications and reminders ⬜
+- **Goal:** make the bell on Home do something, and remind users to log meals.
+- **Tasks:**
+  - Local notifications, including a dinner reminder at the saved dinner time.
+  - Reminders for breakfast and lunch.
+  - A notifications list behind the bell.
+
+### 19. Account management ⬜
+- **Goal:** edit the profile and manage data.
+- **Tasks:**
+  - Edit name, weight, height, goal and activity (targets recalculate).
+  - Unit preference.
+  - "Reset all data" now; log out after Firebase sign-in (feature 15).
+
+### 20. Food database and barcode ⬜
+- **Goal:** faster logging.
+- **Tasks:**
+  - Search foods (e.g. Open Food Facts).
+  - Barcode scanning.
+  - Recent and favourite foods.
+  - Quick re-log.
+
+### 21. Articles tab ⬜
+- **Goal:** nutrition tips and articles (start with built-in content, a remote feed later).
+
+### 22. Polish ⬜
+- Real meal illustrations to replace the emoji (`MealTile` already accepts an asset path).
+- Dark mode, once there are dark designs.
+- Translations into other languages.
+- Accessibility checks.
+
+---
+
+## Suggested order
+1. **Follow-ups:** commit, real-phone test, save the dinner time.
+2. **Camera bar and chooser (11, 12).** No Firebase needed.
+3. **AI screens with a fake service (13, 14, UI part).** Build the flow and the review screen so they can be tried before Firebase exists.
+4. **Account management (19).** Small, and makes weight changes possible.
+5. **Tracker with charts (17).**
+6. **Firebase (15), done by you.** Then we connect sign-in, sync and the real AI calls.
+7. **Health Connect / HealthKit (16).**
+8. **Notifications (18), food database (20), Articles (21), polish (22).**
+
+## Open questions
+- **Insights charts:** is it OK for them to live inside Tracker, as planned in feature 17?
+- **AI provider:** which model or service will the Firebase side use (e.g. Gemini through Firebase AI Logic)? This only matters when we reach feature 15.
+- **Existing Add Food form:** keep it as the "Enter numbers myself" option under Manual (planned), or remove it?

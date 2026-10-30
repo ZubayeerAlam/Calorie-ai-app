@@ -55,6 +55,10 @@ void main() {
     expect(find.text('9 / 10'), findsOneWidget);
     expect(find.text('PM'), findsOneWidget);
 
+    // Move the hour wheel two steps: 20:30 → 22:30.
+    await tester.drag(find.text('20'), const Offset(0, -160));
+    await tester.pumpAndSettle();
+
     // The loader fills part-way, X backs out, then it runs to the plan.
     await tester.tap(find.text('Continue'));
     await tester.pump();
@@ -84,6 +88,9 @@ void main() {
 
     // The finished profile is saved for the next launch.
     expect(storage.getJson(StorageKeys.userProfile)?['name'], 'Sam');
+    // ...including the dinner time picked on the wheel.
+    expect(storage.getJson(StorageKeys.userProfile)?['dinnerHour'], 22);
+    expect(storage.getJson(StorageKeys.userProfile)?['dinnerMinute'], 30);
 
     // Relaunch: a fresh app on the same storage opens straight to Home.
     await tester.pumpWidget(const SizedBox());
