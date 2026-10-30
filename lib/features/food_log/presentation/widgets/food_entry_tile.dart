@@ -21,9 +21,15 @@ class FoodEntryTile extends StatelessWidget {
       ),
       title: Text(entry.name),
       subtitle: Text(
-        '${entry.mealType.label} · P ${entry.protein.toStringAsFixed(0)}g '
+        '${entry.mealType.label}'
+        '${entry.portion?.isNotEmpty ?? false ? ' · ${entry.portion}' : ''}'
+        ' · P ${entry.protein.toStringAsFixed(0)}g '
         'C ${entry.carbs.toStringAsFixed(0)}g F ${entry.fat.toStringAsFixed(0)}g'
-        '${entry.macrosEstimated ? ' (est.)' : ''}',
+        '${entry.aiEstimated
+            ? ' (AI estimate)'
+            : entry.macrosEstimated
+            ? ' (est.)'
+            : ''}',
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

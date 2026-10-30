@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/calorie_calculator.dart';
+import '../../../../shared/widgets/meal_photo.dart';
 import '../../data/models/food_entry.dart';
 import '../../providers/food_log_provider.dart';
 import '../meal_type_labels.dart';
@@ -117,25 +116,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
               label: Text(imagePath == null ? 'Scan a photo' : 'Change photo'),
             ),
             const SizedBox(height: 12),
-            if (imagePath != null)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.file(
-                  File(imagePath),
-                  height: 200,
-                  fit: BoxFit.cover,
-                  // The photo may have been deleted or be unreadable.
-                  errorBuilder: (_, _, _) => Container(
-                    height: 200,
-                    alignment: Alignment.center,
-                    color: AppColors.card,
-                    child: const Icon(
-                      Icons.image_not_supported_outlined,
-                      color: AppColors.textLight,
-                    ),
-                  ),
-                ),
-              ),
+            if (imagePath != null) MealPhoto(path: imagePath),
             TextFormField(
               controller: _name,
               decoration: const InputDecoration(labelText: 'Food name'),

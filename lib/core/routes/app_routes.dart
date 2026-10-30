@@ -13,6 +13,7 @@ class AppRoutes {
   // Pushed screens
   static const String addFood = '/add-food';
   static const String scan = '/scan';
+  static const String analyzeFood = '/analyze-food';
   static const String onboarding = '/onboarding';
 
   /// Query parameters for [addFood].
@@ -20,9 +21,14 @@ class AppRoutes {
   static const String mealParam = 'meal';
 
   /// Query parameter for [scan]: when true, the scan screen hands the chosen
-  /// photo back to the screen that opened it (Add Food). Otherwise it opens
-  /// Add Food with the photo attached.
+  /// photo back to the screen that opened it (Add Food). Otherwise it sends
+  /// the photo for AI analysis.
   static const String returnPhotoParam = 'returnPhoto';
+
+  static String analyzeFoodLocation(String imagePath) => Uri(
+    path: analyzeFood,
+    queryParameters: {imagePathParam: imagePath},
+  ).toString();
 
   static String scanLocation({bool returnPhoto = false}) => Uri(
     path: scan,

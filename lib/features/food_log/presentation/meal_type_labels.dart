@@ -26,4 +26,15 @@ extension MealTypeLabel on MealType {
 
   int targetCalories(int dailyCalories) =>
       (dailyCalories * calorieShare).round();
+
+  /// The meal you are most likely logging at [time]:
+  /// before 10:00 breakfast, before 15:00 lunch, before 17:00 snacks,
+  /// before 22:00 dinner, otherwise snacks.
+  static MealType suggestedFor(DateTime time) => switch (time.hour) {
+    < 10 => MealType.breakfast,
+    < 15 => MealType.lunch,
+    < 17 => MealType.snack,
+    < 22 => MealType.dinner,
+    _ => MealType.snack,
+  };
 }

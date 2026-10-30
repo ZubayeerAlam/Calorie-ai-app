@@ -5,7 +5,10 @@ import 'package:provider/provider.dart';
 import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/food_log/data/models/food_entry.dart';
 import '../../features/food_log/presentation/screens/add_food_screen.dart';
+import '../../features/food_scan/presentation/screens/analyze_food_screen.dart';
 import '../../features/food_scan/presentation/screens/food_scan_screen.dart';
+import '../../features/food_scan/providers/food_analysis_controller.dart';
+import '../services/food_analysis_service.dart';
 import '../../features/home/presentation/screens/home_shell.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/onboarding/providers/onboarding_provider.dart';
@@ -74,6 +77,17 @@ GoRouter createAppRouter(ProfileProvider profile) {
                 .asNameMap()[query[AppRoutes.mealParam]],
           );
         },
+      ),
+      // AI analysis of a photo, then review and save.
+      GoRoute(
+        path: AppRoutes.analyzeFood,
+        builder: (context, state) => ChangeNotifierProvider(
+          create: (ctx) => FoodAnalysisController(
+            service: ctx.read<FoodAnalysisService>(),
+            imagePath: state.uri.queryParameters[AppRoutes.imagePathParam]!,
+          ),
+          child: const AnalyzeFoodScreen(),
+        ),
       ),
       // Opened from the camera chooser, or from Add Food (returnPhoto).
       GoRoute(

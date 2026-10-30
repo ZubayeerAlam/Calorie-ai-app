@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import 'core/constants/app_constants.dart';
 import 'core/routes/app_router.dart';
+import 'core/services/demo_food_analysis_service.dart';
+import 'core/services/food_analysis_service.dart';
 import 'core/services/image_picker_service.dart';
 import 'core/services/local_storage_service.dart';
 import 'core/services/permission_service.dart';
@@ -24,6 +26,7 @@ class CalAiApp extends StatefulWidget {
     this.profileProvider,
     this.stepCounter,
     this.imagePicker,
+    this.foodAnalysis,
   });
 
   /// Local storage, initialised in `main` before the app starts.
@@ -38,6 +41,10 @@ class CalAiApp extends StatefulWidget {
 
   /// Photo source; defaults to the phone's camera and gallery. Tests pass a fake.
   final ImagePickerService? imagePicker;
+
+  /// Photo analysis; defaults to the demo service until the real AI is
+  /// connected through Firebase. Tests pass a fake.
+  final FoodAnalysisService? foodAnalysis;
 
   @override
   State<CalAiApp> createState() => _CalAiAppState();
@@ -65,6 +72,9 @@ class _CalAiAppState extends State<CalAiApp> {
         Provider.value(value: widget.storage),
         Provider(create: (_) => PermissionService()),
         Provider(create: (_) => widget.imagePicker ?? ImagePickerService()),
+        Provider<FoodAnalysisService>(
+          create: (_) => widget.foodAnalysis ?? const DemoFoodAnalysisService(),
+        ),
         Provider(
           create: (ctx) => FoodLogRepository(ctx.read<LocalStorageService>()),
         ),

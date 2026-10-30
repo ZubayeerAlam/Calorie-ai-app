@@ -59,6 +59,14 @@ class FoodLogProvider extends ChangeNotifier {
     await load();
   }
 
+  /// Saves several entries, then reloads once.
+  Future<void> addEntries(List<FoodEntry> entries) async {
+    for (final entry in entries) {
+      await _repository.add(entry);
+    }
+    await load();
+  }
+
   Future<void> removeEntry(String id) async {
     await _repository.remove(id);
     await load();

@@ -12,8 +12,8 @@ class FoodScanScreen extends StatelessWidget {
   const FoodScanScreen({super.key, this.returnPhoto = false});
 
   /// True when Add Food opened this screen: the photo goes back to it.
-  /// Otherwise (opened from the camera chooser) Add Food is opened with
-  /// the photo attached, replacing this screen.
+  /// Otherwise (opened from the camera chooser) the photo is sent for AI
+  /// analysis, replacing this screen.
   final bool returnPhoto;
 
   @override
@@ -64,7 +64,7 @@ class FoodScanScreen extends StatelessWidget {
                       context.pop(path);
                     } else {
                       context.pushReplacement(
-                        AppRoutes.addFoodLocation(imagePath: path),
+                        AppRoutes.analyzeFoodLocation(path),
                       );
                     }
                   },

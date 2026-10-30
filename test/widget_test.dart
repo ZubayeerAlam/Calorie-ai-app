@@ -1,4 +1,6 @@
 import 'package:cal_ai_app/app.dart';
+import 'package:cal_ai_app/core/services/demo_food_analysis_service.dart';
+import 'package:cal_ai_app/core/services/food_analysis_service.dart';
 import 'package:cal_ai_app/core/services/image_picker_service.dart';
 import 'package:cal_ai_app/core/services/local_storage_service.dart';
 import 'package:cal_ai_app/core/utils/calorie_calculator.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'fake_food_analysis_service.dart';
 import 'fake_image_picker.dart';
 import 'fake_step_counter.dart';
 
@@ -42,6 +45,7 @@ Future<void> _pumpApp(
   ProfileProvider? profile,
   FakeStepCounter? steps,
   ImagePickerService? picker,
+  FoodAnalysisService? analysis,
 }) async {
   tester.view.physicalSize = const Size(1290, 2796);
   tester.view.devicePixelRatio = 3;
@@ -52,6 +56,7 @@ Future<void> _pumpApp(
       profileProvider: profile,
       stepCounter: steps ?? FakeStepCounter(),
       imagePicker: picker ?? FakeImagePicker(),
+      foodAnalysis: analysis ?? FakeFoodAnalysisService(),
     ),
   );
   await tester.pumpAndSettle();
@@ -191,32 +196,141 @@ void main() {
     expect(find.textContaining('Today, '), findsOneWidget);
   });
 
-  testWidgets('Chooser → Scan with camera → photo lands in Add Food', (
-    tester,
-  ) async {
-    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
-
+  /// Camera button → Scan with camera → Gallery → Use this photo.
+  Future<void> openAnalysis(WidgetTester tester) async {
     await tester.tap(find.byKey(const ValueKey('camera-button')));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Scan with camera'));
     await tester.pumpAndSettle();
-    expect(find.text('Scan Food'), findsOneWidget);
-    expect(find.text('Use this photo'), findsNothing); // nothing picked yet
-
     await tester.tap(find.text('Gallery'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Use this photo'));
+    await tester.pump();
+  }
+
+  testWidgets('Scan with camera → AI review → saved to the chosen meal', (
+    tester,
+  ) async {
+    final ai = FakeFoodAnalysisService(hold: true);
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: ai,
+    );
+
+    await openAnalysis(tester);
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.text('Analyzing your meal…'), findsOneWidget);
+    expect(find.text('Scan Food'), findsNothing); // Scan was replaced
+
+    ai.release();
+    await tester.pumpAndSettle();
+    expect(find.text('We found 2 items'), findsOneWidget);
+    expect(find.text('Grilled chicken'), findsOneWidget);
+    expect(find.text('Steamed rice'), findsOneWidget);
+    expect(find.textContaining('Demo result'), findsNothing);
+
+    await _tap(tester, find.text('🥗 Dinner'));
+    expect(find.text('Add to Dinner · 454 kcal'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('save-analysis')));
+
+    // Back on Home with both items in Dinner.
+    expect(find.text('Added 2 items to Dinner'), findsOneWidget);
+    expect(find.text('454 / 600 kcal'), findsOneWidget);
+    expect(find.text('1546'), findsOneWidget); // 2000 − 454 kcal left
+
+    await _tap(tester, find.text('Dinner'));
+    expect(find.textContaining('(AI estimate)'), findsNWidgets(2));
+  });
+
+  testWidgets('Review: editing and removing items changes what is saved', (
+    tester,
+  ) async {
+    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
+    await openAnalysis(tester);
     await tester.pumpAndSettle();
 
-    // Add Food replaced Scan, with the photo attached ("Change photo").
+    // Change the chicken to 300 kcal, remove the rice.
+    await tester.enterText(find.widgetWithText(TextField, '248'), '300');
+    await _tap(tester, find.byTooltip('Remove Steamed rice'));
+    expect(find.text('We found 1 item'), findsOneWidget);
+    await _tap(tester, find.text('🍡 Snacks'));
+    expect(find.text('Add to Snacks · 300 kcal'), findsOneWidget);
+
+    await _tap(tester, find.byKey(const ValueKey('save-analysis')));
+    expect(find.text('300 / 200 kcal'), findsOneWidget);
+  });
+
+  testWidgets('No food found offers a new photo or manual entry', (
+    tester,
+  ) async {
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: FakeFoodAnalysisService(
+        failures: [FoodAnalysisFailure.notFood],
+      ),
+    );
+    await openAnalysis(tester);
+    await tester.pumpAndSettle();
+
+    expect(find.text('No food found'), findsOneWidget);
+    await _tap(tester, find.text('Enter it manually'));
     expect(find.text('Add Food'), findsOneWidget);
-    expect(find.text('Scan Food'), findsNothing);
-    expect(find.text('Change photo'), findsOneWidget);
+    expect(find.text('Change photo'), findsOneWidget); // photo kept
 
-    // Back goes to the tab the user came from, not to Scan.
-    await tester.tap(find.byType(BackButton));
+    await _tap(tester, find.byType(BackButton));
+    await openAnalysis(tester);
+    await tester.pumpAndSettle(); // the fake now succeeds
+    expect(find.text('We found 2 items'), findsOneWidget);
+  });
+
+  testWidgets('No food found → Try another photo opens Scan again', (
+    tester,
+  ) async {
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: FakeFoodAnalysisService(
+        failures: [FoodAnalysisFailure.notFood],
+      ),
+    );
+    await openAnalysis(tester);
     await tester.pumpAndSettle();
-    expect(find.textContaining('Today, '), findsOneWidget);
+    await _tap(tester, find.text('Try another photo'));
+    expect(find.text('Scan Food'), findsOneWidget);
+  });
+
+  testWidgets('A network error can be retried', (tester) async {
+    final ai = FakeFoodAnalysisService(failures: [FoodAnalysisFailure.network]);
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: ai,
+    );
+    await openAnalysis(tester);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Can\'t reach the analysis service'), findsOneWidget);
+    await _tap(tester, find.text('Try again'));
+    expect(find.text('We found 2 items'), findsOneWidget);
+    expect(ai.calls, 2);
+  });
+
+  testWidgets('The demo service labels its results as samples', (tester) async {
+    await _pumpApp(
+      tester,
+      await _storage(),
+      profile: _onboardedProfile(),
+      analysis: const DemoFoodAnalysisService(delay: Duration.zero),
+    );
+    await openAnalysis(tester);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Demo result'), findsOneWidget);
   });
 
   testWidgets('Add Food → Scan a photo still hands the photo back', (

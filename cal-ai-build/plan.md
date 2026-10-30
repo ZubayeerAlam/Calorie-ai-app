@@ -127,20 +127,24 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - **Changed from the original plan:** no separate `/add-manually` route yet. The manual option opens the existing Add Food form. The `/add-manually` screen (description plus optional details, AI-generated nutrition) is built in feature 14, and the current form stays as "Enter numbers myself".
 - **Works without AI:** nothing here needs Firebase. Features 13 and 14 add the AI analysis behind these two options.
 
-### 13. AI analysis of a food photo (camera option) ⬜
+### 13. AI analysis of a food photo (camera option) 🟡 built, real AI pending Firebase
 - **Goal:** from a photo, the AI returns what the food is and its nutrition, then the user reviews and saves.
-- **Flow:**
-  1. User takes or picks a photo.
-  2. The app uploads it and shows a loading state.
-  3. The AI returns one or more items, each with name, portion, calories, protein, carbs and fat.
-  4. The user can edit any field, remove an item, and pick the meal (suggested from the time of day).
-  5. Save to the food log, marked as AI-estimated.
-- **Tasks:**
-  - Define a `FoodAnalysisService` interface in `core/services/`, with a fake version for tests and development (same pattern as `StepCounterService`).
-  - Result model and parsing, plus handling when the photo isn't food or the AI isn't sure.
-  - Review screen, loading state and error state with "try again".
-  - Entries keep the photo and an "AI estimate" label (like the existing "(est.)").
-- **Needs Firebase** (feature 15) for the real AI call, so the API key never ships inside the app.
+- **Flow (working now):**
+  1. Camera button → **Scan with camera** → take or pick a photo → **Use this photo**.
+  2. The `/analyze-food` screen shows the photo with "Analyzing your meal…".
+  3. The result lists each item with name, portion, calories, protein, carbs and fat.
+  4. Every field can be edited and items removed. The meal is suggested from the time of day (before 10:00 breakfast, before 15:00 lunch, before 17:00 snacks, before 22:00 dinner, otherwise snacks) and can be changed.
+  5. **Add to <meal> · <total> kcal** saves one food log entry per item on the day shown on Home, with the photo, marked "(AI estimate)".
+- **If it fails:**
+  - **No food found:** "Try another photo" (back to Scan) or "Enter it manually" (Add Food with the photo kept).
+  - **No connection / something went wrong:** "Try again" or "Enter it manually".
+- **Built:**
+  - `FoodAnalysisService` interface and `FoodAnalysisException` (`lib/core/services/food_analysis_service.dart`).
+  - `FoodAnalysis` / `AnalyzedFoodItem` models with strict parsing of the AI reply (`lib/features/food_scan/data/models/food_analysis.dart`). Expected reply shape: `{ "isFood": true, "items": [ { "name", "portion", "calories", "protein", "carbs", "fat" } ] }`.
+  - `FoodAnalysisController` (one per screen) and the screen widgets: loading, review, error, editable item card, meal picker, demo notice.
+  - `FoodEntry` now stores `aiEstimated` and `portion` (older entries load with none).
+- **Not real AI yet:** the app uses `DemoFoodAnalysisService`, which does **not** look at the photo. It returns one of three sample meals after 1.5 s, and the review screen shows a yellow "Demo result" notice so samples are never mistaken for a real analysis.
+- **To finish after Firebase (feature 15):** write one class that implements `FoodAnalysisService` (send the photo through Firebase to the AI, parse the reply with `FoodAnalysis.fromJson`, map errors to `FoodAnalysisFailure`), then pass it to `CalAiApp(foodAnalysis: …)` in `main.dart`. Nothing else changes.
 
 ### 14. AI from manually entered details (manual option) ⬜
 - **Goal:** the user types the food details and the AI generates the nutrition data.
@@ -164,7 +168,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - **Server-side AI:** the AI call for features 13 and 14 goes through Firebase (for example Firebase AI Logic or a Cloud Function), so the AI key is never inside the app.
 - **What we prepare beforehand:**
   - Every data class is already behind a repository (`FoodLogRepository`, `ActivityLogRepository`, `StepLogRepository`, `ProfileProvider`), so storage can be swapped without changing screens.
-  - A `FoodAnalysisService` interface (feature 13), so the AI backend is one class to replace.
+  - The `FoodAnalysisService` interface (built in feature 13), so the AI backend is one class to replace.
 - **When you're done:** tell me, and we will:
   - connect the repositories to Firestore (local cache + remote);
   - move existing on-device data to the account;
@@ -223,7 +227,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 ## Suggested order
 1. **Follow-ups:** commit, real-phone test, save the dinner time.
 2. **Camera bar and chooser (11, 12).** No Firebase needed.
-3. **AI screens with a fake service (13, 14, UI part).** Build the flow and the review screen so they can be tried before Firebase exists.
+3. **AI screens with a fake service (13 ✅, 14).** The photo flow is built on a demo service; the manual flow (14) is next.
 4. **Account management (19).** Small, and makes weight changes possible.
 5. **Tracker with charts (17).**
 6. **Firebase (15), done by you.** Then we connect sign-in, sync and the real AI calls.

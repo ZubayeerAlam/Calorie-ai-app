@@ -12,6 +12,8 @@ class FoodEntry {
     this.fat = 0,
     this.imagePath,
     this.macrosEstimated = false,
+    this.aiEstimated = false,
+    this.portion,
   });
 
   final String id;
@@ -28,6 +30,12 @@ class FoodEntry {
   /// user left them blank.
   final bool macrosEstimated;
 
+  /// True when calories and macros came from AI photo analysis.
+  final bool aiEstimated;
+
+  /// Free-text serving size, e.g. "1 cup (160 g)".
+  final String? portion;
+
   Map<String, dynamic> toJson() => {
     'id': id,
     'name': name,
@@ -39,6 +47,8 @@ class FoodEntry {
     'loggedAt': loggedAt.toIso8601String(),
     'imagePath': imagePath,
     'macrosEstimated': macrosEstimated,
+    'aiEstimated': aiEstimated,
+    'portion': portion,
   };
 
   factory FoodEntry.fromJson(Map<String, dynamic> json) => FoodEntry(
@@ -52,5 +62,8 @@ class FoodEntry {
     loggedAt: DateTime.parse(json['loggedAt'] as String),
     imagePath: json['imagePath'] as String?,
     macrosEstimated: json['macrosEstimated'] as bool? ?? false,
+    // Entries saved before these fields existed default to none.
+    aiEstimated: json['aiEstimated'] as bool? ?? false,
+    portion: json['portion'] as String?,
   );
 }
