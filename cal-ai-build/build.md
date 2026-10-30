@@ -142,7 +142,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
   - The meal is already chosen when opened from a meal's ＋.
   - Food is logged on the day being viewed on Home.
   - If protein, carbs and fat are all left blank, they are **estimated from calories** and the entry is marked "(est.)".
-- **Scan:** "Scan a photo" opens the camera or gallery, and the chosen photo goes back into the Add Food form.
+- **Scan:** the Scan screen opens the camera or gallery. From Add Food's "Scan a photo" button the chosen photo goes back into that form; from the camera button's chooser it opens a new Add Food form with the photo attached.
 
 ### Steps
 - **Source:** the `pedometer` package reports steps since the phone was last switched on. The app saves a starting count each day and uses "now − start".
