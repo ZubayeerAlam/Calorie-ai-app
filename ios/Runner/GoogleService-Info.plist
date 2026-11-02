@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyBy9Oxx5X4_KXOCzVUxxHMgrWXuHvosG3k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>775866955663</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.calAiApp</string>
+	<key>PROJECT_ID</key>
+	<string>cal-ai-app-c32f8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cal-ai-app-c32f8.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:775866955663:ios:1d81da9c21b95182ad7dfa</string>
+</dict>
+</plist>
