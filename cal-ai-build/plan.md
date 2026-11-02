@@ -127,7 +127,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - **Changed from the original plan:** no separate `/add-manually` route yet. The manual option opens the existing Add Food form. The `/add-manually` screen (description plus optional details, AI-generated nutrition) is built in feature 14, and the current form stays as "Enter numbers myself".
 - **Works without AI:** nothing here needs Firebase. Features 13 and 14 add the AI analysis behind these two options.
 
-### 13. AI analysis of a food photo (camera option) 🟡 built, real AI pending Firebase
+### 13. AI analysis of a food photo (camera option) ✅ real AI
 - **Goal:** from a photo, the AI returns what the food is and its nutrition, then the user reviews and saves.
 - **Flow (working now):**
   1. Camera button → **Scan with camera** → take or pick a photo → **Use this photo**.
@@ -143,10 +143,12 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - `FoodAnalysis` / `AnalyzedFoodItem` models with strict parsing of the AI reply (`lib/features/food_scan/data/models/food_analysis.dart`). Expected reply shape: `{ "isFood": true, "items": [ { "name", "portion", "calories", "protein", "carbs", "fat" } ] }`.
   - `FoodAnalysisController` (one per screen) and the screen widgets: loading, review, error, editable item card, meal picker, demo notice.
   - `FoodEntry` now stores `aiEstimated` and `portion` (older entries load with none).
-- **Not real AI yet:** the app uses `DemoFoodAnalysisService`, which does **not** look at the photo. It returns one of three sample meals after 1.5 s, and the review screen shows a yellow "Demo result" notice so samples are never mistaken for a real analysis.
-- **To finish after Firebase (feature 15):** write one class that implements `FoodAnalysisService` (send the photo through Firebase to the AI, parse the reply with `FoodAnalysis.fromJson`, map errors to `FoodAnalysisFailure`), then pass it to `CalAiApp(foodAnalysis: …)` in `main.dart`. Nothing else changes.
+- **Real AI (2026-11-02):** `FirebaseFoodAnalysisService` (`lib/core/services/firebase_food_analysis_service.dart`) sends the photo to Gemini (`gemini-3.5-flash-lite`, set in `AppConstants.foodAnalysisModel`) through Firebase AI Logic, asks for JSON in the reply shape above (response schema, temperature 0.2), and parses it with `FoodAnalysis.fromJson`. Errors map to `FoodAnalysisFailure` (no connection or a 45 s timeout → network; empty or non-JSON reply → invalidResponse). `main.dart` passes it to `CalAiApp(foodAnalysis: …)`.
+- **Photo size:** the picker resizes photos to at most 1600 px (`AppConstants.imageMaxDimension`, quality 80), which keeps the AI request small.
+- **Demo service kept for tests:** `DemoFoodAnalysisService` is still the default in `CalAiApp`, so widget tests never call the real AI.
+- **Not yet checked:** a real photo on the emulator (the text flow, feature 14, was checked end to end).
 
-### 14. AI from manually entered details (manual option) 🟡 built, real AI pending Firebase
+### 14. AI from manually entered details (manual option) ✅ real AI
 - **Goal:** the user types the food details and the AI generates the nutrition data.
 - **Flow (working now):**
   1. Camera button → **Add manually** → the `/add-manually` screen: "What did you eat?" (e.g. "2 scrambled eggs, toast with butter, black coffee").
@@ -160,10 +162,9 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - `FoodDescription` model (`lib/features/food_scan/data/models/food_description.dart`) and `analyzeText()` on `FoodAnalysisService`.
   - `AnalysisRequest` (photo or text) so `FoodAnalysisController` and all analysis screens are shared by both flows.
   - `ManualEntryScreen`, `DetailField`, `DescriptionSummary`.
-- **Not real AI yet:** `DemoFoodAnalysisService.analyzeText` splits the description into foods (commas, "and", new lines) and gives each **sample** numbers. The review shows a "Demo result … sample numbers" notice.
-- **To finish after Firebase (feature 15):** the same class that implements `analyzePhoto` also implements `analyzeText`: send `description.toJson()` to the AI and parse the reply with `FoodAnalysis.fromJson`.
+- **Real AI (2026-11-02):** `FirebaseFoodAnalysisService.analyzeText` sends the description and details to Gemini. Checked on the Android emulator: "2 scrambled eggs, 1 slice buttered toast, tea with milk" → 3 items (148 + 135 + 20 kcal = 303 kcal) with portions and macros.
 
-### 15. Firebase — you implement this 🟡 in progress (checked 2026-11-01)
+### 15. Firebase — you implement this 🟡 code done, Console steps left (checked 2026-11-02)
 - **Who:** you set up Firebase yourself. I don't add Firebase packages or config.
 - **Firebase project:** `cal-ai-app-c32f8`.
 
@@ -174,38 +175,69 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - [x] **Initialise Firebase** in `lib/main.dart`, before `LocalStorageService.init()`. Tests are unaffected (they build `CalAiApp` directly and never run `main()`).
 - [x] **Run on Android:** checked on the Android 17 emulator (Pixel 10a). The log shows `FirebaseApp initialization successful`, and the app opens normally with the saved profile.
 - [ ] **Run on iOS:** run once on the iOS simulator (the first build downloads the Firebase SDK and takes a few minutes).
-- [ ] **Cloud Firestore:** create the database (none exists yet; `firebase firestore:databases:list` shows "No databases found"). Pick the location (e.g. `asia-south1`), production mode, then publish the per-user rules (`users/{uid}/…`).
-- [ ] **Authentication:** enable Email/Password (Google optional). Not checkable from the CLI; confirm in the Console.
-- [ ] **Firebase AI Logic:** enable it with the Gemini Developer API. Confirm in the Console.
+- [ ] **Cloud Firestore (you):** create the database (none exists yet). Pick the location (e.g. `asia-south1`) and production mode, then publish the rules in [`firestore.rules`](../firestore.rules): paste them into Console → Firestore → Rules, or run `firebase deploy --only firestore:rules` (`firebase.json` now points at the file).
+- [ ] **Authentication (you):** Console → Authentication → Sign-in method → enable **Email/Password**. Until then, sign-in shows "Email sign-in isn't turned on for this app yet."
+- [x] **Sign-in, log out and cloud sync (code, 2026-11-02):** built and tested with fakes; not yet checked against the real Firebase (waits for the two items above). See "Accounts and sync" below.
+- [x] **Firebase AI Logic:** enabled with the Gemini Developer API; the app uses it through `firebase_ai` (`^5.1.0`).
+- [x] **App Check** (`firebase_app_check` `^0.5.1`): enforced for AI Logic, so only this app can call the AI. Activated in `main.dart` after `Firebase.initializeApp`:
+  - Debug builds use the debug provider. The emulator's debug token is registered as "Pixel emulator" on the Android app. A new device or a reinstall prints a new token in the log (`DebugAppCheckProvider`); register it with `firebase appcheck:debugtokens:create <token> --display-name "<name>" --project cal-ai-app-c32f8 --app <app id>`.
+  - Release builds use Play Integrity (Android) and App Attest with DeviceCheck fallback (iOS).
+  - The debug SHA-256 fingerprint was added to the Android app in Project settings.
 - [ ] **Commit** the new config files together with the Gradle and Xcode project changes.
+
+**Accounts and sync (built 2026-11-02)**
+- **Optional:** the app works without an account, as before. Packages: `firebase_auth` `^7.0.1`, `cloud_firestore` `^7.1.0`.
+- **Where to sign in:**
+  - Account tab → "Back up your data" → **Sign in or create account** (`/sign-in`): email and password, "Forgot password?", and a switch between sign-in and create account.
+  - First onboarding step → **Already have an account? Sign in**, to restore an account on a new phone; a restored profile skips onboarding.
+- **Signed in:** the Account card shows the email, "Backed up and synced to your account", and **Log out**. Logging out asks first, then clears this phone and returns to onboarding; the data stays in the account.
+- **How sync works** (`SyncService`, `lib/features/account/data/sync_service.dart`):
+  - Local storage stays the source the app reads (works offline). Every local change is copied to Firestore; offline writes are sent later.
+  - Firestore layout: `users/{uid}/data/{storageKey}` (profile, goals, activity, weight log, steps) and `users/{uid}/food_entries/{id}`.
+  - **Signing in merges:** food entries are combined by id; day-by-day logs are merged per day (the cloud wins on the same day); profile and targets come from the cloud if it has them. What's on this phone is uploaded, so nothing is lost when you create an account.
+  - At app start a signed-in user is merged again (or just keeps syncing if offline).
+  - If the backup can't be read during sign-in (offline, or Firestore not created), sign-in is undone with a clear message.
+- **Not synced:** device-only data (the step sensor baseline, Health imports, the Health switch) and meal photos (only the file path is stored, so photos show a placeholder on another phone).
+- **Known limitation:** an entry deleted on one phone comes back from another phone that still has it, the next time that phone connects.
 
 **Notes**
 - **App IDs:** the apps were registered with the default IDs, `com.example.cal_ai_app` (Android) and `com.example.calAiApp` (iOS). That's fine for development, but the Play Store rejects `com.example`, so before publishing you'll change the ID and run `flutterfire configure` again.
 - **Extra platforms:** web and Windows were also registered, and a macOS config file was written. The app only targets Android and iOS; these are harmless and can stay or be removed from the Console.
+- **Before release (App Check):** add the Play Console **app signing** SHA-256 to the Android app, register App Attest for the iOS app, and delete the debug tokens. Without this, release builds get "App Check token is invalid" from the AI.
+- **Debug tokens are secrets:** never put one in code or commit it.
 - **Cloud Storage** (photo sync) is optional and needs the Blaze plan; not needed for AI analysis.
 
 **When you're done, tell me and we will:**
-- connect `FoodAnalysisService` to the real AI (Firebase AI Logic `analyzePhoto` and `analyzeText`, parsed by `FoodAnalysis.fromJson`), replacing the demo service;
-- add sign-in screens and logout;
-- connect the repositories to Firestore (local cache + remote) and move existing on-device data to the account.
+- ~~connect `FoodAnalysisService` to the real AI~~ ✅ done (features 13 and 14);
+- ~~add sign-in screens and logout~~ ✅ built (see "Accounts and sync");
+- ~~connect the repositories to Firestore and move existing on-device data to the account~~ ✅ built.
 
 **Prepared beforehand:** every data class is behind a repository (`FoodLogRepository`, `ActivityLogRepository`, `StepLogRepository`, `ProfileProvider`), and the AI is behind `FoodAnalysisService`, so each backend swap is contained.
 
-### 16. Apple Health / Health Connect ⬜
+### 16. Apple Health / Health Connect ✅ (2026-11-02)
 - **Goal:** accurate steps for the whole day, and imported workouts for the Activity number.
-- **Tasks:**
-  - Add the `health` package.
-  - Set up the iOS HealthKit capability and Android Health Connect permissions.
-  - Use it as the step source, with `pedometer` as a fallback.
-- **Fixes:** today, steps are only counted from the first time the app is opened each day.
+- **Built:**
+  - `health` `^13.3.2` behind `HealthService` (`lib/core/services/health_service.dart`); tests use `FakeHealthService`.
+  - **Account tab → Health Connect / Apple Health card:** Connect asks for read access to steps and workouts (Android also calorie records). Then the last 30 days are imported, and the last 7 days again on every app start, return to the app, and Tracker open. Disconnect removes the imported numbers. On Android without Health Connect it offers **Install**.
+  - **Steps:** a day's steps are the higher of the phone sensor (`pedometer`) and Health, so steps walked before opening the app now count.
+  - **Workouts:** their calories are added to **Activity** on Home, next to what you log by hand (the Log activity sheet says "Plus N kcal from workouts in Health").
+- **Platform setup:**
+  - Android: `minSdk` 26; `READ_STEPS`, `READ_EXERCISE`, `READ_TOTAL_CALORIES_BURNED`; the Health Connect queries, permission-rationale intent filter and `ViewPermissionUsageActivity` alias in the manifest; `MainActivity` is now a `FlutterFragmentActivity`.
+  - iOS: `NSHealthShareUsageDescription` / `NSHealthUpdateUsageDescription` in `Info.plist`, and the HealthKit entitlement (`ios/Runner/Runner.entitlements`, linked in the Xcode project).
+- **Checked:** on the Android emulator the Connect button opens Health Connect's permission screen, and "Don't allow" returns to Connect. Granting access with real data and iOS are not yet checked.
+- **Before release:** Google Play reviews apps that read Health Connect data and needs a privacy policy; the permission screen's "privacy policy" link currently opens the app.
 
-### 17. Tracker tab (now includes the trend charts) ⬜
+### 17. Tracker tab (now includes the trend charts) ✅ (2026-11-02)
 - **Goal:** history of meals and weight, plus the trends that Insights was going to show.
-- **Tasks:**
-  - A weight log (add today's weight, see the list).
-  - Daily history with totals.
-  - Update the profile weight, which recalculates the targets.
-  - Weekly and monthly charts inside Tracker: calories vs target, macro breakdown, steps, weight trend, streaks.
+- **Built** (`lib/features/tracker/`):
+  - **Week / Month** switch (last 7 or 30 days, ending today).
+  - **Summary tiles:** day streak (days in a row with food logged; today doesn't break it until it's over), average kcal on logged days, and days on target (within ±10 % of the calorie target).
+  - **Weight:** current weight, change in the period, a trend line, and **+ Log** for today's weight (kg or lb, as chosen in onboarding). The newest weigh-in becomes the profile weight, so the targets are recalculated (unless customized on Account). The onboarding weight is the first point. Stored as `weight_log`.
+  - **Calories:** a bar per day against a dashed target line, coloured on target / under / over.
+  - **Macros:** average protein, carbs and fat per logged day against the targets.
+  - **Steps:** a bar per day, with the average and total.
+  - **History:** each logged day with kcal / target and macros; tap a day to open it on Home.
+- **Charts** are simple custom widgets (`BarChart`, `LineChart`), so no chart package was added.
 
 ### 18. Notifications and reminders ⬜
 - **Goal:** make the bell on Home do something, and remind users to log meals.
@@ -217,9 +249,9 @@ These are agreed and will be built later, in the order shown under "Suggested or
 ### 19. Account management ⬜
 - **Goal:** edit the profile and manage data.
 - **Tasks:**
-  - Edit name, weight, height, goal and activity (targets recalculate).
+  - Edit name, height, goal and activity (targets recalculate). Weight is already logged on Tracker (17).
   - Unit preference.
-  - "Reset all data" now; log out after Firebase sign-in (feature 15).
+  - "Reset all data". (Log out is built, feature 15.)
 
 ### 20. Food database and barcode ⬜
 - **Goal:** faster logging.
@@ -241,16 +273,14 @@ These are agreed and will be built later, in the order shown under "Suggested or
 ---
 
 ## Suggested order
-1. **Follow-ups:** commit, real-phone test, save the dinner time.
-2. **Camera bar and chooser (11, 12).** No Firebase needed.
-3. **AI screens with a demo service (13 ✅, 14 ✅).** Both flows are built and work end to end on the demo service.
-4. **Account management (19).** Small, and makes weight changes possible.
-5. **Tracker with charts (17).**
-6. **Firebase (15), done by you — in progress.** Remaining: create Firestore, enable Auth and AI Logic (Console). Then we connect the real AI, sign-in and sync.
-7. **Health Connect / HealthKit (16).**
+1. **Follow-ups:** commit, real-phone test.
+2. **Camera bar and chooser (11 ✅, 12 ✅).**
+3. **AI screens (13 ✅, 14 ✅).** Both flows use the real Gemini AI through Firebase AI Logic.
+4. **Tracker with charts (17 ✅).** Weight logging now updates the profile weight.
+5. **Firebase (15) — code done; your Console steps left:** create Firestore and publish `firestore.rules`, enable Email/Password, then we check sign-in and sync for real. Also run on iOS.
+6. **Health Connect / HealthKit (16 ✅).** Check with real data and on iOS.
+7. **Account management (19):** editing the rest of the profile (height, activity, goals, dinner time) and "Reset all data".
 8. **Notifications (18), food database (20), Articles (21), polish (22).**
 
 ## Open questions
-- **Insights charts:** is it OK for them to live inside Tracker, as planned in feature 17?
-- **AI provider:** Firebase AI Logic with the Gemini Developer API is the planned route (free tier). Confirm once you've enabled it in the Console.
 - **Existing Add Food form:** keep it as the "Enter numbers myself" option under Manual (planned), or remove it?

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/date_utils.dart';
+import '../../../../core/utils/number_format.dart';
 import '../../../activity/providers/activity_log_provider.dart';
 import '../../../food_log/data/models/food_entry.dart';
 import '../../../food_log/presentation/meal_type_labels.dart';
@@ -52,16 +53,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   static String? _walkingCaption(ActivityLogProvider activity, int steps) =>
       switch (activity.stepStatus) {
-        StepTrackingStatus.tracking => '${_withCommas(steps)} steps',
+        StepTrackingStatus.tracking => '${AppNumbers.thousands(steps)} steps',
         StepTrackingStatus.denied => 'Allow step access',
         StepTrackingStatus.unavailable => 'No step sensor',
         StepTrackingStatus.off => null,
       };
-
-  static String _withCommas(int n) => n.toString().replaceAllMapped(
-    RegExp(r'\B(?=(\d{3})+(?!\d))'),
-    (_) => ',',
-  );
 
   Future<void> _pickDate(BuildContext context, FoodLogProvider log) async {
     final picked = await showDatePicker(
@@ -82,6 +78,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       context,
       date: date,
       initialKcal: activity.burnedOn(date),
+      importedKcal: activity.workoutKcalOn(date),
     );
     if (kcal != null) await activity.setBurned(date, kcal);
   }
@@ -169,7 +166,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               activity,
                               activity.stepsOn(date),
                             ),
-                            activity: activity.burnedOn(date),
+                            activity: activity.activityOn(date),
                             onAddActivity: () =>
                                 _logActivity(context, activity, date),
                           ),

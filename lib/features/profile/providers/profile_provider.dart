@@ -25,6 +25,7 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   final LocalStorageService? _storage;
+  late final ValueNotifier<bool> _onboarded = ValueNotifier(isOnboarded);
   UserProfile? _profile;
   UserGoals _goals;
   bool _goalsCustomized;
@@ -32,6 +33,23 @@ class ProfileProvider extends ChangeNotifier {
   UserProfile? get profile => _profile;
   UserGoals get goals => _goals;
   bool get isOnboarded => _profile != null;
+
+  /// Changes only when [isOnboarded] does. The router listens to this
+  /// rather than every profile change, so a weight or target update never
+  /// reshuffles the screens that are open.
+  ValueListenable<bool> get onboardedListenable => _onboarded;
+
+  @override
+  void notifyListeners() {
+    _onboarded.value = isOnboarded;
+    super.notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _onboarded.dispose();
+    super.dispose();
+  }
 
   /// True once the user edits targets on Account; recalculation then stops
   /// until they reset to the recommended values.
@@ -54,6 +72,17 @@ class ProfileProvider extends ChangeNotifier {
     _saveGoals();
   }
 
+  /// A new body weight (logged on Tracker). Targets follow it unless they
+  /// were customized.
+  void updateWeight(double weightKg) {
+    final profile = _profile;
+    if (profile == null || profile.weightKg == weightKg) return;
+    _profile = profile.copyWith(weightKg: weightKg);
+    _storage?.setJson(StorageKeys.userProfile, _profile!.toJson());
+    _syncGoalsWithProfile();
+    notifyListeners();
+  }
+
   /// A hand edit (e.g. the calorie slider on Account).
   void updateGoals(UserGoals goals) {
     _goals = goals;
@@ -70,6 +99,18 @@ class ProfileProvider extends ChangeNotifier {
     _goalsCustomized = false;
     notifyListeners();
     _saveGoals();
+  }
+
+  /// Re-reads profile and targets from storage, e.g. after cloud data was
+  /// downloaded or everything was cleared on log out.
+  void reload() {
+    final storage = _storage;
+    if (storage == null) return;
+    _profile = _loadProfile(storage);
+    _goals = _loadGoals(storage) ?? const UserGoals();
+    _goalsCustomized = storage.getBool(StorageKeys.goalsCustomized) ?? false;
+    _syncGoalsWithProfile();
+    notifyListeners();
   }
 
   /// Keeps targets in step with the profile and the current calculator,

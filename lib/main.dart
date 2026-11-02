@@ -4,7 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'app.dart';
+import 'core/services/auth_service.dart';
+import 'core/services/cloud_store.dart';
 import 'core/services/firebase_food_analysis_service.dart';
+import 'core/services/health_service.dart';
 import 'core/services/local_storage_service.dart';
 import 'firebase_options.dart';
 
@@ -24,8 +27,15 @@ Future<void> main() async {
         : const AppleAppAttestWithDeviceCheckFallbackProvider(),
   );
   final storage = await LocalStorageService.init();
-  // Real Gemini analysis; the app's default (used by tests) is the demo.
+  // The real services; the app's defaults (used by tests) are the demo AI
+  // and no Health or accounts.
   runApp(
-    CalAiApp(storage: storage, foodAnalysis: FirebaseFoodAnalysisService()),
+    CalAiApp(
+      storage: storage,
+      foodAnalysis: FirebaseFoodAnalysisService(),
+      health: HealthPluginService(),
+      auth: FirebaseAuthService(),
+      cloudStore: FirestoreCloudStore(),
+    ),
   );
 }

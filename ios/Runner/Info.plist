@@ -70,6 +70,10 @@
 	<string>Cal AI uses the camera to photograph your meals for calorie tracking.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Cal AI accesses your photo library so you can log meals from existing photos.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Cal AI reads your steps and workouts from Apple Health to count the calories you burn.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Cal AI does not write to Apple Health; this is required by the Health permission screen.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Cal AI counts your steps to estimate the calories you burn walking.</string>
 </dict>

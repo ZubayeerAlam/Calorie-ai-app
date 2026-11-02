@@ -58,6 +58,21 @@ class UserProfile {
     return years;
   }
 
+  UserProfile copyWith({double? weightKg}) => UserProfile(
+    name: name,
+    gender: gender,
+    birthday: birthday,
+    heightCm: heightCm,
+    weightKg: weightKg ?? this.weightKg,
+    goal: goal,
+    activityLevel: activityLevel,
+    dietType: dietType,
+    useMetric: useMetric,
+    dinnerHour: dinnerHour,
+    dinnerMinute: dinnerMinute,
+    focuses: focuses,
+  );
+
   double get bmi => weightKg / ((heightCm / 100) * (heightCm / 100));
 
   Map<String, dynamic> toJson() => {

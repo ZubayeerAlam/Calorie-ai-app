@@ -1,6 +1,6 @@
 # Cal AI — Build Status
 
-_Last updated: 2026-10-30 · 76 tests passing · `flutter analyze`: no issues_
+_Last updated: 2026-11-02 · 125 tests passing · `flutter analyze`: no issues_
 
 What the app is **right now**. For what's done and what's next, see the roadmap in [plan.md](plan.md).
 
@@ -27,6 +27,8 @@ The UI follows the provided "Nutrio" mockups: brand green `#A3CE50`, the **Outfi
 | Local storage | `shared_preferences` |
 | Step counting | `pedometer` |
 | Photos and permissions | `image_picker`, `permission_handler` |
+| Firebase | `firebase_core`, `firebase_ai` (Gemini through AI Logic), `firebase_app_check`, `firebase_auth` (optional sign-in), `cloud_firestore` (cloud backup and sync) |
+| Health | `health` (Apple Health / Health Connect: steps and workouts) |
 | Font | Outfit (bundled in `assets/fonts/`) |
 
 ## 3. Architecture
@@ -41,15 +43,18 @@ lib/
     constants/           # AppConstants (app name, defaults)
     routes/              # AppRoutes (paths), app_router.dart (GoRouter)
     services/            # LocalStorageService, PermissionService,
-                         # ImagePickerService, StepCounterService
+                         # ImagePickerService, StepCounterService, HealthService,
+                         # FoodAnalysisService, AuthService, CloudStore
     theme/               # AppColors, AppTheme
-    utils/               # CalorieCalculator, AppDates
+    utils/               # CalorieCalculator, AppDates, AppNumbers
   features/
     onboarding/          # provider, host screen, step pages, widgets
     dashboard/           # Home screen and its widgets (one per file)
     food_log/            # FoodEntry model, repository, provider, Add Food
     food_scan/           # Scan screen and provider (camera / gallery)
-    activity/            # activity kcal + daily steps (repositories, provider)
+    activity/            # activity kcal, daily steps, Health import (repositories, provider, Health card)
+    tracker/             # Tracker tab: weight log, stats, charts, history
+    account/             # sign-in screen, AccountProvider, SyncService, Account card
     profile/             # UserProfile/UserGoals models, provider, Account screen
     home/                # tab shell and the custom bottom navigation bar
   shared/widgets/        # ProgressRing, AddCircleButton, EmptyState, ComingSoonScreen
@@ -69,8 +74,10 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 |---|---|
 | `/onboarding` | Onboarding flow |
 | `/` | Home (dashboard) tab |
-| `/tracker`, `/articles` | Placeholder tabs that say "coming soon" |
-| `/account` | Account tab (profile and goals) |
+| `/tracker` | Tracker tab: week/month stats, weight, calories, macros, steps, history |
+| `/articles` | Placeholder tab that says "coming soon" |
+| `/account` | Account tab: account (sign in / log out), Health, goals |
+| `/sign-in` | Sign in or create an account (optional; also reachable from onboarding) |
 | `/add-food?meal=lunch&imagePath=…` | Add Food, shown on top of the tabs |
 | `/scan` | Scan a photo. With `?returnPhoto=true` (opened from Add Food) it sends the photo back; otherwise (opened from the camera chooser) it sends the photo for analysis |
 | `/add-manually` | Describe a meal in words (plus optional details) for AI analysis; "Enter numbers myself" opens Add Food |
@@ -78,7 +85,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 
 - **Tabs:** they use `StatefulShellRoute`, so each tab remembers its own screen.
 - **Bottom bar:** four tabs (Home, Tracker, Articles, Account) with a raised camera button in the middle. The camera button is an action, not a tab. It opens a chooser sheet with two options: **Scan with camera** (Scan screen, then AI analysis and review) and **Add manually** (describe the meal, then AI analysis and review).
-- **Redirect:** with no saved profile, every route goes to `/onboarding`. After onboarding, `/onboarding` sends you to `/`.
+- **Redirect:** with no saved profile, every route except `/sign-in` goes to `/onboarding`. After onboarding, `/onboarding` sends you to `/`. The router re-checks only when onboarding status changes (finishing onboarding, restoring an account, logging out).
 
 ## 5. Features built
 
@@ -146,14 +153,28 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
   - If protein, carbs and fat are all left blank, they are **estimated from calories** and the entry is marked "(est.)".
 - **Scan:** the Scan screen opens the camera or gallery. From Add Food's "Scan a photo" button the chosen photo goes back into that form; from the camera button's chooser it goes to the AI analysis.
 
-### AI analysis: photo and manual (demo for now)
+### AI analysis: photo and manual (real Gemini AI)
 - **Manual flow:** describe the meal ("2 eggs, toast and coffee") plus optional portion, cooking method, brand and ingredients → **Analyze with AI** → the same review as photos, with "You described" in place of the photo. Back from the review keeps your text; saving closes both screens. "Enter numbers myself" opens the classic form.
 - **Photo flow:** photo → "Analyzing your meal…" → a list of foods with portion, calories and macros → edit any value or remove items → pick the meal (suggested from the time of day) → **Add to <meal>**. Each item is saved as its own entry with the photo, marked "(AI estimate)".
 - **Errors:** "No food found" offers another photo or manual entry; connection and other errors offer "Try again" or manual entry.
-- **Demo service:** real AI needs Firebase, so the app uses `DemoFoodAnalysisService`. For photos it returns sample meals without looking at the photo; for text it splits the description into foods and gives sample numbers. The review shows a "Demo result" notice either way. Swapping in the real service is one class (see plan.md, features 13 and 14).
+- **Real AI:** `FirebaseFoodAnalysisService` sends the photo (resized to at most 1600 px) or the description to Gemini (`gemini-3.5-flash-lite`) through Firebase AI Logic and gets structured JSON back. No API key is in the app.
+- **App Check:** AI Logic only accepts requests from this app. Debug builds use a debug token registered in Firebase; release builds use Play Integrity / App Attest (see plan.md, feature 15).
+- **Demo service:** `DemoFoodAnalysisService` (sample results with a "Demo result" notice) is still the default in `CalAiApp`, so tests never call the real AI. `main.dart` passes the real service.
+
+### Tracker
+- **Week / Month:** summary tiles (streak, average kcal, days on target), weight with trend line and **+ Log**, calories per day against the target line, average macros, steps per day, and the history of logged days (tap one to open it on Home).
+- **Weight:** the newest weigh-in is the profile weight, so logging a weight recalculates the targets (unless customized).
+
+### Accounts and sync (optional)
+- **Sign in / create account** with email and password from the Account tab, or from the first onboarding step to restore an account.
+- **Sync:** local storage stays the source the app reads; while signed in every change is copied to Firestore (`users/{uid}/…`). Signing in merges this phone's data with the account's. **Log out** clears this phone and returns to onboarding.
+- Needs Firestore created and Email/Password enabled in the Console (plan.md, feature 15).
+
+### Health (Apple Health / Health Connect)
+- **Connect** on the Account tab imports steps and workout calories (last 30 days, then the last 7 days on each start/resume). A day's steps are the higher of the phone sensor and Health; workout kcal is added to Activity on Home.
 
 ### Steps
-- **Source:** the `pedometer` package reports steps since the phone was last switched on. The app saves a starting count each day and uses "now − start".
+- **Source:** the `pedometer` package reports steps since the phone was last switched on. The app saves a starting count each day and uses "now − start". With Health connected, the higher of this and Health's count is used.
   - On a new day, counting starts again from 0.
   - If the phone restarts, today's count carries on.
 - **Permissions:**
@@ -162,7 +183,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Walking line:** shows "x steps", or "Allow step access" / "No step sensor".
 
 ### Persistence
-- **What's saved:** the profile, goals, food log, activity kcal and daily steps are all saved locally.
+- **What's saved:** the profile, goals, food log, activity kcal, daily steps and the weight log are all saved locally, and copied to Firestore while signed in.
 - **Returning users** skip onboarding.
 - **Safety:** if saved data can't be read, it is deleted and the app falls back safely (for example, back to onboarding) instead of crashing.
 
@@ -176,14 +197,18 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `food_entries` | List of `FoodEntry` JSON |
 | `activity_kcal` | `{ "YYYY-MM-DD": kcal }` |
 | `walking_steps` | `{ "YYYY-MM-DD": steps }` |
-| `step_baseline` | `{ day, base, last }` used to turn the pedometer total into daily steps |
+| `step_baseline` | `{ day, base, last }` used to turn the pedometer total into daily steps (device only) |
+| `weight_log` | `{ "YYYY-MM-DD": kg }`, one weigh-in per day |
+| `health_connected` | `true` while Health is connected (device only) |
+| `health_steps` | `{ "YYYY-MM-DD": steps }` imported from Health (device only) |
+| `health_workout_kcal` | `{ "YYYY-MM-DD": kcal }` workouts imported from Health (device only) |
 
 ## 7. Design system
 - **Colours:** `AppColors` holds the brand green, text greys, card and background colours, and ring colours.
 - **Theme:** `AppTheme` uses the Outfit font with a green theme. The app is fixed to **light mode** (`themeMode: ThemeMode.light`).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton`, `EmptyState`, `ComingSoonScreen`.
 
-## 8. Tests (76 passing)
+## 8. Tests (125 passing)
 
 | File | Covers |
 |---|---|
@@ -195,8 +220,15 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/user_profile_test.dart` | Dinner time and focus goals saved and restored, defaults for older profiles, the "8:30 PM" label |
 | `test/onboarding_provider_test.dart` | Goal-step rules: at least one goal, weight goals exclude each other, focus goals combine |
 | `test/food_analysis_test.dart` | Parsing the AI reply (valid, not food, malformed), `FoodDescription`, the demo service for photos and text |
+| `test/firebase_food_analysis_service_test.dart` | The real service with a fake Gemini: photo bytes and image type, the text prompt, "no food", bad replies, no connection / timeout, other errors |
 | `test/food_analysis_controller_test.dart` | Analysis states, retry, editing/removing items, meal suggestion, saved entries, closing mid-analysis, text requests |
-| `test/fake_step_counter.dart`, `test/fake_image_picker.dart`, `test/fake_food_analysis_service.dart` | Fake step source, camera/gallery and AI used by the tests |
+| `test/tracker_stats_test.dart` | Days in a period, totals and averages, on target, streak, steps, weights and their change, chart labels |
+| `test/weight_log_test.dart` | Starting weight, logging updates the profile and targets, older weigh-ins, removing, custom targets kept |
+| `test/health_import_test.dart` | Connect / refuse / disconnect, imported steps and workouts, higher of sensor and Health, later syncs |
+| `test/sync_service_test.dart` | Upload to a new account, device-only keys, sign-in merge, copying later changes, disconnect, unreadable cloud |
+| `test/account_provider_test.dart` | Sign in, create account, wrong password, unreachable backup, log out, sync at start, Firebase error codes |
+| `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; Health connect |
+| `test/fake_*.dart` | Fake step source, camera/gallery, AI, Health, Auth and Firestore used by the tests |
 
 Run them with:
 
@@ -205,21 +237,21 @@ flutter test
 ```
 
 ## 9. Known limitations / not built yet
-- **AI analysis:** the photo and manual flows are built but use a demo service until Firebase is set up. Results are samples, clearly labelled.
-- **Steps:** counting starts the first time the app is opened each day. There is no Apple Health or Health Connect integration.
-- **Tabs:** Tracker and Articles are placeholders.
+- **AI analysis:** uses the real Gemini AI. The text flow is checked on the Android emulator; a real photo and the iOS simulator are not yet checked. Release builds need the Play Store signing SHA-256 and App Attest registered for App Check.
+- **Steps:** without Health connected, counting starts the first time the app is opened each day. Health import is checked up to the permission screen on Android; real data and iOS are not yet checked.
+- **Tabs:** Articles is a placeholder.
 - **Header:** the notification bell does nothing yet.
-- **Data:** there is no logout or "reset data" option.
+- **Data:** there is no "reset data" option yet (log out clears the phone when signed in). Profile details other than weight can't be edited yet (feature 19).
 - **Focus goals:** Gain muscle, Boost energy and Improve nutrition are saved and shown on Home, but don't change the calorie target yet. The diet type also doesn't affect macros.
 - **Visuals:** meal pictures are emoji placeholders, and dark mode is off.
-- **Backend:** there is no backend or account sync; data lives only on the device.
+- **Accounts and sync:** built and tested with fakes, but not yet against real Firebase (Firestore and Email/Password still need to be turned on). Meal photos aren't synced, and an entry deleted on one phone can come back from another.
 - **Testing:** checked with automated tests and test renders, but not yet on a physical device.
 
 ## 10. Next steps
 
 The full roadmap, with each feature's tasks, is in [plan.md](plan.md). The planned direction:
 
-- **Camera options:** both options (photo and manual) run the AI review flow on a demo service; real AI comes with Firebase (feature 15, which you're setting up).
+- **Camera options:** both options (photo and manual) run the AI review flow on the real Gemini AI.
 - **Camera button:** opens a chooser with two options: scan a food photo (AI analyses it) or add manually (AI generates the nutrition data from your details).
-- **Firebase (in progress):** the project `cal-ai-app-c32f8` exists and `flutterfire configure` has generated the config files. `firebase_core` is added and Firebase starts in `main.dart`. Still to do in the Console: create Firestore, and enable Auth and AI Logic. See plan.md, feature 15.
+- **Firebase:** the real AI, sign-in and sync are in the app. Still to do (you): create Firestore and publish `firestore.rules`, enable Email/Password, and run on iOS. See plan.md, feature 15.
 - **Before that:** commit the untracked files (the latest commit imports files that aren't in git yet, so a fresh clone won't build) and test on a real phone.

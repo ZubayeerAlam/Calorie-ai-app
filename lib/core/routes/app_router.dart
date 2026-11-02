@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../features/account/presentation/screens/sign_in_screen.dart';
 import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/food_log/data/models/food_entry.dart';
 import '../../features/food_log/presentation/screens/add_food_screen.dart';
@@ -17,22 +18,26 @@ import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/onboarding/providers/onboarding_provider.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/profile/providers/profile_provider.dart';
+import '../../features/tracker/presentation/screens/tracker_screen.dart';
 import '../../shared/widgets/coming_soon_screen.dart';
 import 'app_routes.dart';
 
 /// Builds the app's router.
 ///
-/// Until [profile] is onboarded every location redirects to onboarding;
-/// once it is, onboarding redirects to home. The router re-checks whenever
-/// [profile] notifies, so finishing onboarding moves the user on.
+/// Until [profile] is onboarded every location redirects to onboarding
+/// (except sign-in, to restore an account); once it is, onboarding
+/// redirects to home. The router re-checks whenever onboarding status
+/// changes, so finishing onboarding (or logging out) moves the user on.
 GoRouter createAppRouter(ProfileProvider profile) {
   return GoRouter(
     initialLocation: AppRoutes.home,
-    refreshListenable: profile,
+    refreshListenable: profile.onboardedListenable,
     redirect: (context, state) {
       final atOnboarding = state.matchedLocation == AppRoutes.onboarding;
       if (!profile.isOnboarded) {
-        return atOnboarding ? null : AppRoutes.onboarding;
+        final allowed =
+            atOnboarding || state.matchedLocation == AppRoutes.signIn;
+        return allowed ? null : AppRoutes.onboarding;
       }
       return atOnboarding ? AppRoutes.home : null;
     },
@@ -52,13 +57,7 @@ GoRouter createAppRouter(ProfileProvider profile) {
             HomeShell(navigationShell: navigationShell),
         branches: [
           _tab(AppRoutes.home, (_) => const DashboardScreen()),
-          _tab(
-            AppRoutes.tracker,
-            (_) => const ComingSoonScreen(
-              title: 'Tracker',
-              icon: Icons.grid_view_rounded,
-            ),
-          ),
+          _tab(AppRoutes.tracker, (_) => const TrackerScreen()),
           _tab(
             AppRoutes.articles,
             (_) => const ComingSoonScreen(
@@ -80,6 +79,11 @@ GoRouter createAppRouter(ProfileProvider profile) {
                 .asNameMap()[query[AppRoutes.mealParam]],
           );
         },
+      ),
+      // Optional account: sign in or create one (cloud backup and sync).
+      GoRoute(
+        path: AppRoutes.signIn,
+        builder: (context, state) => const SignInScreen(),
       ),
       // Describe a meal in words, then send it for AI analysis.
       GoRoute(

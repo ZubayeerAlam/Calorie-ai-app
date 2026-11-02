@@ -12,6 +12,7 @@ class DetailField extends StatelessWidget {
     this.maxLines = 1,
     this.onChanged,
     this.textInputAction = TextInputAction.next,
+    this.keyboardType,
   });
 
   final TextEditingController controller;
@@ -20,6 +21,7 @@ class DetailField extends StatelessWidget {
   final int maxLines;
   final ValueChanged<String>? onChanged;
   final TextInputAction textInputAction;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,12 @@ class DetailField extends StatelessWidget {
       onChanged: onChanged,
       minLines: maxLines > 1 ? 3 : 1,
       maxLines: maxLines,
-      textCapitalization: TextCapitalization.sentences,
+      keyboardType: keyboardType,
+      // Email addresses must not start with a capital letter.
+      textCapitalization: keyboardType == TextInputType.emailAddress
+          ? TextCapitalization.none
+          : TextCapitalization.sentences,
+      autocorrect: keyboardType != TextInputType.emailAddress,
       textInputAction: maxLines > 1 ? TextInputAction.newline : textInputAction,
       style: const TextStyle(fontSize: 16),
       decoration: InputDecoration(

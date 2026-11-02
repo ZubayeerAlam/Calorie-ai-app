@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../../account/providers/account_provider.dart';
 import '../../../profile/providers/profile_provider.dart';
 import '../../providers/onboarding_provider.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -100,6 +101,16 @@ class OnboardingScreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                        // Restore an existing account instead of starting over.
+                        if (onboarding.isFirstStep &&
+                            context.watch<AccountProvider>().isAvailable)
+                          TextButton(
+                            key: const ValueKey('onboarding-sign-in'),
+                            onPressed: () => context.push(AppRoutes.signIn),
+                            child: const Text(
+                              'Already have an account? Sign in',
+                            ),
+                          ),
                         const Divider(
                           height: 1,
                           thickness: 1,

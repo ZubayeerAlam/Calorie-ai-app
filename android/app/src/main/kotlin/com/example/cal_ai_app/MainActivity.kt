@@ -1,5 +1,6 @@
 package com.example.cal_ai_app
 
-import io.flutter.embedding.android.FlutterActivity
+// Health Connect's permission screen needs a FragmentActivity.
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+class MainActivity : FlutterFragmentActivity()

@@ -143,7 +143,8 @@ void main() {
     // Tabs on both sides of the camera still work.
     await tester.tap(find.text('Tracker'));
     await tester.pumpAndSettle();
-    expect(find.text('Tracker is coming soon'), findsOneWidget);
+    expect(find.text('Week'), findsOneWidget);
+    expect(find.text('Weight'), findsOneWidget);
 
     await tester.tap(find.text('Articles'));
     await tester.pumpAndSettle();

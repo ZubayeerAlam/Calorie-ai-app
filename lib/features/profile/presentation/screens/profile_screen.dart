@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/utils/calorie_calculator.dart';
+import '../../../account/presentation/widgets/account_card.dart';
+import '../../../activity/presentation/widgets/health_card.dart';
 import '../../providers/profile_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -22,6 +24,10 @@ class ProfileScreen extends StatelessWidget {
         // Extra bottom space so the raised camera button never covers content.
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 48),
         children: [
+          const AccountCard(),
+          const SizedBox(height: 12),
+          const HealthCard(),
+          const SizedBox(height: 16),
           Text(
             'Daily calorie goal: ${goals.dailyCalories} kcal',
             style: Theme.of(context).textTheme.titleMedium,

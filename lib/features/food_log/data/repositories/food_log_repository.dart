@@ -26,6 +26,9 @@ class FoodLogRepository {
         .toList();
   }
 
+  /// Every saved entry, e.g. for the Tracker's history and charts.
+  List<FoodEntry> allEntries() => _readAll();
+
   Future<void> add(FoodEntry entry) => _writeAll([..._readAll(), entry]);
 
   Future<void> remove(String id) =>
