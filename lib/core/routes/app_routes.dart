@@ -17,6 +17,7 @@ class AppRoutes {
   static const String addManually = '/add-manually';
   static const String onboarding = '/onboarding';
   static const String signIn = '/sign-in';
+  static const String editProfile = '/edit-profile';
 
   /// Query parameters for [addFood].
   static const String imagePathParam = 'imagePath';

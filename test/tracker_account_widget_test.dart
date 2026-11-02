@@ -301,6 +301,136 @@ void main() {
     });
   });
 
+  group('Account management', () {
+    testWidgets('edit the profile: name, height and goal update Home', (
+      tester,
+    ) async {
+      final storage = await _storage();
+      // Recommended targets, so they follow the edited profile.
+      await storage.setBool(StorageKeys.goalsCustomized, false);
+      await _pumpApp(tester, storage);
+      await _tap(tester, find.text('Account'));
+      expect(find.text('Sam'), findsOneWidget);
+      final before = find.textContaining('Daily calorie goal').evaluate();
+      final beforeText = (before.single.widget as Text).data;
+
+      await _tap(tester, find.byKey(const ValueKey('edit-profile')));
+      await tester.enterText(find.byKey(const ValueKey('edit-name')), 'Samira');
+      await tester.enterText(
+        find.byKey(const ValueKey('height-cm-input')),
+        '180',
+      );
+      await _tap(tester, find.text('🔥 Lose weight'));
+      await _tap(tester, find.byKey(const ValueKey('save-profile')));
+
+      expect(find.text('Profile saved'), findsOneWidget);
+      expect(find.text('Samira'), findsOneWidget);
+      expect(find.textContaining('180 cm'), findsOneWidget);
+      final afterText =
+          (find.textContaining('Daily calorie goal').evaluate().single.widget
+                  as Text)
+              .data;
+      expect(afterText, isNot(beforeText), reason: 'targets recalculated');
+
+      // Saved, and shown on Home.
+      final saved = UserProfile.fromJson(
+        storage.getJson(StorageKeys.userProfile)!,
+      );
+      expect(saved.name, 'Samira');
+      expect(saved.heightCm, 180);
+      expect(saved.goal, GoalType.lose);
+      await _tap(tester, find.text('Home'));
+      expect(find.textContaining('Samira'), findsWidgets);
+    });
+
+    testWidgets('height can be entered in feet and inches', (tester) async {
+      final storage = await _storage();
+      await _pumpApp(tester, storage);
+      await _tap(tester, find.text('Account'));
+      await _tap(tester, find.byKey(const ValueKey('edit-profile')));
+
+      await _tap(tester, find.text('lb · ft'));
+      // 170 cm is shown as 5 ft 7 in.
+      expect(find.text('5'), findsOneWidget);
+      expect(find.text('7'), findsOneWidget);
+      await tester.enterText(
+        find.byKey(const ValueKey('height-ft-input')),
+        '6',
+      );
+      await tester.enterText(
+        find.byKey(const ValueKey('height-in-input')),
+        '0',
+      );
+      await tester.pump();
+      await _tap(tester, find.byKey(const ValueKey('save-profile')));
+
+      final saved = UserProfile.fromJson(
+        storage.getJson(StorageKeys.userProfile)!,
+      );
+      expect(saved.heightCm, 183); // 72 in × 2.54
+      expect(saved.useMetric, isFalse);
+      expect(find.textContaining('6′0″'), findsOneWidget);
+    });
+
+    testWidgets('an impossible height or empty name cannot be saved', (
+      tester,
+    ) async {
+      await _pumpApp(tester, await _storage());
+      await _tap(tester, find.text('Account'));
+      await _tap(tester, find.byKey(const ValueKey('edit-profile')));
+      ElevatedButton save() =>
+          tester.widget(find.byKey(const ValueKey('save-profile')));
+
+      await tester.enterText(
+        find.byKey(const ValueKey('height-cm-input')),
+        '40',
+      );
+      await tester.pump();
+      expect(save().onPressed, isNull);
+      expect(find.textContaining('between 100 and 250 cm'), findsOneWidget);
+
+      await tester.enterText(
+        find.byKey(const ValueKey('height-cm-input')),
+        '165',
+      );
+      await tester.enterText(find.byKey(const ValueKey('edit-name')), '  ');
+      await tester.pump();
+      expect(save().onPressed, isNull);
+    });
+
+    testWidgets('reset all data starts over, and clears the account too', (
+      tester,
+    ) async {
+      final cloud = FakeCloudStore();
+      final storage = await _storage(food: [_food('a', 500, today)]);
+      await _pumpApp(tester, storage, auth: FakeAuthService(), cloud: cloud);
+      await _tap(tester, find.text('Account'));
+      await _tap(tester, find.byKey(const ValueKey('open-sign-in')));
+      await _tap(tester, find.byKey(const ValueKey('toggle-sign-in-mode')));
+      await tester.enterText(
+        find.byKey(const ValueKey('email-field')),
+        'sam@x.com',
+      );
+      await tester.enterText(
+        find.byKey(const ValueKey('password-field')),
+        'secret1',
+      );
+      await tester.pump();
+      await _tap(tester, find.byKey(const ValueKey('submit-sign-in')));
+      final uid = FakeAuthService.uidFor('sam@x.com');
+      expect(cloud.foodOf(uid), isNotEmpty);
+
+      await _tap(tester, find.byKey(const ValueKey('reset-data')));
+      expect(find.textContaining("You'll stay signed in"), findsOneWidget);
+      await _tap(tester, find.byKey(const ValueKey('confirm-reset')));
+
+      expect(find.text("What's your name?"), findsOneWidget);
+      expect(storage.getJson(StorageKeys.userProfile), isNull);
+      expect(cloud.foodOf(uid), isEmpty);
+      expect(cloud.valuesOf(uid), isEmpty);
+    });
+  });
+
   group('Health', () {
     testWidgets('connecting imports steps and workouts for Home', (
       tester,

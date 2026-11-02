@@ -5,6 +5,8 @@ import '../../../../core/utils/calorie_calculator.dart';
 import '../../../account/presentation/widgets/account_card.dart';
 import '../../../activity/presentation/widgets/health_card.dart';
 import '../../providers/profile_provider.dart';
+import '../widgets/profile_card.dart';
+import '../widgets/reset_data_button.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -22,8 +24,12 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Profile & Goals')),
       body: ListView(
         // Extra bottom space so the raised camera button never covers content.
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 48),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 64),
         children: [
+          if (profile.profile case final user?) ...[
+            ProfileCard(profile: user),
+            const SizedBox(height: 12),
+          ],
           const AccountCard(),
           const SizedBox(height: 12),
           const HealthCard(),
@@ -67,6 +73,8 @@ class ProfileScreen extends StatelessWidget {
             trailing: Text('${goals.carbs} g'),
           ),
           ListTile(title: const Text('Fat'), trailing: Text('${goals.fat} g')),
+          const SizedBox(height: 24),
+          const ResetDataButton(),
         ],
       ),
     );

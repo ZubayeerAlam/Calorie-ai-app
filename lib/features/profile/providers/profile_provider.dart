@@ -72,6 +72,16 @@ class ProfileProvider extends ChangeNotifier {
     _saveGoals();
   }
 
+  /// Saves an edited profile (Account → Edit profile). Targets follow the
+  /// new details unless they were customized.
+  void updateProfile(UserProfile profile) {
+    if (_profile == null) return;
+    _profile = profile;
+    _storage?.setJson(StorageKeys.userProfile, profile.toJson());
+    _syncGoalsWithProfile();
+    notifyListeners();
+  }
+
   /// A new body weight (logged on Tracker). Targets follow it unless they
   /// were customized.
   void updateWeight(double weightKg) {

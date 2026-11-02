@@ -16,6 +16,7 @@ import '../services/food_analysis_service.dart';
 import '../../features/home/presentation/screens/home_shell.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/onboarding/providers/onboarding_provider.dart';
+import '../../features/profile/presentation/screens/edit_profile_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/profile/providers/profile_provider.dart';
 import '../../features/tracker/presentation/screens/tracker_screen.dart';
@@ -84,6 +85,11 @@ GoRouter createAppRouter(ProfileProvider profile) {
       GoRoute(
         path: AppRoutes.signIn,
         builder: (context, state) => const SignInScreen(),
+      ),
+      // Account → Edit profile.
+      GoRoute(
+        path: AppRoutes.editProfile,
+        builder: (context, state) => const EditProfileScreen(),
       ),
       // Describe a meal in words, then send it for AI analysis.
       GoRoute(

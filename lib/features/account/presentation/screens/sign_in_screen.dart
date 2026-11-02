@@ -143,15 +143,19 @@ class _SignInScreenState extends State<SignInScreen> {
             decoration: InputDecoration(
               labelText: 'Password',
               helperText: _creating ? 'At least 6 characters' : null,
+              // Same look as the email field (DetailField).
               filled: true,
-              fillColor: AppColors.surface,
+              fillColor: AppColors.card,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.line),
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: AppColors.line),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(
+                  color: AppColors.primary,
+                  width: 1.5,
+                ),
               ),
               suffixIcon: IconButton(
                 tooltip: _showPassword ? 'Hide password' : 'Show password',

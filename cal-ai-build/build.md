@@ -1,6 +1,6 @@
 # Cal AI — Build Status
 
-_Last updated: 2026-11-02 · 125 tests passing · `flutter analyze`: no issues_
+_Last updated: 2026-11-02 · 129 tests passing · `flutter analyze`: no issues_
 
 What the app is **right now**. For what's done and what's next, see the roadmap in [plan.md](plan.md).
 
@@ -76,8 +76,9 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/` | Home (dashboard) tab |
 | `/tracker` | Tracker tab: week/month stats, weight, calories, macros, steps, history |
 | `/articles` | Placeholder tab that says "coming soon" |
-| `/account` | Account tab: account (sign in / log out), Health, goals |
+| `/account` | Account tab: profile (Edit), account (sign in / log out), Health, goals, Reset all data |
 | `/sign-in` | Sign in or create an account (optional; also reachable from onboarding) |
+| `/edit-profile` | Edit profile: name, units, height, birthday, gender, goals, activity, diet, dinner time |
 | `/add-food?meal=lunch&imagePath=…` | Add Food, shown on top of the tabs |
 | `/scan` | Scan a photo. With `?returnPhoto=true` (opened from Add Food) it sends the photo back; otherwise (opened from the camera chooser) it sends the photo for analysis |
 | `/add-manually` | Describe a meal in words (plus optional details) for AI analysis; "Enter numbers myself" opens Add Food |
@@ -168,7 +169,12 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 ### Accounts and sync (optional)
 - **Sign in / create account** with email and password from the Account tab, or from the first onboarding step to restore an account.
 - **Sync:** local storage stays the source the app reads; while signed in every change is copied to Firestore (`users/{uid}/…`). Signing in merges this phone's data with the account's. **Log out** clears this phone and returns to onboarding.
-- Needs Firestore created and Email/Password enabled in the Console (plan.md, feature 15).
+- Firestore is in `asia-south1` with per-user rules. Email/Password still needs turning on in the Console (plan.md, feature 15).
+- **Local testing:** `flutter run --dart-define=USE_FIREBASE_EMULATORS=true` uses the local Auth and Firestore emulators instead; see [emulator-testing.md](emulator-testing.md).
+
+### Account tab
+- **Profile card** with **Edit** → Edit profile; saving recalculates the targets unless they were set by hand. Weight is logged on Tracker.
+- **Reset all data** (with a confirmation) deletes everything and starts setup again; while signed in it also clears the account's copy.
 
 ### Health (Apple Health / Health Connect)
 - **Connect** on the Account tab imports steps and workout calories (last 30 days, then the last 7 days on each start/resume). A day's steps are the higher of the phone sensor and Health; workout kcal is added to Activity on Home.
@@ -208,7 +214,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Theme:** `AppTheme` uses the Outfit font with a green theme. The app is fixed to **light mode** (`themeMode: ThemeMode.light`).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton`, `EmptyState`, `ComingSoonScreen`.
 
-## 8. Tests (125 passing)
+## 8. Tests (129 passing)
 
 | File | Covers |
 |---|---|
@@ -227,7 +233,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/health_import_test.dart` | Connect / refuse / disconnect, imported steps and workouts, higher of sensor and Health, later syncs |
 | `test/sync_service_test.dart` | Upload to a new account, device-only keys, sign-in merge, copying later changes, disconnect, unreadable cloud |
 | `test/account_provider_test.dart` | Sign in, create account, wrong password, unreachable backup, log out, sync at start, Firebase error codes |
-| `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; Health connect |
+| `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; editing the profile (cm and ft/in, validation); Reset all data; Health connect |
 | `test/fake_*.dart` | Fake step source, camera/gallery, AI, Health, Auth and Firestore used by the tests |
 
 Run them with:
@@ -241,10 +247,9 @@ flutter test
 - **Steps:** without Health connected, counting starts the first time the app is opened each day. Health import is checked up to the permission screen on Android; real data and iOS are not yet checked.
 - **Tabs:** Articles is a placeholder.
 - **Header:** the notification bell does nothing yet.
-- **Data:** there is no "reset data" option yet (log out clears the phone when signed in). Profile details other than weight can't be edited yet (feature 19).
 - **Focus goals:** Gain muscle, Boost energy and Improve nutrition are saved and shown on Home, but don't change the calorie target yet. The diet type also doesn't affect macros.
 - **Visuals:** meal pictures are emoji placeholders, and dark mode is off.
-- **Accounts and sync:** built and tested with fakes, but not yet against real Firebase (Firestore and Email/Password still need to be turned on). Meal photos aren't synced, and an entry deleted on one phone can come back from another.
+- **Accounts and sync:** checked end to end on the local Firebase emulators, not yet on the real project (Email/Password still needs turning on). Meal photos aren't synced, and an entry deleted on one phone can come back from another.
 - **Testing:** checked with automated tests and test renders, but not yet on a physical device.
 
 ## 10. Next steps
@@ -253,5 +258,5 @@ The full roadmap, with each feature's tasks, is in [plan.md](plan.md). The plann
 
 - **Camera options:** both options (photo and manual) run the AI review flow on the real Gemini AI.
 - **Camera button:** opens a chooser with two options: scan a food photo (AI analyses it) or add manually (AI generates the nutrition data from your details).
-- **Firebase:** the real AI, sign-in and sync are in the app. Still to do (you): create Firestore and publish `firestore.rules`, enable Email/Password, and run on iOS. See plan.md, feature 15.
+- **Firebase:** the real AI, sign-in and sync are in the app, and Firestore is set up in Mumbai. Still to do (you): enable Email/Password and run on iOS. See plan.md, feature 15.
 - **Before that:** commit the untracked files (the latest commit imports files that aren't in git yet, so a fresh clone won't build) and test on a real phone.

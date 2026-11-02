@@ -61,6 +61,15 @@ class AccountProvider extends ChangeNotifier {
     _onDataChanged();
   }
 
+  /// Deletes everything and starts over with onboarding. While signed in
+  /// the account's copy is deleted too (sync copies the removals); the
+  /// account itself stays signed in.
+  Future<void> resetAllData() async {
+    await _storage.clear();
+    notifyListeners();
+    _onDataChanged();
+  }
+
   /// Throws [AuthException], or [SyncException] when the account's data
   /// can't be read (then it signs out again so nothing is half-linked).
   Future<void> _link(Future<AppUser> Function() authenticate) async {

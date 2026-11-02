@@ -164,7 +164,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - `ManualEntryScreen`, `DetailField`, `DescriptionSummary`.
 - **Real AI (2026-11-02):** `FirebaseFoodAnalysisService.analyzeText` sends the description and details to Gemini. Checked on the Android emulator: "2 scrambled eggs, 1 slice buttered toast, tea with milk" → 3 items (148 + 135 + 20 kcal = 303 kcal) with portions and macros.
 
-### 15. Firebase — you implement this 🟡 code done, Console steps left (checked 2026-11-02)
+### 15. Firebase — you implement this 🟡 one Console step left (checked 2026-11-02)
 - **Who:** you set up Firebase yourself. I don't add Firebase packages or config.
 - **Firebase project:** `cal-ai-app-c32f8`.
 
@@ -175,9 +175,9 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - [x] **Initialise Firebase** in `lib/main.dart`, before `LocalStorageService.init()`. Tests are unaffected (they build `CalAiApp` directly and never run `main()`).
 - [x] **Run on Android:** checked on the Android 17 emulator (Pixel 10a). The log shows `FirebaseApp initialization successful`, and the app opens normally with the saved profile.
 - [ ] **Run on iOS:** run once on the iOS simulator (the first build downloads the Firebase SDK and takes a few minutes).
-- [ ] **Cloud Firestore (you):** create the database (none exists yet). Pick the location (e.g. `asia-south1`) and production mode, then publish the rules in [`firestore.rules`](../firestore.rules): paste them into Console → Firestore → Rules, or run `firebase deploy --only firestore:rules` (`firebase.json` now points at the file).
+- [x] **Cloud Firestore:** the `(default)` database is in **`asia-south1` (Mumbai)**, with the per-user rules from [`firestore.rules`](../firestore.rules) published (`firebase deploy --only firestore:rules`). (A first deploy auto-created it in `nam5`; it was deleted while empty and recreated in Mumbai.)
 - [ ] **Authentication (you):** Console → Authentication → Sign-in method → enable **Email/Password**. Until then, sign-in shows "Email sign-in isn't turned on for this app yet."
-- [x] **Sign-in, log out and cloud sync (code, 2026-11-02):** built and tested with fakes; not yet checked against the real Firebase (waits for the two items above). See "Accounts and sync" below.
+- [x] **Sign-in, log out and cloud sync (code, 2026-11-02):** built, tested with fakes, and checked end to end on the Android emulator against the **local Firebase emulators** (real SDK and the same security rules): create account → profile, targets, weight log and meals in Firestore → log out (phone cleared) → sign in from onboarding → everything restored. How to repeat it: [emulator-testing.md](emulator-testing.md). Not yet tried against the real project (needs Email/Password turned on).
 - [x] **Firebase AI Logic:** enabled with the Gemini Developer API; the app uses it through `firebase_ai` (`^5.1.0`).
 - [x] **App Check** (`firebase_app_check` `^0.5.1`): enforced for AI Logic, so only this app can call the AI. Activated in `main.dart` after `Firebase.initializeApp`:
   - Debug builds use the debug provider. The emulator's debug token is registered as "Pixel emulator" on the Android app. A new device or a reinstall prints a new token in the log (`DebugAppCheckProvider`); register it with `firebase appcheck:debugtokens:create <token> --display-name "<name>" --project cal-ai-app-c32f8 --app <app id>`.
@@ -246,12 +246,12 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - Reminders for breakfast and lunch.
   - A notifications list behind the bell.
 
-### 19. Account management ⬜
+### 19. Account management ✅ (2026-11-02)
 - **Goal:** edit the profile and manage data.
-- **Tasks:**
-  - Edit name, height, goal and activity (targets recalculate). Weight is already logged on Tracker (17).
-  - Unit preference.
-  - "Reset all data". (Log out is built, feature 15.)
+- **Built:**
+  - **Profile card** at the top of the Account tab (name, age, height, weight, goal, activity) with **Edit**.
+  - **Edit profile** (`/edit-profile`): name, units (kg · cm / lb · ft), height (cm, or ft + in; 100–250 cm), birthday (age 13–100), gender, weight goal, focus goals, activity level, diet, dinner time. Weight is shown read-only; it's logged on Tracker (17). **Save** recalculates the targets unless they were set by hand, and is disabled for an empty name or impossible height.
+  - **Reset all data** at the bottom of Account, behind a confirmation: deletes the profile, meals, weight and activity and starts setup again. While signed in it also deletes the account's copy (you stay signed in). Log out is part of feature 15.
 
 ### 20. Food database and barcode ⬜
 - **Goal:** faster logging.
@@ -277,9 +277,9 @@ These are agreed and will be built later, in the order shown under "Suggested or
 2. **Camera bar and chooser (11 ✅, 12 ✅).**
 3. **AI screens (13 ✅, 14 ✅).** Both flows use the real Gemini AI through Firebase AI Logic.
 4. **Tracker with charts (17 ✅).** Weight logging now updates the profile weight.
-5. **Firebase (15) — code done; your Console steps left:** create Firestore and publish `firestore.rules`, enable Email/Password, then we check sign-in and sync for real. Also run on iOS.
+5. **Firebase (15) — done except one Console step:** Firestore is in Mumbai with rules, and sign-in/sync work on the local emulators. Left: turn on Email/Password (you), try it on the real project, run on iOS.
 6. **Health Connect / HealthKit (16 ✅).** Check with real data and on iOS.
-7. **Account management (19):** editing the rest of the profile (height, activity, goals, dinner time) and "Reset all data".
+7. **Account management (19 ✅).**
 8. **Notifications (18), food database (20), Articles (21), polish (22).**
 
 ## Open questions

@@ -58,19 +58,32 @@ class UserProfile {
     return years;
   }
 
-  UserProfile copyWith({double? weightKg}) => UserProfile(
-    name: name,
-    gender: gender,
-    birthday: birthday,
-    heightCm: heightCm,
+  UserProfile copyWith({
+    String? name,
+    Gender? gender,
+    DateTime? birthday,
+    int? heightCm,
+    double? weightKg,
+    GoalType? goal,
+    ActivityLevel? activityLevel,
+    DietType? dietType,
+    bool? useMetric,
+    int? dinnerHour,
+    int? dinnerMinute,
+    List<GoalFocus>? focuses,
+  }) => UserProfile(
+    name: name ?? this.name,
+    gender: gender ?? this.gender,
+    birthday: birthday ?? this.birthday,
+    heightCm: heightCm ?? this.heightCm,
     weightKg: weightKg ?? this.weightKg,
-    goal: goal,
-    activityLevel: activityLevel,
-    dietType: dietType,
-    useMetric: useMetric,
-    dinnerHour: dinnerHour,
-    dinnerMinute: dinnerMinute,
-    focuses: focuses,
+    goal: goal ?? this.goal,
+    activityLevel: activityLevel ?? this.activityLevel,
+    dietType: dietType ?? this.dietType,
+    useMetric: useMetric ?? this.useMetric,
+    dinnerHour: dinnerHour ?? this.dinnerHour,
+    dinnerMinute: dinnerMinute ?? this.dinnerMinute,
+    focuses: focuses ?? this.focuses,
   );
 
   double get bmi => weightKg / ((heightCm / 100) * (heightCm / 100));
