@@ -11,10 +11,14 @@ class ImagePickerService {
   Future<XFile?> pickFromCamera() => _picker.pickImage(
     source: ImageSource.camera,
     imageQuality: AppConstants.imageQuality,
+    maxWidth: AppConstants.imageMaxDimension,
+    maxHeight: AppConstants.imageMaxDimension,
   );
 
   Future<XFile?> pickFromGallery() => _picker.pickImage(
     source: ImageSource.gallery,
     imageQuality: AppConstants.imageQuality,
+    maxWidth: AppConstants.imageMaxDimension,
+    maxHeight: AppConstants.imageMaxDimension,
   );
 }

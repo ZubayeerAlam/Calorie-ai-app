@@ -163,21 +163,33 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - **Not real AI yet:** `DemoFoodAnalysisService.analyzeText` splits the description into foods (commas, "and", new lines) and gives each **sample** numbers. The review shows a "Demo result … sample numbers" notice.
 - **To finish after Firebase (feature 15):** the same class that implements `analyzePhoto` also implements `analyzeText`: send `description.toJson()` to the AI and parse the reply with `FoodAnalysis.fromJson`.
 
-### 15. Firebase — you implement this ⬜
-- **Who:** you set up Firebase yourself when we reach this step. I won't add Firebase packages or config before then.
-- **What the app needs from it** (so you know what to set up):
-  - **Authentication:** sign-in, so each user has their own data.
-  - **Cloud Firestore:** profile, goals, food log, activity and steps, synced across devices.
-  - **Cloud Storage:** food photos.
-  - **Server-side AI:** the AI calls for features 13 and 14 (`analyzePhoto` and `analyzeText`) go through Firebase (for example Firebase AI Logic or a Cloud Function), so the AI key is never inside the app.
-- **What we prepare beforehand:**
-  - Every data class is already behind a repository (`FoodLogRepository`, `ActivityLogRepository`, `StepLogRepository`, `ProfileProvider`), so storage can be swapped without changing screens.
-  - The `FoodAnalysisService` interface (built in feature 13), so the AI backend is one class to replace.
-- **When you're done:** tell me, and we will:
-  - connect the repositories to Firestore (local cache + remote);
-  - move existing on-device data to the account;
-  - add sign-in screens and the logout option;
-  - connect `FoodAnalysisService` to the real AI call.
+### 15. Firebase — you implement this 🟡 in progress (checked 2026-11-01)
+- **Who:** you set up Firebase yourself. I don't add Firebase packages or config.
+- **Firebase project:** `cal-ai-app-c32f8`.
+
+**Status**
+- [x] Firebase project created.
+- [x] `flutterfire configure` run. It registered apps for Android, iOS, web and Windows, and created `lib/firebase_options.dart`, `android/app/google-services.json`, `ios/Runner/GoogleService-Info.plist`, `macos/Runner/GoogleService-Info.plist` and `firebase.json`. The Android Google Services plugin (`com.google.gms.google-services` 4.4.4) was added to `android/settings.gradle.kts` and `android/app/build.gradle.kts`.
+- [x] **Add `firebase_core`** (`^5.1.0`). The analyzer errors in `lib/firebase_options.dart` are gone.
+- [x] **Initialise Firebase** in `lib/main.dart`, before `LocalStorageService.init()`. Tests are unaffected (they build `CalAiApp` directly and never run `main()`).
+- [x] **Run on Android:** checked on the Android 17 emulator (Pixel 10a). The log shows `FirebaseApp initialization successful`, and the app opens normally with the saved profile.
+- [ ] **Run on iOS:** run once on the iOS simulator (the first build downloads the Firebase SDK and takes a few minutes).
+- [ ] **Cloud Firestore:** create the database (none exists yet; `firebase firestore:databases:list` shows "No databases found"). Pick the location (e.g. `asia-south1`), production mode, then publish the per-user rules (`users/{uid}/…`).
+- [ ] **Authentication:** enable Email/Password (Google optional). Not checkable from the CLI; confirm in the Console.
+- [ ] **Firebase AI Logic:** enable it with the Gemini Developer API. Confirm in the Console.
+- [ ] **Commit** the new config files together with the Gradle and Xcode project changes.
+
+**Notes**
+- **App IDs:** the apps were registered with the default IDs, `com.example.cal_ai_app` (Android) and `com.example.calAiApp` (iOS). That's fine for development, but the Play Store rejects `com.example`, so before publishing you'll change the ID and run `flutterfire configure` again.
+- **Extra platforms:** web and Windows were also registered, and a macOS config file was written. The app only targets Android and iOS; these are harmless and can stay or be removed from the Console.
+- **Cloud Storage** (photo sync) is optional and needs the Blaze plan; not needed for AI analysis.
+
+**When you're done, tell me and we will:**
+- connect `FoodAnalysisService` to the real AI (Firebase AI Logic `analyzePhoto` and `analyzeText`, parsed by `FoodAnalysis.fromJson`), replacing the demo service;
+- add sign-in screens and logout;
+- connect the repositories to Firestore (local cache + remote) and move existing on-device data to the account.
+
+**Prepared beforehand:** every data class is behind a repository (`FoodLogRepository`, `ActivityLogRepository`, `StepLogRepository`, `ProfileProvider`), and the AI is behind `FoodAnalysisService`, so each backend swap is contained.
 
 ### 16. Apple Health / Health Connect ⬜
 - **Goal:** accurate steps for the whole day, and imported workouts for the Activity number.
@@ -234,11 +246,11 @@ These are agreed and will be built later, in the order shown under "Suggested or
 3. **AI screens with a demo service (13 ✅, 14 ✅).** Both flows are built and work end to end on the demo service.
 4. **Account management (19).** Small, and makes weight changes possible.
 5. **Tracker with charts (17).**
-6. **Firebase (15), done by you.** Then we connect sign-in, sync and the real AI calls.
+6. **Firebase (15), done by you — in progress.** Remaining: create Firestore, enable Auth and AI Logic (Console). Then we connect the real AI, sign-in and sync.
 7. **Health Connect / HealthKit (16).**
 8. **Notifications (18), food database (20), Articles (21), polish (22).**
 
 ## Open questions
 - **Insights charts:** is it OK for them to live inside Tracker, as planned in feature 17?
-- **AI provider:** which model or service will the Firebase side use (e.g. Gemini through Firebase AI Logic)? This only matters when we reach feature 15.
+- **AI provider:** Firebase AI Logic with the Gemini Developer API is the planned route (free tier). Confirm once you've enabled it in the Console.
 - **Existing Add Food form:** keep it as the "Enter numbers myself" option under Manual (planned), or remove it?

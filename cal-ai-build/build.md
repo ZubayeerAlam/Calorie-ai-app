@@ -221,5 +221,5 @@ The full roadmap, with each feature's tasks, is in [plan.md](plan.md). The plann
 
 - **Camera options:** both options (photo and manual) run the AI review flow on a demo service; real AI comes with Firebase (feature 15, which you're setting up).
 - **Camera button:** opens a chooser with two options: scan a food photo (AI analyses it) or add manually (AI generates the nutrition data from your details).
-- **Firebase:** you will set it up yourself when we reach that step; sign-in, sync and the AI calls depend on it.
+- **Firebase (in progress):** the project `cal-ai-app-c32f8` exists and `flutterfire configure` has generated the config files. `firebase_core` is added and Firebase starts in `main.dart`. Still to do in the Console: create Firestore, and enable Auth and AI Logic. See plan.md, feature 15.
 - **Before that:** commit the untracked files (the latest commit imports files that aren't in git yet, so a fresh clone won't build) and test on a real phone.
