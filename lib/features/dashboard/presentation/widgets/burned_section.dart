@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/add_circle_button.dart';
 import 'stat_column.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Walking | Activity kcal, with a + to log activity.
 class BurnedSection extends StatelessWidget {
@@ -31,12 +32,12 @@ class BurnedSection extends StatelessWidget {
           Expanded(
             child: StatColumn(
               emoji: '👣',
-              label: 'Walking',
+              label: l10n.walking,
               value: walking,
               caption: walkingCaption,
             ),
           ),
-          const VerticalDivider(width: 1, thickness: 1, color: AppColors.line),
+          VerticalDivider(width: 1, thickness: 1, color: AppColors.line),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +45,7 @@ class BurnedSection extends StatelessWidget {
                 Expanded(
                   child: StatColumn(
                     emoji: '💪',
-                    label: 'Activity',
+                    label: l10n.activity,
                     value: activity,
                   ),
                 ),
@@ -52,7 +53,7 @@ class BurnedSection extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 22),
                   child: AddCircleButton(
                     key: const ValueKey('add-activity'),
-                    tooltip: 'Log activity',
+                    tooltip: l10n.logActivity,
                     onPressed: onAddActivity,
                   ),
                 ),

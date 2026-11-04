@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/progress_ring.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Full-screen loader shown after the last setup step: a ring fills from
 /// 0% to 100%, then [onCompleted] fires. [onClose] backs out of it.
@@ -67,14 +68,14 @@ class _PersonalizingPageState extends State<PersonalizingPage>
             padding: const EdgeInsets.fromLTRB(12, 4, 0, 0),
             child: IconButton(
               onPressed: widget.onClose,
-              icon: const Icon(Icons.close, color: AppColors.textDark),
+              icon: Icon(Icons.close, color: AppColors.textDark),
             ),
           ),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.fromLTRB(32, 24, 32, 0),
           child: Text(
-            'Personalizing your ${AppConstants.appName}\nexperience...',
+            l10n.personalizing(AppConstants.appName),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24,
@@ -94,7 +95,7 @@ class _PersonalizingPageState extends State<PersonalizingPage>
                 trackColor: AppColors.track,
                 child: Text(
                   '${(_progress.value * 100).round()}%',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 48,
                     fontWeight: FontWeight.w500,
                     color: AppColors.textDark,
@@ -104,10 +105,10 @@ class _PersonalizingPageState extends State<PersonalizingPage>
             ),
           ),
         ),
-        const Padding(
+        Padding(
           padding: EdgeInsets.fromLTRB(48, 0, 48, 48),
           child: Text(
-            "Hang tight! We're crafting a personalized plan just for you.",
+            l10n.hangTight,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15,

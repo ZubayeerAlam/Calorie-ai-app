@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/utils/date_utils.dart';
+
 import '../data/models/user_profile.dart';
+import '../../../l10n/l10n.dart';
 
 extension GenderLabel on Gender {
   String get label => switch (this) {
-    Gender.male => 'Male',
-    Gender.female => 'Female',
-    Gender.other => 'Other',
+    Gender.male => l10n.genderMale,
+    Gender.female => l10n.genderFemale,
+    Gender.other => l10n.genderOther,
   };
 
   IconData get icon => switch (this) {
@@ -18,9 +21,9 @@ extension GenderLabel on Gender {
 
 extension GoalTypeLabel on GoalType {
   String get label => switch (this) {
-    GoalType.lose => 'Lose weight',
-    GoalType.maintain => 'Maintain weight',
-    GoalType.gain => 'Gain weight',
+    GoalType.lose => l10n.goalLose,
+    GoalType.maintain => l10n.goalMaintain,
+    GoalType.gain => l10n.goalGain,
   };
 
   IconData get icon => switch (this) {
@@ -38,9 +41,9 @@ extension GoalTypeLabel on GoalType {
 
 extension GoalFocusLabel on GoalFocus {
   String get label => switch (this) {
-    GoalFocus.gainMuscle => 'Gain muscle',
-    GoalFocus.boostEnergy => 'Boost energy',
-    GoalFocus.improveNutrition => 'Improve nutrition',
+    GoalFocus.gainMuscle => l10n.focusGainMuscle,
+    GoalFocus.boostEnergy => l10n.focusBoostEnergy,
+    GoalFocus.improveNutrition => l10n.focusImproveNutrition,
   };
 
   String get emoji => switch (this) {
@@ -52,17 +55,17 @@ extension GoalFocusLabel on GoalFocus {
 
 extension ActivityLevelLabel on ActivityLevel {
   String get label => switch (this) {
-    ActivityLevel.sedentary => 'Sedentary',
-    ActivityLevel.light => 'Lightly active',
-    ActivityLevel.moderate => 'Moderately active',
-    ActivityLevel.active => 'Very active',
+    ActivityLevel.sedentary => l10n.activitySedentary,
+    ActivityLevel.light => l10n.activityLight,
+    ActivityLevel.moderate => l10n.activityModerate,
+    ActivityLevel.active => l10n.activityActive,
   };
 
   String get description => switch (this) {
-    ActivityLevel.sedentary => 'Little or no exercise, desk job',
-    ActivityLevel.light => 'Light exercise 1–3 days a week',
-    ActivityLevel.moderate => 'Moderate exercise 3–5 days a week',
-    ActivityLevel.active => 'Hard exercise 6–7 days a week',
+    ActivityLevel.sedentary => l10n.activitySedentaryDesc,
+    ActivityLevel.light => l10n.activityLightDesc,
+    ActivityLevel.moderate => l10n.activityModerateDesc,
+    ActivityLevel.active => l10n.activityActiveDesc,
   };
 
   IconData get icon => switch (this) {
@@ -75,19 +78,19 @@ extension ActivityLevelLabel on ActivityLevel {
 
 extension DietTypeLabel on DietType {
   String get label => switch (this) {
-    DietType.classic => 'Classic',
-    DietType.vegetarian => 'Vegetarian',
-    DietType.vegan => 'Vegan',
-    DietType.pescatarian => 'Pescatarian',
-    DietType.keto => 'Keto',
+    DietType.classic => l10n.dietClassic,
+    DietType.vegetarian => l10n.dietVegetarian,
+    DietType.vegan => l10n.dietVegan,
+    DietType.pescatarian => l10n.dietPescatarian,
+    DietType.keto => l10n.dietKeto,
   };
 
   String get description => switch (this) {
-    DietType.classic => 'No restrictions',
-    DietType.vegetarian => 'No meat or fish',
-    DietType.vegan => 'No animal products',
-    DietType.pescatarian => 'Fish but no meat',
-    DietType.keto => 'High fat, very low carb',
+    DietType.classic => l10n.dietClassicDesc,
+    DietType.vegetarian => l10n.dietVegetarianDesc,
+    DietType.vegan => l10n.dietVeganDesc,
+    DietType.pescatarian => l10n.dietPescatarianDesc,
+    DietType.keto => l10n.dietKetoDesc,
   };
 
   IconData get icon => switch (this) {
@@ -105,26 +108,22 @@ extension UserProfileDisplay on UserProfile {
   static const double _cmPerInch = 2.54;
 
   String get weightLabel => useMetric
-      ? '${weightKg.toStringAsFixed(1)} kg'
-      : '${(weightKg * _lbPerKg).toStringAsFixed(1)} lb';
+      ? l10n.kgValue(weightKg.toStringAsFixed(1))
+      : l10n.lbValue((weightKg * _lbPerKg).toStringAsFixed(1));
 
   String get heightLabel {
-    if (useMetric) return '$heightCm cm';
+    if (useMetric) return l10n.cmValue('$heightCm');
     final inches = (heightCm / _cmPerInch).round();
     return '${inches ~/ 12}′${inches % 12}″';
   }
 
   /// Dinner time as "8:30 PM".
-  String get dinnerLabel {
-    final hour12 = dinnerHour % 12 == 0 ? 12 : dinnerHour % 12;
-    final period = dinnerHour >= 12 ? 'PM' : 'AM';
-    return '$hour12:${dinnerMinute.toString().padLeft(2, '0')} $period';
-  }
+  String get dinnerLabel => AppDates.timeLabel(dinnerHour, dinnerMinute);
 
   String get bmiCategory => switch (bmi) {
-    < 18.5 => 'Underweight',
-    < 25 => 'Healthy',
-    < 30 => 'Overweight',
-    _ => 'Obese',
+    < 18.5 => l10n.bmiUnderweight,
+    < 25 => l10n.bmiHealthy,
+    < 30 => l10n.bmiOverweight,
+    _ => l10n.bmiObese,
   };
 }

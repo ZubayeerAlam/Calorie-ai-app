@@ -47,10 +47,7 @@ class BreakdownRow extends StatelessWidget {
                 if (detail != null)
                   Text(
                     detail!,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: AppColors.textGrey,
-                    ),
+                    style: TextStyle(fontSize: 12, color: AppColors.textGrey),
                   ),
               ],
             ),
@@ -60,7 +57,7 @@ class BreakdownRow extends StatelessWidget {
             style: TextStyle(
               fontSize: highlight ? 18 : 15,
               fontWeight: highlight ? FontWeight.w600 : FontWeight.w500,
-              color: highlight ? AppColors.primary : AppColors.textDark,
+              color: highlight ? AppColors.accent : AppColors.textDark,
             ),
           ),
         ],

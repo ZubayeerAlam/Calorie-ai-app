@@ -7,7 +7,6 @@ class AppRoutes {
   // Bottom-nav tabs
   static const String home = '/';
   static const String tracker = '/tracker';
-  static const String articles = '/articles';
   static const String account = '/account';
 
   // Pushed screens
@@ -18,6 +17,7 @@ class AppRoutes {
   static const String onboarding = '/onboarding';
   static const String signIn = '/sign-in';
   static const String editProfile = '/edit-profile';
+  static const String reminders = '/reminders';
 
   /// Query parameters for [addFood].
   static const String imagePathParam = 'imagePath';

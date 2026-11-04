@@ -7,31 +7,42 @@ class AppTheme {
 
   static const String fontFamily = 'Outfit';
 
-  static ThemeData get light => ThemeData(
-    useMaterial3: true,
-    fontFamily: fontFamily,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.primary,
-      primary: AppColors.primary,
-      onPrimary: AppColors.textDark,
-      surface: AppColors.surface,
-    ),
-    scaffoldBackgroundColor: AppColors.background,
-    dividerColor: AppColors.line,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.background,
-      foregroundColor: AppColors.textDark,
-      elevation: 0,
-      scrolledUnderElevation: 0,
-    ),
-  );
-
-  static ThemeData get dark => ThemeData(
-    useMaterial3: true,
-    fontFamily: fontFamily,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.primary,
-      brightness: Brightness.dark,
-    ),
-  );
+  /// The theme for the palette [AppColors] is using (light or dark).
+  static ThemeData current() {
+    final dark = AppColors.isDark;
+    return ThemeData(
+      useMaterial3: true,
+      brightness: dark ? Brightness.dark : Brightness.light,
+      fontFamily: fontFamily,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.primary,
+        brightness: dark ? Brightness.dark : Brightness.light,
+        primary: dark ? AppColors.primary : AppColors.accent,
+        onPrimary: dark ? AppColors.onPrimary : Colors.white,
+        surface: AppColors.surface,
+        onSurface: AppColors.textDark,
+        error: AppColors.badge,
+      ),
+      scaffoldBackgroundColor: AppColors.background,
+      dividerColor: AppColors.line,
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.background,
+        foregroundColor: AppColors.textDark,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+      ),
+      // Links and text buttons in the readable green.
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: AppColors.accent),
+      ),
+      dialogTheme: DialogThemeData(backgroundColor: AppColors.surface),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: AppColors.surface,
+      ),
+      listTileTheme: ListTileThemeData(
+        textColor: AppColors.textDark,
+        iconColor: AppColors.textGrey,
+      ),
+    );
+  }
 }

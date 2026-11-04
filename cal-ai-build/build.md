@@ -1,6 +1,6 @@
 # Cal AI — Build Status
 
-_Last updated: 2026-11-02 · 129 tests passing · `flutter analyze`: no issues_
+_Last updated: 2026-11-02 · 179 tests passing · `flutter analyze`: no issues_
 
 What the app is **right now**. For what's done and what's next, see the roadmap in [plan.md](plan.md).
 
@@ -13,9 +13,9 @@ Cal AI is a Flutter calorie and macro tracker.
 3. The user sees their **calculated plan**.
 4. They land on the **Home dashboard**, where they log meals, activity and steps.
 
-All data is stored **on the device** with `shared_preferences`. There is no backend yet.
+Data is stored **on the device** with `shared_preferences`; signing in (optional) backs it up to Firestore and syncs it. Food is analysed by Gemini through Firebase AI Logic.
 
-The UI follows the provided "Nutrio" mockups: brand green `#A3CE50`, the **Outfit** font, and light mode only.
+The UI follows the provided "Nutrio" mockups: brand green `#A3CE50` and the **Outfit** font, with light and dark mode, English and Bangla.
 
 ## 2. Tech stack
 
@@ -29,6 +29,8 @@ The UI follows the provided "Nutrio" mockups: brand green `#A3CE50`, the **Outfi
 | Photos and permissions | `image_picker`, `permission_handler` |
 | Firebase | `firebase_core`, `firebase_ai` (Gemini through AI Logic), `firebase_app_check`, `firebase_auth` (optional sign-in), `cloud_firestore` (cloud backup and sync) |
 | Health | `health` (Apple Health / Health Connect: steps and workouts) |
+| Reminders | `flutter_local_notifications`, `timezone`, `flutter_timezone` |
+| Languages | `flutter_localizations`, `intl` (gen-l10n from `lib/l10n/*.arb`) |
 | Font | Outfit (bundled in `assets/fonts/`) |
 
 ## 3. Architecture
@@ -44,8 +46,9 @@ lib/
     routes/              # AppRoutes (paths), app_router.dart (GoRouter)
     services/            # LocalStorageService, PermissionService,
                          # ImagePickerService, StepCounterService, HealthService,
-                         # FoodAnalysisService, AuthService, CloudStore
-    theme/               # AppColors, AppTheme
+                         # FoodAnalysisService, AuthService, CloudStore,
+                         # NotificationService
+    theme/               # AppColors (light + dark), AppTheme, AppearanceController
     utils/               # CalorieCalculator, AppDates, AppNumbers
   features/
     onboarding/          # provider, host screen, step pages, widgets
@@ -56,14 +59,18 @@ lib/
     tracker/             # Tracker tab: weight log, stats, charts, history
     account/             # sign-in screen, AccountProvider, SyncService, Account card
     profile/             # UserProfile/UserGoals models, provider, Account screen
+    reminders/           # meal reminders: settings, provider, Reminders screen
     home/                # tab shell and the custom bottom navigation bar
-  shared/widgets/        # ProgressRing, AddCircleButton, EmptyState, ComingSoonScreen
+  l10n/                  # app_en.arb, app_bn.arb, generated AppLocalizations,
+                         # `l10n` accessor, LanguageController
+  shared/widgets/        # ProgressRing, AddCircleButton, EmptyState, MealIllustration, MealPhoto
 ```
 
 How it fits together:
 
 - **One widget per file.** Each UI component is its own class in its own file.
 - **Services wrap plugins.** Features never call plugins directly; they go through the services in `core/services/`. This lets tests swap in fakes, for example `test/fake_step_counter.dart`.
+- **Text and colours.** Visible text comes from `l10n.…` (never hard-coded English) and colours from `AppColors.…`, so both follow the chosen language and light/dark mode.
 - **Data flow.** Data lives in a **repository**, which reads and writes local storage. A **provider** (a `ChangeNotifier`) holds the screen state. **Widgets** read that state with `context.watch` and rebuild when it changes.
 
 ## 4. Navigation
@@ -75,8 +82,8 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/onboarding` | Onboarding flow |
 | `/` | Home (dashboard) tab |
 | `/tracker` | Tracker tab: week/month stats, weight, calories, macros, steps, history |
-| `/articles` | Placeholder tab that says "coming soon" |
-| `/account` | Account tab: profile (Edit), account (sign in / log out), Health, goals, Reset all data |
+| `/account` | Account tab: profile (Edit), account (sign in / log out), Health, Appearance, Language, goals, Reset all data |
+| `/reminders` | The Home bell: today's meals and the meal reminder settings |
 | `/sign-in` | Sign in or create an account (optional; also reachable from onboarding) |
 | `/edit-profile` | Edit profile: name, units, height, birthday, gender, goals, activity, diet, dinner time |
 | `/add-food?meal=lunch&imagePath=…` | Add Food, shown on top of the tabs |
@@ -85,7 +92,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/analyze-food?imagePath=…` | AI analysis of a photo (or of a description passed along with the navigation), then review, edit and save |
 
 - **Tabs:** they use `StatefulShellRoute`, so each tab remembers its own screen.
-- **Bottom bar:** four tabs (Home, Tracker, Articles, Account) with a raised camera button in the middle. The camera button is an action, not a tab. It opens a chooser sheet with two options: **Scan with camera** (Scan screen, then AI analysis and review) and **Add manually** (describe the meal, then AI analysis and review).
+- **Bottom bar:** three tabs (Home and Tracker on the left, Account on the right) with a raised camera button in the middle. The camera button is an action, not a tab. It opens a chooser sheet with two options: **Scan with camera** (Scan screen, then AI analysis and review) and **Add manually** (describe the meal, then AI analysis and review).
 - **Redirect:** with no saved profile, every route except `/sign-in` goes to `/onboarding`. After onboarding, `/onboarding` sends you to `/`. The router re-checks only when onboarding status changes (finishing onboarding, restoring an account, logging out).
 
 ## 5. Features built
@@ -132,7 +139,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
   - Avatar with your initials.
   - "Good morning / afternoon / evening, Name".
   - Your goal and daily kcal.
-  - Notification bell.
+  - Notification bell → Reminders; a red dot when a reminder's time passed and that meal isn't logged.
 - **Date selector:** ‹ › move one day, 📅 opens a picker. Future days are not allowed.
 - **Calories row:** Eaten | a ring showing **kcal left** | Burned. kcal left is target − eaten + burned; the ring turns red when you go over.
 - **Eaten section:** rings for carbs, protein and fat (grams eaten out of the target).
@@ -141,7 +148,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
   - **Activity:** entered by hand with the ＋ button (bottom sheet).
 - **Empty-log hint:** shown while nothing is logged for the selected day.
 - **Meals:**
-  - Breakfast, Lunch, Dinner and Snacks, with targets split 30/30/30/10.
+  - Breakfast, Lunch, Dinner and Snacks, each with its own illustration, with targets split 30/30/30/10.
   - ＋ opens Add Food with that meal already chosen.
   - Tapping a meal lists its entries, which you can delete.
 - **Profile card:** goal, kg per week, weight, height, age, and BMI with its category. Uses your chosen metric or imperial units.
@@ -176,6 +183,14 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Profile card** with **Edit** → Edit profile; saving recalculates the targets unless they were set by hand. Weight is logged on Tracker.
 - **Reset all data** (with a confirmation) deletes everything and starts setup again; while signed in it also clears the account's copy.
 
+### Reminders
+- Breakfast, lunch and dinner reminders (off until turned on; dinner uses the profile's dinner time). Today's reminder is skipped once the meal is logged; tapping one opens Add Food for that meal.
+
+### Appearance, language and accessibility
+- **Dark mode:** System / Light / Dark on Account.
+- **Bangla:** English or বাংলা, following the phone unless chosen on Account; dates in the language's format, reminders in that language, AI food names in Bangla.
+- **Accessibility:** 48 px tap targets, labels on all tappable things, readable contrast in both modes, text size up to 130%.
+
 ### Health (Apple Health / Health Connect)
 - **Connect** on the Account tab imports steps and workout calories (last 30 days, then the last 7 days on each start/resume). A day's steps are the higher of the phone sensor and Health; workout kcal is added to Activity on Home.
 
@@ -208,20 +223,25 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `health_connected` | `true` while Health is connected (device only) |
 | `health_steps` | `{ "YYYY-MM-DD": steps }` imported from Health (device only) |
 | `health_workout_kcal` | `{ "YYYY-MM-DD": kcal }` workouts imported from Health (device only) |
+| `reminders` | `{ "breakfast": { on, h, m }, … }` meal reminder settings (device only) |
+| `theme_mode` | `system` / `light` / `dark` (device only) |
+| `language` | `en` / `bn`; absent = follow the phone (device only) |
 
 ## 7. Design system
-- **Colours:** `AppColors` holds the brand green, text greys, card and background colours, and ring colours.
-- **Theme:** `AppTheme` uses the Outfit font with a green theme. The app is fixed to **light mode** (`themeMode: ThemeMode.light`).
-- **Shared widgets:** `ProgressRing`, `AddCircleButton`, `EmptyState`, `ComingSoonScreen`.
+- **Colours:** `AppColors` has a light and a dark palette (brand green, text greys, card, background, ring colours), plus `onPrimary` (dark text on green) and `accent` (readable green for text on white).
+- **Theme:** `AppTheme.current()` builds the Outfit theme from the active palette. `CalAiApp` picks the palette (Appearance setting or the phone) and rebuilds everything when it changes.
+- **Text:** `lib/l10n/app_en.arb` (template) and `app_bn.arb`; run `flutter gen-l10n` (or any build) after editing them. New text must be added to both files.
+- **Text size:** follows the phone up to `AppConstants.maxTextScale` (1.3).
+- **Shared widgets:** `ProgressRing`, `AddCircleButton` (48 px tap area), `EmptyState`, `MealIllustration`, `MealPhoto`.
 
-## 8. Tests (129 passing)
+## 8. Tests (179 passing)
 
 | File | Covers |
 |---|---|
 | `test/calorie_calculator_test.dart` | BMR, TDEE, goal adjustment, minimum, macros, breakdown, walking kcal, macro estimate |
 | `test/profile_provider_test.dart` | Custom goals survive a relaunch; reset restores the recommended targets |
 | `test/step_log_repository_test.dart` | Daily steps, new day, phone restart |
-| `test/widget_test.dart` | Home, the bottom bar (4 tabs + camera button), the camera chooser and both of its options, the AI photo and manual flows (review, edit, save, errors, Back keeps text, "Enter numbers myself", demo notices), Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
+| `test/widget_test.dart` | Home, the bottom bar (3 tabs + camera button), the camera chooser and both of its options, the AI photo and manual flows (review, edit, save, errors, Back keeps text, "Enter numbers myself", demo notices), Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
 | `test/onboarding_test.dart` | Full onboarding flow, the loader (✕ and completion), the profile being saved, relaunch skipping onboarding |
 | `test/user_profile_test.dart` | Dinner time and focus goals saved and restored, defaults for older profiles, the "8:30 PM" label |
 | `test/onboarding_provider_test.dart` | Goal-step rules: at least one goal, weight goals exclude each other, focus goals combine |
@@ -233,8 +253,10 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/health_import_test.dart` | Connect / refuse / disconnect, imported steps and workouts, higher of sensor and Health, later syncs |
 | `test/sync_service_test.dart` | Upload to a new account, device-only keys, sign-in merge, copying later changes, disconnect, unreadable cloud |
 | `test/account_provider_test.dart` | Sign in, create account, wrong password, unreachable backup, log out, sync at start, Firebase error codes |
-| `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; editing the profile (cm and ft/in, validation); Reset all data; Health connect |
-| `test/fake_*.dart` | Fake step source, camera/gallery, AI, Health, Auth and Firestore used by the tests |
+| `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; editing the profile (cm and ft/in, validation); Reset all data; reminders from the bell; dark mode; Bangla and the language setting; Health connect |
+| `test/reminder_provider_test.dart` | Reminders off by default, scheduling the coming days, skipping today once logged, refused permission, times, dinner = profile time, the bell dot |
+| `test/accessibility_test.dart` | Tap targets, labels and contrast on 8 screens (light, dark, Bangla); large text at ×1.3 and ×2 (English and Bangla) |
+| `test/fake_*.dart` | Fake step source, camera/gallery, AI, Health, Auth, Firestore and notifications used by the tests |
 
 Run them with:
 
@@ -245,18 +267,18 @@ flutter test
 ## 9. Known limitations / not built yet
 - **AI analysis:** uses the real Gemini AI. The text flow is checked on the Android emulator; a real photo and the iOS simulator are not yet checked. Release builds need the Play Store signing SHA-256 and App Attest registered for App Check.
 - **Steps:** without Health connected, counting starts the first time the app is opened each day. Health import is checked up to the permission screen on Android; real data and iOS are not yet checked.
-- **Tabs:** Articles is a placeholder.
-- **Header:** the notification bell does nothing yet.
 - **Focus goals:** Gain muscle, Boost energy and Improve nutrition are saved and shown on Home, but don't change the calorie target yet. The diet type also doesn't affect macros.
-- **Visuals:** meal pictures are emoji placeholders, and dark mode is off.
+- **Reminders:** not yet seen arriving on a real phone. They are inexact, so they can be a few minutes late.
+- **Dark mode:** the dark palette is ours (there were no dark designs).
+- **Bangla:** translated by us; a native speaker should review the wording before release.
 - **Accounts and sync:** checked end to end on the local Firebase emulators, not yet on the real project (Email/Password still needs turning on). Meal photos aren't synced, and an entry deleted on one phone can come back from another.
 - **Testing:** checked with automated tests and test renders, but not yet on a physical device.
 
 ## 10. Next steps
 
-The full roadmap, with each feature's tasks, is in [plan.md](plan.md). The planned direction:
+All planned features are built (see [plan.md](plan.md); food database/barcode and Articles were dropped). What remains is checking and release work:
 
-- **Camera options:** both options (photo and manual) run the AI review flow on the real Gemini AI.
-- **Camera button:** opens a chooser with two options: scan a food photo (AI analyses it) or add manually (AI generates the nutrition data from your details).
-- **Firebase:** the real AI, sign-in and sync are in the app, and Firestore is set up in Mumbai. Still to do (you): enable Email/Password and run on iOS. See plan.md, feature 15.
-- **Before that:** commit the untracked files (the latest commit imports files that aren't in git yet, so a fresh clone won't build) and test on a real phone.
+- **Firebase:** turn on Email/Password (Console) and try sign-in and sync on the real project. Firestore is already set up in Mumbai.
+- **Devices:** run on iOS and on a real phone: photo AI, Health data, notifications.
+- **Release:** real app ID, Play app signing SHA-256 and App Attest for App Check, a privacy policy (Health Connect), and a native-speaker check of the Bangla.
+- **Commit** everything (you handle commits).

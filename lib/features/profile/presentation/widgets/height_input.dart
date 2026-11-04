@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Height in cm, or in feet and inches. Reports the height in cm, or null
 /// while it isn't a sensible height (100–250 cm).
@@ -120,8 +121,8 @@ class _HeightInputState extends State<HeightInput> {
         ),
         if (!valid) ...[
           const SizedBox(height: 6),
-          const Text(
-            'Enter a height between 100 and 250 cm (3′4″–8′2″)',
+          Text(
+            l10n.heightRangeError,
             style: TextStyle(fontSize: 13, color: AppColors.badge),
           ),
         ],

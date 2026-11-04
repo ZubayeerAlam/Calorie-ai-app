@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/date_utils.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Bottom sheet for entering the activity calories burned on [date].
 /// Resolves to the entered kcal, or null if dismissed.
@@ -72,8 +73,8 @@ class _LogActivitySheetState extends State<LogActivitySheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Log activity',
+          Text(
+            l10n.logActivity,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -82,14 +83,14 @@ class _LogActivitySheetState extends State<LogActivitySheet> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Calories burned from exercise · ${AppDates.dayLabel(widget.date)}',
-            style: const TextStyle(fontSize: 14, color: AppColors.textGrey),
+            l10n.activitySheetSubtitle(AppDates.dayLabel(widget.date)),
+            style: TextStyle(fontSize: 14, color: AppColors.textGrey),
           ),
           if (widget.importedKcal > 0) ...[
             const SizedBox(height: 4),
             Text(
-              'Plus ${widget.importedKcal} kcal from workouts in Health',
-              style: const TextStyle(fontSize: 14, color: AppColors.textGrey),
+              l10n.plusHealthWorkouts('${widget.importedKcal}'),
+              style: TextStyle(fontSize: 14, color: AppColors.textGrey),
             ),
           ],
           const SizedBox(height: 20),
@@ -101,7 +102,7 @@ class _LogActivitySheetState extends State<LogActivitySheet> {
             onSubmitted: (_) => _save(),
             decoration: InputDecoration(
               hintText: '0',
-              suffixText: 'kcal',
+              suffixText: l10n.unitKcal,
               filled: true,
               fillColor: AppColors.card,
               border: OutlineInputBorder(
@@ -117,12 +118,12 @@ class _LogActivitySheetState extends State<LogActivitySheet> {
               onPressed: _save,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: AppColors.textDark,
+                foregroundColor: AppColors.onPrimary,
                 elevation: 0,
                 shape: const StadiumBorder(),
               ),
-              child: const Text(
-                'Save',
+              child: Text(
+                l10n.save,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),

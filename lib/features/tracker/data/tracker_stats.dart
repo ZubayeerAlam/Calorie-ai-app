@@ -2,16 +2,21 @@ import '../../../core/utils/date_utils.dart';
 import '../../food_log/data/models/food_entry.dart';
 import '../../profile/data/models/user_goals.dart';
 import 'models/weight_entry.dart';
+import '../../../l10n/l10n.dart';
 
 /// How far back the Tracker looks.
 enum TrackerPeriod {
-  week(7, 'Week'),
-  month(30, 'Month');
+  week(7),
+  month(30);
 
-  const TrackerPeriod(this.days, this.label);
+  const TrackerPeriod(this.days);
 
   final int days;
-  final String label;
+
+  String get label => switch (this) {
+    week => l10n.periodWeek,
+    month => l10n.periodMonth,
+  };
 }
 
 /// Totals for one day.

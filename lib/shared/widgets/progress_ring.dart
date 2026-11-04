@@ -12,17 +12,22 @@ class ProgressRing extends StatelessWidget {
     required this.value,
     required this.size,
     this.strokeWidth = 12,
-    this.color = AppColors.primary,
-    this.trackColor = AppColors.ringTrack,
+    this._color,
+    this._trackColor,
     this.child,
   });
 
   final double value;
   final double size;
   final double strokeWidth;
-  final Color color;
-  final Color trackColor;
+  final Color? _color;
+  final Color? _trackColor;
   final Widget? child;
+
+  /// Defaults to the brand green.
+  Color get color => _color ?? AppColors.primary;
+
+  Color get trackColor => _trackColor ?? AppColors.ringTrack;
 
   @override
   Widget build(BuildContext context) {

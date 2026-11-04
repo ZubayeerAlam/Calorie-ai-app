@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../add_food_method.dart';
 import 'add_food_option_card.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Bottom sheet opened by the camera button: pick how to add food.
 /// Resolves to the chosen [AddFoodMethod], or null if dismissed.
@@ -13,6 +14,8 @@ class AddFoodChooserSheet extends StatelessWidget {
   static Future<AddFoodMethod?> show(BuildContext context) {
     return showModalBottomSheet<AddFoodMethod>(
       context: context,
+      // Sized to its content, which grows with large text and Bangla.
+      isScrollControlled: true,
       backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -41,8 +44,8 @@ class AddFoodChooserSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 18),
-            const Text(
-              'Add food',
+            Text(
+              l10n.addFood,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -50,24 +53,24 @@ class AddFoodChooserSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            const Text(
-              'How would you like to add your meal?',
+            Text(
+              l10n.howToAddMeal,
               style: TextStyle(fontSize: 14, color: AppColors.textGrey),
             ),
             const SizedBox(height: 18),
             AddFoodOptionCard(
               key: const ValueKey('add-food-camera'),
               icon: Icons.photo_camera_rounded,
-              title: 'Scan with camera',
-              subtitle: 'Take or choose a photo of your meal',
+              title: l10n.scanWithCamera,
+              subtitle: l10n.scanWithCameraHint,
               onTap: () => context.pop(AddFoodMethod.camera),
             ),
             const SizedBox(height: 12),
             AddFoodOptionCard(
               key: const ValueKey('add-food-manual'),
               icon: Icons.edit_note_rounded,
-              title: 'Add manually',
-              subtitle: 'Describe your meal and get its nutrition',
+              title: l10n.addManually,
+              subtitle: l10n.addManuallyHint,
               onTap: () => context.pop(AddFoodMethod.manual),
             ),
           ],

@@ -7,6 +7,7 @@ import '../../../profile/presentation/profile_labels.dart';
 import 'breakdown_row.dart';
 import 'dashboard_card.dart';
 import 'section_label.dart';
+import '../../../../l10n/l10n.dart';
 
 /// How the daily target was calculated from the saved profile
 /// (BMR → activity → goal → target) and how it splits into macros.
@@ -24,12 +25,12 @@ class CaloriePlanCard extends StatelessWidget {
   final UserGoals goals;
   final bool customized;
 
-  static String _kcal(int value) => '$value kcal';
+  static String _kcal(int value) => l10n.kcalValue('$value');
 
   static String _signedKcal(int value) => switch (value) {
-    > 0 => '+$value kcal',
-    < 0 => '−${value.abs()} kcal',
-    _ => '0 kcal',
+    > 0 => l10n.kcalValue('+$value'),
+    < 0 => l10n.kcalValue('−${value.abs()}'),
+    _ => l10n.kcalValue('0'),
   };
 
   @override
@@ -39,11 +40,11 @@ class CaloriePlanCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: Text(
-                  'Your calorie plan',
+                  l10n.yourCaloriePlan,
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
@@ -60,28 +61,27 @@ class CaloriePlanCard extends StatelessWidget {
           const SizedBox(height: 8),
           BreakdownRow(
             emoji: '🛌',
-            label: 'Calories at rest (BMR)',
+            label: l10n.caloriesAtRest,
             value: _kcal(breakdown.bmr),
           ),
           BreakdownRow(
             emoji: '🏃',
-            label: 'With activity × ${breakdown.activityMultiplier}',
+            label: l10n.withActivity('${breakdown.activityMultiplier}'),
             detail: breakdown.activityLevel.label,
             value: _kcal(breakdown.tdee),
           ),
           BreakdownRow(
             emoji: breakdown.goal.emoji,
-            label: 'Goal adjustment',
+            label: l10n.goalAdjustment,
             detail: breakdown.goal.label,
             value: _signedKcal(breakdown.goalAdjustment),
           ),
-          const Divider(height: 16, color: AppColors.line),
+          Divider(height: 16, color: AppColors.line),
           BreakdownRow(
             emoji: '🎯',
-            label: 'Recommended daily target',
+            label: l10n.recommendedDailyTarget,
             detail: breakdown.hitMinimum
-                ? 'Raised to the ${CalorieCalculator.minimumCalories} kcal '
-                      'minimum'
+                ? l10n.raisedToMinimum('${CalorieCalculator.minimumCalories}')
                 : null,
             value: _kcal(breakdown.targetCalories),
             highlight: !customized,
@@ -89,31 +89,37 @@ class CaloriePlanCard extends StatelessWidget {
           if (customized)
             BreakdownRow(
               emoji: '✏️',
-              label: 'Your custom target',
-              detail: 'Set on Account',
+              label: l10n.yourCustomTarget,
+              detail: l10n.setOnAccount,
               value: _kcal(goals.dailyCalories),
               highlight: true,
             ),
           const SizedBox(height: 12),
-          const SectionLabel('Macros'),
+          SectionLabel(l10n.macros),
           const SizedBox(height: 4),
           BreakdownRow(
             emoji: '🍞',
-            label: 'Carbs',
-            detail: '${_percent(CalorieCalculator.carbsRatio)} · 4 kcal/g',
-            value: '${goals.carbs} g',
+            label: l10n.carbs,
+            detail: l10n.macroShare(
+              _percent(CalorieCalculator.carbsRatio),
+              '4',
+            ),
+            value: l10n.gramsValue('${goals.carbs}'),
           ),
           BreakdownRow(
             emoji: '🍗',
-            label: 'Protein',
-            detail: '${_percent(CalorieCalculator.proteinRatio)} · 4 kcal/g',
-            value: '${goals.protein} g',
+            label: l10n.protein,
+            detail: l10n.macroShare(
+              _percent(CalorieCalculator.proteinRatio),
+              '4',
+            ),
+            value: l10n.gramsValue('${goals.protein}'),
           ),
           BreakdownRow(
             emoji: '🥑',
-            label: 'Fat',
-            detail: '${_percent(CalorieCalculator.fatRatio)} · 9 kcal/g',
-            value: '${goals.fat} g',
+            label: l10n.fat,
+            detail: l10n.macroShare(_percent(CalorieCalculator.fatRatio), '9'),
+            value: l10n.gramsValue('${goals.fat}'),
           ),
         ],
       ),

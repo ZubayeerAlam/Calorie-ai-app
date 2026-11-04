@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/tracker_stats.dart';
 import 'tracker_card.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Average protein, carbs and fat per logged day against the targets.
 class MacroAveragesCard extends StatelessWidget {
@@ -14,26 +15,26 @@ class MacroAveragesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final goals = stats.goals;
     return TrackerCard(
-      title: 'Macros',
-      subtitle: 'Daily average on logged days',
+      title: l10n.macros,
+      subtitle: l10n.dailyAverageLogged,
       child: Column(
         children: [
           _MacroBar(
-            label: 'Protein',
+            label: l10n.protein,
             value: stats.averageProtein,
             target: goals.protein,
             color: const Color(0xFFE57373),
           ),
           const SizedBox(height: 14),
           _MacroBar(
-            label: 'Carbs',
+            label: l10n.carbs,
             value: stats.averageCarbs,
             target: goals.carbs,
             color: const Color(0xFFFFB74D),
           ),
           const SizedBox(height: 14),
           _MacroBar(
-            label: 'Fat',
+            label: l10n.fat,
             value: stats.averageFat,
             target: goals.fat,
             color: const Color(0xFF64B5F6),
@@ -63,14 +64,17 @@ class _MacroBar extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              label,
-              style: const TextStyle(fontSize: 14, color: AppColors.textDark),
+            Expanded(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 14, color: AppColors.textDark),
+              ),
             ),
-            const Spacer(),
+            const SizedBox(width: 8),
             Text(
-              '${value.round()} / $target g',
-              style: const TextStyle(fontSize: 14, color: AppColors.textGrey),
+              l10n.gramsOfTarget('${value.round()}', '$target'),
+              style: TextStyle(fontSize: 14, color: AppColors.textGrey),
             ),
           ],
         ),

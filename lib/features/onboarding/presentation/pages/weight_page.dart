@@ -6,6 +6,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../widgets/step_header.dart';
 import '../widgets/unit_toggle.dart';
 import '../widgets/weight_ruler.dart';
+import '../../../../l10n/l10n.dart';
 
 class WeightPage extends StatelessWidget {
   const WeightPage({super.key});
@@ -21,13 +22,13 @@ class WeightPage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          const StepHeader(title: "What's your weight?"),
+          StepHeader(title: l10n.whatsYourWeight),
           const SizedBox(height: 51),
           UnitToggle(
             useMetric: metric,
             onChanged: onboarding.setUseMetric,
-            metricLabel: 'kg',
-            imperialLabel: 'lb',
+            metricLabel: l10n.unitKg,
+            imperialLabel: l10n.unitLb,
           ),
           const SizedBox(height: 52),
           FittedBox(
@@ -41,7 +42,7 @@ class WeightPage extends StatelessWidget {
                 const SizedBox(width: 38),
                 Text(
                   shown.toStringAsFixed(1),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 74,
                     fontWeight: FontWeight.w600,
                     letterSpacing: -1,
@@ -53,11 +54,8 @@ class WeightPage extends StatelessWidget {
                 SizedBox(
                   width: 28,
                   child: Text(
-                    metric ? 'kg' : 'lb',
-                    style: const TextStyle(
-                      fontSize: 26,
-                      color: AppColors.textGrey,
-                    ),
+                    metric ? l10n.unitKg : l10n.unitLb,
+                    style: TextStyle(fontSize: 26, color: AppColors.textGrey),
                   ),
                 ),
               ],

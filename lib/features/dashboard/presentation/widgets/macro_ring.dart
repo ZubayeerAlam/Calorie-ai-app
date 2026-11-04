@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/progress_ring.dart';
+import '../../../../l10n/l10n.dart';
 
 /// One macro: a ring with "eaten / target g" inside and its name below.
 class MacroRing extends StatelessWidget {
@@ -30,7 +31,7 @@ class MacroRing extends StatelessWidget {
             children: [
               Text(
                 '$eatenGrams',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.w500,
                   height: 1.1,
@@ -38,17 +39,14 @@ class MacroRing extends StatelessWidget {
                 ),
               ),
               Text(
-                '/ $targetGrams g',
-                style: const TextStyle(fontSize: 10, color: AppColors.textGrey),
+                '/ ${l10n.gramsValue('$targetGrams')}',
+                style: TextStyle(fontSize: 10, color: AppColors.textGrey),
               ),
             ],
           ),
         ),
         const SizedBox(height: 10),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 13, color: AppColors.textDark),
-        ),
+        Text(label, style: TextStyle(fontSize: 13, color: AppColors.textDark)),
       ],
     );
   }

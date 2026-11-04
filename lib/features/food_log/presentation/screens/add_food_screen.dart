@@ -9,6 +9,7 @@ import '../../../../shared/widgets/meal_photo.dart';
 import '../../data/models/food_entry.dart';
 import '../../providers/food_log_provider.dart';
 import '../meal_type_labels.dart';
+import '../../../../l10n/l10n.dart';
 
 class AddFoodScreen extends StatefulWidget {
   const AddFoodScreen({super.key, this.imagePath, this.initialMeal});
@@ -87,8 +88,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
       validator: (v) {
         if (!required && (v == null || v.isEmpty)) return null;
-        if (v == null || v.isEmpty) return 'Required';
-        return num.tryParse(v) == null ? 'Enter a number' : null;
+        if (v == null || v.isEmpty) return l10n.required;
+        return num.tryParse(v) == null ? l10n.enterNumber : null;
       },
     );
   }
@@ -104,7 +105,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   Widget build(BuildContext context) {
     final imagePath = _imagePath;
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Food')),
+      appBar: AppBar(title: Text(l10n.addFoodTitle)),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -113,45 +114,47 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             OutlinedButton.icon(
               onPressed: _scanPhoto,
               icon: const Icon(Icons.camera_alt_outlined),
-              label: Text(imagePath == null ? 'Scan a photo' : 'Change photo'),
+              label: Text(
+                imagePath == null ? l10n.scanPhoto : l10n.changePhoto,
+              ),
             ),
             const SizedBox(height: 12),
             if (imagePath != null) MealPhoto(path: imagePath),
             TextFormField(
               controller: _name,
-              decoration: const InputDecoration(labelText: 'Food name'),
+              decoration: InputDecoration(labelText: l10n.foodName),
               validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Required' : null,
+                  (v == null || v.trim().isEmpty) ? l10n.required : null,
             ),
             TextFormField(
               controller: _calories,
-              decoration: const InputDecoration(labelText: 'Calories (kcal)'),
+              decoration: InputDecoration(labelText: l10n.caloriesKcal),
               keyboardType: TextInputType.number,
-              validator: (v) =>
-                  int.tryParse(v ?? '') == null ? 'Enter whole calories' : null,
+              validator: (v) => int.tryParse(v ?? '') == null
+                  ? l10n.enterWholeCalories
+                  : null,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 12),
               child: Text(
-                'Leave protein, carbs and fat blank to estimate them from '
-                'calories.',
+                l10n.macrosBlankHint,
                 style: TextStyle(fontSize: 12, color: AppColors.textGrey),
               ),
             ),
-            _numberField(_protein, 'Protein (g)'),
-            _numberField(_carbs, 'Carbs (g)'),
-            _numberField(_fat, 'Fat (g)'),
+            _numberField(_protein, l10n.proteinG),
+            _numberField(_carbs, l10n.carbsG),
+            _numberField(_fat, l10n.fatG),
             const SizedBox(height: 12),
             DropdownButtonFormField<MealType>(
               initialValue: _mealType,
-              decoration: const InputDecoration(labelText: 'Meal'),
+              decoration: InputDecoration(labelText: l10n.meal),
               items: MealType.values
                   .map((m) => DropdownMenuItem(value: m, child: Text(m.label)))
                   .toList(),
               onChanged: (m) => setState(() => _mealType = m ?? _mealType),
             ),
             const SizedBox(height: 24),
-            FilledButton(onPressed: _save, child: const Text('Save')),
+            FilledButton(onPressed: _save, child: Text(l10n.save)),
           ],
         ),
       ),

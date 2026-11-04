@@ -21,7 +21,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 3. **A camera button is added to the bottom bar** (centre). Tapping it opens a chooser with **two options**:
    - **Camera:** take or upload a photo of the food, and AI analyses it.
    - **Manual:** describe the food and details by hand, and AI generates the nutrition data.
-4. **The bottom bar becomes:** Home · Tracker · 📷 Camera (centre action, not a tab) · Articles · Account.
+4. **The bottom bar becomes:** Home · Tracker · 📷 Camera (centre action, not a tab) · Account. (Articles was dropped on 2026-11-02.)
 
 ---
 
@@ -239,12 +239,16 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - **History:** each logged day with kcal / target and macros; tap a day to open it on Home.
 - **Charts** are simple custom widgets (`BarChart`, `LineChart`), so no chart package was added.
 
-### 18. Notifications and reminders ⬜
+### 18. Notifications and reminders ✅ (2026-11-02)
 - **Goal:** make the bell on Home do something, and remind users to log meals.
-- **Tasks:**
-  - Local notifications, including a dinner reminder at the saved dinner time.
-  - Reminders for breakfast and lunch.
-  - A notifications list behind the bell.
+- **Built** (`lib/features/reminders/`, `flutter_local_notifications` + `timezone` + `flutter_timezone`):
+  - **The Home bell** opens **Reminders** (`/reminders`): a "Today" list (logged ✓ / reminder at… / not logged yet, with **Log now**) and the settings.
+  - **Breakfast** (8:00 AM), **lunch** (1:00 PM) and **dinner** reminders, each with an on/off switch and a time. The dinner time is the profile's dinner time (changing it here changes the profile, and the other way round). All start off; turning one on asks for notification permission.
+  - **Smart skip:** each reminder is scheduled one day at a time for the next 7 days, so today's is cancelled as soon as that meal is logged. The schedule is refreshed at start, when food is logged, and when settings, the dinner time or the language change.
+  - **Red dot** on the bell only when a turned-on reminder's time has passed today and that meal isn't logged.
+  - **Tapping a notification** opens Add Food for that meal.
+  - Inexact scheduling (no "alarms & reminders" permission needed; a reminder may arrive a few minutes late). Android: `POST_NOTIFICATIONS`, `RECEIVE_BOOT_COMPLETED`, the plugin's receivers, and core library desugaring. Settings stay on the phone (`reminders`).
+- **Checked:** tests (provider and screens). Not yet checked: a real notification arriving on a phone.
 
 ### 19. Account management ✅ (2026-11-02)
 - **Goal:** edit the profile and manage data.
@@ -253,22 +257,21 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - **Edit profile** (`/edit-profile`): name, units (kg · cm / lb · ft), height (cm, or ft + in; 100–250 cm), birthday (age 13–100), gender, weight goal, focus goals, activity level, diet, dinner time. Weight is shown read-only; it's logged on Tracker (17). **Save** recalculates the targets unless they were set by hand, and is disabled for an empty name or impossible height.
   - **Reset all data** at the bottom of Account, behind a confirmation: deletes the profile, meals, weight and activity and starts setup again. While signed in it also deletes the account's copy (you stay signed in). Log out is part of feature 15.
 
-### 20. Food database and barcode ⬜
-- **Goal:** faster logging.
-- **Tasks:**
-  - Search foods (e.g. Open Food Facts).
-  - Barcode scanning.
-  - Recent and favourite foods.
-  - Quick re-log.
-
-### 21. Articles tab ⬜
-- **Goal:** nutrition tips and articles (start with built-in content, a remote feed later).
-
-### 22. Polish ⬜
-- Real meal illustrations to replace the emoji (`MealTile` already accepts an asset path).
-- Dark mode, once there are dark designs.
-- Translations into other languages.
-- Accessibility checks.
+### 22. Polish ✅ (2026-11-02)
+- **Meal illustrations:** flat vector drawings made in code (`MealIllustration`, `lib/shared/widgets/meal_illustration.dart`): toast and egg (breakfast), rice bowl (lunch), salad plate (dinner), apple and cookie (snacks), with dark-mode backgrounds. Used on Home, the meal sheet, the meal picker and Reminders; the meal emoji are gone.
+- **Dark mode:** Account → **Appearance**: System / Light / Dark (`theme_mode`, on this phone).
+  - `AppColors` now has a light and a dark palette; `CalAiApp` picks one and rebuilds every screen when the mode or the phone's setting changes.
+  - New colours: `onPrimary` (always-dark text on the green), `accent` (a darker green for text on white, readable in light mode).
+  - There were no dark designs, so the dark palette is ours; adjust `AppColors` if designs arrive.
+- **Bangla translation:** English and বাংলা (Flutter gen-l10n).
+  - The text lives in `lib/l10n/app_en.arb` and `lib/l10n/app_bn.arb` (324 strings), and the code reads it through `l10n`.
+  - The app follows the phone's language; Account → **Language** (System / English / বাংলা, saved as `language`) can override it.
+  - Dates use the language's own format, with Western digits. Reminder texts follow the language, and the AI is asked to name foods in Bangla.
+  - Not translated: brand names, the AI instructions, and internal error messages.
+- **Accessibility:**
+  - Flutter's guideline checks pass on 8 screens in light, dark and Bangla: tap targets of at least 48 px, labels on everything tappable, and text contrast (`test/accessibility_test.dart`).
+  - What got fixed: the bell, the + buttons, the date button and onboarding's back button were made 48 px. The selected-tab and green text now use the readable green. Labels were added to the reminder switches. Header text stays dark on the green header.
+  - **Text size:** follows the phone up to 130% (`AppConstants.maxTextScale`); every main screen is checked at that size in English and Bangla.
 
 ---
 
@@ -280,7 +283,11 @@ These are agreed and will be built later, in the order shown under "Suggested or
 5. **Firebase (15) — done except one Console step:** Firestore is in Mumbai with rules, and sign-in/sync work on the local emulators. Left: turn on Email/Password (you), try it on the real project, run on iOS.
 6. **Health Connect / HealthKit (16 ✅).** Check with real data and on iOS.
 7. **Account management (19 ✅).**
-8. **Notifications (18), food database (20), Articles (21), polish (22).**
+8. **Notifications (18 ✅), polish (22 ✅).**
+
+**Development is complete** for the planned features. What's left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+
+**Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 
 ## Open questions
-- **Existing Add Food form:** keep it as the "Enter numbers myself" option under Manual (planned), or remove it?
+- **Existing Add Food form:** kept as "Enter numbers myself" under Add manually.

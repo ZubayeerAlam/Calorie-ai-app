@@ -6,6 +6,7 @@ import '../../../profile/presentation/profile_labels.dart';
 import '../../providers/onboarding_provider.dart';
 import '../widgets/option_tile.dart';
 import '../widgets/step_header.dart';
+import '../../../../l10n/l10n.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({super.key});
@@ -15,7 +16,7 @@ class ActivityPage extends StatelessWidget {
     final onboarding = context.watch<OnboardingProvider>();
     return ListView(
       children: [
-        const StepHeader(title: 'How active are you?'),
+        StepHeader(title: l10n.howActive),
         for (final level in ActivityLevel.values)
           OptionTile(
             title: level.label,

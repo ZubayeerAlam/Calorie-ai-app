@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/onboarding_provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../widgets/step_header.dart';
+import '../../../../l10n/l10n.dart';
 
 class NamePage extends StatefulWidget {
   const NamePage({super.key});
@@ -34,14 +35,14 @@ class _NamePageState extends State<NamePage> {
     final onboarding = context.read<OnboardingProvider>();
     return ListView(
       children: [
-        const StepHeader(title: "What's your name?"),
+        StepHeader(title: l10n.whatsYourName),
         TextField(
           controller: _controller,
           textCapitalization: TextCapitalization.words,
           textInputAction: TextInputAction.done,
           style: const TextStyle(fontSize: 19),
           decoration: InputDecoration(
-            hintText: 'Your name',
+            hintText: l10n.yourName,
             filled: true,
             fillColor: AppColors.card,
             contentPadding: const EdgeInsets.symmetric(
@@ -54,10 +55,7 @@ class _NamePageState extends State<NamePage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(6),
-              borderSide: const BorderSide(
-                color: AppColors.primary,
-                width: 1.5,
-              ),
+              borderSide: BorderSide(color: AppColors.primary, width: 1.5),
             ),
           ),
           onChanged: onboarding.setName,

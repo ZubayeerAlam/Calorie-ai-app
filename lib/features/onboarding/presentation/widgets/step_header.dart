@@ -17,7 +17,7 @@ class StepHeader extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w600,
               height: 1.5,
@@ -29,7 +29,7 @@ class StepHeader extends StatelessWidget {
             Text(
               subtitle!,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, color: AppColors.textGrey),
+              style: TextStyle(fontSize: 16, color: AppColors.textGrey),
             ),
           ],
         ],

@@ -33,18 +33,11 @@ class TapRow extends StatelessWidget {
               Expanded(
                 child: Text(
                   value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: AppColors.textDark,
-                  ),
+                  style: TextStyle(fontSize: 16, color: AppColors.textDark),
                 ),
               ),
               if (onTap != null)
-                const Icon(
-                  Icons.edit_outlined,
-                  size: 18,
-                  color: AppColors.textLight,
-                ),
+                Icon(Icons.edit_outlined, size: 18, color: AppColors.textLight),
             ],
           ),
         ),

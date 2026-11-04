@@ -19,6 +19,7 @@ import '../pages/name_page.dart';
 import '../pages/personalizing_page.dart';
 import '../pages/plan_page.dart';
 import '../pages/weight_page.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Hosts the onboarding steps: back arrow + progress bar + step counter on
 /// top, the current step's page, and a Continue / Finish button at the bottom.
@@ -55,14 +56,14 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onboarding = context.watch<OnboardingProvider>();
-    final base = AppTheme.light;
+    final base = AppTheme.current();
     // After the last setup step, show the loader until the plan is ready.
     final isPersonalizing =
         onboarding.step == OnboardingStep.plan && !onboarding.planReady;
 
     return Theme(
       data: base.copyWith(
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: AppColors.surface,
         textTheme: base.textTheme.apply(fontFamily: 'Outfit'),
         primaryTextTheme: base.primaryTextTheme.apply(fontFamily: 'Outfit'),
       ),
@@ -107,17 +108,17 @@ class OnboardingScreen extends StatelessWidget {
                           TextButton(
                             key: const ValueKey('onboarding-sign-in'),
                             onPressed: () => context.push(AppRoutes.signIn),
-                            child: const Text(
-                              'Already have an account? Sign in',
-                            ),
+                            child: Text(l10n.haveAccountSignIn),
                           ),
-                        const Divider(
+                        Divider(
                           height: 1,
                           thickness: 1,
                           color: AppColors.divider,
                         ),
                         _BottomButton(
-                          label: onboarding.isLastStep ? 'Finish' : 'Continue',
+                          label: onboarding.isLastStep
+                              ? l10n.finish
+                              : l10n.continueButton,
                           onPressed: onboarding.canContinue
                               ? () => _onContinue(context, onboarding)
                               : null,
@@ -140,29 +141,33 @@ class _ProgressHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 6, 24, 0),
+      padding: const EdgeInsets.fromLTRB(12, 2, 24, 0),
       child: SizedBox(
-        height: 40,
+        height: 48,
         child: Row(
           children: [
             SizedBox(
-              width: 84,
+              width: 96,
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: GestureDetector(
-                  onTap: () {
-                    if (!onboarding.isFirstStep) {
-                      onboarding.back();
-                    } else if (context.canPop()) {
-                      context.pop();
-                    }
-                  },
-                  child: const Icon(
-                    Icons.arrow_back,
-                    size: 26,
-                    color: AppColors.textDark,
-                  ),
-                ),
+                // Nothing to go back to on the very first step.
+                child: onboarding.isFirstStep && !context.canPop()
+                    ? null
+                    : IconButton(
+                        tooltip: l10n.back,
+                        onPressed: () {
+                          if (!onboarding.isFirstStep) {
+                            onboarding.back();
+                          } else {
+                            context.pop();
+                          }
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: 26,
+                          color: AppColors.textDark,
+                        ),
+                      ),
               ),
             ),
             Expanded(
@@ -183,7 +188,7 @@ class _ProgressHeader extends StatelessWidget {
               child: Text(
                 '${onboarding.stepIndex + 1} / ${onboarding.stepCount}',
                 textAlign: TextAlign.right,
-                style: const TextStyle(fontSize: 18, color: AppColors.textDark),
+                style: TextStyle(fontSize: 18, color: AppColors.textDark),
               ),
             ),
           ],
@@ -215,7 +220,7 @@ class _BottomButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
-            foregroundColor: AppColors.textDark,
+            foregroundColor: AppColors.onPrimary,
             disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.4),
             disabledForegroundColor: AppColors.textDark.withValues(alpha: 0.5),
             elevation: 0,

@@ -5,8 +5,11 @@ import '../../../../core/utils/calorie_calculator.dart';
 import '../../../account/presentation/widgets/account_card.dart';
 import '../../../activity/presentation/widgets/health_card.dart';
 import '../../providers/profile_provider.dart';
+import '../widgets/appearance_card.dart';
+import '../widgets/language_card.dart';
 import '../widgets/profile_card.dart';
 import '../widgets/reset_data_button.dart';
+import '../../../../l10n/l10n.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -21,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
     final recommended = profile.recommendedGoals;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile & Goals')),
+      appBar: AppBar(title: Text(l10n.profileAndGoals)),
       body: ListView(
         // Extra bottom space so the raised camera button never covers content.
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 64),
@@ -33,15 +36,19 @@ class ProfileScreen extends StatelessWidget {
           const AccountCard(),
           const SizedBox(height: 12),
           const HealthCard(),
+          const SizedBox(height: 12),
+          const AppearanceCard(),
+          const SizedBox(height: 12),
+          const LanguageCard(),
           const SizedBox(height: 16),
           Text(
-            'Daily calorie goal: ${goals.dailyCalories} kcal',
+            l10n.dailyCalorieGoal('${goals.dailyCalories}'),
             style: Theme.of(context).textTheme.titleMedium,
           ),
           Text(
             profile.goalsCustomized
-                ? 'Custom · recommended ${recommended?.dailyCalories ?? '-'} kcal'
-                : 'Recommended for your profile',
+                ? l10n.customRecommended('${recommended?.dailyCalories ?? '-'}')
+                : l10n.recommendedForProfile,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           Slider(
@@ -60,19 +67,22 @@ class ProfileScreen extends StatelessWidget {
               child: TextButton.icon(
                 onPressed: profile.resetGoalsToRecommended,
                 icon: const Icon(Icons.restart_alt),
-                label: const Text('Reset to recommended'),
+                label: Text(l10n.resetToRecommended),
               ),
             ),
           const Divider(),
           ListTile(
-            title: const Text('Protein'),
-            trailing: Text('${goals.protein} g'),
+            title: Text(l10n.protein),
+            trailing: Text(l10n.gramsValue('${goals.protein}')),
           ),
           ListTile(
-            title: const Text('Carbs'),
-            trailing: Text('${goals.carbs} g'),
+            title: Text(l10n.carbs),
+            trailing: Text(l10n.gramsValue('${goals.carbs}')),
           ),
-          ListTile(title: const Text('Fat'), trailing: Text('${goals.fat} g')),
+          ListTile(
+            title: Text(l10n.fat),
+            trailing: Text(l10n.gramsValue('${goals.fat}')),
+          ),
           const SizedBox(height: 24),
           const ResetDataButton(),
         ],

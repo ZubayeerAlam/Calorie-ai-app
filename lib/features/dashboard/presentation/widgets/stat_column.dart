@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Small "🔥 Burned" label, a big number and a unit underneath.
 class StatColumn extends StatelessWidget {
@@ -9,14 +10,17 @@ class StatColumn extends StatelessWidget {
     required this.emoji,
     required this.label,
     required this.value,
-    this.unit = 'kcal',
+    this._unit,
     this.caption,
   });
 
   final String emoji;
   final String label;
   final int value;
-  final String unit;
+  final String? _unit;
+
+  /// Defaults to kcal.
+  String get unit => _unit ?? l10n.unitKcal;
 
   /// Optional small line under the unit (e.g. step count).
   final String? caption;
@@ -31,16 +35,19 @@ class StatColumn extends StatelessWidget {
           children: [
             Text(emoji, style: const TextStyle(fontSize: 12)),
             const SizedBox(width: 4),
-            Text(
-              label,
-              style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
+            Flexible(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 12, color: AppColors.textGrey),
+              ),
             ),
           ],
         ),
         const SizedBox(height: 6),
         Text(
           '$value',
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.w500,
             height: 1.1,
@@ -48,15 +55,12 @@ class StatColumn extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 6),
-        Text(
-          unit,
-          style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
-        ),
+        Text(unit, style: TextStyle(fontSize: 12, color: AppColors.textGrey)),
         if (caption != null) ...[
           const SizedBox(height: 2),
           Text(
             caption!,
-            style: const TextStyle(fontSize: 11, color: AppColors.primary),
+            style: TextStyle(fontSize: 11, color: AppColors.accent),
           ),
         ],
       ],

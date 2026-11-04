@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../food_log/data/models/food_entry.dart';
 import '../../../food_log/presentation/meal_type_labels.dart';
+import '../../../../shared/widgets/meal_illustration.dart';
 
 /// Row of chips to choose which meal the food is logged to.
 class MealPicker extends StatelessWidget {
@@ -23,7 +24,8 @@ class MealPicker extends StatelessWidget {
       children: [
         for (final meal in MealType.values)
           ChoiceChip(
-            label: Text('${meal.emoji} ${meal.label}'),
+            avatar: MealIllustration(meal: meal, size: 22),
+            label: Text(meal.label),
             selected: meal == selected,
             onSelected: (_) => onChanged(meal),
             showCheckmark: false,
@@ -32,9 +34,11 @@ class MealPicker extends StatelessWidget {
             side: BorderSide(
               color: meal == selected ? AppColors.primary : AppColors.line,
             ),
-            labelStyle: const TextStyle(
+            labelStyle: TextStyle(
               fontSize: 14,
-              color: AppColors.textDark,
+              color: meal == selected
+                  ? AppColors.onPrimary
+                  : AppColors.textDark,
             ),
           ),
       ],

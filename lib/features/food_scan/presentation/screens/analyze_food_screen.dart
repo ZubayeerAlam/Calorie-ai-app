@@ -9,6 +9,7 @@ import '../../providers/food_analysis_controller.dart';
 import '../widgets/analysis_error_view.dart';
 import '../widgets/analysis_loading_view.dart';
 import '../widgets/analysis_review_view.dart';
+import '../../../../l10n/l10n.dart';
 
 /// How the analysis screen was closed (null: Back was pressed).
 enum AnalysisOutcome {
@@ -39,9 +40,7 @@ class AnalyzeFoodScreen extends StatelessWidget {
     messenger.showSnackBar(
       SnackBar(
         content: Text(
-          'Added ${entries.length} '
-          '${entries.length == 1 ? 'item' : 'items'} to '
-          '${controller.meal.label}',
+          l10n.addedItemsToMeal(entries.length, controller.meal.label),
         ),
       ),
     );
@@ -52,7 +51,7 @@ class AnalyzeFoodScreen extends StatelessWidget {
     final controller = context.watch<FoodAnalysisController>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Your meal')),
+      appBar: AppBar(title: Text(l10n.yourMeal)),
       body: switch (controller.status) {
         AnalysisStatus.analyzing => AnalysisLoadingView(
           imagePath: controller.imagePath,

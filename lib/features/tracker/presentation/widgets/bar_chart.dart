@@ -79,7 +79,7 @@ class BarChart extends StatelessWidget {
             ],
           ),
         ),
-        const Divider(height: 1, color: AppColors.line),
+        Divider(height: 1, color: AppColors.line),
         const SizedBox(height: 6),
         Row(
           children: [
@@ -91,10 +91,7 @@ class BarChart extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.visible,
                   softWrap: false,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: AppColors.textLight,
-                  ),
+                  style: TextStyle(fontSize: 11, color: AppColors.textLight),
                 ),
               ),
           ],

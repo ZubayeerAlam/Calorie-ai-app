@@ -19,6 +19,7 @@ import '../widgets/steps_card.dart';
 import '../widgets/summary_tiles.dart';
 import '../widgets/weight_card.dart';
 import '../widgets/weight_units.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Tracker tab: weight, calories, macros and steps over the last week or
 /// month, plus the daily history.
@@ -84,7 +85,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Tracker')),
+      appBar: AppBar(title: Text(l10n.tabTracker)),
       body: ListView(
         // Extra bottom space so the raised camera button never covers content.
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 56),

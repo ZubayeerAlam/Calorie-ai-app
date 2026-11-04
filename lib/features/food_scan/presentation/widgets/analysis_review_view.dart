@@ -8,6 +8,7 @@ import 'analyzed_item_card.dart';
 import 'demo_notice.dart';
 import 'description_summary.dart';
 import 'meal_picker.dart';
+import '../../../../l10n/l10n.dart';
 
 /// The AI result for review: photo, editable items, meal choice, and a
 /// save button with the total.
@@ -44,10 +45,8 @@ class AnalysisReviewView extends StatelessWidget {
               ],
               const SizedBox(height: 20),
               Text(
-                count == 0
-                    ? 'All items removed'
-                    : 'We found $count ${count == 1 ? 'item' : 'items'}',
-                style: const TextStyle(
+                count == 0 ? l10n.allItemsRemoved : l10n.weFoundItems(count),
+                style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.w600,
                   color: AppColors.textDark,
@@ -57,10 +56,10 @@ class AnalysisReviewView extends StatelessWidget {
               Text(
                 count == 0
                     ? (imagePath != null
-                          ? 'Go back to try another photo.'
-                          : 'Go back to edit your description.')
-                    : 'AI estimate · check and edit before saving',
-                style: const TextStyle(fontSize: 13, color: AppColors.textGrey),
+                          ? l10n.goBackAnotherPhoto
+                          : l10n.goBackEditDescription)
+                    : l10n.aiEstimateCheck,
+                style: TextStyle(fontSize: 13, color: AppColors.textGrey),
               ),
               for (var i = 0; i < count; i++) ...[
                 const SizedBox(height: 12),
@@ -72,8 +71,8 @@ class AnalysisReviewView extends StatelessWidget {
                 ),
               ],
               const SizedBox(height: 24),
-              const Text(
-                'Add to',
+              Text(
+                l10n.addTo,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -88,7 +87,7 @@ class AnalysisReviewView extends StatelessWidget {
             ],
           ),
         ),
-        const Divider(height: 1, color: AppColors.divider),
+        Divider(height: 1, color: AppColors.divider),
         SafeArea(
           top: false,
           child: Padding(
@@ -101,7 +100,7 @@ class AnalysisReviewView extends StatelessWidget {
                 onPressed: controller.canSave ? onSave : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.textDark,
+                  foregroundColor: AppColors.onPrimary,
                   disabledBackgroundColor: AppColors.primary.withValues(
                     alpha: 0.4,
                   ),
@@ -109,8 +108,10 @@ class AnalysisReviewView extends StatelessWidget {
                   shape: const StadiumBorder(),
                 ),
                 child: Text(
-                  'Add to ${controller.meal.label} · '
-                  '${controller.totalCalories} kcal',
+                  l10n.addToMealKcal(
+                    controller.meal.label,
+                    '${controller.totalCalories}',
+                  ),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,

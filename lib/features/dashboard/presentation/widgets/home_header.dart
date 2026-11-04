@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'notification_bell.dart';
 import 'user_avatar.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Avatar, time-of-day greeting with the user's name, and the bell.
 class HomeHeader extends StatelessWidget {
@@ -11,6 +12,7 @@ class HomeHeader extends StatelessWidget {
     required this.name,
     required this.subtitle,
     required this.onNotificationsPressed,
+    this.hasUnread = false,
     this.now,
   });
 
@@ -20,13 +22,16 @@ class HomeHeader extends StatelessWidget {
   final String subtitle;
   final VoidCallback onNotificationsPressed;
 
+  /// A meal reminder's time passed without the meal logged.
+  final bool hasUnread;
+
   /// Overrides the clock (for tests).
   final DateTime? now;
 
   static String greetingFor(DateTime time) => switch (time.hour) {
-    < 12 => 'Good morning',
-    < 17 => 'Good afternoon',
-    _ => 'Good evening',
+    < 12 => l10n.goodMorning,
+    < 17 => l10n.goodAfternoon,
+    _ => l10n.goodEvening,
   };
 
   @override
@@ -46,13 +51,16 @@ class HomeHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  firstName.isEmpty ? greeting : '$greeting, $firstName',
+                  firstName.isEmpty
+                      ? greeting
+                      : l10n.greetingName(greeting, firstName),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
-                    color: AppColors.textDark,
+                    // On the green header: dark in both modes.
+                    color: AppColors.onPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -62,14 +70,18 @@ class HomeHeader extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 13,
-                    color: AppColors.textDark.withValues(alpha: 0.7),
+                    color: AppColors.onPrimary.withValues(alpha: 0.75),
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(width: 12),
-          NotificationBell(onPressed: onNotificationsPressed, hasUnread: true),
+          NotificationBell(
+            key: const ValueKey('notifications'),
+            onPressed: onNotificationsPressed,
+            hasUnread: hasUnread,
+          ),
         ],
       ),
     );

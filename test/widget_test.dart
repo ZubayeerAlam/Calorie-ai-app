@@ -128,15 +128,14 @@ void main() {
     expect(find.text('−0.45 kg / week'), findsOneWidget);
   });
 
-  testWidgets('Bottom bar has four tabs and a camera button, no Insights', (
-    tester,
-  ) async {
+  testWidgets('Bottom bar has three tabs and a camera button', (tester) async {
     await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
 
-    for (final label in ['Home', 'Tracker', 'Articles', 'Account']) {
+    for (final label in ['Home', 'Tracker', 'Account']) {
       expect(find.text(label), findsOneWidget);
     }
     expect(find.text('Insights'), findsNothing);
+    expect(find.text('Articles'), findsNothing);
     expect(find.byKey(const ValueKey('camera-button')), findsOneWidget);
     expect(find.byIcon(Icons.photo_camera_rounded), findsOneWidget);
 
@@ -145,10 +144,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Week'), findsOneWidget);
     expect(find.text('Weight'), findsOneWidget);
-
-    await tester.tap(find.text('Articles'));
-    await tester.pumpAndSettle();
-    expect(find.text('Articles is coming soon'), findsOneWidget);
 
     await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
@@ -165,7 +160,7 @@ void main() {
     await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
 
     // From a tab other than Home, to show it is an action and not a tab.
-    await tester.tap(find.text('Articles'));
+    await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
 
     await tester.tap(find.byKey(const ValueKey('camera-button')));
@@ -178,7 +173,7 @@ void main() {
     await tester.tapAt(const Offset(20, 40));
     await tester.pumpAndSettle();
     expect(find.text('Add food'), findsNothing);
-    expect(find.text('Articles is coming soon'), findsOneWidget);
+    expect(find.text('Profile & Goals'), findsOneWidget);
   });
 
   /// Camera button → Add manually.
@@ -229,7 +224,7 @@ void main() {
     expect(find.text('We found 2 items'), findsOneWidget);
     expect(find.text('Portion: 1 plate'), findsOneWidget);
 
-    await _tap(tester, find.text('🥪 Breakfast'));
+    await _tap(tester, find.text('Breakfast').last);
     await _tap(tester, find.byKey(const ValueKey('save-analysis')));
 
     // Both screens closed; back on Home with the food in Breakfast.
@@ -372,7 +367,7 @@ void main() {
     expect(find.text('Steamed rice'), findsOneWidget);
     expect(find.textContaining('Demo result'), findsNothing);
 
-    await _tap(tester, find.text('🥗 Dinner'));
+    await _tap(tester, find.text('Dinner').last);
     expect(find.text('Add to Dinner · 454 kcal'), findsOneWidget);
     await _tap(tester, find.byKey(const ValueKey('save-analysis')));
 
@@ -396,7 +391,7 @@ void main() {
     await tester.enterText(find.widgetWithText(TextField, '248'), '300');
     await _tap(tester, find.byTooltip('Remove Steamed rice'));
     expect(find.text('We found 1 item'), findsOneWidget);
-    await _tap(tester, find.text('🍡 Snacks'));
+    await _tap(tester, find.text('Snacks').last);
     expect(find.text('Add to Snacks · 300 kcal'), findsOneWidget);
 
     await _tap(tester, find.byKey(const ValueKey('save-analysis')));

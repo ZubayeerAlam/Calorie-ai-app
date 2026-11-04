@@ -5,6 +5,7 @@ import '../../providers/onboarding_provider.dart';
 import '../widgets/step_header.dart';
 import '../widgets/unit_toggle.dart';
 import '../widgets/wheel_picker.dart';
+import '../../../../l10n/l10n.dart';
 
 class HeightPage extends StatelessWidget {
   const HeightPage({super.key});
@@ -26,12 +27,12 @@ class HeightPage extends StatelessWidget {
 
     return Column(
       children: [
-        const StepHeader(title: 'How tall are you?'),
+        StepHeader(title: l10n.howTall),
         UnitToggle(
           useMetric: onboarding.useMetric,
           onChanged: onboarding.setUseMetric,
-          metricLabel: 'cm',
-          imperialLabel: 'ft / in',
+          metricLabel: l10n.unitCm,
+          imperialLabel: l10n.ftIn,
         ),
         Expanded(
           child: Padding(
@@ -41,7 +42,7 @@ class HeightPage extends StatelessWidget {
                     key: const ValueKey('height-cm'),
                     values: _cmValues,
                     selected: onboarding.heightCm,
-                    suffix: 'cm',
+                    suffix: l10n.unitCm,
                     onChanged: onboarding.setHeightCm,
                   )
                 : Row(
@@ -51,7 +52,7 @@ class HeightPage extends StatelessWidget {
                           key: const ValueKey('height-ft'),
                           values: _feetValues,
                           selected: feet,
-                          suffix: 'ft',
+                          suffix: l10n.unitFt,
                           onChanged: (ft) => setImperial(ft, inches),
                         ),
                       ),
@@ -61,7 +62,7 @@ class HeightPage extends StatelessWidget {
                           key: const ValueKey('height-in'),
                           values: _inchValues,
                           selected: inches,
-                          suffix: 'in',
+                          suffix: l10n.unitIn,
                           onChanged: (inch) => setImperial(feet, inch),
                         ),
                       ),

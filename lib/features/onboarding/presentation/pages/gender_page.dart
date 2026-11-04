@@ -6,6 +6,7 @@ import '../../../profile/presentation/profile_labels.dart';
 import '../../providers/onboarding_provider.dart';
 import '../widgets/option_tile.dart';
 import '../widgets/step_header.dart';
+import '../../../../l10n/l10n.dart';
 
 class GenderPage extends StatelessWidget {
   const GenderPage({super.key});
@@ -15,7 +16,7 @@ class GenderPage extends StatelessWidget {
     final onboarding = context.watch<OnboardingProvider>();
     return ListView(
       children: [
-        const StepHeader(title: 'Choose your gender'),
+        StepHeader(title: l10n.chooseGender),
         for (final gender in Gender.values)
           OptionTile(
             title: gender.label,

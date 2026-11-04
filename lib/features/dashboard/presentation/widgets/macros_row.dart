@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../profile/data/models/user_goals.dart';
 import 'macro_ring.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Carbs, Protein and Fat rings side by side.
 class MacrosRow extends StatelessWidget {
@@ -24,17 +25,17 @@ class MacrosRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         MacroRing(
-          label: 'Carbs',
+          label: l10n.carbs,
           eatenGrams: carbs.round(),
           targetGrams: goals.carbs,
         ),
         MacroRing(
-          label: 'Protein',
+          label: l10n.protein,
           eatenGrams: protein.round(),
           targetGrams: goals.protein,
         ),
         MacroRing(
-          label: 'Fat',
+          label: l10n.fat,
           eatenGrams: fat.round(),
           targetGrams: goals.fat,
         ),

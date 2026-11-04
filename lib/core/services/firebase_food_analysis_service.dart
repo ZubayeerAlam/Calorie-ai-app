@@ -9,6 +9,7 @@ import '../../features/food_scan/data/models/food_analysis.dart';
 import '../../features/food_scan/data/models/food_description.dart';
 import '../constants/app_constants.dart';
 import 'food_analysis_service.dart';
+import '../../l10n/l10n.dart';
 
 /// Sends a prompt, plus an optional image, to the model and returns the
 /// model's text reply.
@@ -109,7 +110,10 @@ class FirebaseFoodAnalysisService implements FoodAnalysisService {
   Future<FoodAnalysis> analyzePhoto(String imagePath) => _run(() async {
     final bytes = await _readFile(imagePath);
     return _call(
-      'Analyse the food and drinks in this photo.',
+      [
+        'Analyse the food and drinks in this photo.',
+        ?languageLine(),
+      ].join('\n'),
       image: bytes,
       mimeType: mimeTypeFor(imagePath),
     );
@@ -125,7 +129,16 @@ class FirebaseFoodAnalysisService implements FoodAnalysisService {
     'Analyse this meal, described by the user:',
     description.text.trim(),
     for (final (label, value) in description.details) '$label: $value',
+    ?languageLine(),
   ].join('\n');
+
+  /// Asks for food names and portions in the app's language (the reply's
+  /// field names stay as in the schema); null for English.
+  @visibleForTesting
+  static String? languageLine() => switch (l10n.localeName) {
+    'bn' => 'Write each food name and portion in Bangla (Bengali).',
+    _ => null,
+  };
 
   /// Image type from the file name; JPEG when unknown.
   @visibleForTesting

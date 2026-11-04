@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/date_utils.dart';
+import '../../../../l10n/l10n.dart';
 
 /// `‹  Today, Dec 22 📅  ›` — step a day back/forward or pick a date.
 /// [onNext] is null when [date] is today (no future days).
@@ -24,7 +25,7 @@ class DateSelector extends StatelessWidget {
     return Row(
       children: [
         IconButton(
-          tooltip: 'Previous day',
+          tooltip: l10n.previousDay,
           onPressed: onPrevious,
           icon: const Icon(Icons.chevron_left_rounded, size: 28),
           color: AppColors.textDark,
@@ -33,8 +34,9 @@ class DateSelector extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(8),
             onTap: onPick,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
+            // At least 48 px tall so it's easy to tap.
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 48),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -42,7 +44,7 @@ class DateSelector extends StatelessWidget {
                     child: Text(
                       AppDates.dayLabel(date),
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
                         color: AppColors.textDark,
@@ -50,7 +52,7 @@ class DateSelector extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(
+                  Icon(
                     Icons.calendar_month_outlined,
                     size: 20,
                     color: AppColors.textDark,
@@ -61,7 +63,7 @@ class DateSelector extends StatelessWidget {
           ),
         ),
         IconButton(
-          tooltip: 'Next day',
+          tooltip: l10n.nextDay,
           onPressed: onNext,
           icon: const Icon(Icons.chevron_right_rounded, size: 28),
           color: AppColors.textDark,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/onboarding_provider.dart';
 import '../widgets/step_header.dart';
+import '../../../../l10n/l10n.dart';
 
 class BirthdayPage extends StatelessWidget {
   const BirthdayPage({super.key});
@@ -17,7 +18,7 @@ class BirthdayPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const StepHeader(title: 'When were you born?'),
+        StepHeader(title: l10n.whenBorn),
         SizedBox(
           height: 220,
           child: CupertinoTheme(
@@ -34,8 +35,10 @@ class BirthdayPage extends StatelessWidget {
         const SizedBox(height: 16),
         if (!onboarding.canContinue)
           Text(
-            'You must be between ${OnboardingProvider.minAge} and '
-            '${OnboardingProvider.maxAge} years old.',
+            l10n.ageRange(
+              '${OnboardingProvider.minAge}',
+              '${OnboardingProvider.maxAge}',
+            ),
             textAlign: TextAlign.center,
             style: TextStyle(color: theme.colorScheme.error),
           ),

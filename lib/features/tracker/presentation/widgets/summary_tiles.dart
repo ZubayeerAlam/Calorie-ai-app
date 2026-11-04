@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/number_format.dart';
 import '../../data/tracker_stats.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Streak, average calories and days on target, side by side.
 class SummaryTiles extends StatelessWidget {
@@ -18,17 +19,17 @@ class SummaryTiles extends StatelessWidget {
         _Tile(
           key: const ValueKey('streak-tile'),
           value: '🔥 ${stats.streak}',
-          label: 'day streak',
+          label: l10n.dayStreak,
         ),
         const SizedBox(width: 10),
         _Tile(
           value: logged ? AppNumbers.thousands(stats.averageCalories) : '–',
-          label: 'avg kcal / day',
+          label: l10n.avgKcalDay,
         ),
         const SizedBox(width: 10),
         _Tile(
           value: '${stats.daysOnTarget}/${stats.period.days}',
-          label: 'days on target',
+          label: l10n.daysOnTarget,
         ),
       ],
     );
@@ -54,7 +55,7 @@ class _Tile extends StatelessWidget {
           children: [
             Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 color: AppColors.textDark,
@@ -64,7 +65,7 @@ class _Tile extends StatelessWidget {
             Text(
               label,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12, color: AppColors.textLight),
+              style: TextStyle(fontSize: 12, color: AppColors.textLight),
             ),
           ],
         ),

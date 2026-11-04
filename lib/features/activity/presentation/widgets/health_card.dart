@@ -5,6 +5,7 @@ import '../../../../core/services/health_service.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../dashboard/presentation/widgets/dashboard_card.dart';
 import '../../providers/activity_log_provider.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Connect Apple Health / Health Connect on the Account tab. Hidden where
 /// neither exists.
@@ -29,12 +30,7 @@ class _HealthCardState extends State<HealthCard> {
     setState(() => _connecting = false);
     if (!allowed) {
       messenger.showSnackBar(
-        SnackBar(
-          content: Text(
-            "Access wasn't allowed. You can allow it in "
-            '${activity.healthName} settings.',
-          ),
-        ),
+        SnackBar(content: Text(l10n.healthAccessDenied(activity.healthName))),
       );
     }
   }
@@ -61,12 +57,11 @@ class _HealthCardState extends State<HealthCard> {
         final connected = activity.healthConnected;
         final (String text, Widget button) = switch (availability) {
           HealthAvailability.needsInstall => (
-            'Install or update ${activity.healthName} to import your steps '
-                'and workouts.',
-            _button('Install', () => _install(activity)),
+            l10n.healthInstall(activity.healthName),
+            _button(l10n.install, () => _install(activity)),
           ),
           _ when connected => (
-            'Steps and workout calories are imported automatically.',
+            l10n.healthImporting,
             OutlinedButton(
               key: const ValueKey('disconnect-health'),
               onPressed: activity.disconnectHealth,
@@ -74,14 +69,13 @@ class _HealthCardState extends State<HealthCard> {
                 foregroundColor: AppColors.textDark,
                 shape: const StadiumBorder(),
               ),
-              child: const Text('Disconnect'),
+              child: Text(l10n.disconnect),
             ),
           ),
           _ => (
-            'Import all your steps (also those walked before opening the '
-                'app) and the calories from your workouts.',
+            l10n.healthPitch,
             _button(
-              _connecting ? 'Connecting…' : 'Connect',
+              _connecting ? l10n.connecting : l10n.connect,
               _connecting ? null : () => _connect(activity),
             ),
           ),
@@ -102,9 +96,9 @@ class _HealthCardState extends State<HealthCard> {
                   children: [
                     Text(
                       connected
-                          ? '${activity.healthName} connected'
+                          ? l10n.healthConnected(activity.healthName)
                           : activity.healthName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppColors.textDark,
@@ -113,10 +107,7 @@ class _HealthCardState extends State<HealthCard> {
                     const SizedBox(height: 2),
                     Text(
                       text,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.textGrey,
-                      ),
+                      style: TextStyle(fontSize: 13, color: AppColors.textGrey),
                     ),
                     const SizedBox(height: 8),
                     button,
@@ -136,7 +127,7 @@ class _HealthCardState extends State<HealthCard> {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
-          foregroundColor: AppColors.textDark,
+          foregroundColor: AppColors.onPrimary,
           elevation: 0,
           shape: const StadiumBorder(),
         ),

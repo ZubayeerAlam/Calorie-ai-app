@@ -7,6 +7,7 @@ import '../../../dashboard/presentation/widgets/dashboard_card.dart';
 import '../../../dashboard/presentation/widgets/user_avatar.dart';
 import '../../data/models/user_profile.dart';
 import '../profile_labels.dart';
+import '../../../../l10n/l10n.dart';
 
 /// The user's name and main details on Account, with Edit.
 class ProfileCard extends StatelessWidget {
@@ -27,7 +28,7 @@ class ProfileCard extends StatelessWidget {
               children: [
                 Text(
                   profile.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textDark,
@@ -35,13 +36,14 @@ class ProfileCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '${profile.age} years · ${profile.heightLabel} · '
-                  '${profile.weightLabel}\n'
-                  '${profile.goal.label} · ${profile.activityLevel.label}',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textGrey,
+                  l10n.profileSummary(
+                    '${profile.age}',
+                    profile.heightLabel,
+                    profile.weightLabel,
+                    profile.goal.label,
+                    profile.activityLevel.label,
                   ),
+                  style: TextStyle(fontSize: 13, color: AppColors.textGrey),
                 ),
               ],
             ),
@@ -49,7 +51,7 @@ class ProfileCard extends StatelessWidget {
           TextButton(
             key: const ValueKey('edit-profile'),
             onPressed: () => context.push(AppRoutes.editProfile),
-            child: const Text('Edit'),
+            child: Text(l10n.edit),
           ),
         ],
       ),

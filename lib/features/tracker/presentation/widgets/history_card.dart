@@ -5,6 +5,7 @@ import '../../../../core/utils/date_utils.dart';
 import '../../../../core/utils/number_format.dart';
 import '../../data/tracker_stats.dart';
 import 'tracker_card.dart';
+import '../../../../l10n/l10n.dart';
 
 /// The period's logged days, newest first. Tapping a day opens it on Home.
 class HistoryCard extends StatelessWidget {
@@ -17,10 +18,8 @@ class HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final days = stats.loggedDays.reversed.toList();
     return TrackerCard(
-      title: 'History',
-      subtitle: days.isEmpty
-          ? 'Nothing logged in this period yet'
-          : 'Tap a day to open it on Home',
+      title: l10n.history,
+      subtitle: days.isEmpty ? l10n.nothingInPeriod : l10n.tapDayToOpen,
       child: Column(
         children: [
           for (final day in days)
@@ -73,29 +72,31 @@ class _DayRow extends StatelessWidget {
                 children: [
                   Text(
                     AppDates.dayLabel(day.date),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: AppColors.textDark,
                     ),
                   ),
                   Text(
-                    'P ${day.protein.round()} g · C ${day.carbs.round()} g · '
-                    'F ${day.fat.round()} g',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: AppColors.textLight,
+                    l10n.historyMacros(
+                      '${day.protein.round()}',
+                      '${day.carbs.round()}',
+                      '${day.fat.round()}',
                     ),
+                    style: TextStyle(fontSize: 12, color: AppColors.textLight),
                   ),
                 ],
               ),
             ),
             Text(
-              '${AppNumbers.thousands(day.calories)} / '
-              '${AppNumbers.thousands(target)} kcal',
-              style: const TextStyle(fontSize: 14, color: AppColors.textGrey),
+              l10n.eatenOfTarget(
+                AppNumbers.thousands(day.calories),
+                AppNumbers.thousands(target),
+              ),
+              style: TextStyle(fontSize: 14, color: AppColors.textGrey),
             ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.tick),
+            Icon(Icons.chevron_right_rounded, color: AppColors.tick),
           ],
         ),
       ),

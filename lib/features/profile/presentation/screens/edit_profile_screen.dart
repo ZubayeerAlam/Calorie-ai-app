@@ -11,6 +11,7 @@ import '../widgets/choice_chips.dart';
 import '../widgets/edit_section.dart';
 import '../widgets/height_input.dart';
 import '../widgets/tap_row.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Account → Edit profile: everything from onboarding except the weight,
 /// which is logged on Tracker. Saving recalculates the targets unless they
@@ -59,7 +60,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         now.month,
         now.day,
       ),
-      helpText: 'Birthday',
+      helpText: l10n.birthday,
     );
     if (picked != null) setState(() => _birthday = picked);
   }
@@ -68,7 +69,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final picked = await showTimePicker(
       context: context,
       initialTime: _dinner,
-      helpText: 'Usual dinner time',
+      helpText: l10n.usualDinnerTime,
     );
     if (picked != null) setState(() => _dinner = picked);
   }
@@ -96,7 +97,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
     ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('Profile saved')));
+        .showSnackBar(SnackBar(content: Text(l10n.profileSaved)));
     context.pop();
   }
 
@@ -104,7 +105,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     final preview = _original.copyWith(birthday: _birthday, useMetric: _metric);
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit profile')),
+      appBar: AppBar(title: Text(l10n.editProfile)),
       body: Column(
         children: [
           Expanded(
@@ -112,7 +113,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
               children: [
                 EditSection(
-                  title: 'Name',
+                  title: l10n.name,
                   child: TextField(
                     key: const ValueKey('edit-name'),
                     controller: _name,
@@ -120,7 +121,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     onChanged: (_) => setState(() {}),
                     style: const TextStyle(fontSize: 16),
                     decoration: InputDecoration(
-                      hintText: 'Your name',
+                      hintText: l10n.yourName,
                       filled: true,
                       fillColor: AppColors.surface,
                       border: OutlineInputBorder(
@@ -131,11 +132,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 EditSection(
-                  title: 'Units',
+                  title: l10n.units,
                   child: SegmentedButton<bool>(
-                    segments: const [
-                      ButtonSegment(value: true, label: Text('kg · cm')),
-                      ButtonSegment(value: false, label: Text('lb · ft')),
+                    segments: [
+                      ButtonSegment(value: true, label: Text(l10n.unitsMetric)),
+                      ButtonSegment(
+                        value: false,
+                        label: Text(l10n.unitsImperial),
+                      ),
                     ],
                     selected: {_metric},
                     showSelectedIcon: false,
@@ -144,12 +148,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     style: SegmentedButton.styleFrom(
                       backgroundColor: AppColors.surface,
                       selectedBackgroundColor: AppColors.primary,
-                      selectedForegroundColor: AppColors.textDark,
+                      selectedForegroundColor: AppColors.onPrimary,
                     ),
                   ),
                 ),
                 EditSection(
-                  title: 'Height',
+                  title: l10n.height,
                   child: HeightInput(
                     initialCm: _original.heightCm,
                     metric: _metric,
@@ -157,16 +161,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 EditSection(
-                  title: 'Weight',
-                  hint: 'Log a new weight on the Tracker tab.',
+                  title: l10n.weight,
+                  hint: l10n.logWeightOnTracker,
                   child: TapRow(
                     icon: Icons.monitor_weight_outlined,
                     value: preview.weightLabel,
                   ),
                 ),
                 EditSection(
-                  title: 'Birthday',
-                  hint: 'Age ${preview.age}',
+                  title: l10n.birthday,
+                  hint: l10n.ageValue('${preview.age}'),
                   child: TapRow(
                     key: const ValueKey('edit-birthday'),
                     icon: Icons.cake_outlined,
@@ -176,7 +180,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 EditSection(
-                  title: 'Gender',
+                  title: l10n.gender,
                   child: OptionChips(
                     options: Gender.values,
                     selected: {_gender},
@@ -185,8 +189,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 EditSection(
-                  title: 'Weight goal',
-                  hint: 'This sets your calorie target.',
+                  title: l10n.weightGoal,
+                  hint: l10n.weightGoalHint,
                   child: OptionChips(
                     options: GoalType.values,
                     selected: {_goal},
@@ -195,7 +199,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 EditSection(
-                  title: 'Also focus on',
+                  title: l10n.alsoFocusOn,
                   child: OptionChips(
                     options: GoalFocus.values,
                     selected: _focuses,
@@ -205,7 +209,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 EditSection(
-                  title: 'Activity level',
+                  title: l10n.activityLevel,
                   hint: _activity.description,
                   child: OptionChips(
                     options: ActivityLevel.values,
@@ -215,7 +219,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 EditSection(
-                  title: 'Diet',
+                  title: l10n.diet,
                   hint: _diet.description,
                   child: OptionChips(
                     options: DietType.values,
@@ -225,7 +229,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ),
                 EditSection(
-                  title: 'Usual dinner time',
+                  title: l10n.usualDinnerTime,
                   child: TapRow(
                     key: const ValueKey('edit-dinner'),
                     icon: Icons.schedule_rounded,
@@ -236,7 +240,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.divider),
+          Divider(height: 1, color: AppColors.divider),
           SafeArea(
             top: false,
             child: Padding(
@@ -249,15 +253,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   onPressed: _canSave ? _save : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.textDark,
+                    foregroundColor: AppColors.onPrimary,
                     disabledBackgroundColor: AppColors.primary.withValues(
                       alpha: 0.4,
                     ),
                     elevation: 0,
                     shape: const StadiumBorder(),
                   ),
-                  child: const Text(
-                    'Save',
+                  child: Text(
+                    l10n.save,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ),

@@ -16,7 +16,7 @@ class MealsCard extends StatelessWidget {
       child: Column(
         children: [
           for (var i = 0; i < tiles.length; i++) ...[
-            if (i > 0) const Divider(height: 1, color: AppColors.line),
+            if (i > 0) Divider(height: 1, color: AppColors.line),
             tiles[i],
           ],
         ],

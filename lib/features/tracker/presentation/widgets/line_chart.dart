@@ -26,6 +26,9 @@ class LineChart extends StatelessWidget {
 class _LinePainter extends CustomPainter {
   _LinePainter(this.points);
 
+  /// Colours come from [AppColors]; repaint when the mode changes.
+  final bool _dark = AppColors.isDark;
+
   final List<({DateTime date, double value})> points;
 
   @override
@@ -78,5 +81,6 @@ class _LinePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_LinePainter old) => old.points != points;
+  bool shouldRepaint(_LinePainter old) =>
+      old.points != points || old._dark != _dark;
 }

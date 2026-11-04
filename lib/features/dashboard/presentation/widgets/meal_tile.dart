@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/add_circle_button.dart';
+import '../../../../l10n/l10n.dart';
 
 /// One meal row: picture, name, mini progress bar, "eaten / target kcal"
 /// and a + button.
-///
-/// [image] is an emoji, or an asset path (ending in .png/.jpg/.webp) once
-/// meal illustrations are added.
 class MealTile extends StatelessWidget {
   const MealTile({
     super.key,
-    required this.image,
+    required this.picture,
     required this.title,
     required this.eaten,
     required this.target,
@@ -20,7 +18,8 @@ class MealTile extends StatelessWidget {
     this.addButtonKey,
   });
 
-  final String image;
+  /// Shown at 52 × 52, e.g. a `MealIllustration`.
+  final Widget picture;
   final String title;
   final int eaten;
   final int target;
@@ -28,26 +27,18 @@ class MealTile extends StatelessWidget {
   final VoidCallback? onTap;
   final Key? addButtonKey;
 
-  bool get _isAsset => RegExp(r'\.(png|jpe?g|webp)$').hasMatch(image);
-
   @override
   Widget build(BuildContext context) {
     final progress = target == 0 ? 0.0 : (eaten / target).clamp(0.0, 1.0);
 
     return InkWell(
       onTap: onTap,
-      child: SizedBox(
-        height: 80,
+      // At least 80 tall; taller when large text or Bangla needs it.
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 80),
         child: Row(
           children: [
-            SizedBox.square(
-              dimension: 52,
-              child: Center(
-                child: _isAsset
-                    ? Image.asset(image, fit: BoxFit.contain)
-                    : Text(image, style: const TextStyle(fontSize: 40)),
-              ),
-            ),
+            SizedBox.square(dimension: 52, child: picture),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -56,7 +47,7 @@ class MealTile extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
                       color: AppColors.textDark,
@@ -78,11 +69,14 @@ class MealTile extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        '$eaten / $target kcal',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: AppColors.textGrey,
+                      Flexible(
+                        child: Text(
+                          l10n.eatenOfTarget('$eaten', '$target'),
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textGrey,
+                          ),
                         ),
                       ),
                     ],
@@ -92,7 +86,7 @@ class MealTile extends StatelessWidget {
             ),
             AddCircleButton(
               key: addButtonKey,
-              tooltip: 'Add to $title',
+              tooltip: l10n.addToMeal(title),
               onPressed: onAdd,
             ),
           ],

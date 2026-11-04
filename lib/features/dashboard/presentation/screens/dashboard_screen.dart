@@ -13,6 +13,7 @@ import '../../../profile/data/models/user_goals.dart';
 import '../../../profile/data/models/user_profile.dart';
 import '../../../profile/presentation/profile_labels.dart';
 import '../../../profile/providers/profile_provider.dart';
+import '../../../reminders/providers/reminder_provider.dart';
 import '../widgets/burned_section.dart';
 import '../widgets/calorie_overview.dart';
 import '../widgets/calorie_plan_card.dart';
@@ -28,6 +29,8 @@ import '../widgets/meal_tile.dart';
 import '../widgets/meals_card.dart';
 import '../widgets/profile_summary_card.dart';
 import '../widgets/section_label.dart';
+import '../../../../shared/widgets/meal_illustration.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Home tab: daily calories, macros, burned calories and meals for the
 /// selected day.
@@ -53,9 +56,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   static String? _walkingCaption(ActivityLogProvider activity, int steps) =>
       switch (activity.stepStatus) {
-        StepTrackingStatus.tracking => '${AppNumbers.thousands(steps)} steps',
-        StepTrackingStatus.denied => 'Allow step access',
-        StepTrackingStatus.unavailable => 'No step sensor',
+        StepTrackingStatus.tracking => l10n.stepsCount(
+          AppNumbers.thousands(steps),
+        ),
+        StepTrackingStatus.denied => l10n.allowStepAccess,
+        StepTrackingStatus.unavailable => l10n.noStepSensor,
         StepTrackingStatus.off => null,
       };
 
@@ -109,13 +114,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   HomeHeader(
                     name: profile?.name ?? '',
                     subtitle: profile == null
-                        ? 'Daily goal: ${goals.dailyCalories} kcal'
-                        : '${profile.goal.label} · '
-                              '${goals.dailyCalories} kcal a day',
-                    onNotificationsPressed: () => ScaffoldMessenger.of(context)
-                        .showSnackBar(
-                          const SnackBar(content: Text('No new notifications')),
-                        ),
+                        ? l10n.dailyGoalKcal('${goals.dailyCalories}')
+                        : l10n.goalKcalADay(
+                            profile.goal.label,
+                            '${goals.dailyCalories}',
+                          ),
+                    hasUnread: context.watch<ReminderProvider>().hasMissed,
+                    onNotificationsPressed: () =>
+                        context.push(AppRoutes.reminders),
                   ),
                   const SizedBox(height: 12),
                   DashboardCard(
@@ -138,9 +144,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: SectionLabel('Eaten'),
+                          child: SectionLabel(l10n.eaten),
                         ),
                         const SizedBox(height: 20),
                         MacrosRow(
@@ -150,9 +156,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           fat: log.totalFat,
                         ),
                         const SizedBox(height: 24),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
-                          child: SectionLabel('Burned'),
+                          child: SectionLabel(l10n.burned),
                         ),
                         const SizedBox(height: 20),
                         Padding(
@@ -183,7 +189,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     tiles: [
                       for (final meal in MealType.values)
                         MealTile(
-                          image: meal.emoji,
+                          picture: MealIllustration(meal: meal),
                           title: meal.label,
                           eaten: log.caloriesFor(meal),
                           target: meal.targetCalories(goals.dailyCalories),

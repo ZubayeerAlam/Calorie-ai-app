@@ -1,19 +1,12 @@
 import '../data/models/food_entry.dart';
+import '../../../l10n/l10n.dart';
 
 extension MealTypeLabel on MealType {
   String get label => switch (this) {
-    MealType.breakfast => 'Breakfast',
-    MealType.lunch => 'Lunch',
-    MealType.dinner => 'Dinner',
-    MealType.snack => 'Snacks',
-  };
-
-  /// Placeholder art; swap for an asset path when illustrations exist.
-  String get emoji => switch (this) {
-    MealType.breakfast => '🥪',
-    MealType.lunch => '🍚',
-    MealType.dinner => '🥗',
-    MealType.snack => '🍡',
+    MealType.breakfast => l10n.breakfast,
+    MealType.lunch => l10n.lunch,
+    MealType.dinner => l10n.dinner,
+    MealType.snack => l10n.snacks,
   };
 
   /// Share of the daily calorie target for this meal (sums to 1).

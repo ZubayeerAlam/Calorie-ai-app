@@ -7,6 +7,8 @@ import '../../../food_log/data/models/food_entry.dart';
 import '../../../food_log/presentation/meal_type_labels.dart';
 import '../../../food_log/presentation/widgets/food_entry_tile.dart';
 import '../../../food_log/providers/food_log_provider.dart';
+import '../../../../shared/widgets/meal_illustration.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Bottom sheet listing what was logged for one meal, with delete.
 class MealEntriesSheet extends StatelessWidget {
@@ -39,22 +41,28 @@ class MealEntriesSheet extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                '${meal.emoji}  ${meal.label}',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textDark,
-                ),
+              child: Row(
+                children: [
+                  MealIllustration(meal: meal, size: 36),
+                  const SizedBox(width: 12),
+                  Text(
+                    meal.label,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textDark,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 8),
             if (entries.isEmpty)
-              const SizedBox(
+              SizedBox(
                 height: 160,
                 child: EmptyState(
                   icon: Icons.restaurant_menu,
-                  message: 'Nothing logged yet',
+                  message: l10n.nothingLoggedYet,
                 ),
               )
             else

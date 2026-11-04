@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/onboarding_provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../widgets/step_header.dart';
+import '../../../../l10n/l10n.dart';
 
 /// The plan summary, shown after [PersonalizingPage] marks the plan ready.
 class PlanPage extends StatelessWidget {
@@ -17,35 +18,37 @@ class PlanPage extends StatelessWidget {
 
     return ListView(
       children: [
-        const StepHeader(title: 'Your plan is ready'),
+        StepHeader(title: l10n.planReady),
         Center(
           child: Text(
             '${goals.dailyCalories}',
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 74,
               fontWeight: FontWeight.w600,
               letterSpacing: -1,
-              color: AppColors.primary,
+              color: AppColors.accent,
             ),
           ),
         ),
-        const Center(
+        Center(
           child: Text(
-            'calories per day',
+            l10n.caloriesPerDay,
             style: TextStyle(fontSize: 18, color: AppColors.textGrey),
           ),
         ),
         const SizedBox(height: 36),
-        _MacroRow(emoji: '🍗', label: 'Protein', grams: goals.protein),
-        _MacroRow(emoji: '🍞', label: 'Carbs', grams: goals.carbs),
-        _MacroRow(emoji: '🥑', label: 'Fat', grams: goals.fat),
+        _MacroRow(emoji: '🍗', label: l10n.protein, grams: goals.protein),
+        _MacroRow(emoji: '🍞', label: l10n.carbs, grams: goals.carbs),
+        _MacroRow(emoji: '🥑', label: l10n.fat, grams: goals.fat),
         if (weekly != 0)
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Text(
-              '${weekly > 0 ? '+' : ''}${weekly.toStringAsFixed(2)} kg per week',
+              l10n.kgPerWeekSigned(
+                '${weekly > 0 ? '+' : ''}${weekly.toStringAsFixed(2)}',
+              ),
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16, color: AppColors.textGrey),
+              style: TextStyle(fontSize: 16, color: AppColors.textGrey),
             ),
           ),
       ],
@@ -88,12 +91,12 @@ class _MacroRow extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: const TextStyle(fontSize: 19, color: AppColors.textDark),
+              style: TextStyle(fontSize: 19, color: AppColors.textDark),
             ),
           ),
           Text(
-            '$grams g',
-            style: const TextStyle(
+            l10n.gramsValue('$grams'),
+            style: TextStyle(
               fontSize: 19,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,

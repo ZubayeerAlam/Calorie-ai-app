@@ -25,7 +25,7 @@ class GoalFocusChips extends StatelessWidget {
             ),
             child: Text(
               '${focus.emoji} ${focus.label}',
-              style: const TextStyle(fontSize: 13, color: AppColors.textDark),
+              style: TextStyle(fontSize: 13, color: AppColors.textDark),
             ),
           ),
       ],

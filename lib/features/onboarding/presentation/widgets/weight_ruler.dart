@@ -47,6 +47,9 @@ class WeightRuler extends StatelessWidget {
 }
 
 class _RulerPainter extends CustomPainter {
+  /// Colours come from [AppColors]; repaint when the mode changes.
+  final bool _dark = AppColors.isDark;
+
   _RulerPainter({
     required this.value,
     required this.min,
@@ -77,7 +80,7 @@ class _RulerPainter extends CustomPainter {
         final label = TextPainter(
           text: TextSpan(
             text: '$i',
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'Outfit',
               fontSize: 18,
               color: AppColors.tickLabel,
@@ -102,6 +105,7 @@ class _RulerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RulerPainter oldDelegate) =>
+      oldDelegate._dark != _dark ||
       oldDelegate.value != value ||
       oldDelegate.min != min ||
       oldDelegate.max != max;

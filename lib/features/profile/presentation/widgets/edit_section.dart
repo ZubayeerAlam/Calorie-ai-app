@@ -24,7 +24,7 @@ class EditSection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
@@ -34,7 +34,7 @@ class EditSection extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               hint!,
-              style: const TextStyle(fontSize: 13, color: AppColors.textLight),
+              style: TextStyle(fontSize: 13, color: AppColors.textLight),
             ),
           ],
           const SizedBox(height: 10),

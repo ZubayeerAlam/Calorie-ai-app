@@ -4,6 +4,7 @@ import 'package:cal_ai_app/app.dart';
 import 'package:cal_ai_app/core/services/auth_service.dart';
 import 'package:cal_ai_app/core/services/health_service.dart';
 import 'package:cal_ai_app/core/services/local_storage_service.dart';
+import 'package:cal_ai_app/core/theme/app_colors.dart';
 import 'package:cal_ai_app/core/utils/date_utils.dart';
 import 'package:cal_ai_app/features/food_log/data/models/food_entry.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_goals.dart';
@@ -18,6 +19,7 @@ import 'fake_cloud_store.dart';
 import 'fake_food_analysis_service.dart';
 import 'fake_health_service.dart';
 import 'fake_image_picker.dart';
+import 'fake_notification_service.dart';
 import 'fake_step_counter.dart';
 
 UserProfile _profile() => UserProfile(
@@ -66,6 +68,7 @@ Future<void> _pumpApp(
   AuthService? auth,
   FakeCloudStore? cloud,
   HealthService? health,
+  FakeNotificationService? notifications,
 }) async {
   tester.view.physicalSize = const Size(1290, 2796);
   tester.view.devicePixelRatio = 3;
@@ -79,6 +82,7 @@ Future<void> _pumpApp(
       auth: auth,
       cloudStore: cloud,
       health: health,
+      notifications: notifications,
     ),
   );
   await tester.pumpAndSettle();
@@ -428,6 +432,138 @@ void main() {
       expect(storage.getJson(StorageKeys.userProfile), isNull);
       expect(cloud.foodOf(uid), isEmpty);
       expect(cloud.valuesOf(uid), isEmpty);
+    });
+  });
+
+  group('Reminders', () {
+    testWidgets('the bell opens reminders; turning one on schedules it', (
+      tester,
+    ) async {
+      final notifications = FakeNotificationService();
+      await _pumpApp(tester, await _storage(), notifications: notifications);
+
+      await _tap(tester, find.byTooltip('Notifications'));
+      expect(find.text('Reminders'), findsOneWidget);
+      expect(find.textContaining('Turn on a reminder'), findsOneWidget);
+
+      await _tap(tester, find.byKey(const ValueKey('reminder-switch-dinner')));
+      expect(notifications.timesFor('dinner'), isNotEmpty);
+      // The dinner reminder uses the profile's dinner time (8:30 PM).
+      expect(notifications.timesFor('dinner').last.hour, 20);
+      expect(find.byKey(const ValueKey('today-dinner')), findsOneWidget);
+    });
+
+    testWidgets('refused notifications explain how to allow them', (
+      tester,
+    ) async {
+      await _pumpApp(
+        tester,
+        await _storage(),
+        notifications: FakeNotificationService(granted: false),
+      );
+      await _tap(tester, find.byTooltip('Notifications'));
+      await _tap(tester, find.byKey(const ValueKey('reminder-switch-lunch')));
+      expect(
+        find.textContaining('Notifications are turned off'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('tapping a reminder notification opens Add Food for it', (
+      tester,
+    ) async {
+      final notifications = FakeNotificationService();
+      await _pumpApp(tester, await _storage(), notifications: notifications);
+      notifications.tapHandler!('lunch');
+      await tester.pumpAndSettle();
+      expect(find.text('Add Food'), findsWidgets);
+    });
+  });
+
+  group('Appearance', () {
+    Color background(WidgetTester tester) =>
+        tester.widget<Scaffold>(find.byType(Scaffold).first).backgroundColor ??
+        Theme.of(tester.element(find.byType(Scaffold).first))
+            .scaffoldBackgroundColor;
+
+    testWidgets('Dark mode from Account, kept after a restart', (tester) async {
+      final storage = await _storage();
+      await _pumpApp(tester, storage);
+      expect(AppColors.isDark, isFalse);
+
+      await _tap(tester, find.text('Account'));
+      await _tap(tester, find.text('Dark'));
+      expect(AppColors.isDark, isTrue);
+      expect(background(tester), const Color(0xFF121212));
+      expect(storage.getString(StorageKeys.themeMode), 'dark');
+
+      // A fresh start uses the saved choice.
+      await tester.pumpWidget(const SizedBox());
+      await _pumpApp(tester, storage);
+      expect(AppColors.isDark, isTrue);
+
+      await _tap(tester, find.text('Account'));
+      await _tap(tester, find.text('Light'));
+      expect(AppColors.isDark, isFalse);
+    });
+
+    testWidgets('System follows the phone', (tester) async {
+      tester.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
+      addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+      await _pumpApp(tester, await _storage());
+      expect(AppColors.isDark, isTrue);
+
+      tester.platformDispatcher.platformBrightnessTestValue = Brightness.light;
+      await tester.pumpAndSettle();
+      expect(AppColors.isDark, isFalse);
+    });
+  });
+
+  group('Language', () {
+    testWidgets('Bangla from Account, back to English, kept after restart', (
+      tester,
+    ) async {
+      final storage = await _storage(food: [_food('a', 500, today)]);
+      await _pumpApp(tester, storage);
+      expect(find.text('Home'), findsOneWidget);
+
+      await _tap(tester, find.text('Account'));
+      await _tap(tester, find.text('বাংলা'));
+      expect(storage.getString(StorageKeys.language), 'bn');
+      expect(find.text('প্রোফাইল ও লক্ষ্য'), findsOneWidget);
+      expect(find.text('হোম'), findsOneWidget);
+      expect(find.text('Home'), findsNothing);
+
+      await _tap(tester, find.text('হোম'));
+      expect(find.textContaining('আজ, '), findsOneWidget);
+      expect(find.text('সকালের নাশতা'), findsOneWidget);
+
+      // A fresh start keeps Bangla.
+      await tester.pumpWidget(const SizedBox());
+      await _pumpApp(tester, storage);
+      expect(find.text('হোম'), findsOneWidget);
+
+      await _tap(tester, find.text('অ্যাকাউন্ট'));
+      await _tap(tester, find.text('English'));
+      expect(find.text('Profile & Goals'), findsOneWidget);
+      expect(storage.getString(StorageKeys.language), 'en');
+    });
+
+    testWidgets("System follows the phone's language", (tester) async {
+      tester.platformDispatcher.localesTestValue = const [Locale('bn', 'BD')];
+      addTearDown(tester.platformDispatcher.clearLocalesTestValue);
+      await _pumpApp(tester, await _storage());
+      expect(find.text('ট্র্যাকার'), findsOneWidget);
+    });
+
+    testWidgets('reminder texts are in the language in use', (tester) async {
+      final notifications = FakeNotificationService();
+      final storage = await _storage();
+      await storage.setString(StorageKeys.language, 'bn');
+      await _pumpApp(tester, storage, notifications: notifications);
+      await _tap(tester, find.byKey(const ValueKey('notifications')));
+      await _tap(tester, find.byKey(const ValueKey('reminder-switch-dinner')));
+      expect(notifications.scheduled.values.first.title, 'রাতের খাবারের সময়');
     });
   });
 

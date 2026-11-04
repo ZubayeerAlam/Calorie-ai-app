@@ -6,6 +6,7 @@ import '../../../profile/presentation/profile_labels.dart';
 import '../../providers/onboarding_provider.dart';
 import '../widgets/option_tile.dart';
 import '../widgets/step_header.dart';
+import '../../../../l10n/l10n.dart';
 
 /// One row on the goal step: either a weight goal (only one can be
 /// selected) or a focus goal (any number can be selected).
@@ -55,7 +56,7 @@ class GoalPage extends StatelessWidget {
     final onboarding = context.watch<OnboardingProvider>();
     return ListView(
       children: [
-        const StepHeader(title: "What's your main goal?"),
+        StepHeader(title: l10n.mainGoal),
         for (final option in _options)
           OptionTile(
             title: option.label,

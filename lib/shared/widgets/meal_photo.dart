@@ -25,7 +25,7 @@ class MealPhoto extends StatelessWidget {
           height: height,
           alignment: Alignment.center,
           color: AppColors.card,
-          child: const Icon(
+          child: Icon(
             Icons.image_not_supported_outlined,
             color: AppColors.textLight,
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Shown above the meals while nothing is logged for the selected day.
 class EmptyLogHint extends StatelessWidget {
@@ -23,10 +24,8 @@ class EmptyLogHint extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              isToday
-                  ? 'Nothing logged yet today. Tap ＋ on a meal to log food.'
-                  : 'Nothing logged on this day. Tap ＋ on a meal to add it.',
-              style: const TextStyle(fontSize: 14, color: AppColors.textDark),
+              isToday ? l10n.emptyToday : l10n.emptyDay,
+              style: TextStyle(fontSize: 14, color: AppColors.textDark),
             ),
           ),
         ],

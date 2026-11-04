@@ -25,7 +25,7 @@ class ProfileStat extends StatelessWidget {
         FittedBox(
           child: Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
@@ -33,14 +33,11 @@ class ProfileStat extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
-        ),
+        Text(label, style: TextStyle(fontSize: 12, color: AppColors.textGrey)),
         if (caption != null)
           Text(
             caption!,
-            style: const TextStyle(fontSize: 11, color: AppColors.primary),
+            style: TextStyle(fontSize: 11, color: AppColors.accent),
           ),
       ],
     );

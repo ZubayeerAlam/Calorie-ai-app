@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../l10n/l10n.dart';
+
 /// The signed-in user.
 class AppUser {
   const AppUser({required this.uid, this.email});
@@ -28,17 +30,14 @@ class AuthException implements Exception {
   final AuthFailure failure;
 
   String get message => switch (failure) {
-    AuthFailure.invalidEmail => 'That email address doesn\'t look right.',
-    AuthFailure.wrongCredentials => 'Wrong email or password.',
-    AuthFailure.emailInUse =>
-      'An account with this email already exists. Sign in instead.',
-    AuthFailure.weakPassword => 'Use a password of at least 6 characters.',
-    AuthFailure.network => 'No connection. Check your internet and try again.',
-    AuthFailure.tooManyRequests =>
-      'Too many attempts. Wait a moment and try again.',
-    AuthFailure.notEnabled =>
-      'Email sign-in isn\'t turned on for this app yet.',
-    AuthFailure.unknown => 'Something went wrong. Please try again.',
+    AuthFailure.invalidEmail => l10n.authInvalidEmail,
+    AuthFailure.wrongCredentials => l10n.authWrongCredentials,
+    AuthFailure.emailInUse => l10n.authEmailInUse,
+    AuthFailure.weakPassword => l10n.authWeakPassword,
+    AuthFailure.network => l10n.authNetwork,
+    AuthFailure.tooManyRequests => l10n.authTooManyRequests,
+    AuthFailure.notEnabled => l10n.authNotEnabled,
+    AuthFailure.unknown => l10n.authUnknown,
   };
 
   @override

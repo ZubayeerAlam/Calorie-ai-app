@@ -12,6 +12,7 @@ import 'core/services/auth_service.dart';
 import 'core/services/cloud_store.dart';
 import 'core/services/firebase_food_analysis_service.dart';
 import 'core/services/health_service.dart';
+import 'core/services/notification_service.dart';
 import 'core/services/local_storage_service.dart';
 import 'firebase_options.dart';
 
@@ -42,6 +43,7 @@ Future<void> main() async {
         : const AppleAppAttestWithDeviceCheckFallbackProvider(),
   );
   final storage = await LocalStorageService.init();
+  final notifications = await LocalNotificationService.init();
   // The real services; the app's defaults (used by tests) are the demo AI
   // and no Health or accounts.
   runApp(
@@ -51,6 +53,7 @@ Future<void> main() async {
       health: HealthPluginService(),
       auth: FirebaseAuthService(),
       cloudStore: FirestoreCloudStore(),
+      notifications: notifications,
     ),
   );
 }

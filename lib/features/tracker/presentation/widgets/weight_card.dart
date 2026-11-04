@@ -5,6 +5,7 @@ import '../../data/models/weight_entry.dart';
 import 'line_chart.dart';
 import 'tracker_card.dart';
 import 'weight_units.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Current weight, its change over the period, and the trend line.
 class WeightCard extends StatelessWidget {
@@ -28,15 +29,15 @@ class WeightCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TrackerCard(
-      title: 'Weight',
+      title: l10n.weight,
       subtitle: change == null
-          ? 'Log your weight to see the trend'
-          : '${units.formatChange(change!)} in this period',
+          ? l10n.logWeightTrend
+          : l10n.changeInPeriod(units.formatChange(change!)),
       trailing: TextButton.icon(
         key: const ValueKey('log-weight'),
         onPressed: onLogWeight,
         icon: const Icon(Icons.add_rounded, size: 18),
-        label: const Text('Log'),
+        label: Text(l10n.log),
         style: TextButton.styleFrom(foregroundColor: AppColors.textDark),
       ),
       child: Column(
@@ -45,7 +46,7 @@ class WeightCard extends StatelessWidget {
           Text(
             units.format(currentKg),
             key: const ValueKey('current-weight'),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,

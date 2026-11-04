@@ -12,12 +12,9 @@ class SectionLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          text,
-          style: const TextStyle(fontSize: 13, color: AppColors.textLight),
-        ),
+        Text(text, style: TextStyle(fontSize: 13, color: AppColors.textLight)),
         const SizedBox(width: 14),
-        const Expanded(child: Divider(height: 1, color: AppColors.line)),
+        Expanded(child: Divider(height: 1, color: AppColors.line)),
       ],
     );
   }

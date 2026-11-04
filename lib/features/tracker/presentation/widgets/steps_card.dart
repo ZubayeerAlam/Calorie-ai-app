@@ -5,6 +5,7 @@ import '../../data/tracker_stats.dart';
 import 'bar_chart.dart';
 import 'chart_labels.dart';
 import 'tracker_card.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Steps per day.
 class StepsCard extends StatelessWidget {
@@ -16,11 +17,13 @@ class StepsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final days = stats.days;
     return TrackerCard(
-      title: 'Steps',
+      title: l10n.steps,
       subtitle: stats.totalSteps == 0
-          ? 'No steps counted yet'
-          : 'Avg ${AppNumbers.thousands(stats.averageSteps)} a day · '
-                '${AppNumbers.thousands(stats.totalSteps)} total',
+          ? l10n.noStepsYet
+          : l10n.stepsAverage(
+              AppNumbers.thousands(stats.averageSteps),
+              AppNumbers.thousands(stats.totalSteps),
+            ),
       child: BarChart(
         values: [for (final d in days) d.steps],
         labels: ChartLabels.forDays(days.map((d) => d.date).toList()),

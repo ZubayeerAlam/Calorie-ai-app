@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Shown while the stand-in analysis service is in use, so sample results
 /// are never mistaken for a real analysis of the photo.
@@ -25,14 +26,9 @@ class DemoNotice extends StatelessWidget {
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-              forPhoto
-                  ? 'Demo result: AI analysis isn\'t connected yet, so these '
-                        'are sample foods, not what\'s in your photo. Edit '
-                        'them before saving.'
-                  : 'Demo result: AI analysis isn\'t connected yet, so these '
-                        'are sample numbers, not real nutrition for what you '
-                        'typed. Edit them before saving.',
-              style: const TextStyle(fontSize: 13, color: AppColors.textDark),
+              forPhoto ? l10n.demoPhoto : l10n.demoText,
+              // On the light yellow box: dark in both modes.
+              style: TextStyle(fontSize: 13, color: AppColors.onPrimary),
             ),
           ),
         ],

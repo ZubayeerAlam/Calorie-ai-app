@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/services/food_analysis_service.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Explains why the analysis failed and offers a way forward.
 class AnalysisErrorView extends StatelessWidget {
@@ -29,26 +30,23 @@ class AnalysisErrorView extends StatelessWidget {
     final (icon, title, message) = switch (failure) {
       FoodAnalysisFailure.notFood when forPhoto => (
         Icons.no_food_outlined,
-        'No food found',
-        'We couldn\'t spot any food in this photo. Try another photo, or '
-            'enter the food yourself.',
+        l10n.noFoodFound,
+        l10n.noFoodFoundPhoto,
       ),
       FoodAnalysisFailure.notFood => (
         Icons.no_food_outlined,
-        'No food recognised',
-        'We couldn\'t find any food in what you wrote. Try describing it '
-            'differently, or enter the numbers yourself.',
+        l10n.noFoodRecognised,
+        l10n.noFoodRecognisedText,
       ),
       FoodAnalysisFailure.network => (
         Icons.wifi_off_rounded,
-        'Can\'t reach the analysis service',
-        'Check your connection and try again.',
+        l10n.cantReachAnalysis,
+        l10n.checkConnection,
       ),
       FoodAnalysisFailure.invalidResponse || FoodAnalysisFailure.unknown => (
         Icons.error_outline_rounded,
-        'Something went wrong',
-        'The analysis didn\'t work this time. Try again, or enter the food '
-            'yourself.',
+        l10n.somethingWentWrong,
+        l10n.analysisFailed,
       ),
     };
     final isNotFood = failure == FoodAnalysisFailure.notFood;
@@ -64,7 +62,7 @@ class AnalysisErrorView extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
               color: AppColors.textDark,
@@ -74,7 +72,7 @@ class AnalysisErrorView extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 15, color: AppColors.textGrey),
+            style: TextStyle(fontSize: 15, color: AppColors.textGrey),
           ),
           const SizedBox(height: 28),
           SizedBox(
@@ -83,16 +81,16 @@ class AnalysisErrorView extends StatelessWidget {
               onPressed: isNotFood ? onNotFoodAction : onRetry,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: AppColors.textDark,
+                foregroundColor: AppColors.onPrimary,
                 elevation: 0,
                 shape: const StadiumBorder(),
               ),
               child: Text(
                 !isNotFood
-                    ? 'Try again'
+                    ? l10n.tryAgain
                     : forPhoto
-                    ? 'Try another photo'
-                    : 'Edit description',
+                    ? l10n.tryAnotherPhoto
+                    : l10n.editDescription,
               ),
             ),
           ),
@@ -100,7 +98,7 @@ class AnalysisErrorView extends StatelessWidget {
           TextButton(
             onPressed: onEnterManually,
             child: Text(
-              forPhoto ? 'Enter it manually' : 'Enter numbers myself',
+              forPhoto ? l10n.enterItManually : l10n.enterNumbersMyself,
             ),
           ),
         ],

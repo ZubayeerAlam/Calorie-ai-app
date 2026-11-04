@@ -61,7 +61,7 @@ class OptionTile extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 19,
                         fontWeight: FontWeight.w400,
                         color: AppColors.textDark,
@@ -70,7 +70,7 @@ class OptionTile extends StatelessWidget {
                     if (subtitle != null)
                       Text(
                         subtitle!,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
                           color: AppColors.textGrey,
                         ),
@@ -79,7 +79,7 @@ class OptionTile extends StatelessWidget {
                 ),
               ),
               if (selected)
-                const Icon(Icons.check, size: 24, color: AppColors.primary),
+                Icon(Icons.check, size: 24, color: AppColors.primary),
             ],
           ),
         ),

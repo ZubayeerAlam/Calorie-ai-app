@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../shared/widgets/empty_state.dart';
 import '../../providers/food_scan_provider.dart';
+import '../../../../l10n/l10n.dart';
 
 class FoodScanScreen extends StatelessWidget {
   const FoodScanScreen({super.key, this.returnPhoto = false});
@@ -22,7 +23,7 @@ class FoodScanScreen extends StatelessWidget {
     final image = scan.image;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Scan Food')),
+      appBar: AppBar(title: Text(l10n.scanFood)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -37,7 +38,7 @@ class FoodScanScreen extends StatelessWidget {
                         ? null
                         : scan.captureFromCamera,
                     icon: const Icon(Icons.camera_alt),
-                    label: const Text('Camera'),
+                    label: Text(l10n.camera),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -47,7 +48,7 @@ class FoodScanScreen extends StatelessWidget {
                         ? null
                         : scan.pickFromGallery,
                     icon: const Icon(Icons.photo_library),
-                    label: const Text('Gallery'),
+                    label: Text(l10n.gallery),
                   ),
                 ),
               ],
@@ -68,7 +69,7 @@ class FoodScanScreen extends StatelessWidget {
                       );
                     }
                   },
-                  child: const Text('Use this photo'),
+                  child: Text(l10n.useThisPhoto),
                 ),
               ),
             ],
@@ -91,26 +92,26 @@ class FoodScanScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('Camera permission is required to scan food.'),
+              Text(l10n.cameraPermissionRequired),
               if (scan.permanentlyDenied)
                 TextButton(
                   onPressed: scan.openSettings,
-                  child: const Text('Open Settings'),
+                  child: Text(l10n.openSettings),
                 ),
             ],
           ),
         );
       case ScanStatus.error:
-        return const EmptyState(
+        return EmptyState(
           icon: Icons.error_outline,
-          message: 'Could not load the image. Please try again.',
+          message: l10n.imageLoadFailed,
         );
       case ScanStatus.idle:
       case ScanStatus.picked:
         if (path == null) {
-          return const EmptyState(
+          return EmptyState(
             icon: Icons.fastfood_outlined,
-            message: 'Take or choose a photo of your meal',
+            message: l10n.scanWithCameraHint,
           );
         }
         return ClipRRect(

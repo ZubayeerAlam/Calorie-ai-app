@@ -6,6 +6,7 @@ import '../../data/tracker_stats.dart';
 import 'bar_chart.dart';
 import 'chart_labels.dart';
 import 'tracker_card.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Calories eaten per day against the target line.
 class CaloriesCard extends StatelessWidget {
@@ -26,10 +27,10 @@ class CaloriesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final days = stats.days;
     return TrackerCard(
-      title: 'Calories',
-      subtitle:
-          'Target ${AppNumbers.thousands(stats.goals.dailyCalories)} kcal · '
-          'dashed line',
+      title: l10n.calories,
+      subtitle: l10n.targetDashedLine(
+        AppNumbers.thousands(stats.goals.dailyCalories),
+      ),
       child: Column(
         children: [
           BarChart(
@@ -39,14 +40,14 @@ class CaloriesCard extends StatelessWidget {
             colorFor: (i) => _colorFor(days[i]),
           ),
           const SizedBox(height: 12),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 6,
             children: [
-              _Legend(color: AppColors.primary, label: 'On target'),
-              SizedBox(width: 16),
-              _Legend(color: AppColors.primaryLight, label: 'Under'),
-              SizedBox(width: 16),
-              _Legend(color: over, label: 'Over'),
+              _Legend(color: AppColors.primary, label: l10n.onTarget),
+              _Legend(color: AppColors.primaryLight, label: l10n.under),
+              _Legend(color: over, label: l10n.over),
             ],
           ),
         ],
@@ -64,6 +65,7 @@ class _Legend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           width: 10,
@@ -74,10 +76,7 @@ class _Legend extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 6),
-        Text(
-          label,
-          style: const TextStyle(fontSize: 12, color: AppColors.textGrey),
-        ),
+        Text(label, style: TextStyle(fontSize: 12, color: AppColors.textGrey)),
       ],
     );
   }

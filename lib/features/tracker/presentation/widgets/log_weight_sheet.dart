@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/number_format.dart';
 import 'weight_units.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Bottom sheet for today's weigh-in. Resolves to the weight in kg, or
 /// null if dismissed.
@@ -79,8 +80,8 @@ class _LogWeightSheetState extends State<LogWeightSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Log weight',
+          Text(
+            l10n.logWeight,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -88,8 +89,8 @@ class _LogWeightSheetState extends State<LogWeightSheet> {
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            "Today's weight. Your calorie target follows it.",
+          Text(
+            l10n.logWeightSubtitle,
             style: TextStyle(fontSize: 14, color: AppColors.textGrey),
           ),
           const SizedBox(height: 20),
@@ -107,7 +108,7 @@ class _LogWeightSheetState extends State<LogWeightSheet> {
               suffixText: widget.units.unit,
               errorText: valid || _controller.text.isEmpty
                   ? null
-                  : 'Enter a realistic weight',
+                  : l10n.realisticWeight,
               filled: true,
               fillColor: AppColors.card,
               border: OutlineInputBorder(
@@ -124,12 +125,12 @@ class _LogWeightSheetState extends State<LogWeightSheet> {
               onPressed: valid ? _save : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: AppColors.textDark,
+                foregroundColor: AppColors.onPrimary,
                 elevation: 0,
                 shape: const StadiumBorder(),
               ),
-              child: const Text(
-                'Save',
+              child: Text(
+                l10n.save,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),

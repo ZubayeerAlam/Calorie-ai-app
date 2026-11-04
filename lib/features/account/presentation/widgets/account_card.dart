@@ -6,6 +6,7 @@ import '../../../../core/routes/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../dashboard/presentation/widgets/dashboard_card.dart';
 import '../../providers/account_provider.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Account status on the Account tab: sign in to back up, or the signed-in
 /// email with Log out. Hidden when accounts aren't available.
@@ -19,20 +20,14 @@ class AccountCard extends StatelessWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Log out?'),
-        content: const Text(
-          'Your data stays in your account and is removed from this phone. '
-          'Sign in again to get it back.',
-        ),
+        title: Text(l10n.logOutTitle),
+        content: Text(l10n.logOutBody),
         actions: [
-          TextButton(
-            onPressed: () => ctx.pop(false),
-            child: const Text('Cancel'),
-          ),
+          TextButton(onPressed: () => ctx.pop(false), child: Text(l10n.cancel)),
           TextButton(
             key: const ValueKey('confirm-log-out'),
             onPressed: () => ctx.pop(true),
-            child: const Text('Log out'),
+            child: Text(l10n.logOut),
           ),
         ],
       ),
@@ -61,9 +56,9 @@ class AccountCard extends StatelessWidget {
               children: [
                 Text(
                   user == null
-                      ? 'Back up your data'
-                      : (user.email ?? 'Signed in'),
-                  style: const TextStyle(
+                      ? l10n.backUpYourData
+                      : (user.email ?? l10n.signedIn),
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textDark,
@@ -71,27 +66,29 @@ class AccountCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  user == null
-                      ? 'Sign in to keep your meals and weight safe and use '
-                            'them on another phone.'
-                      : 'Backed up and synced to your account',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textGrey,
-                  ),
+                  user == null ? l10n.backUpPitch : l10n.backedUpSynced,
+                  style: TextStyle(fontSize: 13, color: AppColors.textGrey),
                 ),
                 const SizedBox(height: 8),
                 if (user == null)
-                  ElevatedButton(
-                    key: const ValueKey('open-sign-in'),
-                    onPressed: () => context.push(AppRoutes.signIn),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: AppColors.textDark,
-                      elevation: 0,
-                      shape: const StadiumBorder(),
+                  // Full width, and the label shrinks rather than overflowing
+                  // when a language makes it long.
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      key: const ValueKey('open-sign-in'),
+                      onPressed: () => context.push(AppRoutes.signIn),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: AppColors.onPrimary,
+                        elevation: 0,
+                        shape: const StadiumBorder(),
+                      ),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(l10n.signInOrCreate),
+                      ),
                     ),
-                    child: const Text('Sign in or create account'),
                   )
                 else
                   OutlinedButton(
@@ -101,7 +98,7 @@ class AccountCard extends StatelessWidget {
                       foregroundColor: AppColors.textDark,
                       shape: const StadiumBorder(),
                     ),
-                    child: const Text('Log out'),
+                    child: Text(l10n.logOut),
                   ),
               ],
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 /// Round green camera button that rises above the middle of the bottom bar.
 /// It is an action (it opens a screen), not a tab.
@@ -15,7 +16,7 @@ class CameraButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Add food with camera',
+      label: l10n.addFoodWithCamera,
       child: Container(
         width: size,
         height: size,
@@ -37,10 +38,10 @@ class CameraButton extends StatelessWidget {
           child: InkWell(
             customBorder: const CircleBorder(),
             onTap: onPressed,
-            child: const Icon(
+            child: Icon(
               Icons.photo_camera_rounded,
               size: 28,
-              color: AppColors.textDark,
+              color: AppColors.onPrimary,
             ),
           ),
         ),

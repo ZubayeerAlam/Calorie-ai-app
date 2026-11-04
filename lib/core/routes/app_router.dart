@@ -17,11 +17,12 @@ import '../../features/home/presentation/screens/home_shell.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/onboarding/providers/onboarding_provider.dart';
 import '../../features/profile/presentation/screens/edit_profile_screen.dart';
+import '../../features/reminders/presentation/screens/reminders_screen.dart';
 import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/profile/providers/profile_provider.dart';
 import '../../features/tracker/presentation/screens/tracker_screen.dart';
-import '../../shared/widgets/coming_soon_screen.dart';
 import 'app_routes.dart';
+import '../../l10n/l10n.dart';
 
 /// Builds the app's router.
 ///
@@ -43,7 +44,7 @@ GoRouter createAppRouter(ProfileProvider profile) {
       return atOnboarding ? AppRoutes.home : null;
     },
     errorBuilder: (context, state) =>
-        const Scaffold(body: Center(child: Text('Page not found'))),
+        Scaffold(body: Center(child: Text(l10n.pageNotFound))),
     routes: [
       GoRoute(
         path: AppRoutes.onboarding,
@@ -59,13 +60,6 @@ GoRouter createAppRouter(ProfileProvider profile) {
         branches: [
           _tab(AppRoutes.home, (_) => const DashboardScreen()),
           _tab(AppRoutes.tracker, (_) => const TrackerScreen()),
-          _tab(
-            AppRoutes.articles,
-            (_) => const ComingSoonScreen(
-              title: 'Articles',
-              icon: Icons.article_outlined,
-            ),
-          ),
           _tab(AppRoutes.account, (_) => const ProfileScreen()),
         ],
       ),
@@ -85,6 +79,11 @@ GoRouter createAppRouter(ProfileProvider profile) {
       GoRoute(
         path: AppRoutes.signIn,
         builder: (context, state) => const SignInScreen(),
+      ),
+      // The Home bell: today's meals and the reminder settings.
+      GoRoute(
+        path: AppRoutes.reminders,
+        builder: (context, state) => const RemindersScreen(),
       ),
       // Account → Edit profile.
       GoRoute(
@@ -137,7 +136,7 @@ class _NothingToAnalyze extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(),
-    body: const Center(child: Text('Nothing to analyse. Please go back.')),
+    body: Center(child: Text(l10n.nothingToAnalyze)),
   );
 }
 

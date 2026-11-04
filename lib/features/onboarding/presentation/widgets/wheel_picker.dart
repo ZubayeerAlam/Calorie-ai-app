@@ -40,19 +40,25 @@ class _WheelPickerState extends State<WheelPicker>
   // 0, 1, 2, 3 and 4 steps away from the selected one (measured from mockup).
   static const List<double> _offsets = [0, 93, 159, 215, 262];
   static const List<double> _fontSizes = [45, 37, 29, 22, 17];
-  static const List<Color> _colors = [
-    AppColors.primary,
-    Color(0xFF555555),
-    Color(0xFF666666),
-    Color(0xFF8A8A8A),
-    Color(0xFFBBBBBB),
-  ];
+  static List<Color> get _colors => AppColors.isDark
+      ? [
+          AppColors.primary,
+          const Color(0xFFCFCFCF),
+          const Color(0xFFA8A8A8),
+          const Color(0xFF7E7E7E),
+          const Color(0xFF555555),
+        ]
+      : [
+          AppColors.primary,
+          const Color(0xFF555555),
+          const Color(0xFF666666),
+          const Color(0xFF8A8A8A),
+          const Color(0xFFBBBBBB),
+        ];
   static const double _dragStep = 80;
   static const double _lineGap = 99;
-  static const TextStyle _suffixStyle = TextStyle(
-    fontSize: 16,
-    color: AppColors.textDark,
-  );
+  static TextStyle get _suffixStyle =>
+      TextStyle(fontSize: 16, color: AppColors.textDark);
 
   late final AnimationController _position;
 

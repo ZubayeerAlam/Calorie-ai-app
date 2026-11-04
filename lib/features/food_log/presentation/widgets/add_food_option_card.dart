@@ -33,11 +33,11 @@ class AddFoodOptionCard extends StatelessWidget {
               Container(
                 width: 52,
                 height: 52,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, size: 26, color: AppColors.textDark),
+                child: Icon(icon, size: 26, color: AppColors.onPrimary),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -46,7 +46,7 @@ class AddFoodOptionCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
                         color: AppColors.textDark,
@@ -55,15 +55,12 @@ class AddFoodOptionCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.textGrey,
-                      ),
+                      style: TextStyle(fontSize: 13, color: AppColors.textGrey),
                     ),
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right_rounded, color: AppColors.tick),
+              Icon(Icons.chevron_right_rounded, color: AppColors.tick),
             ],
           ),
         ),

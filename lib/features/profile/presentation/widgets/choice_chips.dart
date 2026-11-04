@@ -45,8 +45,13 @@ class OptionChips<T> extends StatelessWidget {
             showCheckmark: multiple,
             selectedColor: AppColors.primary,
             backgroundColor: AppColors.surface,
-            side: const BorderSide(color: AppColors.chipBorder),
-            labelStyle: const TextStyle(color: AppColors.textDark),
+            side: BorderSide(color: AppColors.chipBorder),
+            labelStyle: TextStyle(
+              color: selected.contains(option)
+                  ? AppColors.onPrimary
+                  : AppColors.textDark,
+            ),
+            checkmarkColor: AppColors.onPrimary,
           ),
       ],
     );

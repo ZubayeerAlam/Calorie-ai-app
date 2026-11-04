@@ -25,9 +25,9 @@ class PeriodToggle extends StatelessWidget {
         style: SegmentedButton.styleFrom(
           backgroundColor: AppColors.surface,
           selectedBackgroundColor: AppColors.primary,
-          selectedForegroundColor: AppColors.textDark,
+          selectedForegroundColor: AppColors.onPrimary,
           foregroundColor: AppColors.textGrey,
-          side: const BorderSide(color: AppColors.line),
+          side: BorderSide(color: AppColors.line),
         ),
       ),
     );

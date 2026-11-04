@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/models/food_entry.dart';
 import '../meal_type_labels.dart';
+import '../../../../l10n/l10n.dart';
 
 class FoodEntryTile extends StatelessWidget {
   const FoodEntryTile({super.key, required this.entry, this.onDelete});
@@ -23,18 +24,17 @@ class FoodEntryTile extends StatelessWidget {
       subtitle: Text(
         '${entry.mealType.label}'
         '${entry.portion?.isNotEmpty ?? false ? ' · ${entry.portion}' : ''}'
-        ' · P ${entry.protein.toStringAsFixed(0)}g '
-        'C ${entry.carbs.toStringAsFixed(0)}g F ${entry.fat.toStringAsFixed(0)}g'
+        ' · ${l10n.macroShort(entry.protein.toStringAsFixed(0), entry.carbs.toStringAsFixed(0), entry.fat.toStringAsFixed(0))}'
         '${entry.aiEstimated
-            ? ' (AI estimate)'
+            ? ' ${l10n.aiEstimateTag}'
             : entry.macrosEstimated
-            ? ' (est.)'
+            ? ' ${l10n.estimatedTag}'
             : ''}',
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('${entry.calories} kcal'),
+          Text(l10n.kcalValue('${entry.calories}')),
           if (onDelete != null)
             IconButton(
               icon: const Icon(Icons.delete_outline),

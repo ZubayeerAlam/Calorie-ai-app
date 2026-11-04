@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/l10n.dart';
 
 class AppNavItem {
   const AppNavItem({
@@ -16,7 +17,8 @@ class AppNavItem {
 
 /// White bottom bar: green icon + label for the active tab, grey otherwise.
 ///
-/// There are four tabs, two on each side of an empty middle slot. The
+/// Three tabs: Home and Tracker left of an empty middle slot, Account on
+/// the right (it takes the whole right half). The
 /// camera button that sits in that slot is a floating button added by the
 /// scaffold (see `HomeShell`), because a button that rises above the bar
 /// must be outside the bar to receive taps.
@@ -27,24 +29,19 @@ class AppBottomNav extends StatelessWidget {
     required this.onTap,
   });
 
-  static const List<AppNavItem> items = [
+  static List<AppNavItem> get items => [
     AppNavItem(
-      label: 'Home',
+      label: l10n.tabHome,
       icon: Icons.home_outlined,
       activeIcon: Icons.home_rounded,
     ),
     AppNavItem(
-      label: 'Tracker',
+      label: l10n.tabTracker,
       icon: Icons.grid_view_outlined,
       activeIcon: Icons.grid_view_rounded,
     ),
     AppNavItem(
-      label: 'Articles',
-      icon: Icons.article_outlined,
-      activeIcon: Icons.article_rounded,
-    ),
-    AppNavItem(
-      label: 'Account',
+      label: l10n.tabAccount,
       icon: Icons.person_outline_rounded,
       activeIcon: Icons.person_rounded,
     ),
@@ -70,19 +67,30 @@ class AppBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(top: BorderSide(color: AppColors.divider)),
       ),
       child: SafeArea(
         top: false,
         child: SizedBox(
-          height: 64,
+          // Room for the labels at the largest text size.
+          height: 68,
           child: Row(
             children: [
-              for (var i = 0; i < _tabsOnLeft; i++) _tab(i),
+              Expanded(
+                child: Row(
+                  children: [for (var i = 0; i < _tabsOnLeft; i++) _tab(i)],
+                ),
+              ),
               const SizedBox(width: cameraGap),
-              for (var i = _tabsOnLeft; i < items.length; i++) _tab(i),
+              Expanded(
+                child: Row(
+                  children: [
+                    for (var i = _tabsOnLeft; i < items.length; i++) _tab(i),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -104,7 +112,8 @@ class _NavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? AppColors.primary : AppColors.textLight;
+    // The readable green (darker than the brand green on white).
+    final color = selected ? AppColors.accent : AppColors.textLight;
     return Semantics(
       selected: selected,
       button: true,

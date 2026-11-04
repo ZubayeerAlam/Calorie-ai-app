@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/models/food_analysis.dart';
 import 'labeled_number_field.dart';
+import '../../../../l10n/l10n.dart';
 
 /// One food the AI found, with every value editable and a remove button.
 class AnalyzedItemCard extends StatefulWidget {
@@ -73,25 +74,22 @@ class _AnalyzedItemCardState extends State<AnalyzedItemCard> {
                 child: TextField(
                   controller: _name,
                   onChanged: (_) => _emit(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textDark,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Food name',
+                    hintText: l10n.foodName,
                     border: InputBorder.none,
-                    errorText: _name.text.trim().isEmpty ? 'Add a name' : null,
+                    errorText: _name.text.trim().isEmpty ? l10n.addAName : null,
                   ),
                 ),
               ),
               IconButton(
-                tooltip: 'Remove ${widget.item.name}',
+                tooltip: l10n.removeItem(widget.item.name),
                 onPressed: widget.onRemove,
-                icon: const Icon(
-                  Icons.delete_outline,
-                  color: AppColors.textGrey,
-                ),
+                icon: Icon(Icons.delete_outline, color: AppColors.textGrey),
               ),
             ],
           ),
@@ -108,17 +106,17 @@ class _AnalyzedItemCardState extends State<AnalyzedItemCard> {
                         onChanged: (_) => _emit(),
                         style: const TextStyle(fontSize: 15),
                         decoration: InputDecoration(
-                          labelText: 'Portion',
+                          labelText: l10n.portion,
                           isDense: true,
                           filled: true,
                           fillColor: AppColors.surface,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(color: AppColors.line),
+                            borderSide: BorderSide(color: AppColors.line),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(color: AppColors.line),
+                            borderSide: BorderSide(color: AppColors.line),
                           ),
                         ),
                       ),
@@ -128,8 +126,8 @@ class _AnalyzedItemCardState extends State<AnalyzedItemCard> {
                       flex: 2,
                       child: LabeledNumberField(
                         controller: _calories,
-                        label: 'Calories',
-                        unit: 'kcal',
+                        label: l10n.calories,
+                        unit: l10n.unitKcal,
                         decimals: false,
                         onChanged: (_) => _emit(),
                       ),
@@ -140,16 +138,16 @@ class _AnalyzedItemCardState extends State<AnalyzedItemCard> {
                 Row(
                   children: [
                     for (final (label, controller) in [
-                      ('Protein', _protein),
-                      ('Carbs', _carbs),
-                      ('Fat', _fat),
+                      (l10n.protein, _protein),
+                      (l10n.carbs, _carbs),
+                      (l10n.fat, _fat),
                     ]) ...[
-                      if (label != 'Protein') const SizedBox(width: 8),
+                      if (label != l10n.protein) const SizedBox(width: 8),
                       Expanded(
                         child: LabeledNumberField(
                           controller: controller,
                           label: label,
-                          unit: 'g',
+                          unit: l10n.unitGrams,
                           onChanged: (_) => _emit(),
                         ),
                       ),

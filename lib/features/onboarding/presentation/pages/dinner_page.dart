@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/onboarding_provider.dart';
 import '../widgets/step_header.dart';
 import '../widgets/wheel_picker.dart';
+import '../../../../l10n/l10n.dart';
 
 class DinnerPage extends StatelessWidget {
   const DinnerPage({super.key});
@@ -17,7 +18,7 @@ class DinnerPage extends StatelessWidget {
 
     return Column(
       children: [
-        const StepHeader(title: 'When do you usually have\ndinner?'),
+        StepHeader(title: l10n.whenDinner),
         Expanded(
           child: Align(
             alignment: Alignment.topCenter,

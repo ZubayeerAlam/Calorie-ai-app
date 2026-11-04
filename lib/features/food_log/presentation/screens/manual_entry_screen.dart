@@ -6,6 +6,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../food_scan/data/models/food_description.dart';
 import '../../../food_scan/presentation/screens/analyze_food_screen.dart';
 import '../widgets/detail_field.dart';
+import '../../../../l10n/l10n.dart';
 
 /// "Add manually": describe the meal in words (plus optional details) and
 /// let the AI work out the nutrition. "Enter numbers myself" opens the
@@ -67,15 +68,15 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add manually')),
+      appBar: AppBar(title: Text(l10n.addManually)),
       body: Column(
         children: [
           Expanded(
             child: ListView(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
               children: [
-                const Text(
-                  'What did you eat?',
+                Text(
+                  l10n.whatDidYouEat,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
@@ -83,24 +84,22 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'Describe your meal and the AI will estimate calories and '
-                  'macros. List several foods with commas.',
+                Text(
+                  l10n.manualIntro,
                   style: TextStyle(fontSize: 14, color: AppColors.textGrey),
                 ),
                 const SizedBox(height: 16),
                 DetailField(
                   key: const ValueKey('manual-description'),
                   controller: _text,
-                  label: 'Your meal',
-                  hint:
-                      'e.g. 2 scrambled eggs, toast with butter, black coffee',
+                  label: l10n.yourMeal,
+                  hint: l10n.yourMealHint,
                   maxLines: 5,
                   onChanged: (_) => setState(() {}),
                 ),
                 const SizedBox(height: 24),
-                const Text(
-                  'More details (optional)',
+                Text(
+                  l10n.moreDetails,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -108,33 +107,33 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'These help the estimate be more accurate.',
+                Text(
+                  l10n.moreDetailsHint,
                   style: TextStyle(fontSize: 13, color: AppColors.textGrey),
                 ),
                 const SizedBox(height: 12),
                 DetailField(
                   controller: _portion,
-                  label: 'Portion size',
-                  hint: 'e.g. 1 large plate, 250 g',
+                  label: l10n.portionSize,
+                  hint: l10n.portionSizeHint,
                 ),
                 const SizedBox(height: 10),
                 DetailField(
                   controller: _cooking,
-                  label: 'Cooking method',
-                  hint: 'e.g. fried in oil, grilled, boiled',
+                  label: l10n.cookingMethod,
+                  hint: l10n.cookingMethodHint,
                 ),
                 const SizedBox(height: 10),
                 DetailField(
                   controller: _brand,
-                  label: 'Brand or restaurant',
-                  hint: 'e.g. Starbucks, Nestlé',
+                  label: l10n.brandOrRestaurant,
+                  hint: l10n.brandHint,
                 ),
                 const SizedBox(height: 10),
                 DetailField(
                   controller: _ingredients,
-                  label: 'Ingredients',
-                  hint: 'e.g. olive oil, cheese, sugar',
+                  label: l10n.ingredients,
+                  hint: l10n.ingredientsHint,
                   textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 20),
@@ -142,13 +141,13 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
                   child: TextButton.icon(
                     onPressed: _enterNumbers,
                     icon: const Icon(Icons.dialpad_rounded),
-                    label: const Text('Enter numbers myself'),
+                    label: Text(l10n.enterNumbersMyself),
                   ),
                 ),
               ],
             ),
           ),
-          const Divider(height: 1, color: AppColors.divider),
+          Divider(height: 1, color: AppColors.divider),
           SafeArea(
             top: false,
             child: Padding(
@@ -160,13 +159,13 @@ class _ManualEntryScreenState extends State<ManualEntryScreen> {
                   key: const ValueKey('analyze-description'),
                   onPressed: _canAnalyze ? _analyze : null,
                   icon: const Icon(Icons.auto_awesome_rounded),
-                  label: const Text(
-                    'Analyze with AI',
+                  label: Text(
+                    l10n.analyzeWithAi,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    foregroundColor: AppColors.textDark,
+                    foregroundColor: AppColors.onPrimary,
                     disabledBackgroundColor: AppColors.primary.withValues(
                       alpha: 0.4,
                     ),

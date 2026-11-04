@@ -6,6 +6,7 @@ import '../../../profile/presentation/profile_labels.dart';
 import '../../providers/onboarding_provider.dart';
 import '../widgets/option_tile.dart';
 import '../widgets/step_header.dart';
+import '../../../../l10n/l10n.dart';
 
 class DietPage extends StatelessWidget {
   const DietPage({super.key});
@@ -15,7 +16,7 @@ class DietPage extends StatelessWidget {
     final onboarding = context.watch<OnboardingProvider>();
     return ListView(
       children: [
-        const StepHeader(title: 'Do you follow a specific diet?'),
+        StepHeader(title: l10n.specificDiet),
         for (final diet in DietType.values)
           OptionTile(
             title: diet.label,

@@ -4,6 +4,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/meal_photo.dart';
 import '../../data/models/food_description.dart';
 import 'description_summary.dart';
+import '../../../../l10n/l10n.dart';
 
 /// The photo (or typed description) with a spinner while the AI works.
 class AnalysisLoadingView extends StatelessWidget {
@@ -23,7 +24,7 @@ class AnalysisLoadingView extends StatelessWidget {
           else if (description != null)
             DescriptionSummary(description: description!),
           const Spacer(),
-          const SizedBox.square(
+          SizedBox.square(
             dimension: 44,
             child: CircularProgressIndicator(
               strokeWidth: 4,
@@ -32,8 +33,8 @@ class AnalysisLoadingView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
-            'Analyzing your meal…',
+          Text(
+            l10n.analyzingMeal,
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -41,8 +42,8 @@ class AnalysisLoadingView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 6),
-          const Text(
-            'This usually takes a few seconds.',
+          Text(
+            l10n.takesFewSeconds,
             style: TextStyle(fontSize: 14, color: AppColors.textGrey),
           ),
           const Spacer(flex: 2),

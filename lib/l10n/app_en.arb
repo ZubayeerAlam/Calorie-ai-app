@@ -1,0 +1,717 @@
+{
+  "@@locale": "en",
+  "pageNotFound": "Page not found",
+  "nothingToAnalyze": "Nothing to analyse. Please go back.",
+  "save": "Save",
+  "cancel": "Cancel",
+  "edit": "Edit",
+  "add": "Add",
+  "back": "Back",
+  "tryAgain": "Try again",
+  "required": "Required",
+  "today": "Today",
+  "kcalValue": "{value} kcal",
+  "@kcalValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "gramsValue": "{value} g",
+  "@gramsValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "kgValue": "{value} kg",
+  "@kgValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "lbValue": "{value} lb",
+  "@lbValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "cmValue": "{value} cm",
+  "@cmValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "unitKg": "kg",
+  "unitLb": "lb",
+  "unitCm": "cm",
+  "unitFt": "ft",
+  "unitIn": "in",
+  "unitKcal": "kcal",
+  "unitGrams": "g",
+  "eatenOfTarget": "{eaten} / {target} kcal",
+  "@eatenOfTarget": {
+    "placeholders": {
+      "eaten": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "percent": "{value}%",
+  "@percent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "todayDate": "Today, {date}",
+  "@todayDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "yesterdayDate": "Yesterday, {date}",
+  "@yesterdayDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "authInvalidEmail": "That email address doesn't look right.",
+  "authWrongCredentials": "Wrong email or password.",
+  "authEmailInUse": "An account with this email already exists. Sign in instead.",
+  "authWeakPassword": "Use a password of at least 6 characters.",
+  "authNetwork": "No connection. Check your internet and try again.",
+  "authTooManyRequests": "Too many attempts. Wait a moment and try again.",
+  "authNotEnabled": "Email sign-in isn't turned on for this app yet.",
+  "authUnknown": "Something went wrong. Please try again.",
+  "signedInAs": "Signed in as {email}",
+  "@signedInAs": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "backupUnreachable": "Your backup couldn't be reached, so you weren't signed in. Check your connection and try again.",
+  "enterEmailFirst": "Enter your email first.",
+  "passwordResetSent": "Password reset email sent to {email}",
+  "@passwordResetSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "createAccount": "Create account",
+  "signIn": "Sign in",
+  "signInIntro": "Back up your meals, weight and goals, and use them on another phone. The data already on this phone is kept and added to your account.",
+  "email": "Email",
+  "emailHint": "you@example.com",
+  "password": "Password",
+  "passwordHelper": "At least 6 characters",
+  "hidePassword": "Hide password",
+  "showPassword": "Show password",
+  "forgotPassword": "Forgot password?",
+  "haveAccountSignIn": "Already have an account? Sign in",
+  "newHereCreateAccount": "New here? Create an account",
+  "logOutTitle": "Log out?",
+  "logOutBody": "Your data stays in your account and is removed from this phone. Sign in again to get it back.",
+  "logOut": "Log out",
+  "backUpYourData": "Back up your data",
+  "signedIn": "Signed in",
+  "backUpPitch": "Sign in to keep your meals and weight safe and use them on another phone.",
+  "backedUpSynced": "Backed up and synced to your account",
+  "signInOrCreate": "Sign in or create account",
+  "healthAccessDenied": "Access wasn't allowed. You can allow it in {app} settings.",
+  "@healthAccessDenied": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "healthInstall": "Install or update {app} to import your steps and workouts.",
+  "@healthInstall": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "install": "Install",
+  "healthImporting": "Steps and workout calories are imported automatically.",
+  "disconnect": "Disconnect",
+  "healthPitch": "Import all your steps (also those walked before opening the app) and the calories from your workouts.",
+  "connecting": "Connecting…",
+  "connect": "Connect",
+  "healthConnected": "{app} connected",
+  "@healthConnected": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "stepsCount": "{steps} steps",
+  "@stepsCount": {
+    "placeholders": {
+      "steps": {
+        "type": "String"
+      }
+    }
+  },
+  "allowStepAccess": "Allow step access",
+  "noStepSensor": "No step sensor",
+  "dailyGoalKcal": "Daily goal: {kcal} kcal",
+  "@dailyGoalKcal": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "goalKcalADay": "{goal} · {kcal} kcal a day",
+  "@goalKcalADay": {
+    "placeholders": {
+      "goal": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "eaten": "Eaten",
+  "burned": "Burned",
+  "walking": "Walking",
+  "activity": "Activity",
+  "logActivity": "Log activity",
+  "kcalOver": "kcal over",
+  "kcalLeft": "kcal left",
+  "yourCaloriePlan": "Your calorie plan",
+  "caloriesAtRest": "Calories at rest (BMR)",
+  "withActivity": "With activity × {factor}",
+  "@withActivity": {
+    "placeholders": {
+      "factor": {
+        "type": "String"
+      }
+    }
+  },
+  "goalAdjustment": "Goal adjustment",
+  "recommendedDailyTarget": "Recommended daily target",
+  "raisedToMinimum": "Raised to the {kcal} kcal minimum",
+  "@raisedToMinimum": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "yourCustomTarget": "Your custom target",
+  "setOnAccount": "Set on Account",
+  "macros": "Macros",
+  "carbs": "Carbs",
+  "protein": "Protein",
+  "fat": "Fat",
+  "macroShare": "{percent} · {kcal} kcal/g",
+  "@macroShare": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "previousDay": "Previous day",
+  "nextDay": "Next day",
+  "chooseDate": "Choose a date",
+  "emptyToday": "Nothing logged yet today. Tap ＋ on a meal to log food.",
+  "emptyDay": "Nothing logged on this day. Tap ＋ on a meal to add it.",
+  "goodMorning": "Good morning",
+  "goodAfternoon": "Good afternoon",
+  "goodEvening": "Good evening",
+  "greetingName": "{greeting}, {name}",
+  "@greetingName": {
+    "placeholders": {
+      "greeting": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activitySheetSubtitle": "Calories burned from exercise · {day}",
+  "@activitySheetSubtitle": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "plusHealthWorkouts": "Plus {kcal} kcal from workouts in Health",
+  "@plusHealthWorkouts": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "nothingLoggedYet": "Nothing logged yet",
+  "addToMeal": "Add to {meal}",
+  "@addToMeal": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "notifications": "Notifications",
+  "keepWeightSteady": "Keep your weight steady",
+  "kgPerWeek": "{value} kg / week",
+  "@kgPerWeek": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "weight": "Weight",
+  "height": "Height",
+  "age": "Age",
+  "bmi": "BMI",
+  "breakfast": "Breakfast",
+  "lunch": "Lunch",
+  "dinner": "Dinner",
+  "snacks": "Snacks",
+  "enterNumber": "Enter a number",
+  "addFoodTitle": "Add Food",
+  "scanPhoto": "Scan a photo",
+  "changePhoto": "Change photo",
+  "foodName": "Food name",
+  "caloriesKcal": "Calories (kcal)",
+  "enterWholeCalories": "Enter whole calories",
+  "macrosBlankHint": "Leave protein, carbs and fat blank to estimate them from calories.",
+  "proteinG": "Protein (g)",
+  "carbsG": "Carbs (g)",
+  "fatG": "Fat (g)",
+  "meal": "Meal",
+  "addManually": "Add manually",
+  "whatDidYouEat": "What did you eat?",
+  "manualIntro": "Describe your meal and the AI will estimate calories and macros. List several foods with commas.",
+  "yourMeal": "Your meal",
+  "yourMealHint": "e.g. 2 scrambled eggs, toast with butter, black coffee",
+  "moreDetails": "More details (optional)",
+  "moreDetailsHint": "These help the estimate be more accurate.",
+  "portionSize": "Portion size",
+  "portionSizeHint": "e.g. 1 large plate, 250 g",
+  "cookingMethod": "Cooking method",
+  "cookingMethodHint": "e.g. fried in oil, grilled, boiled",
+  "brandOrRestaurant": "Brand or restaurant",
+  "brandHint": "e.g. Starbucks, Nestlé",
+  "ingredients": "Ingredients",
+  "ingredientsHint": "e.g. olive oil, cheese, sugar",
+  "enterNumbersMyself": "Enter numbers myself",
+  "analyzeWithAi": "Analyze with AI",
+  "addFood": "Add food",
+  "howToAddMeal": "How would you like to add your meal?",
+  "scanWithCamera": "Scan with camera",
+  "scanWithCameraHint": "Take or choose a photo of your meal",
+  "addManuallyHint": "Describe your meal and get its nutrition",
+  "addFoodWithCamera": "Add food with camera",
+  "aiEstimateTag": "(AI estimate)",
+  "estimatedTag": "(est.)",
+  "macroShort": "P {protein}g C {carbs}g F {fat}g",
+  "@macroShort": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "carbs": {
+        "type": "String"
+      },
+      "fat": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteEntry": "Delete {name}",
+  "@deleteEntry": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "detailPortion": "Portion",
+  "detailCooking": "Cooking",
+  "detailBrand": "Brand",
+  "detailIngredients": "Ingredients",
+  "addedItemsToMeal": "{count, plural, =1{Added 1 item to {meal}} other{Added {count} items to {meal}}}",
+  "@addedItemsToMeal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "scanFood": "Scan Food",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "useThisPhoto": "Use this photo",
+  "cameraPermissionRequired": "Camera permission is required to scan food.",
+  "openSettings": "Open Settings",
+  "imageLoadFailed": "Could not load the image. Please try again.",
+  "noFoodFound": "No food found",
+  "noFoodFoundPhoto": "We couldn't spot any food in this photo. Try another photo, or enter the food yourself.",
+  "noFoodRecognised": "No food recognised",
+  "noFoodRecognisedText": "We couldn't find any food in what you wrote. Try describing it differently, or enter the numbers yourself.",
+  "cantReachAnalysis": "Can't reach the analysis service",
+  "checkConnection": "Check your connection and try again.",
+  "somethingWentWrong": "Something went wrong",
+  "analysisFailed": "The analysis didn't work this time. Try again, or enter the food yourself.",
+  "tryAnotherPhoto": "Try another photo",
+  "editDescription": "Edit description",
+  "enterItManually": "Enter it manually",
+  "analyzingMeal": "Analyzing your meal…",
+  "takesFewSeconds": "This usually takes a few seconds.",
+  "allItemsRemoved": "All items removed",
+  "weFoundItems": "{count, plural, =1{We found 1 item} other{We found {count} items}}",
+  "@weFoundItems": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goBackAnotherPhoto": "Go back to try another photo.",
+  "goBackEditDescription": "Go back to edit your description.",
+  "aiEstimateCheck": "AI estimate · check and edit before saving",
+  "addTo": "Add to",
+  "addToMealKcal": "Add to {meal} · {kcal} kcal",
+  "@addToMealKcal": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "addAName": "Add a name",
+  "removeItem": "Remove {name}",
+  "@removeItem": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "portion": "Portion",
+  "calories": "Calories",
+  "demoPhoto": "Demo result: AI analysis isn't connected yet, so these are sample foods, not what's in your photo. Edit them before saving.",
+  "demoText": "Demo result: AI analysis isn't connected yet, so these are sample numbers, not real nutrition for what you typed. Edit them before saving.",
+  "youDescribed": "You described",
+  "detailLine": "{label}: ",
+  "@detailLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "tabHome": "Home",
+  "tabTracker": "Tracker",
+  "tabAccount": "Account",
+  "howActive": "How active are you?",
+  "whenBorn": "When were you born?",
+  "ageRange": "You must be between {min} and {max} years old.",
+  "@ageRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "specificDiet": "Do you follow a specific diet?",
+  "whenDinner": "When do you usually have\ndinner?",
+  "chooseGender": "Choose your gender",
+  "mainGoal": "What's your main goal?",
+  "howTall": "How tall are you?",
+  "ftIn": "ft / in",
+  "whatsYourName": "What's your name?",
+  "yourName": "Your name",
+  "personalizing": "Personalizing your {app}\nexperience...",
+  "@personalizing": {
+    "placeholders": {
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "hangTight": "Hang tight! We're crafting a personalized plan just for you.",
+  "planReady": "Your plan is ready",
+  "caloriesPerDay": "calories per day",
+  "kgPerWeekSigned": "{value} kg per week",
+  "@kgPerWeekSigned": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "whatsYourWeight": "What's your weight?",
+  "finish": "Finish",
+  "continueButton": "Continue",
+  "stepOf": "{step} / {total}",
+  "@stepOf": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "genderMale": "Male",
+  "genderFemale": "Female",
+  "genderOther": "Other",
+  "goalLose": "Lose weight",
+  "goalMaintain": "Maintain weight",
+  "goalGain": "Gain weight",
+  "focusGainMuscle": "Gain muscle",
+  "focusBoostEnergy": "Boost energy",
+  "focusImproveNutrition": "Improve nutrition",
+  "activitySedentary": "Sedentary",
+  "activityLight": "Lightly active",
+  "activityModerate": "Moderately active",
+  "activityActive": "Very active",
+  "activitySedentaryDesc": "Little or no exercise, desk job",
+  "activityLightDesc": "Light exercise 1–3 days a week",
+  "activityModerateDesc": "Moderate exercise 3–5 days a week",
+  "activityActiveDesc": "Hard exercise 6–7 days a week",
+  "dietClassic": "Classic",
+  "dietVegetarian": "Vegetarian",
+  "dietVegan": "Vegan",
+  "dietPescatarian": "Pescatarian",
+  "dietKeto": "Keto",
+  "dietClassicDesc": "No restrictions",
+  "dietVegetarianDesc": "No meat or fish",
+  "dietVeganDesc": "No animal products",
+  "dietPescatarianDesc": "Fish but no meat",
+  "dietKetoDesc": "High fat, very low carb",
+  "bmiUnderweight": "Underweight",
+  "bmiHealthy": "Healthy",
+  "bmiOverweight": "Overweight",
+  "bmiObese": "Obese",
+  "birthday": "Birthday",
+  "usualDinnerTime": "Usual dinner time",
+  "profileSaved": "Profile saved",
+  "editProfile": "Edit profile",
+  "name": "Name",
+  "units": "Units",
+  "unitsMetric": "kg · cm",
+  "unitsImperial": "lb · ft",
+  "logWeightOnTracker": "Log a new weight on the Tracker tab.",
+  "ageValue": "Age {age}",
+  "@ageValue": {
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "gender": "Gender",
+  "weightGoal": "Weight goal",
+  "weightGoalHint": "This sets your calorie target.",
+  "alsoFocusOn": "Also focus on",
+  "activityLevel": "Activity level",
+  "diet": "Diet",
+  "heightRangeError": "Enter a height between 100 and 250 cm (3′4″–8′2″)",
+  "profileAndGoals": "Profile & Goals",
+  "dailyCalorieGoal": "Daily calorie goal: {kcal} kcal",
+  "@dailyCalorieGoal": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "customRecommended": "Custom · recommended {kcal} kcal",
+  "@customRecommended": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "recommendedForProfile": "Recommended for your profile",
+  "resetToRecommended": "Reset to recommended",
+  "appearance": "Appearance",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "language": "Language",
+  "languageSystem": "System",
+  "profileSummary": "{age} years · {height} · {weight}\n{goal} · {activity}",
+  "@profileSummary": {
+    "placeholders": {
+      "age": {
+        "type": "String"
+      },
+      "height": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "goal": {
+        "type": "String"
+      },
+      "activity": {
+        "type": "String"
+      }
+    }
+  },
+  "resetAllDataTitle": "Reset all data?",
+  "resetSignedIn": "This deletes your profile, meals, weight and activity from this phone and from your account, and starts again with setup. You'll stay signed in. This can't be undone.",
+  "resetLocal": "This deletes your profile, meals, weight and activity from this phone and starts again with setup. This can't be undone.",
+  "deleteEverything": "Delete everything",
+  "resetAllData": "Reset all data",
+  "notificationsOff": "Notifications are turned off for Cal AI. Allow them in your phone's settings to get reminders.",
+  "reminders": "Reminders",
+  "remindersIntro": "Turn on a reminder and Cal AI will nudge you to log your meals. A reminder is skipped once that meal is logged.",
+  "mealReminders": "Meal reminders",
+  "mealRemindersChannelDesc": "Reminders to log breakfast, lunch and dinner",
+  "dinnerTimeFromProfile": "Your dinner time from your profile",
+  "mealReminder": "{meal} reminder",
+  "@mealReminder": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "logged": "Logged",
+  "reminderAt": "Reminder at {time}",
+  "@reminderAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "notLoggedYet": "Not logged yet · {time}",
+  "@notLoggedYet": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "logNow": "Log now",
+  "reminderBody": "Log what you eat to stay on track today.",
+  "reminderBreakfast": "Time for breakfast",
+  "reminderLunch": "Time for lunch",
+  "reminderDinner": "Dinner time",
+  "reminderSnack": "Snack time",
+  "periodWeek": "Week",
+  "periodMonth": "Month",
+  "tracker": "Tracker",
+  "targetDashedLine": "Target {kcal} kcal · dashed line",
+  "@targetDashedLine": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "onTarget": "On target",
+  "under": "Under",
+  "over": "Over",
+  "history": "History",
+  "nothingInPeriod": "Nothing logged in this period yet",
+  "tapDayToOpen": "Tap a day to open it on Home",
+  "historyMacros": "P {protein} g · C {carbs} g · F {fat} g",
+  "@historyMacros": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "carbs": {
+        "type": "String"
+      },
+      "fat": {
+        "type": "String"
+      }
+    }
+  },
+  "logWeight": "Log weight",
+  "logWeightSubtitle": "Today's weight. Your calorie target follows it.",
+  "realisticWeight": "Enter a realistic weight",
+  "dailyAverageLogged": "Daily average on logged days",
+  "gramsOfTarget": "{value} / {target} g",
+  "@gramsOfTarget": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "steps": "Steps",
+  "noStepsYet": "No steps counted yet",
+  "stepsAverage": "Avg {avg} a day · {total} total",
+  "@stepsAverage": {
+    "placeholders": {
+      "avg": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "dayStreak": "day streak",
+  "avgKcalDay": "avg kcal / day",
+  "daysOnTarget": "days on target",
+  "logWeightTrend": "Log your weight to see the trend",
+  "changeInPeriod": "{change} in this period",
+  "@changeInPeriod": {
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "log": "Log"
+}

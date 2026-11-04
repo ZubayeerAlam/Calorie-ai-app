@@ -60,7 +60,7 @@ class _UnitPill extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: selected ? AppColors.primary : Colors.white,
+          color: selected ? AppColors.primary : AppColors.surface,
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
             color: selected ? AppColors.primary : AppColors.chipBorder,
@@ -68,10 +68,10 @@ class _UnitPill extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 17,
             fontWeight: FontWeight.w500,
-            color: AppColors.textDark,
+            color: selected ? AppColors.onPrimary : AppColors.textDark,
           ),
         ),
       ),
