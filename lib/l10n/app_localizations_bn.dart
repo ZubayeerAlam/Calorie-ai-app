@@ -1116,4 +1116,867 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get log => 'লগ';
+
+  @override
+  String get exPushUpName => 'পুশ-আপ';
+
+  @override
+  String get exPushUpPosition =>
+      'হাত কাঁধের ঠিক নিচে, মাথা থেকে গোড়ালি পর্যন্ত শরীর সোজা।';
+
+  @override
+  String get exPushUpStep1 => 'হাত সোজা রেখে ওপরের অবস্থান থেকে শুরু করুন।';
+
+  @override
+  String get exPushUpStep2 => 'কনুই ভাঁজ করে বুক মেঝের একটু ওপরে নামান।';
+
+  @override
+  String get exPushUpStep3 => 'মেঝে ঠেলে আবার হাত সোজা করুন।';
+
+  @override
+  String get exPushUpTip => 'কোমর সমান রাখুন; ঝুলতে বা উঁচু হতে দেবেন না।';
+
+  @override
+  String get exPushUpBenefit => 'শরীরের ওপরের অংশের শক্তি ও সহনশক্তি বাড়ায়।';
+
+  @override
+  String get exKneePushUpName => 'হাঁটু-ভর পুশ-আপ';
+
+  @override
+  String get exKneePushUpPosition =>
+      'হাঁটু মেঝেতে, হাত কাঁধের নিচে, মাথা থেকে হাঁটু পর্যন্ত শরীর সোজা।';
+
+  @override
+  String get exKneePushUpStep1 => 'হাত সোজা রেখে শুরু করুন।';
+
+  @override
+  String get exKneePushUpStep2 => 'বুক মেঝের দিকে নামান।';
+
+  @override
+  String get exKneePushUpStep3 => 'হাত সোজা না হওয়া পর্যন্ত ওপরে ঠেলুন।';
+
+  @override
+  String get exKneePushUpTip => 'পেট শক্ত রাখুন যাতে পিঠ সমান থাকে।';
+
+  @override
+  String get exKneePushUpBenefit =>
+      'সহজ ধরনের পুশ-আপ, বুক ও হাতের শক্তি বাড়ায়।';
+
+  @override
+  String get exInclinePushUpName => 'ইনক্লাইন পুশ-আপ';
+
+  @override
+  String get exInclinePushUpPosition =>
+      'মজবুত টেবিল বা চেয়ারের কিনারায় হাত, পা পেছনে, শরীর সোজা।';
+
+  @override
+  String get exInclinePushUpStep1 => 'হাত সোজা রেখে শুরু করুন।';
+
+  @override
+  String get exInclinePushUpStep2 => 'কনুই ভাঁজ করে বুক কিনারার কাছে আনুন।';
+
+  @override
+  String get exInclinePushUpStep3 => 'হাত সোজা না হওয়া পর্যন্ত পেছনে ঠেলুন।';
+
+  @override
+  String get exInclinePushUpTip =>
+      'চেয়ার বা টেবিল যেন পিছলে না যায়, দেখে নিন।';
+
+  @override
+  String get exInclinePushUpBenefit =>
+      'পূর্ণ পুশ-আপের প্রস্তুতির জন্য সহজ ধরন।';
+
+  @override
+  String get exSquatName => 'স্কোয়াট';
+
+  @override
+  String get exSquatPosition =>
+      'পা কাঁধের সমান ফাঁকে, আঙুল একটু বাইরে, বুক উঁচু।';
+
+  @override
+  String get exSquatStep1 => 'গোড়ালিতে ভর দিয়ে সোজা দাঁড়ান।';
+
+  @override
+  String get exSquatStep2 =>
+      'চেয়ারে বসার মতো কোমর পেছনে নিয়ে হাঁটু ভাঁজ করুন।';
+
+  @override
+  String get exSquatStep3 => 'গোড়ালিতে চাপ দিয়ে আবার দাঁড়ান।';
+
+  @override
+  String get exSquatTip => 'হাঁটু পায়ের আঙুলের সোজাসুজি রাখুন।';
+
+  @override
+  String get exSquatBenefit => 'দৈনন্দিন চলাফেরার জন্য পা ও নিতম্ব শক্ত করে।';
+
+  @override
+  String get exLungeName => 'লাঞ্জ';
+
+  @override
+  String get exLungePosition =>
+      'সোজা দাঁড়ান, পা কোমরের সমান ফাঁকে, হাত কোমরে।';
+
+  @override
+  String get exLungeStep1 => 'সামনে একটি বড় পা ফেলুন।';
+
+  @override
+  String get exLungeStep2 =>
+      'দুই হাঁটু প্রায় ৯০° ভাঁজ না হওয়া পর্যন্ত নামুন।';
+
+  @override
+  String get exLungeStep3 => 'সামনের পায়ে চাপ দিয়ে ফিরে আসুন; পা বদলান।';
+
+  @override
+  String get exLungeTip =>
+      'সামনের হাঁটু গোড়ালির ওপরে রাখুন, আঙুল ছাড়িয়ে নয়।';
+
+  @override
+  String get exLungeBenefit => 'এক পা করে পায়ের শক্তি ও ভারসাম্য বাড়ায়।';
+
+  @override
+  String get exGluteBridgeName => 'গ্লুট ব্রিজ';
+
+  @override
+  String get exGluteBridgePosition =>
+      'চিত হয়ে শুয়ে হাঁটু ভাঁজ, পা মেঝেতে সমান, কোমরের সমান ফাঁকে।';
+
+  @override
+  String get exGluteBridgeStep1 => 'হাত শরীরের দুপাশে রাখুন।';
+
+  @override
+  String get exGluteBridgeStep2 =>
+      'নিতম্ব শক্ত করে কোমর তুলুন, হাঁটু থেকে কাঁধ পর্যন্ত সোজা হওয়া পর্যন্ত।';
+
+  @override
+  String get exGluteBridgeStep3 => 'ধীরে ধীরে কোমর নামান।';
+
+  @override
+  String get exGluteBridgeTip =>
+      'গোড়ালিতে চাপ দিন, কোমরের নিচের অংশ বাঁকাবেন না।';
+
+  @override
+  String get exGluteBridgeBenefit =>
+      'নিতম্ব ও পায়ের পেছন শক্ত করে; হাঁটুর ওপর চাপ কম।';
+
+  @override
+  String get exPlankName => 'প্ল্যাঙ্ক';
+
+  @override
+  String get exPlankPosition =>
+      'কাঁধের নিচে কনুই থেকে হাত মেঝেতে, পা পেছনে সোজা।';
+
+  @override
+  String get exPlankStep1 =>
+      'মাথা থেকে গোড়ালি পর্যন্ত সোজা রেখায় শরীর তুলুন।';
+
+  @override
+  String get exPlankStep2 => 'পেট ও নিতম্ব শক্ত করুন।';
+
+  @override
+  String get exPlankStep3 => 'অবস্থান ধরে রাখুন, শ্বাস নিতে থাকুন।';
+
+  @override
+  String get exPlankTip => 'কোমর নামতে বা উঠতে দেবেন না।';
+
+  @override
+  String get exPlankBenefit => 'পেটের পেশি শক্ত করে, যা পিঠকে সহায়তা করে।';
+
+  @override
+  String get exSidePlankName => 'সাইড প্ল্যাঙ্ক';
+
+  @override
+  String get exSidePlankPosition =>
+      'একপাশে শুয়ে কাঁধের নিচে কনুই, পা একটার ওপর আরেকটা।';
+
+  @override
+  String get exSidePlankStep1 => 'শরীর সোজা হওয়া পর্যন্ত কোমর তুলুন।';
+
+  @override
+  String get exSidePlankStep2 => 'কোমর উঁচু রেখে ধরে রাখুন।';
+
+  @override
+  String get exSidePlankStep3 => 'ধীরে নামুন; পাশ বদলান।';
+
+  @override
+  String get exSidePlankTip => 'কনুই ঠিক কাঁধের নিচে রাখুন।';
+
+  @override
+  String get exSidePlankBenefit =>
+      'পেটের দুপাশের পেশি শক্ত করে ও স্থিরতা বাড়ায়।';
+
+  @override
+  String get exMountainClimberName => 'মাউন্টেন ক্লাইম্বার';
+
+  @override
+  String get exMountainClimberPosition =>
+      'হাই প্ল্যাঙ্ক: হাত কাঁধের নিচে, শরীর সোজা।';
+
+  @override
+  String get exMountainClimberStep1 => 'এক হাঁটু বুকের দিকে আনুন।';
+
+  @override
+  String get exMountainClimberStep2 => 'জায়গায় দৌড়ানোর মতো দ্রুত পা বদলান।';
+
+  @override
+  String get exMountainClimberStep3 =>
+      'নির্ধারিত সময় ধরে একই গতিতে চালিয়ে যান।';
+
+  @override
+  String get exMountainClimberTip => 'কোমর নিচু রাখুন, কাঁধ হাতের ওপরে।';
+
+  @override
+  String get exMountainClimberBenefit =>
+      'পেটের পেশি কাজ করার সাথে হৃৎস্পন্দন বাড়ায়।';
+
+  @override
+  String get exJumpingJackName => 'জাম্পিং জ্যাক';
+
+  @override
+  String get exJumpingJackPosition =>
+      'পা একসাথে, হাত শরীরের দুপাশে রেখে দাঁড়ান।';
+
+  @override
+  String get exJumpingJackStep1 =>
+      'লাফ দিয়ে পা ফাঁক করুন আর হাত মাথার ওপরে তুলুন।';
+
+  @override
+  String get exJumpingJackStep2 => 'লাফ দিয়ে শুরুর অবস্থানে ফিরুন।';
+
+  @override
+  String get exJumpingJackStep3 => 'নির্ধারিত সময় ধরে একই ছন্দে করুন।';
+
+  @override
+  String get exJumpingJackTip => 'পায়ের সামনের অংশে আলতো করে নামুন।';
+
+  @override
+  String get exJumpingJackBenefit => 'পুরো শরীর গরম করার সহজ কার্ডিও ব্যায়াম।';
+
+  @override
+  String get exHighKneesName => 'হাই নিজ';
+
+  @override
+  String get exHighKneesPosition => 'সোজা দাঁড়ান, পা কোমরের সমান ফাঁকে।';
+
+  @override
+  String get exHighKneesStep1 =>
+      'জায়গায় দৌড়ান, এক হাঁটু কোমরের উচ্চতায় তুলুন।';
+
+  @override
+  String get exHighKneesStep2 => 'হাত দুলিয়ে দ্রুত পা বদলান।';
+
+  @override
+  String get exHighKneesStep3 => 'নির্ধারিত সময় ধরে চালিয়ে যান।';
+
+  @override
+  String get exHighKneesTip => 'পায়ের সামনের অংশে থাকুন, সোজা থাকুন।';
+
+  @override
+  String get exHighKneesBenefit =>
+      'হৃৎস্পন্দন বাড়ায় ও পায়ের পেশি কাজ করায়।';
+
+  @override
+  String get exSupermanName => 'সুপারম্যান';
+
+  @override
+  String get exSupermanPosition => 'উপুড় হয়ে শুয়ে হাত সামনে লম্বা, পা সোজা।';
+
+  @override
+  String get exSupermanStep1 => 'ঘাড় আরামে রাখতে মেঝের দিকে তাকান।';
+
+  @override
+  String get exSupermanStep2 => 'হাত, বুক ও পা মেঝে থেকে একটু তুলুন।';
+
+  @override
+  String get exSupermanStep3 => 'একটু ধরে রেখে ধীরে নামান।';
+
+  @override
+  String get exSupermanTip =>
+      'কয়েক সেন্টিমিটার তুলুন; মাথা পেছনে ঝাঁকাবেন না।';
+
+  @override
+  String get exSupermanBenefit => 'পিঠের পেশি শক্ত করে।';
+
+  @override
+  String get exBirdDogName => 'বার্ড ডগ';
+
+  @override
+  String get exBirdDogPosition =>
+      'হাত ও হাঁটুর ভরে, হাত কাঁধের নিচে, হাঁটু কোমরের নিচে।';
+
+  @override
+  String get exBirdDogStep1 => 'পিঠ সমান রাখুন।';
+
+  @override
+  String get exBirdDogStep2 => 'এক হাত সামনে আর বিপরীত পা পেছনে বাড়ান।';
+
+  @override
+  String get exBirdDogStep3 => 'ধীরে ফিরে এসে পাশ বদলান।';
+
+  @override
+  String get exBirdDogTip => 'ধীরে নড়ুন; কোমর সমান রাখুন।';
+
+  @override
+  String get exBirdDogBenefit =>
+      'ভারসাম্য ও পেটের নিয়ন্ত্রণ বাড়ায়, পিঠকে সহায়তা করে।';
+
+  @override
+  String get exWallSitName => 'ওয়াল সিট';
+
+  @override
+  String get exWallSitPosition =>
+      'দেয়ালে পিঠ সোজা ঠেকিয়ে, পা দেয়াল থেকে প্রায় ৬০ সেমি সামনে।';
+
+  @override
+  String get exWallSitStep1 =>
+      'হাঁটু প্রায় ৯০° ভাঁজ না হওয়া পর্যন্ত নিচে নামুন।';
+
+  @override
+  String get exWallSitStep2 => 'গোড়ালিতে ভর রেখে ধরে রাখুন।';
+
+  @override
+  String get exWallSitStep3 => 'আবার ওপরে উঠে দাঁড়ান।';
+
+  @override
+  String get exWallSitTip => 'হাঁটু গোড়ালির ওপরে রাখুন।';
+
+  @override
+  String get exWallSitBenefit => 'কোনো সরঞ্জাম ছাড়াই উরুর সহনশক্তি বাড়ায়।';
+
+  @override
+  String get exChairDipName => 'চেয়ার ডিপ';
+
+  @override
+  String get exChairDipPosition =>
+      'পেছনে মজবুত চেয়ারের কিনারায় হাত, পা সামনে।';
+
+  @override
+  String get exChairDipStep1 => 'হাত সোজা রেখে শুরু করুন।';
+
+  @override
+  String get exChairDipStep2 => 'কনুই ভাঁজ করে শরীর নামান।';
+
+  @override
+  String get exChairDipStep3 => 'হাত সোজা না হওয়া পর্যন্ত ওপরে ঠেলুন।';
+
+  @override
+  String get exChairDipTip => 'পিঠ চেয়ারের কাছে রাখুন, কাঁধ নিচু।';
+
+  @override
+  String get exChairDipBenefit => 'হাতের পেছনের পেশি শক্ত করে।';
+
+  @override
+  String get exStepUpName => 'স্টেপ-আপ';
+
+  @override
+  String get exStepUpPosition =>
+      'মজবুত সিঁড়ি বা নিচু বেঞ্চের দিকে মুখ করে দাঁড়ান।';
+
+  @override
+  String get exStepUpStep1 => 'গোড়ালিতে চাপ দিয়ে এক পা দিয়ে ওপরে উঠুন।';
+
+  @override
+  String get exStepUpStep2 => 'অন্য পা তুলে সোজা দাঁড়ান।';
+
+  @override
+  String get exStepUpStep3 => 'নেমে এসে সামনের পা বদলান।';
+
+  @override
+  String get exStepUpTip => 'নড়ে না এমন সিঁড়ি নিন; দরকার হলে দেয়াল ধরুন।';
+
+  @override
+  String get exStepUpBenefit => 'পা শক্ত করে, সিঁড়ি ভাঙতে সাহায্য করে।';
+
+  @override
+  String get exCalfRaiseName => 'কাফ রেইজ';
+
+  @override
+  String get exCalfRaisePosition =>
+      'সোজা দাঁড়ান, পা কোমরের সমান ফাঁকে, ভারসাম্যের জন্য দেয়াল ধরুন।';
+
+  @override
+  String get exCalfRaiseStep1 => 'পায়ের সামনের অংশে ভর দিয়ে উঁচু হন।';
+
+  @override
+  String get exCalfRaiseStep2 => 'ওপরে একটু থামুন।';
+
+  @override
+  String get exCalfRaiseStep3 => 'ধীরে গোড়ালি নামান।';
+
+  @override
+  String get exCalfRaiseTip => 'ধীরে করুন; লাফাবেন না।';
+
+  @override
+  String get exCalfRaiseBenefit => 'পায়ের পেছনের পেশি ও গোড়ালি শক্ত করে।';
+
+  @override
+  String get exDeadBugName => 'ডেড বাগ';
+
+  @override
+  String get exDeadBugPosition =>
+      'চিত হয়ে শুয়ে হাত ওপরে, হাঁটু কোমরের ওপর ৯০° ভাঁজ।';
+
+  @override
+  String get exDeadBugStep1 => 'কোমরের নিচের অংশ মেঝেতে চেপে রাখুন।';
+
+  @override
+  String get exDeadBugStep2 => 'এক হাত ও বিপরীত পা মেঝের দিকে নামান।';
+
+  @override
+  String get exDeadBugStep3 => 'ফিরে এসে পাশ বদলান।';
+
+  @override
+  String get exDeadBugTip => 'পুরো সময় কোমরের নিচের অংশ মেঝেতে রাখুন।';
+
+  @override
+  String get exDeadBugBenefit => 'পিঠে কম চাপ দিয়ে পেটের নিয়ন্ত্রণ বাড়ায়।';
+
+  @override
+  String get exGobletSquatName => 'গবলেট স্কোয়াট';
+
+  @override
+  String get exGobletSquatPosition =>
+      'একটি ডাম্বেল বুকের সামনে খাড়া করে ধরুন, পা কাঁধের সমান ফাঁকে।';
+
+  @override
+  String get exGobletSquatStep1 => 'কনুই নিচের দিকে রেখে সোজা দাঁড়ান।';
+
+  @override
+  String get exGobletSquatStep2 => 'কোমর পেছনে নিয়ে স্কোয়াট করুন।';
+
+  @override
+  String get exGobletSquatStep3 => 'গোড়ালিতে চাপ দিয়ে উঠে দাঁড়ান।';
+
+  @override
+  String get exGobletSquatTip => 'বুক উঁচু রাখুন, ওজন শরীরের কাছে।';
+
+  @override
+  String get exGobletSquatBenefit => 'বাড়তি ওজনে পা ও নিতম্বের শক্তি বাড়ায়।';
+
+  @override
+  String get exDumbbellRowName => 'ডাম্বেল রো';
+
+  @override
+  String get exDumbbellRowPosition =>
+      'এক হাত ও হাঁটু বেঞ্চ বা চেয়ারে, অন্য হাতে ডাম্বেল, পিঠ সমান।';
+
+  @override
+  String get exDumbbellRowStep1 => 'হাত সোজা নিচে ঝুলতে দিন।';
+
+  @override
+  String get exDumbbellRowStep2 => 'ডাম্বেল কোমরের দিকে টেনে তুলুন।';
+
+  @override
+  String get exDumbbellRowStep3 => 'ধীরে নামান।';
+
+  @override
+  String get exDumbbellRowTip => 'পিঠ সমান রাখুন, মোচড়াবেন না।';
+
+  @override
+  String get exDumbbellRowBenefit =>
+      'পিঠের ওপরের অংশ শক্ত করে ও ভঙ্গি ঠিক রাখে।';
+
+  @override
+  String get exShoulderPressName => 'শোল্ডার প্রেস';
+
+  @override
+  String get exShoulderPressPosition =>
+      'সোজা বসুন বা দাঁড়ান, ডাম্বেল কাঁধের উচ্চতায়, হাতের তালু সামনে।';
+
+  @override
+  String get exShoulderPressStep1 => 'পেট শক্ত করুন।';
+
+  @override
+  String get exShoulderPressStep2 => 'ডাম্বেল সোজা মাথার ওপরে ঠেলুন।';
+
+  @override
+  String get exShoulderPressStep3 => 'আবার কাঁধে নামান।';
+
+  @override
+  String get exShoulderPressTip => 'পিঠ বাঁকাবেন না; পাঁজর নিচে রাখুন।';
+
+  @override
+  String get exShoulderPressBenefit =>
+      'মাথার ওপরে তোলার জন্য কাঁধ ও হাতের শক্তি বাড়ায়।';
+
+  @override
+  String get exRomanianDeadliftName => 'রোমানিয়ান ডেডলিফট';
+
+  @override
+  String get exRomanianDeadliftPosition =>
+      'উরুর সামনে ডাম্বেল ধরে দাঁড়ান, হাঁটু একটু ভাঁজ।';
+
+  @override
+  String get exRomanianDeadliftStep1 => 'পিঠ সমান, কাঁধ পেছনে রাখুন।';
+
+  @override
+  String get exRomanianDeadliftStep2 => 'কোমর পেছনে নিয়ে পা বরাবর ওজন নামান।';
+
+  @override
+  String get exRomanianDeadliftStep3 => 'নিতম্ব শক্ত করে উঠে দাঁড়ান।';
+
+  @override
+  String get exRomanianDeadliftTip => 'কোমর থেকে ঝুঁকুন; পিঠ সোজা থাকে।';
+
+  @override
+  String get exRomanianDeadliftBenefit => 'পায়ের পেছন ও নিতম্ব শক্ত করে।';
+
+  @override
+  String get exBicepCurlName => 'বাইসেপস কার্ল';
+
+  @override
+  String get exBicepCurlPosition =>
+      'সোজা দাঁড়ান, দুপাশে ডাম্বেল, হাতের তালু সামনে।';
+
+  @override
+  String get exBicepCurlStep1 => 'কনুই শরীরের কাছে রাখুন।';
+
+  @override
+  String get exBicepCurlStep2 => 'ওজন কাঁধের দিকে ভাঁজ করে তুলুন।';
+
+  @override
+  String get exBicepCurlStep3 => 'ধীরে নামান।';
+
+  @override
+  String get exBicepCurlTip => 'দোলাবেন না; শুধু হাতের নিচের অংশ নড়বে।';
+
+  @override
+  String get exBicepCurlBenefit => 'হাতের সামনের পেশি শক্ত করে।';
+
+  @override
+  String get exBandRowName => 'ব্যান্ড রো';
+
+  @override
+  String get exBandRowPosition =>
+      'পা সোজা করে বসুন, পায়ে ব্যান্ড পেঁচিয়ে দুই প্রান্ত হাতে।';
+
+  @override
+  String get exBandRowStep1 => 'হাত সোজা রেখে সোজা হয়ে বসুন।';
+
+  @override
+  String get exBandRowStep2 =>
+      'কাঁধের হাড় চেপে প্রান্তগুলো কোমরের দিকে টানুন।';
+
+  @override
+  String get exBandRowStep3 => 'ধীরে ফিরে যান।';
+
+  @override
+  String get exBandRowTip => 'পিঠ সোজা রাখুন; পেছনে হেলবেন না।';
+
+  @override
+  String get exBandRowBenefit =>
+      'হালকা, জয়েন্টবান্ধব প্রতিরোধে পিঠের ওপরের অংশ শক্ত করে।';
+
+  @override
+  String get exBandPullApartName => 'ব্যান্ড পুল-অ্যাপার্ট';
+
+  @override
+  String get exBandPullApartPosition =>
+      'সোজা দাঁড়ান, কাঁধের উচ্চতায় সামনে ব্যান্ড ধরুন।';
+
+  @override
+  String get exBandPullApartStep1 => 'হাত সোজা রাখুন।';
+
+  @override
+  String get exBandPullApartStep2 =>
+      'বুকে না লাগা পর্যন্ত ব্যান্ড দুদিকে টানুন।';
+
+  @override
+  String get exBandPullApartStep3 => 'ধীরে ফিরে যান।';
+
+  @override
+  String get exBandPullApartTip => 'কাঁধের হাড় চাপুন; কাঁধ নিচে রাখুন।';
+
+  @override
+  String get exBandPullApartBenefit =>
+      'পিঠের ওপরের অংশ ও কাঁধ শক্ত করে, ভঙ্গি ঠিক রাখে।';
+
+  @override
+  String get exLegPressName => 'লেগ প্রেস';
+
+  @override
+  String get exLegPressPosition =>
+      'মেশিনে বসুন, পিঠ প্যাডে সমান, পা প্ল্যাটফর্মে কাঁধের সমান ফাঁকে।';
+
+  @override
+  String get exLegPressStep1 => 'সেফটি খুলে হাতল ধরুন।';
+
+  @override
+  String get exLegPressStep2 => 'হাঁটু ভাঁজ করে প্ল্যাটফর্ম নিজের দিকে নামান।';
+
+  @override
+  String get exLegPressStep3 => 'পা প্রায় সোজা না হওয়া পর্যন্ত ঠেলে দিন।';
+
+  @override
+  String get exLegPressTip => 'ওপরে হাঁটু পুরো লক করবেন না।';
+
+  @override
+  String get exLegPressBenefit => 'পিঠে সাপোর্ট রেখে পায়ের শক্তি বাড়ায়।';
+
+  @override
+  String get exLatPulldownName => 'ল্যাট পুলডাউন';
+
+  @override
+  String get exLatPulldownPosition =>
+      'উরু প্যাডের নিচে রেখে বসুন, কাঁধের চেয়ে চওড়া করে বার ধরুন।';
+
+  @override
+  String get exLatPulldownStep1 => 'সোজা বসে একটু পেছনে হেলুন।';
+
+  @override
+  String get exLatPulldownStep2 => 'বার বুকের ওপরের অংশ পর্যন্ত টেনে নামান।';
+
+  @override
+  String get exLatPulldownStep3 =>
+      'হাত সোজা না হওয়া পর্যন্ত ধীরে ওপরে যেতে দিন।';
+
+  @override
+  String get exLatPulldownTip => 'কনুই দিয়ে টানুন; ঘাড়ের পেছনে টানবেন না।';
+
+  @override
+  String get exLatPulldownBenefit => 'টানার জন্য পিঠ ও হাত শক্ত করে।';
+
+  @override
+  String get exSeatedCableRowName => 'সিটেড কেবল রো';
+
+  @override
+  String get exSeatedCableRowPosition =>
+      'কেবল মেশিনে বসুন, পা প্ল্যাটফর্মে, হাঁটু হালকা ভাঁজ, দুই হাতে হাতল।';
+
+  @override
+  String get exSeatedCableRowStep1 => 'হাত সোজা রেখে সোজা বসুন।';
+
+  @override
+  String get exSeatedCableRowStep2 => 'কাঁধের হাড় চেপে হাতল পেটের দিকে টানুন।';
+
+  @override
+  String get exSeatedCableRowStep3 => 'ধীরে ফিরে যান।';
+
+  @override
+  String get exSeatedCableRowTip => 'পিঠ সোজা রাখুন; দোলাবেন না।';
+
+  @override
+  String get exSeatedCableRowBenefit =>
+      'পিঠের মাঝের অংশ শক্ত করে ও ভঙ্গি ঠিক রাখে।';
+
+  @override
+  String get exChestPressName => 'চেস্ট প্রেস';
+
+  @override
+  String get exChestPressPosition =>
+      'প্যাডে পিঠ ঠেকিয়ে বসুন, হাতল বুকের উচ্চতায়।';
+
+  @override
+  String get exChestPressStep1 => 'কনুই ভাঁজ করে হাতল ধরুন।';
+
+  @override
+  String get exChestPressStep2 => 'হাত সোজা না হওয়া পর্যন্ত হাতল সামনে ঠেলুন।';
+
+  @override
+  String get exChestPressStep3 => 'ধীরে ফিরে যান।';
+
+  @override
+  String get exChestPressTip => 'কাঁধ প্যাডে পেছনে রাখুন।';
+
+  @override
+  String get exChestPressBenefit => 'নির্দিষ্ট পথে বুক ও হাতের শক্তি বাড়ায়।';
+
+  @override
+  String get exDumbbellBenchPressName => 'ডাম্বেল বেঞ্চ প্রেস';
+
+  @override
+  String get exDumbbellBenchPressPosition =>
+      'সমান বেঞ্চে শুয়ে বুকের ওপরে ডাম্বেল, পা মেঝেতে।';
+
+  @override
+  String get exDumbbellBenchPressStep1 => 'হাত ওপরে সোজা রেখে শুরু করুন।';
+
+  @override
+  String get exDumbbellBenchPressStep2 => 'ডাম্বেল বুকের দুপাশে নামান।';
+
+  @override
+  String get exDumbbellBenchPressStep3 => 'আবার ওপরে ঠেলুন।';
+
+  @override
+  String get exDumbbellBenchPressTip => 'ওজন নিয়ন্ত্রণে রাখুন; কবজি সোজা।';
+
+  @override
+  String get exDumbbellBenchPressBenefit => 'বুক, কাঁধ ও হাতের শক্তি বাড়ায়।';
+
+  @override
+  String get exLegCurlName => 'লেগ কার্ল';
+
+  @override
+  String get exLegCurlPosition =>
+      'মেশিনে বসুন বা শুয়ে পড়ুন, প্যাড গোড়ালির ঠিক ওপরে।';
+
+  @override
+  String get exLegCurlStep1 => 'হাতল ধরে কোমর নিচে রাখুন।';
+
+  @override
+  String get exLegCurlStep2 => 'হাঁটু ভাঁজ করে প্যাড নিজের দিকে আনুন।';
+
+  @override
+  String get exLegCurlStep3 => 'ধীরে ফিরে যান।';
+
+  @override
+  String get exLegCurlTip => 'মসৃণভাবে করুন; কোমর তুলবেন না।';
+
+  @override
+  String get exLegCurlBenefit => 'উরুর পেছনের পেশি শক্ত করে।';
+
+  @override
+  String get exTricepsPushdownName => 'ট্রাইসেপস পুশডাউন';
+
+  @override
+  String get exTricepsPushdownPosition =>
+      'উঁচু কেবলের সামনে বার বা দড়ি নিয়ে দাঁড়ান, কনুই শরীরের পাশে।';
+
+  @override
+  String get exTricepsPushdownStep1 => 'কনুই ভাঁজ রেখে শুরু করুন।';
+
+  @override
+  String get exTricepsPushdownStep2 => 'হাত সোজা না হওয়া পর্যন্ত নিচে ঠেলুন।';
+
+  @override
+  String get exTricepsPushdownStep3 => 'হাতল ধীরে ওপরে উঠতে দিন।';
+
+  @override
+  String get exTricepsPushdownTip => 'কনুই শরীরের পাশে স্থির রাখুন।';
+
+  @override
+  String get exTricepsPushdownBenefit => 'হাতের পেছনের পেশি শক্ত করে।';
+
+  @override
+  String get exTreadmillInclineWalkName => 'ইনক্লাইন ট্রেডমিল হাঁটা';
+
+  @override
+  String get exTreadmillInclineWalkPosition =>
+      'ট্রেডমিলে দাঁড়িয়ে হালকা ঢাল ও দ্রুত হাঁটার গতি ঠিক করুন।';
+
+  @override
+  String get exTreadmillInclineWalkStep1 => 'সামনে তাকিয়ে সোজা হয়ে হাঁটুন।';
+
+  @override
+  String get exTreadmillInclineWalkStep2 => 'স্বাভাবিকভাবে হাত দোলান।';
+
+  @override
+  String get exTreadmillInclineWalkStep3 =>
+      'এমন গতিতে চলুন যাতে কথা বলা যায় কিন্তু গা গরম হয়।';
+
+  @override
+  String get exTreadmillInclineWalkTip =>
+      'রেলিং শুধু ভারসাম্যের জন্য ধরুন, হেলে পড়তে নয়।';
+
+  @override
+  String get exTreadmillInclineWalkBenefit =>
+      'জয়েন্টে কম চাপ দিয়ে হৃৎস্পন্দন বাড়ায়।';
+
+  @override
+  String get exStationaryBikeName => 'স্টেশনারি বাইক';
+
+  @override
+  String get exStationaryBikePosition =>
+      'সিট এমনভাবে ঠিক করুন যাতে প্যাডেল নিচে গেলে হাঁটু একটু ভাঁজ থাকে।';
+
+  @override
+  String get exStationaryBikeStep1 => 'সোজা বসে হ্যান্ডেল হালকা করে ধরুন।';
+
+  @override
+  String get exStationaryBikeStep2 => 'স্থির, আরামদায়ক গতিতে প্যাডেল করুন।';
+
+  @override
+  String get exStationaryBikeStep3 => 'খুব সহজ লাগলে প্রতিরোধ বাড়ান।';
+
+  @override
+  String get exStationaryBikeTip => 'হাঁটু পায়ের সোজাসুজি রাখুন।';
+
+  @override
+  String get exStationaryBikeBenefit =>
+      'জয়েন্টে কম চাপ দিয়ে হৃদ্‌যন্ত্রের সক্ষমতা বাড়ায়।';
+
+  @override
+  String get exRowingMachineName => 'রোয়িং মেশিন';
+
+  @override
+  String get exRowingMachinePosition =>
+      'রোয়ারে বসুন, পা বাঁধা, দুই হাতে হাতল, হাত সোজা।';
+
+  @override
+  String get exRowingMachineStep1 => 'প্রথমে পা দিয়ে ঠেলুন।';
+
+  @override
+  String get exRowingMachineStep2 =>
+      'একটু পেছনে হেলে হাতল পাঁজরের নিচ পর্যন্ত টানুন।';
+
+  @override
+  String get exRowingMachineStep3 =>
+      'প্রথমে হাত, তারপর শরীর, তারপর পা ফিরিয়ে আনুন।';
+
+  @override
+  String get exRowingMachineTip => 'শক্তি আসে পা থেকে; পিঠ সোজা রাখুন।';
+
+  @override
+  String get exRowingMachineBenefit =>
+      'পা, পিঠ ও হৃদ্‌যন্ত্রের জন্য পুরো শরীরের কার্ডিও।';
+
+  @override
+  String get muscleChest => 'বুক';
+
+  @override
+  String get muscleShoulders => 'কাঁধ';
+
+  @override
+  String get muscleTriceps => 'ট্রাইসেপস';
+
+  @override
+  String get muscleBiceps => 'বাইসেপস';
+
+  @override
+  String get muscleBack => 'পিঠ';
+
+  @override
+  String get muscleCore => 'পেটের পেশি';
+
+  @override
+  String get muscleGlutes => 'নিতম্ব';
+
+  @override
+  String get muscleQuads => 'উরুর সামনে';
+
+  @override
+  String get muscleHamstrings => 'উরুর পেছনে';
+
+  @override
+  String get muscleCalves => 'পায়ের ডিম';
+
+  @override
+  String get muscleFullBody => 'পুরো শরীর';
+
+  @override
+  String get muscleHeart => 'হৃদ্‌যন্ত্র ও ফুসফুস';
+
+  @override
+  String get exMarchInPlaceName => 'জায়গায় মার্চ';
+
+  @override
+  String get exMarchInPlacePosition =>
+      'সোজা দাঁড়ান, পা কোমরের সমান ফাঁকে, হাত আলগা।';
+
+  @override
+  String get exMarchInPlaceStep1 => 'আরামদায়ক উচ্চতায় এক হাঁটু তুলুন।';
+
+  @override
+  String get exMarchInPlaceStep2 => 'সেটি নামিয়ে হাত দুলিয়ে অন্যটি তুলুন।';
+
+  @override
+  String get exMarchInPlaceStep3 =>
+      'নির্ধারিত সময় ধরে দ্রুত, স্থির ছন্দে চালিয়ে যান।';
+
+  @override
+  String get exMarchInPlaceTip =>
+      'আলতো করে পা ফেলুন; যতটা আরাম লাগে ততটাই হাঁটু তুলুন।';
+
+  @override
+  String get exMarchInPlaceBenefit =>
+      'কম ধাক্কার কার্ডিও, হৃৎস্পন্দন ধীরে বাড়ায়।';
 }

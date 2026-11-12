@@ -1129,4 +1129,911 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get log => 'Log';
+
+  @override
+  String get exPushUpName => 'Push-up';
+
+  @override
+  String get exPushUpPosition =>
+      'Hands under your shoulders, body in a straight line from head to heels.';
+
+  @override
+  String get exPushUpStep1 => 'Start at the top with your arms straight.';
+
+  @override
+  String get exPushUpStep2 =>
+      'Bend your elbows and lower your chest to just above the floor.';
+
+  @override
+  String get exPushUpStep3 =>
+      'Push the floor away until your arms are straight again.';
+
+  @override
+  String get exPushUpTip =>
+      'Keep your hips level; don\'t let them sag or lift.';
+
+  @override
+  String get exPushUpBenefit => 'Builds upper-body strength and endurance.';
+
+  @override
+  String get exKneePushUpName => 'Knee push-up';
+
+  @override
+  String get exKneePushUpPosition =>
+      'Knees on the floor, hands under your shoulders, body straight from head to knees.';
+
+  @override
+  String get exKneePushUpStep1 => 'Start with your arms straight.';
+
+  @override
+  String get exKneePushUpStep2 => 'Lower your chest towards the floor.';
+
+  @override
+  String get exKneePushUpStep3 => 'Push back up until your arms are straight.';
+
+  @override
+  String get exKneePushUpTip =>
+      'Keep your stomach tight so your back stays flat.';
+
+  @override
+  String get exKneePushUpBenefit =>
+      'An easier push-up that builds chest and arm strength.';
+
+  @override
+  String get exInclinePushUpName => 'Incline push-up';
+
+  @override
+  String get exInclinePushUpPosition =>
+      'Hands on a sturdy table or chair edge, feet back, body in a straight line.';
+
+  @override
+  String get exInclinePushUpStep1 => 'Start with your arms straight.';
+
+  @override
+  String get exInclinePushUpStep2 =>
+      'Bend your elbows to bring your chest to the edge.';
+
+  @override
+  String get exInclinePushUpStep3 => 'Push back until your arms are straight.';
+
+  @override
+  String get exInclinePushUpTip => 'Make sure the chair or table can\'t slide.';
+
+  @override
+  String get exInclinePushUpBenefit =>
+      'An easier push-up for building up to the full one.';
+
+  @override
+  String get exSquatName => 'Squat';
+
+  @override
+  String get exSquatPosition =>
+      'Feet shoulder-width apart, toes slightly out, chest up.';
+
+  @override
+  String get exSquatStep1 => 'Stand tall with your weight on your heels.';
+
+  @override
+  String get exSquatStep2 =>
+      'Push your hips back and bend your knees as if sitting on a chair.';
+
+  @override
+  String get exSquatStep3 => 'Push through your heels to stand back up.';
+
+  @override
+  String get exSquatTip => 'Keep your knees in line with your toes.';
+
+  @override
+  String get exSquatBenefit =>
+      'Strengthens legs and glutes for everyday movement.';
+
+  @override
+  String get exLungeName => 'Lunge';
+
+  @override
+  String get exLungePosition =>
+      'Stand tall, feet hip-width apart, hands on your hips.';
+
+  @override
+  String get exLungeStep1 => 'Take a big step forward.';
+
+  @override
+  String get exLungeStep2 => 'Lower until both knees are bent at about 90°.';
+
+  @override
+  String get exLungeStep3 =>
+      'Push off the front foot back to standing; switch legs.';
+
+  @override
+  String get exLungeTip =>
+      'Keep your front knee over your ankle, not past your toes.';
+
+  @override
+  String get exLungeBenefit =>
+      'Builds leg strength and balance, one leg at a time.';
+
+  @override
+  String get exGluteBridgeName => 'Glute bridge';
+
+  @override
+  String get exGluteBridgePosition =>
+      'Lie on your back, knees bent, feet flat and hip-width apart.';
+
+  @override
+  String get exGluteBridgeStep1 => 'Rest your arms by your sides.';
+
+  @override
+  String get exGluteBridgeStep2 =>
+      'Squeeze your glutes and lift your hips until your body is straight from knees to shoulders.';
+
+  @override
+  String get exGluteBridgeStep3 => 'Lower your hips slowly back down.';
+
+  @override
+  String get exGluteBridgeTip =>
+      'Push through your heels and don\'t arch your lower back.';
+
+  @override
+  String get exGluteBridgeBenefit =>
+      'Strengthens glutes and the back of the legs; kind to the knees.';
+
+  @override
+  String get exPlankName => 'Plank';
+
+  @override
+  String get exPlankPosition =>
+      'Forearms on the floor under your shoulders, legs straight behind you.';
+
+  @override
+  String get exPlankStep1 =>
+      'Lift your body so it forms a straight line from head to heels.';
+
+  @override
+  String get exPlankStep2 => 'Tighten your stomach and glutes.';
+
+  @override
+  String get exPlankStep3 => 'Hold the position and keep breathing.';
+
+  @override
+  String get exPlankTip => 'Don\'t let your hips drop or rise.';
+
+  @override
+  String get exPlankBenefit => 'Builds core strength that supports your back.';
+
+  @override
+  String get exSidePlankName => 'Side plank';
+
+  @override
+  String get exSidePlankPosition =>
+      'Lie on your side, forearm under your shoulder, legs stacked.';
+
+  @override
+  String get exSidePlankStep1 => 'Lift your hips so your body is straight.';
+
+  @override
+  String get exSidePlankStep2 => 'Hold, keeping your hips high.';
+
+  @override
+  String get exSidePlankStep3 => 'Lower slowly; switch sides.';
+
+  @override
+  String get exSidePlankTip => 'Keep your elbow right under your shoulder.';
+
+  @override
+  String get exSidePlankBenefit =>
+      'Strengthens the sides of your core and improves stability.';
+
+  @override
+  String get exMountainClimberName => 'Mountain climber';
+
+  @override
+  String get exMountainClimberPosition =>
+      'High plank: hands under your shoulders, body straight.';
+
+  @override
+  String get exMountainClimberStep1 => 'Bring one knee towards your chest.';
+
+  @override
+  String get exMountainClimberStep2 =>
+      'Switch legs quickly, like running in place.';
+
+  @override
+  String get exMountainClimberStep3 =>
+      'Keep going at a steady pace for the set time.';
+
+  @override
+  String get exMountainClimberTip =>
+      'Keep your hips low and your shoulders over your hands.';
+
+  @override
+  String get exMountainClimberBenefit =>
+      'Raises your heart rate while working your core.';
+
+  @override
+  String get exJumpingJackName => 'Jumping jack';
+
+  @override
+  String get exJumpingJackPosition =>
+      'Stand with feet together and arms by your sides.';
+
+  @override
+  String get exJumpingJackStep1 =>
+      'Jump your feet apart while raising your arms overhead.';
+
+  @override
+  String get exJumpingJackStep2 => 'Jump back to the start.';
+
+  @override
+  String get exJumpingJackStep3 =>
+      'Repeat at a steady rhythm for the set time.';
+
+  @override
+  String get exJumpingJackTip => 'Land softly on the balls of your feet.';
+
+  @override
+  String get exJumpingJackBenefit =>
+      'A simple cardio move that warms up the whole body.';
+
+  @override
+  String get exHighKneesName => 'High knees';
+
+  @override
+  String get exHighKneesPosition => 'Stand tall, feet hip-width apart.';
+
+  @override
+  String get exHighKneesStep1 =>
+      'Run in place, lifting one knee to hip height.';
+
+  @override
+  String get exHighKneesStep2 => 'Switch legs quickly, pumping your arms.';
+
+  @override
+  String get exHighKneesStep3 => 'Keep going for the set time.';
+
+  @override
+  String get exHighKneesTip => 'Stay on the balls of your feet and stand tall.';
+
+  @override
+  String get exHighKneesBenefit =>
+      'Raises your heart rate and works your legs.';
+
+  @override
+  String get exSupermanName => 'Superman';
+
+  @override
+  String get exSupermanPosition =>
+      'Lie face down, arms stretched out in front, legs straight.';
+
+  @override
+  String get exSupermanStep1 => 'Look at the floor to keep your neck relaxed.';
+
+  @override
+  String get exSupermanStep2 =>
+      'Lift your arms, chest and legs a little off the floor.';
+
+  @override
+  String get exSupermanStep3 => 'Hold for a moment, then lower slowly.';
+
+  @override
+  String get exSupermanTip =>
+      'Lift only a few centimetres; don\'t throw your head back.';
+
+  @override
+  String get exSupermanBenefit => 'Strengthens the muscles along your back.';
+
+  @override
+  String get exBirdDogName => 'Bird dog';
+
+  @override
+  String get exBirdDogPosition =>
+      'On hands and knees, hands under shoulders, knees under hips.';
+
+  @override
+  String get exBirdDogStep1 => 'Keep your back flat.';
+
+  @override
+  String get exBirdDogStep2 =>
+      'Reach one arm forward and the opposite leg back.';
+
+  @override
+  String get exBirdDogStep3 => 'Return slowly and switch sides.';
+
+  @override
+  String get exBirdDogTip => 'Move slowly; keep your hips level.';
+
+  @override
+  String get exBirdDogBenefit =>
+      'Improves balance and core control and supports the back.';
+
+  @override
+  String get exWallSitName => 'Wall sit';
+
+  @override
+  String get exWallSitPosition =>
+      'Back flat against a wall, feet about 60 cm in front of it.';
+
+  @override
+  String get exWallSitStep1 =>
+      'Slide down until your knees are bent at about 90°.';
+
+  @override
+  String get exWallSitStep2 => 'Hold with your weight in your heels.';
+
+  @override
+  String get exWallSitStep3 => 'Slide back up to stand.';
+
+  @override
+  String get exWallSitTip => 'Keep your knees over your ankles.';
+
+  @override
+  String get exWallSitBenefit =>
+      'Builds thigh endurance without any equipment.';
+
+  @override
+  String get exChairDipName => 'Chair dip';
+
+  @override
+  String get exChairDipPosition =>
+      'Hands on the edge of a sturdy chair behind you, legs out in front.';
+
+  @override
+  String get exChairDipStep1 => 'Start with your arms straight.';
+
+  @override
+  String get exChairDipStep2 => 'Bend your elbows to lower your body.';
+
+  @override
+  String get exChairDipStep3 => 'Push back up until your arms are straight.';
+
+  @override
+  String get exChairDipTip =>
+      'Keep your back close to the chair and your shoulders down.';
+
+  @override
+  String get exChairDipBenefit => 'Strengthens the backs of your arms.';
+
+  @override
+  String get exStepUpName => 'Step-up';
+
+  @override
+  String get exStepUpPosition => 'Face a sturdy step or low bench.';
+
+  @override
+  String get exStepUpStep1 =>
+      'Step up with one foot, pressing through the heel.';
+
+  @override
+  String get exStepUpStep2 => 'Bring the other foot up and stand tall.';
+
+  @override
+  String get exStepUpStep3 => 'Step down and switch the leading leg.';
+
+  @override
+  String get exStepUpTip =>
+      'Use a step that can\'t move; hold a wall for balance if needed.';
+
+  @override
+  String get exStepUpBenefit =>
+      'Strengthens legs and helps with stairs and climbing.';
+
+  @override
+  String get exCalfRaiseName => 'Calf raise';
+
+  @override
+  String get exCalfRaisePosition =>
+      'Stand tall, feet hip-width apart, holding a wall for balance.';
+
+  @override
+  String get exCalfRaiseStep1 => 'Rise up onto the balls of your feet.';
+
+  @override
+  String get exCalfRaiseStep2 => 'Pause at the top.';
+
+  @override
+  String get exCalfRaiseStep3 => 'Lower your heels slowly.';
+
+  @override
+  String get exCalfRaiseTip => 'Move slowly; don\'t bounce.';
+
+  @override
+  String get exCalfRaiseBenefit => 'Strengthens the calves and ankles.';
+
+  @override
+  String get exDeadBugName => 'Dead bug';
+
+  @override
+  String get exDeadBugPosition =>
+      'Lie on your back, arms up, knees bent at 90° above your hips.';
+
+  @override
+  String get exDeadBugStep1 => 'Press your lower back into the floor.';
+
+  @override
+  String get exDeadBugStep2 =>
+      'Lower one arm and the opposite leg towards the floor.';
+
+  @override
+  String get exDeadBugStep3 => 'Return and switch sides.';
+
+  @override
+  String get exDeadBugTip => 'Keep your lower back flat the whole time.';
+
+  @override
+  String get exDeadBugBenefit =>
+      'Builds core control with little strain on the back.';
+
+  @override
+  String get exGobletSquatName => 'Goblet squat';
+
+  @override
+  String get exGobletSquatPosition =>
+      'Hold one dumbbell upright at your chest, feet shoulder-width apart.';
+
+  @override
+  String get exGobletSquatStep1 => 'Stand tall with your elbows pointing down.';
+
+  @override
+  String get exGobletSquatStep2 => 'Push your hips back and squat down.';
+
+  @override
+  String get exGobletSquatStep3 => 'Push through your heels to stand up.';
+
+  @override
+  String get exGobletSquatTip =>
+      'Keep your chest up and the weight close to you.';
+
+  @override
+  String get exGobletSquatBenefit =>
+      'Builds leg and glute strength with extra load.';
+
+  @override
+  String get exDumbbellRowName => 'Dumbbell row';
+
+  @override
+  String get exDumbbellRowPosition =>
+      'One hand and knee on a bench or chair, dumbbell in the other hand, back flat.';
+
+  @override
+  String get exDumbbellRowStep1 => 'Let the arm hang straight down.';
+
+  @override
+  String get exDumbbellRowStep2 => 'Pull the dumbbell up towards your hip.';
+
+  @override
+  String get exDumbbellRowStep3 => 'Lower it slowly.';
+
+  @override
+  String get exDumbbellRowTip => 'Keep your back flat and don\'t twist.';
+
+  @override
+  String get exDumbbellRowBenefit =>
+      'Strengthens the upper back and improves posture.';
+
+  @override
+  String get exShoulderPressName => 'Shoulder press';
+
+  @override
+  String get exShoulderPressPosition =>
+      'Sit or stand tall, dumbbells at shoulder height, palms forward.';
+
+  @override
+  String get exShoulderPressStep1 => 'Brace your stomach.';
+
+  @override
+  String get exShoulderPressStep2 =>
+      'Press the dumbbells straight up overhead.';
+
+  @override
+  String get exShoulderPressStep3 => 'Lower them back to your shoulders.';
+
+  @override
+  String get exShoulderPressTip =>
+      'Don\'t arch your back; keep your ribs down.';
+
+  @override
+  String get exShoulderPressBenefit =>
+      'Builds shoulder and arm strength for lifting overhead.';
+
+  @override
+  String get exRomanianDeadliftName => 'Romanian deadlift';
+
+  @override
+  String get exRomanianDeadliftPosition =>
+      'Stand with dumbbells in front of your thighs, knees slightly bent.';
+
+  @override
+  String get exRomanianDeadliftStep1 =>
+      'Keep your back flat and shoulders back.';
+
+  @override
+  String get exRomanianDeadliftStep2 =>
+      'Push your hips back and lower the weights along your legs.';
+
+  @override
+  String get exRomanianDeadliftStep3 => 'Squeeze your glutes to stand up.';
+
+  @override
+  String get exRomanianDeadliftTip =>
+      'Hinge at the hips; your back stays straight.';
+
+  @override
+  String get exRomanianDeadliftBenefit =>
+      'Strengthens the back of the legs and the glutes.';
+
+  @override
+  String get exBicepCurlName => 'Biceps curl';
+
+  @override
+  String get exBicepCurlPosition =>
+      'Stand tall, dumbbells at your sides, palms forward.';
+
+  @override
+  String get exBicepCurlStep1 => 'Keep your elbows close to your body.';
+
+  @override
+  String get exBicepCurlStep2 => 'Curl the weights up towards your shoulders.';
+
+  @override
+  String get exBicepCurlStep3 => 'Lower them slowly.';
+
+  @override
+  String get exBicepCurlTip => 'Don\'t swing; only your forearms move.';
+
+  @override
+  String get exBicepCurlBenefit => 'Strengthens the front of the arms.';
+
+  @override
+  String get exBandRowName => 'Band row';
+
+  @override
+  String get exBandRowPosition =>
+      'Sit with legs straight, band around your feet, ends in your hands.';
+
+  @override
+  String get exBandRowStep1 => 'Sit tall with your arms straight.';
+
+  @override
+  String get exBandRowStep2 =>
+      'Pull the ends towards your waist, squeezing your shoulder blades.';
+
+  @override
+  String get exBandRowStep3 => 'Return slowly.';
+
+  @override
+  String get exBandRowTip => 'Keep your back straight; don\'t lean back.';
+
+  @override
+  String get exBandRowBenefit =>
+      'Strengthens the upper back with light, joint-friendly resistance.';
+
+  @override
+  String get exBandPullApartName => 'Band pull-apart';
+
+  @override
+  String get exBandPullApartPosition =>
+      'Stand tall, hold a band in front of you at shoulder height.';
+
+  @override
+  String get exBandPullApartStep1 => 'Keep your arms straight.';
+
+  @override
+  String get exBandPullApartStep2 =>
+      'Pull the band apart until it touches your chest.';
+
+  @override
+  String get exBandPullApartStep3 => 'Return slowly.';
+
+  @override
+  String get exBandPullApartTip =>
+      'Squeeze your shoulder blades; keep your shoulders down.';
+
+  @override
+  String get exBandPullApartBenefit =>
+      'Strengthens the upper back and shoulders and helps posture.';
+
+  @override
+  String get exLegPressName => 'Leg press';
+
+  @override
+  String get exLegPressPosition =>
+      'Sit in the machine, back flat on the pad, feet shoulder-width on the platform.';
+
+  @override
+  String get exLegPressStep1 => 'Release the safety and hold the handles.';
+
+  @override
+  String get exLegPressStep2 =>
+      'Bend your knees to lower the platform towards you.';
+
+  @override
+  String get exLegPressStep3 =>
+      'Press it away until your legs are almost straight.';
+
+  @override
+  String get exLegPressTip => 'Don\'t lock your knees at the top.';
+
+  @override
+  String get exLegPressBenefit => 'Builds leg strength with back support.';
+
+  @override
+  String get exLatPulldownName => 'Lat pulldown';
+
+  @override
+  String get exLatPulldownPosition =>
+      'Sit with thighs under the pad, hold the bar wider than your shoulders.';
+
+  @override
+  String get exLatPulldownStep1 => 'Sit tall and lean back slightly.';
+
+  @override
+  String get exLatPulldownStep2 => 'Pull the bar down to your upper chest.';
+
+  @override
+  String get exLatPulldownStep3 =>
+      'Let it rise slowly until your arms are straight.';
+
+  @override
+  String get exLatPulldownTip =>
+      'Pull with your elbows; don\'t pull behind your neck.';
+
+  @override
+  String get exLatPulldownBenefit =>
+      'Strengthens the back and arms for pulling.';
+
+  @override
+  String get exSeatedCableRowName => 'Seated cable row';
+
+  @override
+  String get exSeatedCableRowPosition =>
+      'Sit at the cable station, feet on the platform, knees soft, handle in both hands.';
+
+  @override
+  String get exSeatedCableRowStep1 => 'Sit tall with your arms straight.';
+
+  @override
+  String get exSeatedCableRowStep2 =>
+      'Pull the handle to your stomach, squeezing your shoulder blades.';
+
+  @override
+  String get exSeatedCableRowStep3 => 'Return slowly.';
+
+  @override
+  String get exSeatedCableRowTip => 'Keep your back straight; don\'t rock.';
+
+  @override
+  String get exSeatedCableRowBenefit =>
+      'Strengthens the middle back and improves posture.';
+
+  @override
+  String get exChestPressName => 'Chest press';
+
+  @override
+  String get exChestPressPosition =>
+      'Sit with your back against the pad, handles at chest height.';
+
+  @override
+  String get exChestPressStep1 => 'Hold the handles with your elbows bent.';
+
+  @override
+  String get exChestPressStep2 =>
+      'Push the handles forward until your arms are straight.';
+
+  @override
+  String get exChestPressStep3 => 'Return slowly.';
+
+  @override
+  String get exChestPressTip => 'Keep your shoulders back against the pad.';
+
+  @override
+  String get exChestPressBenefit =>
+      'Builds chest and arm strength with a guided path.';
+
+  @override
+  String get exDumbbellBenchPressName => 'Dumbbell bench press';
+
+  @override
+  String get exDumbbellBenchPressPosition =>
+      'Lie on a flat bench, dumbbells above your chest, feet on the floor.';
+
+  @override
+  String get exDumbbellBenchPressStep1 =>
+      'Start with your arms straight above you.';
+
+  @override
+  String get exDumbbellBenchPressStep2 =>
+      'Lower the dumbbells to the sides of your chest.';
+
+  @override
+  String get exDumbbellBenchPressStep3 => 'Press them back up.';
+
+  @override
+  String get exDumbbellBenchPressTip =>
+      'Control the weights; keep your wrists straight.';
+
+  @override
+  String get exDumbbellBenchPressBenefit =>
+      'Builds chest, shoulder and arm strength.';
+
+  @override
+  String get exLegCurlName => 'Leg curl';
+
+  @override
+  String get exLegCurlPosition =>
+      'Sit or lie in the machine with the pad just above your heels.';
+
+  @override
+  String get exLegCurlStep1 => 'Hold the handles and keep your hips down.';
+
+  @override
+  String get exLegCurlStep2 => 'Bend your knees to curl the pad towards you.';
+
+  @override
+  String get exLegCurlStep3 => 'Return slowly.';
+
+  @override
+  String get exLegCurlTip => 'Move smoothly; don\'t lift your hips.';
+
+  @override
+  String get exLegCurlBenefit =>
+      'Strengthens the hamstrings (back of the thighs).';
+
+  @override
+  String get exTricepsPushdownName => 'Triceps pushdown';
+
+  @override
+  String get exTricepsPushdownPosition =>
+      'Stand at a high cable with a bar or rope, elbows at your sides.';
+
+  @override
+  String get exTricepsPushdownStep1 => 'Start with your elbows bent.';
+
+  @override
+  String get exTricepsPushdownStep2 =>
+      'Push down until your arms are straight.';
+
+  @override
+  String get exTricepsPushdownStep3 => 'Let the handle rise slowly.';
+
+  @override
+  String get exTricepsPushdownTip => 'Keep your elbows still at your sides.';
+
+  @override
+  String get exTricepsPushdownBenefit => 'Strengthens the backs of the arms.';
+
+  @override
+  String get exTreadmillInclineWalkName => 'Incline treadmill walk';
+
+  @override
+  String get exTreadmillInclineWalkPosition =>
+      'Stand on the treadmill, set a gentle incline and a brisk walking speed.';
+
+  @override
+  String get exTreadmillInclineWalkStep1 => 'Walk tall, looking ahead.';
+
+  @override
+  String get exTreadmillInclineWalkStep2 => 'Swing your arms naturally.';
+
+  @override
+  String get exTreadmillInclineWalkStep3 =>
+      'Keep a pace where you can talk but feel warm.';
+
+  @override
+  String get exTreadmillInclineWalkTip =>
+      'Hold the rails only for balance, not to lean back.';
+
+  @override
+  String get exTreadmillInclineWalkBenefit =>
+      'Raises your heart rate with low impact on the joints.';
+
+  @override
+  String get exStationaryBikeName => 'Stationary bike';
+
+  @override
+  String get exStationaryBikePosition =>
+      'Adjust the seat so your knee is slightly bent at the bottom of the pedal stroke.';
+
+  @override
+  String get exStationaryBikeStep1 =>
+      'Sit tall and hold the handlebars lightly.';
+
+  @override
+  String get exStationaryBikeStep2 => 'Pedal at a steady, comfortable pace.';
+
+  @override
+  String get exStationaryBikeStep3 => 'Add resistance if it feels too easy.';
+
+  @override
+  String get exStationaryBikeTip => 'Keep your knees in line with your feet.';
+
+  @override
+  String get exStationaryBikeBenefit =>
+      'Builds heart fitness with low impact on the joints.';
+
+  @override
+  String get exRowingMachineName => 'Rowing machine';
+
+  @override
+  String get exRowingMachinePosition =>
+      'Sit on the rower, feet strapped in, handle in both hands, arms straight.';
+
+  @override
+  String get exRowingMachineStep1 => 'Push with your legs first.';
+
+  @override
+  String get exRowingMachineStep2 =>
+      'Lean back slightly and pull the handle to your lower ribs.';
+
+  @override
+  String get exRowingMachineStep3 =>
+      'Return arms, then body, then legs, in that order.';
+
+  @override
+  String get exRowingMachineTip =>
+      'Power comes from your legs; keep your back straight.';
+
+  @override
+  String get exRowingMachineBenefit =>
+      'A full-body cardio workout for legs, back and heart.';
+
+  @override
+  String get muscleChest => 'Chest';
+
+  @override
+  String get muscleShoulders => 'Shoulders';
+
+  @override
+  String get muscleTriceps => 'Triceps';
+
+  @override
+  String get muscleBiceps => 'Biceps';
+
+  @override
+  String get muscleBack => 'Back';
+
+  @override
+  String get muscleCore => 'Core';
+
+  @override
+  String get muscleGlutes => 'Glutes';
+
+  @override
+  String get muscleQuads => 'Thighs (front)';
+
+  @override
+  String get muscleHamstrings => 'Thighs (back)';
+
+  @override
+  String get muscleCalves => 'Calves';
+
+  @override
+  String get muscleFullBody => 'Full body';
+
+  @override
+  String get muscleHeart => 'Heart and lungs';
+
+  @override
+  String get exMarchInPlaceName => 'March in place';
+
+  @override
+  String get exMarchInPlacePosition =>
+      'Stand tall, feet hip-width apart, arms relaxed.';
+
+  @override
+  String get exMarchInPlaceStep1 => 'Lift one knee to a comfortable height.';
+
+  @override
+  String get exMarchInPlaceStep2 =>
+      'Lower it and lift the other, swinging your arms.';
+
+  @override
+  String get exMarchInPlaceStep3 =>
+      'Keep a brisk, steady rhythm for the set time.';
+
+  @override
+  String get exMarchInPlaceTip =>
+      'Land softly; lift your knees only as high as feels good.';
+
+  @override
+  String get exMarchInPlaceBenefit =>
+      'Low-impact cardio that gets your heart going gently.';
 }

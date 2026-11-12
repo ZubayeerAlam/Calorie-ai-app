@@ -227,15 +227,18 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `reminders` | `{ "breakfast": { on, h, m }, … }` meal reminder settings (device only) |
 | `theme_mode` | `system` / `light` / `dark` (device only) |
 | `language` | `en` / `bn`; absent = follow the phone (device only) |
+| `exercise_settings` | `ExerciseSettings` JSON: Home/Gym, level, minutes, home equipment, limitations; absent = Exercise not set up (feature 23; sync added in phase 7) |
+| `workout_plan` | The current `WorkoutPlan` JSON (feature 23) |
+| `workout_sessions` | List of `WorkoutRecord` JSON, one per workout (feature 23) |
 
 ## 7. Design system
 - **Colours:** `AppColors` has a light and a dark palette (brand green, text greys, card, background, ring colours), plus `onPrimary` (dark text on green) and `accent` (readable green for text on white).
 - **Theme:** `AppTheme.current()` builds the Outfit theme from the active palette. `CalAiApp` picks the palette (Appearance setting or the phone) and rebuilds everything when it changes.
-- **Text:** `lib/l10n/app_en.arb` (template) and `app_bn.arb`; run `flutter gen-l10n` (or any build) after editing them. New text must be added to both files.
+- **Text:** `lib/l10n/app_en.arb` (template) and `app_bn.arb` (590 strings each, 264 of them for the exercise catalog); run `flutter gen-l10n` (or any build) after editing them. New text must be added to both files.
 - **Text size:** follows the phone up to `AppConstants.maxTextScale` (1.3).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton` (48 px tap area), `EmptyState`, `MealIllustration`, `MealPhoto`.
 
-## 8. Tests (183 passing)
+## 8. Tests (214 passing)
 
 | File | Covers |
 |---|---|
@@ -257,6 +260,10 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; editing the profile (cm and ft/in, validation); Reset all data; reminders from the bell; dark mode; Bangla and the language setting; Health connect |
 | `test/reminder_provider_test.dart` | Reminders off by default, scheduling the coming days, skipping today once logged, refused permission, times, dinner = profile time, the bell dot |
 | `test/accessibility_test.dart` | Tap targets, labels and contrast on 9 screens (light, dark, Bangla); large text at ×1.3 and ×2 (English and Bangla) |
+| `test/exercise/exercise_catalog_test.dart` | Feature 23 catalog: unique ids, sensible MET/rest values, English and Bangla texts for every exercise and muscle, which exercises suit Home/Gym, equipment and limitations, every movement type available, a workout still possible with every limitation |
+| `test/exercise/exercise_estimate_test.dart` | Set time, net MET kcal, planned time with rests, shown kcal rounding |
+| `test/exercise/exercise_models_test.dart` | Settings defaults, JSON round trips (settings, plan, workout record), older/newer saved data, exercise and workout status, totals |
+| `test/exercise/exercise_repositories_test.dart` | Settings, plan and workout history saved and read, update by id, per-day kcal, unreadable data dropped |
 | `test/fake_*.dart` | Fake step source, camera/gallery, AI, Health, Auth, Firestore and notifications used by the tests |
 
 Run them with:
@@ -277,7 +284,7 @@ flutter test
 
 ## 10. Next steps
 
-**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phase 1 (Exercise tab, camera in the bar) is done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
+**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar) and 2 (exercise catalog, models, calorie estimates, storage) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
 
 - **Firebase:** turn on Email/Password (Console) and try sign-in and sync on the real project. Firestore is already set up in Mumbai.
 - **Devices:** run on iOS and on a real phone: photo AI, Health data, notifications.

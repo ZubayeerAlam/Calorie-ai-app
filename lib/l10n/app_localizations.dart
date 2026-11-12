@@ -2059,6 +2059,1590 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log'**
   String get log;
+
+  /// No description provided for @exPushUpName.
+  ///
+  /// In en, this message translates to:
+  /// **'Push-up'**
+  String get exPushUpName;
+
+  /// No description provided for @exPushUpPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Hands under your shoulders, body in a straight line from head to heels.'**
+  String get exPushUpPosition;
+
+  /// No description provided for @exPushUpStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Start at the top with your arms straight.'**
+  String get exPushUpStep1;
+
+  /// No description provided for @exPushUpStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Bend your elbows and lower your chest to just above the floor.'**
+  String get exPushUpStep2;
+
+  /// No description provided for @exPushUpStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Push the floor away until your arms are straight again.'**
+  String get exPushUpStep3;
+
+  /// No description provided for @exPushUpTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your hips level; don\'t let them sag or lift.'**
+  String get exPushUpTip;
+
+  /// No description provided for @exPushUpBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds upper-body strength and endurance.'**
+  String get exPushUpBenefit;
+
+  /// No description provided for @exKneePushUpName.
+  ///
+  /// In en, this message translates to:
+  /// **'Knee push-up'**
+  String get exKneePushUpName;
+
+  /// No description provided for @exKneePushUpPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Knees on the floor, hands under your shoulders, body straight from head to knees.'**
+  String get exKneePushUpPosition;
+
+  /// No description provided for @exKneePushUpStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with your arms straight.'**
+  String get exKneePushUpStep1;
+
+  /// No description provided for @exKneePushUpStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower your chest towards the floor.'**
+  String get exKneePushUpStep2;
+
+  /// No description provided for @exKneePushUpStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Push back up until your arms are straight.'**
+  String get exKneePushUpStep3;
+
+  /// No description provided for @exKneePushUpTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your stomach tight so your back stays flat.'**
+  String get exKneePushUpTip;
+
+  /// No description provided for @exKneePushUpBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'An easier push-up that builds chest and arm strength.'**
+  String get exKneePushUpBenefit;
+
+  /// No description provided for @exInclinePushUpName.
+  ///
+  /// In en, this message translates to:
+  /// **'Incline push-up'**
+  String get exInclinePushUpName;
+
+  /// No description provided for @exInclinePushUpPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Hands on a sturdy table or chair edge, feet back, body in a straight line.'**
+  String get exInclinePushUpPosition;
+
+  /// No description provided for @exInclinePushUpStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with your arms straight.'**
+  String get exInclinePushUpStep1;
+
+  /// No description provided for @exInclinePushUpStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Bend your elbows to bring your chest to the edge.'**
+  String get exInclinePushUpStep2;
+
+  /// No description provided for @exInclinePushUpStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Push back until your arms are straight.'**
+  String get exInclinePushUpStep3;
+
+  /// No description provided for @exInclinePushUpTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure the chair or table can\'t slide.'**
+  String get exInclinePushUpTip;
+
+  /// No description provided for @exInclinePushUpBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'An easier push-up for building up to the full one.'**
+  String get exInclinePushUpBenefit;
+
+  /// No description provided for @exSquatName.
+  ///
+  /// In en, this message translates to:
+  /// **'Squat'**
+  String get exSquatName;
+
+  /// No description provided for @exSquatPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Feet shoulder-width apart, toes slightly out, chest up.'**
+  String get exSquatPosition;
+
+  /// No description provided for @exSquatStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand tall with your weight on your heels.'**
+  String get exSquatStep1;
+
+  /// No description provided for @exSquatStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Push your hips back and bend your knees as if sitting on a chair.'**
+  String get exSquatStep2;
+
+  /// No description provided for @exSquatStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Push through your heels to stand back up.'**
+  String get exSquatStep3;
+
+  /// No description provided for @exSquatTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your knees in line with your toes.'**
+  String get exSquatTip;
+
+  /// No description provided for @exSquatBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens legs and glutes for everyday movement.'**
+  String get exSquatBenefit;
+
+  /// No description provided for @exLungeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Lunge'**
+  String get exLungeName;
+
+  /// No description provided for @exLungePosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand tall, feet hip-width apart, hands on your hips.'**
+  String get exLungePosition;
+
+  /// No description provided for @exLungeStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a big step forward.'**
+  String get exLungeStep1;
+
+  /// No description provided for @exLungeStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower until both knees are bent at about 90°.'**
+  String get exLungeStep2;
+
+  /// No description provided for @exLungeStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Push off the front foot back to standing; switch legs.'**
+  String get exLungeStep3;
+
+  /// No description provided for @exLungeTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your front knee over your ankle, not past your toes.'**
+  String get exLungeTip;
+
+  /// No description provided for @exLungeBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds leg strength and balance, one leg at a time.'**
+  String get exLungeBenefit;
+
+  /// No description provided for @exGluteBridgeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Glute bridge'**
+  String get exGluteBridgeName;
+
+  /// No description provided for @exGluteBridgePosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Lie on your back, knees bent, feet flat and hip-width apart.'**
+  String get exGluteBridgePosition;
+
+  /// No description provided for @exGluteBridgeStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest your arms by your sides.'**
+  String get exGluteBridgeStep1;
+
+  /// No description provided for @exGluteBridgeStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Squeeze your glutes and lift your hips until your body is straight from knees to shoulders.'**
+  String get exGluteBridgeStep2;
+
+  /// No description provided for @exGluteBridgeStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower your hips slowly back down.'**
+  String get exGluteBridgeStep3;
+
+  /// No description provided for @exGluteBridgeTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Push through your heels and don\'t arch your lower back.'**
+  String get exGluteBridgeTip;
+
+  /// No description provided for @exGluteBridgeBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens glutes and the back of the legs; kind to the knees.'**
+  String get exGluteBridgeBenefit;
+
+  /// No description provided for @exPlankName.
+  ///
+  /// In en, this message translates to:
+  /// **'Plank'**
+  String get exPlankName;
+
+  /// No description provided for @exPlankPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Forearms on the floor under your shoulders, legs straight behind you.'**
+  String get exPlankPosition;
+
+  /// No description provided for @exPlankStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Lift your body so it forms a straight line from head to heels.'**
+  String get exPlankStep1;
+
+  /// No description provided for @exPlankStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Tighten your stomach and glutes.'**
+  String get exPlankStep2;
+
+  /// No description provided for @exPlankStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the position and keep breathing.'**
+  String get exPlankStep3;
+
+  /// No description provided for @exPlankTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t let your hips drop or rise.'**
+  String get exPlankTip;
+
+  /// No description provided for @exPlankBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds core strength that supports your back.'**
+  String get exPlankBenefit;
+
+  /// No description provided for @exSidePlankName.
+  ///
+  /// In en, this message translates to:
+  /// **'Side plank'**
+  String get exSidePlankName;
+
+  /// No description provided for @exSidePlankPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Lie on your side, forearm under your shoulder, legs stacked.'**
+  String get exSidePlankPosition;
+
+  /// No description provided for @exSidePlankStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Lift your hips so your body is straight.'**
+  String get exSidePlankStep1;
+
+  /// No description provided for @exSidePlankStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold, keeping your hips high.'**
+  String get exSidePlankStep2;
+
+  /// No description provided for @exSidePlankStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower slowly; switch sides.'**
+  String get exSidePlankStep3;
+
+  /// No description provided for @exSidePlankTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your elbow right under your shoulder.'**
+  String get exSidePlankTip;
+
+  /// No description provided for @exSidePlankBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the sides of your core and improves stability.'**
+  String get exSidePlankBenefit;
+
+  /// No description provided for @exMountainClimberName.
+  ///
+  /// In en, this message translates to:
+  /// **'Mountain climber'**
+  String get exMountainClimberName;
+
+  /// No description provided for @exMountainClimberPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'High plank: hands under your shoulders, body straight.'**
+  String get exMountainClimberPosition;
+
+  /// No description provided for @exMountainClimberStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring one knee towards your chest.'**
+  String get exMountainClimberStep1;
+
+  /// No description provided for @exMountainClimberStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch legs quickly, like running in place.'**
+  String get exMountainClimberStep2;
+
+  /// No description provided for @exMountainClimberStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going at a steady pace for the set time.'**
+  String get exMountainClimberStep3;
+
+  /// No description provided for @exMountainClimberTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your hips low and your shoulders over your hands.'**
+  String get exMountainClimberTip;
+
+  /// No description provided for @exMountainClimberBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Raises your heart rate while working your core.'**
+  String get exMountainClimberBenefit;
+
+  /// No description provided for @exJumpingJackName.
+  ///
+  /// In en, this message translates to:
+  /// **'Jumping jack'**
+  String get exJumpingJackName;
+
+  /// No description provided for @exJumpingJackPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand with feet together and arms by your sides.'**
+  String get exJumpingJackPosition;
+
+  /// No description provided for @exJumpingJackStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump your feet apart while raising your arms overhead.'**
+  String get exJumpingJackStep1;
+
+  /// No description provided for @exJumpingJackStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump back to the start.'**
+  String get exJumpingJackStep2;
+
+  /// No description provided for @exJumpingJackStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat at a steady rhythm for the set time.'**
+  String get exJumpingJackStep3;
+
+  /// No description provided for @exJumpingJackTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Land softly on the balls of your feet.'**
+  String get exJumpingJackTip;
+
+  /// No description provided for @exJumpingJackBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'A simple cardio move that warms up the whole body.'**
+  String get exJumpingJackBenefit;
+
+  /// No description provided for @exHighKneesName.
+  ///
+  /// In en, this message translates to:
+  /// **'High knees'**
+  String get exHighKneesName;
+
+  /// No description provided for @exHighKneesPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand tall, feet hip-width apart.'**
+  String get exHighKneesPosition;
+
+  /// No description provided for @exHighKneesStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Run in place, lifting one knee to hip height.'**
+  String get exHighKneesStep1;
+
+  /// No description provided for @exHighKneesStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch legs quickly, pumping your arms.'**
+  String get exHighKneesStep2;
+
+  /// No description provided for @exHighKneesStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going for the set time.'**
+  String get exHighKneesStep3;
+
+  /// No description provided for @exHighKneesTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay on the balls of your feet and stand tall.'**
+  String get exHighKneesTip;
+
+  /// No description provided for @exHighKneesBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Raises your heart rate and works your legs.'**
+  String get exHighKneesBenefit;
+
+  /// No description provided for @exSupermanName.
+  ///
+  /// In en, this message translates to:
+  /// **'Superman'**
+  String get exSupermanName;
+
+  /// No description provided for @exSupermanPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Lie face down, arms stretched out in front, legs straight.'**
+  String get exSupermanPosition;
+
+  /// No description provided for @exSupermanStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Look at the floor to keep your neck relaxed.'**
+  String get exSupermanStep1;
+
+  /// No description provided for @exSupermanStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Lift your arms, chest and legs a little off the floor.'**
+  String get exSupermanStep2;
+
+  /// No description provided for @exSupermanStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold for a moment, then lower slowly.'**
+  String get exSupermanStep3;
+
+  /// No description provided for @exSupermanTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Lift only a few centimetres; don\'t throw your head back.'**
+  String get exSupermanTip;
+
+  /// No description provided for @exSupermanBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the muscles along your back.'**
+  String get exSupermanBenefit;
+
+  /// No description provided for @exBirdDogName.
+  ///
+  /// In en, this message translates to:
+  /// **'Bird dog'**
+  String get exBirdDogName;
+
+  /// No description provided for @exBirdDogPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'On hands and knees, hands under shoulders, knees under hips.'**
+  String get exBirdDogPosition;
+
+  /// No description provided for @exBirdDogStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your back flat.'**
+  String get exBirdDogStep1;
+
+  /// No description provided for @exBirdDogStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Reach one arm forward and the opposite leg back.'**
+  String get exBirdDogStep2;
+
+  /// No description provided for @exBirdDogStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Return slowly and switch sides.'**
+  String get exBirdDogStep3;
+
+  /// No description provided for @exBirdDogTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Move slowly; keep your hips level.'**
+  String get exBirdDogTip;
+
+  /// No description provided for @exBirdDogBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Improves balance and core control and supports the back.'**
+  String get exBirdDogBenefit;
+
+  /// No description provided for @exWallSitName.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall sit'**
+  String get exWallSitName;
+
+  /// No description provided for @exWallSitPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Back flat against a wall, feet about 60 cm in front of it.'**
+  String get exWallSitPosition;
+
+  /// No description provided for @exWallSitStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Slide down until your knees are bent at about 90°.'**
+  String get exWallSitStep1;
+
+  /// No description provided for @exWallSitStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold with your weight in your heels.'**
+  String get exWallSitStep2;
+
+  /// No description provided for @exWallSitStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Slide back up to stand.'**
+  String get exWallSitStep3;
+
+  /// No description provided for @exWallSitTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your knees over your ankles.'**
+  String get exWallSitTip;
+
+  /// No description provided for @exWallSitBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds thigh endurance without any equipment.'**
+  String get exWallSitBenefit;
+
+  /// No description provided for @exChairDipName.
+  ///
+  /// In en, this message translates to:
+  /// **'Chair dip'**
+  String get exChairDipName;
+
+  /// No description provided for @exChairDipPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Hands on the edge of a sturdy chair behind you, legs out in front.'**
+  String get exChairDipPosition;
+
+  /// No description provided for @exChairDipStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with your arms straight.'**
+  String get exChairDipStep1;
+
+  /// No description provided for @exChairDipStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Bend your elbows to lower your body.'**
+  String get exChairDipStep2;
+
+  /// No description provided for @exChairDipStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Push back up until your arms are straight.'**
+  String get exChairDipStep3;
+
+  /// No description provided for @exChairDipTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your back close to the chair and your shoulders down.'**
+  String get exChairDipTip;
+
+  /// No description provided for @exChairDipBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the backs of your arms.'**
+  String get exChairDipBenefit;
+
+  /// No description provided for @exStepUpName.
+  ///
+  /// In en, this message translates to:
+  /// **'Step-up'**
+  String get exStepUpName;
+
+  /// No description provided for @exStepUpPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Face a sturdy step or low bench.'**
+  String get exStepUpPosition;
+
+  /// No description provided for @exStepUpStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Step up with one foot, pressing through the heel.'**
+  String get exStepUpStep1;
+
+  /// No description provided for @exStepUpStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Bring the other foot up and stand tall.'**
+  String get exStepUpStep2;
+
+  /// No description provided for @exStepUpStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Step down and switch the leading leg.'**
+  String get exStepUpStep3;
+
+  /// No description provided for @exStepUpTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a step that can\'t move; hold a wall for balance if needed.'**
+  String get exStepUpTip;
+
+  /// No description provided for @exStepUpBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens legs and helps with stairs and climbing.'**
+  String get exStepUpBenefit;
+
+  /// No description provided for @exCalfRaiseName.
+  ///
+  /// In en, this message translates to:
+  /// **'Calf raise'**
+  String get exCalfRaiseName;
+
+  /// No description provided for @exCalfRaisePosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand tall, feet hip-width apart, holding a wall for balance.'**
+  String get exCalfRaisePosition;
+
+  /// No description provided for @exCalfRaiseStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Rise up onto the balls of your feet.'**
+  String get exCalfRaiseStep1;
+
+  /// No description provided for @exCalfRaiseStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause at the top.'**
+  String get exCalfRaiseStep2;
+
+  /// No description provided for @exCalfRaiseStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower your heels slowly.'**
+  String get exCalfRaiseStep3;
+
+  /// No description provided for @exCalfRaiseTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Move slowly; don\'t bounce.'**
+  String get exCalfRaiseTip;
+
+  /// No description provided for @exCalfRaiseBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the calves and ankles.'**
+  String get exCalfRaiseBenefit;
+
+  /// No description provided for @exDeadBugName.
+  ///
+  /// In en, this message translates to:
+  /// **'Dead bug'**
+  String get exDeadBugName;
+
+  /// No description provided for @exDeadBugPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Lie on your back, arms up, knees bent at 90° above your hips.'**
+  String get exDeadBugPosition;
+
+  /// No description provided for @exDeadBugStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Press your lower back into the floor.'**
+  String get exDeadBugStep1;
+
+  /// No description provided for @exDeadBugStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower one arm and the opposite leg towards the floor.'**
+  String get exDeadBugStep2;
+
+  /// No description provided for @exDeadBugStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Return and switch sides.'**
+  String get exDeadBugStep3;
+
+  /// No description provided for @exDeadBugTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your lower back flat the whole time.'**
+  String get exDeadBugTip;
+
+  /// No description provided for @exDeadBugBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds core control with little strain on the back.'**
+  String get exDeadBugBenefit;
+
+  /// No description provided for @exGobletSquatName.
+  ///
+  /// In en, this message translates to:
+  /// **'Goblet squat'**
+  String get exGobletSquatName;
+
+  /// No description provided for @exGobletSquatPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold one dumbbell upright at your chest, feet shoulder-width apart.'**
+  String get exGobletSquatPosition;
+
+  /// No description provided for @exGobletSquatStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand tall with your elbows pointing down.'**
+  String get exGobletSquatStep1;
+
+  /// No description provided for @exGobletSquatStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Push your hips back and squat down.'**
+  String get exGobletSquatStep2;
+
+  /// No description provided for @exGobletSquatStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Push through your heels to stand up.'**
+  String get exGobletSquatStep3;
+
+  /// No description provided for @exGobletSquatTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your chest up and the weight close to you.'**
+  String get exGobletSquatTip;
+
+  /// No description provided for @exGobletSquatBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds leg and glute strength with extra load.'**
+  String get exGobletSquatBenefit;
+
+  /// No description provided for @exDumbbellRowName.
+  ///
+  /// In en, this message translates to:
+  /// **'Dumbbell row'**
+  String get exDumbbellRowName;
+
+  /// No description provided for @exDumbbellRowPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'One hand and knee on a bench or chair, dumbbell in the other hand, back flat.'**
+  String get exDumbbellRowPosition;
+
+  /// No description provided for @exDumbbellRowStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Let the arm hang straight down.'**
+  String get exDumbbellRowStep1;
+
+  /// No description provided for @exDumbbellRowStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull the dumbbell up towards your hip.'**
+  String get exDumbbellRowStep2;
+
+  /// No description provided for @exDumbbellRowStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower it slowly.'**
+  String get exDumbbellRowStep3;
+
+  /// No description provided for @exDumbbellRowTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your back flat and don\'t twist.'**
+  String get exDumbbellRowTip;
+
+  /// No description provided for @exDumbbellRowBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the upper back and improves posture.'**
+  String get exDumbbellRowBenefit;
+
+  /// No description provided for @exShoulderPressName.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulder press'**
+  String get exShoulderPressName;
+
+  /// No description provided for @exShoulderPressPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit or stand tall, dumbbells at shoulder height, palms forward.'**
+  String get exShoulderPressPosition;
+
+  /// No description provided for @exShoulderPressStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Brace your stomach.'**
+  String get exShoulderPressStep1;
+
+  /// No description provided for @exShoulderPressStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Press the dumbbells straight up overhead.'**
+  String get exShoulderPressStep2;
+
+  /// No description provided for @exShoulderPressStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower them back to your shoulders.'**
+  String get exShoulderPressStep3;
+
+  /// No description provided for @exShoulderPressTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t arch your back; keep your ribs down.'**
+  String get exShoulderPressTip;
+
+  /// No description provided for @exShoulderPressBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds shoulder and arm strength for lifting overhead.'**
+  String get exShoulderPressBenefit;
+
+  /// No description provided for @exRomanianDeadliftName.
+  ///
+  /// In en, this message translates to:
+  /// **'Romanian deadlift'**
+  String get exRomanianDeadliftName;
+
+  /// No description provided for @exRomanianDeadliftPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand with dumbbells in front of your thighs, knees slightly bent.'**
+  String get exRomanianDeadliftPosition;
+
+  /// No description provided for @exRomanianDeadliftStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your back flat and shoulders back.'**
+  String get exRomanianDeadliftStep1;
+
+  /// No description provided for @exRomanianDeadliftStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Push your hips back and lower the weights along your legs.'**
+  String get exRomanianDeadliftStep2;
+
+  /// No description provided for @exRomanianDeadliftStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Squeeze your glutes to stand up.'**
+  String get exRomanianDeadliftStep3;
+
+  /// No description provided for @exRomanianDeadliftTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Hinge at the hips; your back stays straight.'**
+  String get exRomanianDeadliftTip;
+
+  /// No description provided for @exRomanianDeadliftBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the back of the legs and the glutes.'**
+  String get exRomanianDeadliftBenefit;
+
+  /// No description provided for @exBicepCurlName.
+  ///
+  /// In en, this message translates to:
+  /// **'Biceps curl'**
+  String get exBicepCurlName;
+
+  /// No description provided for @exBicepCurlPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand tall, dumbbells at your sides, palms forward.'**
+  String get exBicepCurlPosition;
+
+  /// No description provided for @exBicepCurlStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your elbows close to your body.'**
+  String get exBicepCurlStep1;
+
+  /// No description provided for @exBicepCurlStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Curl the weights up towards your shoulders.'**
+  String get exBicepCurlStep2;
+
+  /// No description provided for @exBicepCurlStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower them slowly.'**
+  String get exBicepCurlStep3;
+
+  /// No description provided for @exBicepCurlTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t swing; only your forearms move.'**
+  String get exBicepCurlTip;
+
+  /// No description provided for @exBicepCurlBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the front of the arms.'**
+  String get exBicepCurlBenefit;
+
+  /// No description provided for @exBandRowName.
+  ///
+  /// In en, this message translates to:
+  /// **'Band row'**
+  String get exBandRowName;
+
+  /// No description provided for @exBandRowPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit with legs straight, band around your feet, ends in your hands.'**
+  String get exBandRowPosition;
+
+  /// No description provided for @exBandRowStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit tall with your arms straight.'**
+  String get exBandRowStep1;
+
+  /// No description provided for @exBandRowStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull the ends towards your waist, squeezing your shoulder blades.'**
+  String get exBandRowStep2;
+
+  /// No description provided for @exBandRowStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Return slowly.'**
+  String get exBandRowStep3;
+
+  /// No description provided for @exBandRowTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your back straight; don\'t lean back.'**
+  String get exBandRowTip;
+
+  /// No description provided for @exBandRowBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the upper back with light, joint-friendly resistance.'**
+  String get exBandRowBenefit;
+
+  /// No description provided for @exBandPullApartName.
+  ///
+  /// In en, this message translates to:
+  /// **'Band pull-apart'**
+  String get exBandPullApartName;
+
+  /// No description provided for @exBandPullApartPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand tall, hold a band in front of you at shoulder height.'**
+  String get exBandPullApartPosition;
+
+  /// No description provided for @exBandPullApartStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your arms straight.'**
+  String get exBandPullApartStep1;
+
+  /// No description provided for @exBandPullApartStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull the band apart until it touches your chest.'**
+  String get exBandPullApartStep2;
+
+  /// No description provided for @exBandPullApartStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Return slowly.'**
+  String get exBandPullApartStep3;
+
+  /// No description provided for @exBandPullApartTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Squeeze your shoulder blades; keep your shoulders down.'**
+  String get exBandPullApartTip;
+
+  /// No description provided for @exBandPullApartBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the upper back and shoulders and helps posture.'**
+  String get exBandPullApartBenefit;
+
+  /// No description provided for @exLegPressName.
+  ///
+  /// In en, this message translates to:
+  /// **'Leg press'**
+  String get exLegPressName;
+
+  /// No description provided for @exLegPressPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit in the machine, back flat on the pad, feet shoulder-width on the platform.'**
+  String get exLegPressPosition;
+
+  /// No description provided for @exLegPressStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Release the safety and hold the handles.'**
+  String get exLegPressStep1;
+
+  /// No description provided for @exLegPressStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Bend your knees to lower the platform towards you.'**
+  String get exLegPressStep2;
+
+  /// No description provided for @exLegPressStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Press it away until your legs are almost straight.'**
+  String get exLegPressStep3;
+
+  /// No description provided for @exLegPressTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t lock your knees at the top.'**
+  String get exLegPressTip;
+
+  /// No description provided for @exLegPressBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds leg strength with back support.'**
+  String get exLegPressBenefit;
+
+  /// No description provided for @exLatPulldownName.
+  ///
+  /// In en, this message translates to:
+  /// **'Lat pulldown'**
+  String get exLatPulldownName;
+
+  /// No description provided for @exLatPulldownPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit with thighs under the pad, hold the bar wider than your shoulders.'**
+  String get exLatPulldownPosition;
+
+  /// No description provided for @exLatPulldownStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit tall and lean back slightly.'**
+  String get exLatPulldownStep1;
+
+  /// No description provided for @exLatPulldownStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull the bar down to your upper chest.'**
+  String get exLatPulldownStep2;
+
+  /// No description provided for @exLatPulldownStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Let it rise slowly until your arms are straight.'**
+  String get exLatPulldownStep3;
+
+  /// No description provided for @exLatPulldownTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull with your elbows; don\'t pull behind your neck.'**
+  String get exLatPulldownTip;
+
+  /// No description provided for @exLatPulldownBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the back and arms for pulling.'**
+  String get exLatPulldownBenefit;
+
+  /// No description provided for @exSeatedCableRowName.
+  ///
+  /// In en, this message translates to:
+  /// **'Seated cable row'**
+  String get exSeatedCableRowName;
+
+  /// No description provided for @exSeatedCableRowPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit at the cable station, feet on the platform, knees soft, handle in both hands.'**
+  String get exSeatedCableRowPosition;
+
+  /// No description provided for @exSeatedCableRowStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit tall with your arms straight.'**
+  String get exSeatedCableRowStep1;
+
+  /// No description provided for @exSeatedCableRowStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull the handle to your stomach, squeezing your shoulder blades.'**
+  String get exSeatedCableRowStep2;
+
+  /// No description provided for @exSeatedCableRowStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Return slowly.'**
+  String get exSeatedCableRowStep3;
+
+  /// No description provided for @exSeatedCableRowTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your back straight; don\'t rock.'**
+  String get exSeatedCableRowTip;
+
+  /// No description provided for @exSeatedCableRowBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the middle back and improves posture.'**
+  String get exSeatedCableRowBenefit;
+
+  /// No description provided for @exChestPressName.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest press'**
+  String get exChestPressName;
+
+  /// No description provided for @exChestPressPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit with your back against the pad, handles at chest height.'**
+  String get exChestPressPosition;
+
+  /// No description provided for @exChestPressStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the handles with your elbows bent.'**
+  String get exChestPressStep1;
+
+  /// No description provided for @exChestPressStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Push the handles forward until your arms are straight.'**
+  String get exChestPressStep2;
+
+  /// No description provided for @exChestPressStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Return slowly.'**
+  String get exChestPressStep3;
+
+  /// No description provided for @exChestPressTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your shoulders back against the pad.'**
+  String get exChestPressTip;
+
+  /// No description provided for @exChestPressBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds chest and arm strength with a guided path.'**
+  String get exChestPressBenefit;
+
+  /// No description provided for @exDumbbellBenchPressName.
+  ///
+  /// In en, this message translates to:
+  /// **'Dumbbell bench press'**
+  String get exDumbbellBenchPressName;
+
+  /// No description provided for @exDumbbellBenchPressPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Lie on a flat bench, dumbbells above your chest, feet on the floor.'**
+  String get exDumbbellBenchPressPosition;
+
+  /// No description provided for @exDumbbellBenchPressStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with your arms straight above you.'**
+  String get exDumbbellBenchPressStep1;
+
+  /// No description provided for @exDumbbellBenchPressStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower the dumbbells to the sides of your chest.'**
+  String get exDumbbellBenchPressStep2;
+
+  /// No description provided for @exDumbbellBenchPressStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Press them back up.'**
+  String get exDumbbellBenchPressStep3;
+
+  /// No description provided for @exDumbbellBenchPressTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Control the weights; keep your wrists straight.'**
+  String get exDumbbellBenchPressTip;
+
+  /// No description provided for @exDumbbellBenchPressBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds chest, shoulder and arm strength.'**
+  String get exDumbbellBenchPressBenefit;
+
+  /// No description provided for @exLegCurlName.
+  ///
+  /// In en, this message translates to:
+  /// **'Leg curl'**
+  String get exLegCurlName;
+
+  /// No description provided for @exLegCurlPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit or lie in the machine with the pad just above your heels.'**
+  String get exLegCurlPosition;
+
+  /// No description provided for @exLegCurlStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the handles and keep your hips down.'**
+  String get exLegCurlStep1;
+
+  /// No description provided for @exLegCurlStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Bend your knees to curl the pad towards you.'**
+  String get exLegCurlStep2;
+
+  /// No description provided for @exLegCurlStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Return slowly.'**
+  String get exLegCurlStep3;
+
+  /// No description provided for @exLegCurlTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Move smoothly; don\'t lift your hips.'**
+  String get exLegCurlTip;
+
+  /// No description provided for @exLegCurlBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the hamstrings (back of the thighs).'**
+  String get exLegCurlBenefit;
+
+  /// No description provided for @exTricepsPushdownName.
+  ///
+  /// In en, this message translates to:
+  /// **'Triceps pushdown'**
+  String get exTricepsPushdownName;
+
+  /// No description provided for @exTricepsPushdownPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand at a high cable with a bar or rope, elbows at your sides.'**
+  String get exTricepsPushdownPosition;
+
+  /// No description provided for @exTricepsPushdownStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with your elbows bent.'**
+  String get exTricepsPushdownStep1;
+
+  /// No description provided for @exTricepsPushdownStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Push down until your arms are straight.'**
+  String get exTricepsPushdownStep2;
+
+  /// No description provided for @exTricepsPushdownStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Let the handle rise slowly.'**
+  String get exTricepsPushdownStep3;
+
+  /// No description provided for @exTricepsPushdownTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your elbows still at your sides.'**
+  String get exTricepsPushdownTip;
+
+  /// No description provided for @exTricepsPushdownBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Strengthens the backs of the arms.'**
+  String get exTricepsPushdownBenefit;
+
+  /// No description provided for @exTreadmillInclineWalkName.
+  ///
+  /// In en, this message translates to:
+  /// **'Incline treadmill walk'**
+  String get exTreadmillInclineWalkName;
+
+  /// No description provided for @exTreadmillInclineWalkPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand on the treadmill, set a gentle incline and a brisk walking speed.'**
+  String get exTreadmillInclineWalkPosition;
+
+  /// No description provided for @exTreadmillInclineWalkStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk tall, looking ahead.'**
+  String get exTreadmillInclineWalkStep1;
+
+  /// No description provided for @exTreadmillInclineWalkStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Swing your arms naturally.'**
+  String get exTreadmillInclineWalkStep2;
+
+  /// No description provided for @exTreadmillInclineWalkStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep a pace where you can talk but feel warm.'**
+  String get exTreadmillInclineWalkStep3;
+
+  /// No description provided for @exTreadmillInclineWalkTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold the rails only for balance, not to lean back.'**
+  String get exTreadmillInclineWalkTip;
+
+  /// No description provided for @exTreadmillInclineWalkBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Raises your heart rate with low impact on the joints.'**
+  String get exTreadmillInclineWalkBenefit;
+
+  /// No description provided for @exStationaryBikeName.
+  ///
+  /// In en, this message translates to:
+  /// **'Stationary bike'**
+  String get exStationaryBikeName;
+
+  /// No description provided for @exStationaryBikePosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust the seat so your knee is slightly bent at the bottom of the pedal stroke.'**
+  String get exStationaryBikePosition;
+
+  /// No description provided for @exStationaryBikeStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit tall and hold the handlebars lightly.'**
+  String get exStationaryBikeStep1;
+
+  /// No description provided for @exStationaryBikeStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Pedal at a steady, comfortable pace.'**
+  String get exStationaryBikeStep2;
+
+  /// No description provided for @exStationaryBikeStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Add resistance if it feels too easy.'**
+  String get exStationaryBikeStep3;
+
+  /// No description provided for @exStationaryBikeTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your knees in line with your feet.'**
+  String get exStationaryBikeTip;
+
+  /// No description provided for @exStationaryBikeBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds heart fitness with low impact on the joints.'**
+  String get exStationaryBikeBenefit;
+
+  /// No description provided for @exRowingMachineName.
+  ///
+  /// In en, this message translates to:
+  /// **'Rowing machine'**
+  String get exRowingMachineName;
+
+  /// No description provided for @exRowingMachinePosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Sit on the rower, feet strapped in, handle in both hands, arms straight.'**
+  String get exRowingMachinePosition;
+
+  /// No description provided for @exRowingMachineStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Push with your legs first.'**
+  String get exRowingMachineStep1;
+
+  /// No description provided for @exRowingMachineStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Lean back slightly and pull the handle to your lower ribs.'**
+  String get exRowingMachineStep2;
+
+  /// No description provided for @exRowingMachineStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Return arms, then body, then legs, in that order.'**
+  String get exRowingMachineStep3;
+
+  /// No description provided for @exRowingMachineTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Power comes from your legs; keep your back straight.'**
+  String get exRowingMachineTip;
+
+  /// No description provided for @exRowingMachineBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'A full-body cardio workout for legs, back and heart.'**
+  String get exRowingMachineBenefit;
+
+  /// No description provided for @muscleChest.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest'**
+  String get muscleChest;
+
+  /// No description provided for @muscleShoulders.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulders'**
+  String get muscleShoulders;
+
+  /// No description provided for @muscleTriceps.
+  ///
+  /// In en, this message translates to:
+  /// **'Triceps'**
+  String get muscleTriceps;
+
+  /// No description provided for @muscleBiceps.
+  ///
+  /// In en, this message translates to:
+  /// **'Biceps'**
+  String get muscleBiceps;
+
+  /// No description provided for @muscleBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get muscleBack;
+
+  /// No description provided for @muscleCore.
+  ///
+  /// In en, this message translates to:
+  /// **'Core'**
+  String get muscleCore;
+
+  /// No description provided for @muscleGlutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Glutes'**
+  String get muscleGlutes;
+
+  /// No description provided for @muscleQuads.
+  ///
+  /// In en, this message translates to:
+  /// **'Thighs (front)'**
+  String get muscleQuads;
+
+  /// No description provided for @muscleHamstrings.
+  ///
+  /// In en, this message translates to:
+  /// **'Thighs (back)'**
+  String get muscleHamstrings;
+
+  /// No description provided for @muscleCalves.
+  ///
+  /// In en, this message translates to:
+  /// **'Calves'**
+  String get muscleCalves;
+
+  /// No description provided for @muscleFullBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body'**
+  String get muscleFullBody;
+
+  /// No description provided for @muscleHeart.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart and lungs'**
+  String get muscleHeart;
+
+  /// No description provided for @exMarchInPlaceName.
+  ///
+  /// In en, this message translates to:
+  /// **'March in place'**
+  String get exMarchInPlaceName;
+
+  /// No description provided for @exMarchInPlacePosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand tall, feet hip-width apart, arms relaxed.'**
+  String get exMarchInPlacePosition;
+
+  /// No description provided for @exMarchInPlaceStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Lift one knee to a comfortable height.'**
+  String get exMarchInPlaceStep1;
+
+  /// No description provided for @exMarchInPlaceStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower it and lift the other, swinging your arms.'**
+  String get exMarchInPlaceStep2;
+
+  /// No description provided for @exMarchInPlaceStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep a brisk, steady rhythm for the set time.'**
+  String get exMarchInPlaceStep3;
+
+  /// No description provided for @exMarchInPlaceTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Land softly; lift your knees only as high as feels good.'**
+  String get exMarchInPlaceTip;
+
+  /// No description provided for @exMarchInPlaceBenefit.
+  ///
+  /// In en, this message translates to:
+  /// **'Low-impact cardio that gets your heart going gently.'**
+  String get exMarchInPlaceBenefit;
 }
 
 class _AppLocalizationsDelegate

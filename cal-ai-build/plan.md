@@ -266,7 +266,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - New colours: `onPrimary` (always-dark text on the green), `accent` (a darker green for text on white, readable in light mode).
   - There were no dark designs, so the dark palette is ours; adjust `AppColors` if designs arrive.
 - **Bangla translation:** English and বাংলা (Flutter gen-l10n).
-  - The text lives in `lib/l10n/app_en.arb` and `lib/l10n/app_bn.arb` (324 strings), and the code reads it through `l10n`.
+  - The text lives in `lib/l10n/app_en.arb` and `lib/l10n/app_bn.arb` (324 strings then; 590 after feature 23's exercise texts), and the code reads it through `l10n`.
   - The app follows the phone's language; Account → **Language** (System / English / বাংলা, saved as `language`) can override it.
   - Dates use the language's own format, with Western digits. Reminder texts follow the language, and the AI is asked to name foods in Bangla.
   - Not translated: brand names, the AI instructions, and internal error messages.
@@ -282,7 +282,13 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - **Changes to earlier decisions:** the bottom bar (decision 4, feature 11); Health workouts will also store start/end times (feature 16); the focus goals now shape the workout plan.
 - **Phases** (each tested, then reviewed by you):
   1. ✅ **Navigation (2026-11-12):** Exercise tab (`/exercise`, placeholder screen) between the camera and Account; the camera button moved from a raised floating button into the bar (52 px). The extra bottom padding that made room for the raised button was removed from Home, Tracker and Account. `EmptyState` text now uses the readable grey (it failed the contrast check). Tests: tab order, camera inside the bar, camera from the Exercise tab, Exercise screen accessibility (light, dark, Bangla).
-  2. ⬜ Domain: models, exercise catalog with English and Bangla texts, calorie estimator, repositories.
+  2. ✅ **Domain (2026-11-12):** in `lib/features/exercise/data/`:
+     - **Models:** `ExerciseSettings` (Home/Gym, level, minutes, home equipment, limitations; level defaults from the activity level, 2–5 sessions a week from it too), `Exercise`, `WorkoutPlan` / `PlannedSession` / `PlannedExercise`, `WorkoutRecord` / `ExerciseRecord` (status from sets done).
+     - **Catalog** (`catalog/exercise_catalog.dart`): 36 exercises: 19 bodyweight (home, many also gym), 7 with dumbbells or bands, 10 gym machines. Each has places, equipment, movement type, muscles, MET, seconds per rep, default rest, and the limitations it's left out for. `allowedFor(settings)` filters them. "March in place" was added (not in the original list) because with all four limitations ticked Home had no cardio and only 4 exercises.
+     - **Texts:** name, starting position, 3 steps, form tip and benefit for every exercise, plus 12 muscle names, in English and Bangla (264 new strings each; `ExerciseTexts`).
+     - **Estimates** (`exercise_estimate.dart`, named `exercise_calories.dart` in the plan): net kcal = (MET − 1) × kg × active hours; planned time = sets + rests; shown kcal rounded (whole below 10, then to 5).
+     - **Storage:** `exercise_settings`, `workout_plan`, `workout_sessions` with three repositories (`data/repositories/`). Not synced yet (phase 7).
+     - Tests: 31 new (catalog, estimates, models, repositories).
   3. ⬜ AI: `WorkoutPlanService` (Gemini with a fixed list of exercises to choose from, plus a rule-based fallback), checking the reply.
   4. ⬜ Setup (Home/Gym + extras) and the dashboard (two-column exercise cards, progress).
   5. ⬜ Animated demos and the exercise details screen.
@@ -302,7 +308,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 7. **Account management (19 ✅).**
 8. **Notifications (18 ✅), polish (22 ✅).**
 
-**Feature 23 (exercise planner) is in progress** (phase 1 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+**Feature 23 (exercise planner) is in progress** (phases 1–2 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
 
 **Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 

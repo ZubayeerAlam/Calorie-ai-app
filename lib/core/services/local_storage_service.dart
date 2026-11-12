@@ -20,6 +20,9 @@ class StorageKeys {
   static const String reminders = 'reminders';
   static const String themeMode = 'theme_mode';
   static const String language = 'language';
+  static const String exerciseSettings = 'exercise_settings';
+  static const String workoutPlan = 'workout_plan';
+  static const String workoutSessions = 'workout_sessions';
 }
 
 /// Wraps shared_preferences so features don't depend on it directly.
