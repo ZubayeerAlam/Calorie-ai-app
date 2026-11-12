@@ -275,7 +275,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - What got fixed: the bell, the + buttons, the date button and onboarding's back button were made 48 px. The selected-tab and green text now use the readable green. Labels were added to the reminder switches. Header text stays dark on the green header.
   - **Text size:** follows the phone up to 130% (`AppConstants.maxTextScale`); every main screen is checked at that size in English and Bangla.
 
-### 23. AI exercise and workout planner 🟡 in progress (planned 2026-11-12)
+### 23. AI exercise and workout planner ✅ (2026-11-12; a real Gemini plan still to check)
 - **Goal:** an Exercise tab with a personalised plan. The user picks **Home** or **Gym** once (plus optional extras: fitness level, minutes per session, home equipment, limitations). Gemini builds a **weekly rotating plan**, choosing only from a curated catalog of ~32 exercises. Each exercise has a **code-drawn animated demo**, step-by-step instructions, and a set-by-set workout mode with a rest timer.
 - **Calories:** estimates only, net MET method ((MET − 1) × kg × active hours), shown as "≈ N kcal (estimate)", with no fat-loss claims. Finished workouts are added to **Activity** on Home. A workout that overlaps a Health workout in time is skipped, so Health's measured number counts instead.
 - **Data:** `exercise_settings`, `workout_plan` and `workout_sessions` (one Firestore doc per session) are synced; the rule-based planner is used when AI is unavailable.
@@ -337,7 +337,15 @@ These are agreed and will be built later, in the order shown under "Suggested or
      - Strings: 7 new (English and Bangla).
      - Tests: 16 new (overlap rules, Health times stored, Cal AI workouts in Activity, in-progress workouts, disconnecting Health, active time, Tracker totals, sync upload/merge/reset, Home and Tracker in the app, a workout done in workout mode showing up on Home).
      - **Not yet checked:** real Health data with overlapping workouts (needs a phone and a watch or fitness app), and sync against the real project.
-  8. ⬜ Polish: accessibility, dark mode, Bangla, emulator run-through.
+  8. ✅ **Polish and run-through (2026-11-12):**
+     - **Emulator:** a new test emulator without a screen lock (`calai-test`, Android 13, made from the system image already installed; the old `nx-api33` is locked). Checked there in a normal and an optimised (profile) build: Exercise tab and bar, Home setup, the offline plan and its notice, details with the animated demo, workout mode (sets, rest timer, rest ending by itself, Complete exercise, the done screen), **timers staying right after 20 s in the background**, the completed exercise on the dashboard, **5 kcal in Home's Activity and Burned** after a restart, Tracker's Workouts card, **dark mode** and **বাংলা**.
+     - **Fixed from the run-through:**
+       - The green buttons on the Exercise screens used the phone's default font instead of Outfit (the button style replaced the theme's text style).
+       - A plan made without AI kept its summary, session names and focus in the language it was made in; they now follow the app's language (AI plans keep theirs; Regenerate gives the new language).
+       - The demo no longer redraws while a pose is held, and its repaints stay inside the drawing.
+     - **Seen but not an app fault:** this emulator renders with SwiftShader (graphics on the CPU), so an animating demo takes about half a CPU core there, and once (debug build, system under heavy load) Android showed "isn't responding" after a navigation. The optimised build used no CPU when idle. Check on a real phone.
+     - **Real Gemini not checked:** App Check refused the new emulator (its debug token isn't registered), so the plan was made by the rules, which is the fallback working as designed. To try the AI, register the debug token shown in that emulator's log (`DebugAppCheckProvider`), as in feature 15.
+     - Tests: 354 passing, `flutter analyze` clean.
 
 ---
 
@@ -351,7 +359,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 7. **Account management (19 ✅).**
 8. **Notifications (18 ✅), polish (22 ✅).**
 
-**Feature 23 (exercise planner) is in progress** (phases 1–7 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+**All planned features are built, including feature 23 (exercise planner).** Left: try a real Gemini workout plan (register the new emulator's App Check debug token) and Health workouts that overlap Cal AI workouts on a real phone, plus the checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
 
 **Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 

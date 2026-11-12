@@ -15,6 +15,13 @@ class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool busy;
 
+  // Only size and weight: setting a whole text style on the button would
+  // drop the app's font.
+  static const _labelStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,7 +34,6 @@ class PrimaryButton extends StatelessWidget {
           foregroundColor: AppColors.onPrimary,
           elevation: 0,
           shape: const StadiumBorder(),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
         child: busy
             ? Row(
@@ -41,10 +47,10 @@ class PrimaryButton extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Flexible(child: Text(label)),
+                  Flexible(child: Text(label, style: _labelStyle)),
                 ],
               )
-            : Text(label, textAlign: TextAlign.center),
+            : Text(label, textAlign: TextAlign.center, style: _labelStyle),
       ),
     );
   }

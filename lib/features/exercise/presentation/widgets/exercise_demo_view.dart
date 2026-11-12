@@ -140,7 +140,8 @@ class _ExerciseDemoViewState extends State<ExerciseDemoView>
             child: Semantics(
               image: true,
               label: l10n.demoLabel(name),
-              child: ExcludeSemantics(child: drawing),
+              // Repaints of the animation stay inside the drawing.
+              child: ExcludeSemantics(child: RepaintBoundary(child: drawing)),
             ),
           ),
           if (!_reduceMotion)

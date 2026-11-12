@@ -1,6 +1,6 @@
 # Cal AI — Build Status
 
-_Last updated: 2026-11-02 · 179 tests passing · `flutter analyze`: no issues_
+_Last updated: 2026-11-12 · 354 tests passing · `flutter analyze`: no issues_
 
 What the app is **right now**. For what's done and what's next, see the roadmap in [plan.md](plan.md).
 
@@ -12,6 +12,7 @@ Cal AI is a Flutter calorie and macro tracker.
 2. A **"Personalizing your experience"** loader runs.
 3. The user sees their **calculated plan**.
 4. They land on the **Home dashboard**, where they log meals, activity and steps.
+5. The **Exercise** tab gives them a weekly workout plan (Home or Gym, made by Gemini) with animated demonstrations and a set-by-set workout mode.
 
 Data is stored **on the device** with `shared_preferences`; signing in (optional) backs it up to Firestore and syncs it. Food is analysed by Gemini through Firebase AI Logic.
 
@@ -187,6 +188,14 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Profile card** with **Edit** → Edit profile; saving recalculates the targets unless they were set by hand. Weight is logged on Tracker.
 - **Reset all data** (with a confirmation) deletes everything and starts setup again; while signed in it also clears the account's copy.
 
+### Exercise (feature 23)
+- **First visit:** Home or Gym, plus optional extras (level, minutes, home equipment, limitations) and a safety note. **Create my plan** asks Gemini (`FirebaseWorkoutPlanService`) for a weekly plan using only exercises from the catalog that suit the setup; the reply is checked and corrected (`WorkoutPlanValidator`). Without the AI the built-in rules make the plan (`RuleBasedWorkoutPlanService`) and the dashboard offers **Try AI again**.
+- **Dashboard:** today's session (rotating through the week), session chips, progress (done/left, ≈ minutes, ≈ kcal), a two-column grid of exercise cards (Not started / In progress / Done), **Make a new plan**, **Workout setup**, and "Update plan" when the profile or setup changed.
+- **Catalog:** 36 exercises (`data/catalog/`), each with a code-drawn animated demo (key poses), English and Bangla instructions, muscles, a MET value and the limitations it's left out for.
+- **Details and workout mode:** the demo, steps, form tip, muscles, benefits and a kcal estimate with its explanation; then sets confirmed by hand or with a countdown, a rest timer (+15 s, skip, starts the next set by itself), Complete exercise, End early, Next exercise. Each set is saved at once.
+- **Calories:** net MET estimates ((MET − 1) × kg × active hours), shown as "≈". Finished sets count in Home's Activity and Burned; a workout Health also recorded counts once (Health's number). Tracker has a Workouts card and a line in History.
+- **Sync:** the setup and plan as values; each workout as its own Firestore document (`workout_sessions`).
+
 ### Reminders
 - Breakfast, lunch and dinner reminders (off until turned on; dinner uses the profile's dinner time). Today's reminder is skipped once the meal is logged; tapping one opens Add Food for that meal.
 
@@ -243,7 +252,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Exercise demos:** drawn in code (`ExerciseFigurePainter` + key poses in `exercise_demos.dart`); to adjust one, change its pose angles (limbs from straight down, torso from straight up, positive = forward).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton` (48 px tap area), `EmptyState`, `MealIllustration`, `MealPhoto`.
 
-## 8. Tests (353 passing)
+## 8. Tests (354 passing)
 
 | File | Covers |
 |---|---|
@@ -274,7 +283,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/exercise/exercise_provider_test.dart` | Recording sets (start, estimate, complete workout, next session, limits, next exercise); setup, AI plan, fallback to rules and retry, outdated plan, today's session rotation, card status and progress, estimates, reset and reload |
 | `test/exercise/exercise_widget_test.dart` | First visit (Home, extras, loading, dashboard), Gym, AI unavailable and retry, statuses and card labels, session chips, Update plan, Make a new plan, Workout setup, Bangla; exercise details (contents, kcal explanation, demo animation following the steps, pause, reduce motion, unknown exercise); workout mode (sets, rest, +15 s, skip, finish, back to plan, End early and Continue, Complete exercise and Next exercise, timed countdown) |
 | `test/exercise/workout_plan_validator_test.dart` | Checking AI plans: kept as is, not allowed/unknown/repeated exercises dropped, safe ranges, reps vs time, cardio machines, session time, 8-exercise and day limits, missing names, unusable replies |
-| `test/exercise/rule_based_workout_plan_service_test.dart` | The offline planner for every place, activity, level, length and limitation; full body vs upper/lower; sets by level and reps by goal; cardio machines; home equipment |
+| `test/exercise/rule_based_workout_plan_service_test.dart` | The offline planner for every place, activity, level, length and limitation; full body vs upper/lower; sets by level and reps by goal; cardio machines; home equipment; texts following a change of language |
 | `test/exercise/firebase_workout_plan_service_test.dart` | The Gemini plan service with a fake model: prompt contents, allowed-id schema, Bangla, checked reply, errors; the plan fingerprint |
 | `test/exercise/exercise_repositories_test.dart` | Settings, plan and workout history saved and read, update by id, per-day kcal, unreadable data dropped |
 | `test/fake_*.dart` | Fake step source, camera/gallery, AI, Health, Auth, Firestore and notifications used by the tests |
@@ -297,7 +306,7 @@ flutter test
 
 ## 10. Next steps
 
-**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar), 2 (exercise catalog, models, calorie estimates, storage), 3 (AI and offline plan services), 4 (setup screen and plan dashboard), 5 (animated demos and exercise details), 6 (workout mode) and 7 (workout calories on Home and Tracker, sync) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
+All planned features are built, including feature 23, the AI exercise and workout planner (see [plan.md](plan.md); food database/barcode and Articles were dropped). Feature 23 was run through on a test emulator; a real Gemini workout plan and overlapping Health workouts are still to be checked. Also left, checking and release work:
 
 - **Firebase:** turn on Email/Password (Console) and try sign-in and sync on the real project. Firestore is already set up in Mumbai.
 - **Devices:** run on iOS and on a real phone: photo AI, Health data, notifications.

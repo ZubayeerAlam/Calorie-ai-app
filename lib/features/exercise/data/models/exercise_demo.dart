@@ -35,6 +35,21 @@ class Pose {
   /// Extra height off the floor (standing on a step, on tiptoe).
   final double raise;
 
+  // Equal poses (e.g. while a pose is held) don't need redrawing.
+  @override
+  bool operator ==(Object other) =>
+      other is Pose &&
+      other.torso == torso &&
+      other.armNear == armNear &&
+      other.armFar == armFar &&
+      other.legNear == legNear &&
+      other.legFar == legFar &&
+      other.raise == raise;
+
+  @override
+  int get hashCode =>
+      Object.hash(torso, armNear, armFar, legNear, legFar, raise);
+
   /// The pose [t] of the way (0–1) from this one to [other].
   Pose lerp(Pose other, double t) {
     double l(double a, double b) => lerpDouble(a, b, t)!;

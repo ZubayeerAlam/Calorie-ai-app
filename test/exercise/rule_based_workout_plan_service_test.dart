@@ -5,6 +5,9 @@ import 'package:cal_ai_app/features/exercise/data/models/exercise_settings.dart'
 import 'package:cal_ai_app/features/exercise/data/models/workout_plan.dart';
 import 'package:cal_ai_app/features/exercise/data/workout_plan_request.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_profile.dart';
+import 'package:cal_ai_app/features/exercise/presentation/exercise_labels.dart';
+import 'package:cal_ai_app/l10n/l10n.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'plan_test_data.dart';
@@ -157,5 +160,30 @@ void main() {
           ExerciseCatalog.byId(e.exerciseId)!.equipment,
     };
     expect(equipment, contains(Equipment.dumbbells));
+  });
+
+  test('a saved offline plan follows a later change of language', () async {
+    final plan = await _plan(
+      testRequest(profile: testProfile(activity: ActivityLevel.moderate)),
+    );
+    expect(ExerciseLabels.sessionName(plan, 1), 'Lower body A');
+    expect(ExerciseLabels.planSummary(plan), contains('4 workouts'));
+
+    useLocalizations(lookupAppLocalizations(const Locale('bn')));
+    addTearDown(
+      () => useLocalizations(lookupAppLocalizations(const Locale('en'))),
+    );
+    expect(ExerciseLabels.sessionName(plan, 1), 'নিচের শরীর A');
+    expect(ExerciseLabels.sessionFocus(plan, 0), 'বুক, পিঠ, কাঁধ ও হাত');
+    expect(ExerciseLabels.planSummary(plan), contains('সপ্তাহে 4টি'));
+
+    // AI plans keep their own words.
+    final ai = WorkoutPlan.fromJson(
+      plan.toJson()
+        ..['source'] = 'ai'
+        ..['summary'] = 'AI words',
+    );
+    expect(ExerciseLabels.planSummary(ai), 'AI words');
+    expect(ExerciseLabels.sessionName(ai, 1), 'Lower body A');
   });
 }

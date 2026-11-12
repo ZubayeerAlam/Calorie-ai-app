@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/l10n.dart';
 import '../../data/exercise_estimate.dart';
 import '../../providers/exercise_provider.dart';
+import '../exercise_labels.dart';
 import 'exercise_card.dart';
 import 'exercise_grid.dart';
 import 'plan_notice.dart';
@@ -51,16 +52,19 @@ class ExerciseDashboard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
         ],
-        if (plan.summary.isNotEmpty) ...[
+        if (ExerciseLabels.planSummary(plan).isNotEmpty) ...[
           Text(
-            plan.summary,
+            ExerciseLabels.planSummary(plan),
             style: TextStyle(fontSize: 14, color: AppColors.textGrey),
           ),
           const SizedBox(height: 12),
         ],
         if (plan.sessions.length > 1) ...[
           SessionSwitcher(
-            sessions: plan.sessions,
+            names: [
+              for (var i = 0; i < plan.sessions.length; i++)
+                ExerciseLabels.sessionName(plan, i),
+            ],
             selected: selected,
             today: today,
             onSelected: exercise.selectSession,
@@ -69,16 +73,18 @@ class ExerciseDashboard extends StatelessWidget {
         ],
         if (session != null) ...[
           WorkoutProgressHeader(
-            title: selected == today ? l10n.todaysWorkout : session.name,
+            title: selected == today
+                ? l10n.todaysWorkout
+                : ExerciseLabels.sessionName(plan, selected),
             total: exercise.totalExercises,
             done: exercise.completedExercises,
             minutes: exercise.estimatedMinutes,
             kcal: ExerciseEstimate.displayKcal(exercise.estimatedKcal),
           ),
-          if (session.focus.isNotEmpty) ...[
+          if (ExerciseLabels.sessionFocus(plan, selected).isNotEmpty) ...[
             const SizedBox(height: 12),
             Text(
-              session.focus,
+              ExerciseLabels.sessionFocus(plan, selected),
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,

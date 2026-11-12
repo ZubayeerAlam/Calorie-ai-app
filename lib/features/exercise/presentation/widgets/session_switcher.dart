@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/l10n.dart';
-import '../../data/models/workout_plan.dart';
 
 /// The plan's sessions as chips; today's is marked. Picking one shows it
 /// on the dashboard.
 class SessionSwitcher extends StatelessWidget {
   const SessionSwitcher({
     super.key,
-    required this.sessions,
+    required this.names,
     required this.selected,
     required this.today,
     required this.onSelected,
   });
 
-  final List<PlannedSession> sessions;
+  /// Each session's name, in order.
+  final List<String> names;
   final int selected;
   final int today;
   final ValueChanged<int> onSelected;
@@ -26,14 +26,12 @@ class SessionSwitcher extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          for (final (i, session) in sessions.indexed)
+          for (final (i, name) in names.indexed)
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: ChoiceChip(
                 key: ValueKey('session-$i'),
-                label: Text(
-                  i == today ? '${session.name} · ${l10n.today}' : session.name,
-                ),
+                label: Text(i == today ? '$name · ${l10n.today}' : name),
                 selected: i == selected,
                 showCheckmark: false,
                 onSelected: (_) => onSelected(i),

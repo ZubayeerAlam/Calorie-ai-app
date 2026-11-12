@@ -25,6 +25,11 @@ class ExerciseSetupView extends StatefulWidget {
 }
 
 class _ExerciseSetupViewState extends State<ExerciseSetupView> {
+  static const _labelStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+  );
+
   ExerciseSettings? _saved;
   WorkoutEnvironment? _environment;
   late ExerciseSettings _extras;
@@ -112,10 +117,6 @@ class _ExerciseSetupViewState extends State<ExerciseSetupView> {
               foregroundColor: AppColors.onPrimary,
               elevation: 0,
               shape: const StadiumBorder(),
-              textStyle: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
             ),
             child: generating
                 ? Row(
@@ -129,10 +130,15 @@ class _ExerciseSetupViewState extends State<ExerciseSetupView> {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      Flexible(child: Text(l10n.creatingPlan)),
+                      Flexible(
+                        child: Text(l10n.creatingPlan, style: _labelStyle),
+                      ),
                     ],
                   )
-                : Text(_saved == null ? l10n.createPlan : l10n.updatePlan),
+                : Text(
+                    _saved == null ? l10n.createPlan : l10n.updatePlan,
+                    style: _labelStyle,
+                  ),
           ),
         ),
       ],

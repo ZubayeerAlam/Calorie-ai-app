@@ -1,3 +1,4 @@
+import '../../../core/services/rule_based_workout_plan_service.dart';
 import '../../../l10n/l10n.dart';
 import '../data/catalog/exercise_catalog.dart';
 import '../data/models/exercise_settings.dart';
@@ -60,6 +61,22 @@ class ExerciseLabels {
         : l10n.secondsShort(seconds);
     return l10n.setsTimesReps(p.sets, target);
   }
+
+  /// A plan's summary. Plans made without AI are worded in the current
+  /// language; AI plans keep the language they were made in.
+  static String planSummary(WorkoutPlan plan) => plan.source == PlanSource.rules
+      ? RuleBasedWorkoutPlanService.summary(plan.sessions.length)
+      : plan.summary;
+
+  static String sessionName(WorkoutPlan plan, int index) =>
+      plan.source == PlanSource.rules
+      ? RuleBasedWorkoutPlanService.sessionName(plan.sessions.length, index)
+      : plan.sessions[index].name;
+
+  static String sessionFocus(WorkoutPlan plan, int index) =>
+      plan.source == PlanSource.rules
+      ? RuleBasedWorkoutPlanService.sessionFocus(plan.sessions.length, index)
+      : plan.sessions[index].focus;
 
   /// True for exercises measured in time (for icons).
   static bool isTimed(PlannedExercise p) =>

@@ -199,6 +199,27 @@ class RuleBasedWorkoutPlanService implements WorkoutPlanService {
     return json;
   }
 
+  // Texts in the current language, worked out again from the session's
+  // position, so a saved plan follows a later change of language.
+
+  /// The name of session [index] of a plan with [count] sessions.
+  static String sessionName(int count, int index) {
+    final types = _types(count);
+    if (index >= types.length) {
+      return l10n.planDay(String.fromCharCode(65 + index));
+    }
+    final type = types[index];
+    final letter = types.take(index).where((t) => t == type).length;
+    return _name(type, letter);
+  }
+
+  static String sessionFocus(int count, int index) {
+    final types = _types(count);
+    return index < types.length ? _focus(types[index]) : '';
+  }
+
+  static String summary(int count) => l10n.rulesPlanSummary(count);
+
   static String _name(_SessionType type, int index) {
     final letter = String.fromCharCode(65 + index);
     return switch (type) {
