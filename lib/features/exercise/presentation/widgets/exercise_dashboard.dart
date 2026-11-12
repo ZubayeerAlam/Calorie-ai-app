@@ -17,7 +17,7 @@ import 'workout_progress_header.dart';
 class ExerciseDashboard extends StatelessWidget {
   const ExerciseDashboard({super.key, this.onOpenExercise});
 
-  /// Opens an exercise's details (added in phase 5).
+  /// Opens an exercise's demo and instructions.
   final void Function(String exerciseId)? onOpenExercise;
 
   @override

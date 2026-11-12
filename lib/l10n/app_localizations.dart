@@ -4009,6 +4009,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Workout setup'**
   String get workoutSetupTooltip;
+
+  /// No description provided for @startingPosition.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting position'**
+  String get startingPosition;
+
+  /// No description provided for @howToDoIt.
+  ///
+  /// In en, this message translates to:
+  /// **'How to do it'**
+  String get howToDoIt;
+
+  /// No description provided for @formTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Form tip'**
+  String get formTip;
+
+  /// No description provided for @musclesWorked.
+  ///
+  /// In en, this message translates to:
+  /// **'Muscles worked'**
+  String get musclesWorked;
+
+  /// No description provided for @benefitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Benefits'**
+  String get benefitsTitle;
+
+  /// No description provided for @whyInPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Why it\'s in your plan'**
+  String get whyInPlan;
+
+  /// No description provided for @statSets.
+  ///
+  /// In en, this message translates to:
+  /// **'Sets'**
+  String get statSets;
+
+  /// No description provided for @statReps.
+  ///
+  /// In en, this message translates to:
+  /// **'Reps'**
+  String get statReps;
+
+  /// No description provided for @statHold.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get statHold;
+
+  /// No description provided for @statRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get statRest;
+
+  /// No description provided for @kcalForExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'≈ {kcal} kcal for this exercise'**
+  String kcalForExercise(int kcal);
+
+  /// No description provided for @kcalInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How calories are estimated'**
+  String get kcalInfoTitle;
+
+  /// No description provided for @kcalInfoMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'We use the exercise\'s effort level (MET {met}), your weight ({weight}) and the active time ({time}), and count only the calories above what you\'d burn resting. Rest between sets isn\'t counted. Age and gender aren\'t part of this method.'**
+  String kcalInfoMethod(String met, String weight, String time);
+
+  /// No description provided for @kcalInfoUncertainty.
+  ///
+  /// In en, this message translates to:
+  /// **'Real calories vary with effort, pace and your body, often by 30% or more, so treat this as a rough guide.'**
+  String get kcalInfoUncertainty;
+
+  /// No description provided for @kcalInfoFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat loss comes from your overall eating and activity over weeks. No single exercise burns fat from one part of the body.'**
+  String get kcalInfoFat;
+
+  /// No description provided for @durationMinSec.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min {seconds} s'**
+  String durationMinSec(int minutes, int seconds);
+
+  /// No description provided for @demoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Demonstration of {name}'**
+  String demoLabel(String name);
+
+  /// No description provided for @demoPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause demonstration'**
+  String get demoPause;
+
+  /// No description provided for @demoPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'Play demonstration'**
+  String get demoPlay;
+
+  /// No description provided for @stepNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {number}'**
+  String stepNumber(int number);
+
+  /// No description provided for @exerciseNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This exercise isn\'t available.'**
+  String get exerciseNotFound;
+
+  /// No description provided for @kcalInfoTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'How calories are estimated'**
+  String get kcalInfoTooltip;
 }
 
 class _AppLocalizationsDelegate

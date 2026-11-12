@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../features/account/presentation/screens/sign_in_screen.dart';
 import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../../features/exercise/presentation/screens/exercise_details_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_setup_screen.dart';
 import '../../features/food_log/data/models/food_entry.dart';
@@ -92,6 +93,13 @@ GoRouter createAppRouter(ProfileProvider profile) {
       GoRoute(
         path: AppRoutes.exerciseSetup,
         builder: (context, state) => const ExerciseSetupScreen(),
+      ),
+      // Exercise → an exercise card: demo and instructions.
+      GoRoute(
+        path: AppRoutes.exerciseDetails,
+        builder: (context, state) => ExerciseDetailsScreen(
+          exerciseId: state.pathParameters['exerciseId']!,
+        ),
       ),
       // Account → Edit profile.
       GoRoute(

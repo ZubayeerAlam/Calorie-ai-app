@@ -7,8 +7,10 @@ import 'package:cal_ai_app/features/exercise/data/models/workout_plan.dart';
 import 'package:cal_ai_app/features/exercise/data/models/workout_record.dart';
 import 'package:cal_ai_app/features/exercise/data/workout_plan_request.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_goals.dart';
+import 'package:cal_ai_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../fake_food_analysis_service.dart';
@@ -45,6 +47,9 @@ Future<(LocalStorageService, WorkoutPlan?)> _storage({
     final json = plan.toJson()
       ..['source'] = PlanSource.ai.name
       ..['summary'] = 'Saved AI plan';
+    // A reason from the "AI" for the first exercise.
+    ((json['sessions'] as List).first['exercises'] as List).first['why'] =
+        'Builds the strength you need.';
     if (inputsKey != null) json['inputsKey'] = inputsKey;
     plan = WorkoutPlan.fromJson(json);
     await storage.setJson(StorageKeys.workoutPlan, plan.toJson());
@@ -320,5 +325,132 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('create-plan')));
     expect(find.text('আজকের ওয়ার্কআউট'), findsOneWidget);
     expect(find.text('পুরো শরীর A · আজ'), findsOneWidget);
+  });
+
+  group('exercise details', () {
+    /// "Reduce motion": the demo shows still poses, so screens settle.
+    void reduceMotion(WidgetTester tester) {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+    }
+
+    Future<WorkoutPlan> openFirst(WidgetTester tester) async {
+      final (storage, plan) = await _storage(settings: _home);
+      await _pumpApp(tester, storage);
+      await _openExercise(tester);
+      final first = plan!.sessions[0].exercises.first;
+      await _tap(tester, find.byKey(ValueKey('exercise-${first.exerciseId}')));
+      return plan;
+    }
+
+    testWidgets('a card opens its demo and instructions', (tester) async {
+      reduceMotion(tester);
+      final plan = await openFirst(tester);
+      final first = plan.sessions[0].exercises.first;
+      expect(first.exerciseId, 'squat');
+
+      expect(find.text('Squat'), findsOneWidget); // app bar
+      expect(find.bySemanticsLabel('Demonstration of Squat'), findsOneWidget);
+      // Still poses, numbered, and no play button with reduce motion.
+      expect(find.text('1'), findsWidgets);
+      expect(find.byKey(const ValueKey('demo-play-pause')), findsNothing);
+
+      // The plan's prescription.
+      expect(find.text('Sets'), findsOneWidget);
+      expect(find.text('${first.sets}'), findsWidgets);
+      expect(find.text('Reps'), findsOneWidget);
+      expect(find.text('${first.restSeconds} s'), findsOneWidget);
+      expect(find.textContaining('kcal for this exercise'), findsOneWidget);
+
+      for (final text in [
+        'Starting position',
+        'Feet shoulder-width apart, toes slightly out, chest up.',
+        'How to do it',
+        'Push your hips back and bend your knees as if sitting on a chair.',
+        'Form tip',
+        'Keep your knees in line with your toes.',
+        'Muscles worked',
+        'Thighs (front)',
+        'Glutes',
+        'Benefits',
+        "Why it's in your plan",
+        'Builds the strength you need.',
+      ]) {
+        await tester.scrollUntilVisible(
+          find.text(text),
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+        expect(find.text(text), findsOneWidget, reason: text);
+      }
+    });
+
+    testWidgets('the calorie estimate explains itself', (tester) async {
+      reduceMotion(tester);
+      await openFirst(tester);
+      await _tap(tester, find.byKey(const ValueKey('kcal-info')));
+      expect(find.text('How calories are estimated'), findsOneWidget);
+      expect(find.textContaining('MET 5'), findsOneWidget);
+      expect(find.textContaining('72 kg'), findsOneWidget);
+      expect(find.textContaining('rough guide'), findsOneWidget);
+      expect(
+        find.textContaining('No single exercise burns fat'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('the demo animates, follows the steps and pauses', (
+      tester,
+    ) async {
+      final (storage, _) = await _storage(settings: _home);
+      await _pumpApp(tester, storage);
+      await _openExercise(tester);
+      await tester.tap(find.byKey(const ValueKey('exercise-squat')));
+      // The demo loops forever, so pump time instead of settling.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      final button = find.byKey(const ValueKey('demo-play-pause'));
+      expect(button, findsOneWidget);
+      expect(find.byTooltip('Pause demonstration'), findsOneWidget);
+
+      int highlighted() {
+        final circles = tester.widgetList<AnimatedContainer>(
+          find.byType(AnimatedContainer),
+        );
+        return circles.toList().indexWhere(
+          (c) => (c.decoration! as BoxDecoration).color == AppColors.primary,
+        );
+      }
+
+      // 2.4 s loop over two poses: hold the first (step 1), move and hold
+      // the second (step 2), move back (step 3).
+      expect(highlighted(), 0);
+      await tester.pump(const Duration(milliseconds: 700));
+      expect(highlighted(), 1);
+      await tester.pump(const Duration(milliseconds: 1000));
+      expect(highlighted(), 2);
+
+      await tester.tap(button);
+      await tester.pump();
+      expect(find.byTooltip('Play demonstration'), findsOneWidget);
+      // Paused: nothing changes any more, so the screen settles.
+      await tester.pumpAndSettle();
+      final step = highlighted();
+      await tester.pump(const Duration(seconds: 2));
+      expect(highlighted(), step);
+    });
+
+    testWidgets('an unknown exercise shows a message', (tester) async {
+      final (storage, _) = await _storage(settings: _home);
+      await _pumpApp(tester, storage);
+      final router = GoRouter.of(tester.element(find.byType(Scaffold).first));
+      router.push('/exercise/flying_kick');
+      await tester.pumpAndSettle();
+      expect(find.text("This exercise isn't available."), findsOneWidget);
+    });
   });
 }

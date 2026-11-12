@@ -2260,4 +2260,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get workoutSetupTooltip => 'Workout setup';
+
+  @override
+  String get startingPosition => 'Starting position';
+
+  @override
+  String get howToDoIt => 'How to do it';
+
+  @override
+  String get formTip => 'Form tip';
+
+  @override
+  String get musclesWorked => 'Muscles worked';
+
+  @override
+  String get benefitsTitle => 'Benefits';
+
+  @override
+  String get whyInPlan => 'Why it\'s in your plan';
+
+  @override
+  String get statSets => 'Sets';
+
+  @override
+  String get statReps => 'Reps';
+
+  @override
+  String get statHold => 'Time';
+
+  @override
+  String get statRest => 'Rest';
+
+  @override
+  String kcalForExercise(int kcal) {
+    return '≈ $kcal kcal for this exercise';
+  }
+
+  @override
+  String get kcalInfoTitle => 'How calories are estimated';
+
+  @override
+  String kcalInfoMethod(String met, String weight, String time) {
+    return 'We use the exercise\'s effort level (MET $met), your weight ($weight) and the active time ($time), and count only the calories above what you\'d burn resting. Rest between sets isn\'t counted. Age and gender aren\'t part of this method.';
+  }
+
+  @override
+  String get kcalInfoUncertainty =>
+      'Real calories vary with effort, pace and your body, often by 30% or more, so treat this as a rough guide.';
+
+  @override
+  String get kcalInfoFat =>
+      'Fat loss comes from your overall eating and activity over weeks. No single exercise burns fat from one part of the body.';
+
+  @override
+  String durationMinSec(int minutes, int seconds) {
+    return '$minutes min $seconds s';
+  }
+
+  @override
+  String demoLabel(String name) {
+    return 'Demonstration of $name';
+  }
+
+  @override
+  String get demoPause => 'Pause demonstration';
+
+  @override
+  String get demoPlay => 'Play demonstration';
+
+  @override
+  String stepNumber(int number) {
+    return 'Step $number';
+  }
+
+  @override
+  String get exerciseNotFound => 'This exercise isn\'t available.';
+
+  @override
+  String get kcalInfoTooltip => 'How calories are estimated';
 }

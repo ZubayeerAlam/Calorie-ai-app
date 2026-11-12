@@ -3,6 +3,7 @@ import 'package:cal_ai_app/core/services/local_storage_service.dart';
 import 'package:cal_ai_app/core/services/rule_based_workout_plan_service.dart';
 import 'package:cal_ai_app/features/exercise/data/models/exercise_settings.dart';
 import 'package:cal_ai_app/features/exercise/data/workout_plan_request.dart';
+import 'package:cal_ai_app/features/exercise/presentation/widgets/exercise_card.dart';
 import 'package:cal_ai_app/features/food_log/data/models/food_entry.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_goals.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_profile.dart';
@@ -108,6 +109,13 @@ Future<void> _checkGuidelines(WidgetTester tester, String screen) async {
   handle.dispose();
 }
 
+/// "Reduce motion" on: exercise demos show still poses, so screens settle.
+void _reduceMotion(WidgetTester tester) {
+  tester.platformDispatcher.accessibilityFeaturesTestValue =
+      const FakeAccessibilityFeatures(disableAnimations: true);
+  addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+}
+
 Future<void> _open(WidgetTester tester, Finder finder) async {
   await tester.tap(finder);
   await tester.pumpAndSettle();
@@ -146,6 +154,19 @@ void main() {
         );
         await _open(tester, find.byIcon(Icons.fitness_center_outlined));
         await _checkGuidelines(tester, 'Exercise plan');
+      });
+
+      testWidgets('Exercise details', (tester) async {
+        _reduceMotion(tester);
+        await _pumpApp(
+          tester,
+          themeMode: mode,
+          language: language,
+          exercisePlan: true,
+        );
+        await _open(tester, find.byIcon(Icons.fitness_center_outlined));
+        await _open(tester, find.byType(ExerciseCard).first);
+        await _checkGuidelines(tester, 'Exercise details');
       });
 
       testWidgets('Workout setup', (tester) async {
@@ -266,6 +287,12 @@ void main() {
       await _open(tester, find.byKey(const ValueKey('workout-setup')));
       await _open(tester, find.byKey(const ValueKey('setup-extras')));
       expect(tester.takeException(), isNull, reason: 'Workout setup');
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      _reduceMotion(tester);
+      await tester.pumpAndSettle();
+      await _open(tester, find.byType(ExerciseCard).first);
+      expect(tester.takeException(), isNull, reason: 'Exercise details');
     });
 
     testWidgets('large text ×$scale, $language: onboarding fits', (

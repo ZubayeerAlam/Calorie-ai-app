@@ -2197,4 +2197,82 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get workoutSetupTooltip => 'ব্যায়ামের সেটআপ';
+
+  @override
+  String get startingPosition => 'শুরুর অবস্থান';
+
+  @override
+  String get howToDoIt => 'কীভাবে করবেন';
+
+  @override
+  String get formTip => 'সঠিক ভঙ্গির টিপস';
+
+  @override
+  String get musclesWorked => 'যেসব পেশি কাজ করে';
+
+  @override
+  String get benefitsTitle => 'উপকারিতা';
+
+  @override
+  String get whyInPlan => 'কেন আপনার পরিকল্পনায় আছে';
+
+  @override
+  String get statSets => 'সেট';
+
+  @override
+  String get statReps => 'বার';
+
+  @override
+  String get statHold => 'সময়';
+
+  @override
+  String get statRest => 'বিশ্রাম';
+
+  @override
+  String kcalForExercise(int kcal) {
+    return 'এই ব্যায়ামে ≈ $kcal kcal';
+  }
+
+  @override
+  String get kcalInfoTitle => 'ক্যালরি কীভাবে হিসাব করা হয়';
+
+  @override
+  String kcalInfoMethod(String met, String weight, String time) {
+    return 'আমরা ব্যায়ামের পরিশ্রমের মাত্রা (MET $met), আপনার ওজন ($weight) আর সক্রিয় সময় ($time) ব্যবহার করি, এবং বিশ্রামে যা পোড়ে তার বাড়তিটুকুই গুনি। সেটের মাঝের বিশ্রাম গোনা হয় না। এই পদ্ধতিতে বয়স ও লিঙ্গ ব্যবহার হয় না।';
+  }
+
+  @override
+  String get kcalInfoUncertainty =>
+      'আসল ক্যালরি পরিশ্রম, গতি ও শরীরভেদে বদলায়, প্রায়ই ৩০% বা তার বেশি, তাই এটিকে মোটামুটি ধারণা হিসেবে নিন।';
+
+  @override
+  String get kcalInfoFat =>
+      'চর্বি কমে সপ্তাহজুড়ে আপনার মোট খাওয়া ও সক্রিয়তা থেকে। কোনো একক ব্যায়াম শরীরের নির্দিষ্ট অংশের চর্বি পোড়ায় না।';
+
+  @override
+  String durationMinSec(int minutes, int seconds) {
+    return '$minutes মিনিট $seconds সে.';
+  }
+
+  @override
+  String demoLabel(String name) {
+    return '$name-এর প্রদর্শন';
+  }
+
+  @override
+  String get demoPause => 'প্রদর্শন থামান';
+
+  @override
+  String get demoPlay => 'প্রদর্শন চালু করুন';
+
+  @override
+  String stepNumber(int number) {
+    return 'ধাপ $number';
+  }
+
+  @override
+  String get exerciseNotFound => 'এই ব্যায়ামটি পাওয়া যাচ্ছে না।';
+
+  @override
+  String get kcalInfoTooltip => 'ক্যালরি কীভাবে হিসাব করা হয়';
 }

@@ -20,6 +20,11 @@ class AppRoutes {
   static const String editProfile = '/edit-profile';
   static const String reminders = '/reminders';
   static const String exerciseSetup = '/exercise-setup';
+  static const String exerciseDetails = '/exercise/:exerciseId';
+
+  /// One exercise's demo and instructions.
+  static String exerciseDetailsLocation(String exerciseId) =>
+      '/exercise/${Uri.encodeComponent(exerciseId)}';
 
   /// Query parameters for [addFood].
   static const String imagePathParam = 'imagePath';

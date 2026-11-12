@@ -1150,5 +1150,71 @@
       }
     }
   },
-  "workoutSetupTooltip": "Workout setup"
+  "workoutSetupTooltip": "Workout setup",
+  "startingPosition": "Starting position",
+  "howToDoIt": "How to do it",
+  "formTip": "Form tip",
+  "musclesWorked": "Muscles worked",
+  "benefitsTitle": "Benefits",
+  "whyInPlan": "Why it's in your plan",
+  "statSets": "Sets",
+  "statReps": "Reps",
+  "statHold": "Time",
+  "statRest": "Rest",
+  "kcalForExercise": "≈ {kcal} kcal for this exercise",
+  "@kcalForExercise": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "kcalInfoTitle": "How calories are estimated",
+  "kcalInfoMethod": "We use the exercise's effort level (MET {met}), your weight ({weight}) and the active time ({time}), and count only the calories above what you'd burn resting. Rest between sets isn't counted. Age and gender aren't part of this method.",
+  "@kcalInfoMethod": {
+    "placeholders": {
+      "met": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "kcalInfoUncertainty": "Real calories vary with effort, pace and your body, often by 30% or more, so treat this as a rough guide.",
+  "kcalInfoFat": "Fat loss comes from your overall eating and activity over weeks. No single exercise burns fat from one part of the body.",
+  "durationMinSec": "{minutes} min {seconds} s",
+  "@durationMinSec": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "demoLabel": "Demonstration of {name}",
+  "@demoLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "demoPause": "Pause demonstration",
+  "demoPlay": "Play demonstration",
+  "stepNumber": "Step {number}",
+  "@stepNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "exerciseNotFound": "This exercise isn't available.",
+  "kcalInfoTooltip": "How calories are estimated"
 }

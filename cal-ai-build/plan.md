@@ -307,7 +307,16 @@ These are agreed and will be built later, in the order shown under "Suggested or
      - Strings: 53 new (English and Bangla).
      - Tests: 30 new (provider, widgets, accessibility in light/dark/Bangla, large text ×1.3 and ×2).
      - **Not yet checked:** a real Gemini plan on a device, and how it looks on a phone. The emulator available today (`nx-api33`) is locked with a screen lock, so the app can't start on it.
-  5. ⬜ Animated demos and the exercise details screen.
+  5. ✅ **Demos and exercise details (2026-11-12):**
+     - **Code-drawn animated demos:** a side-view figure (`ExerciseFigurePainter`) moves between 2 key poses per exercise (`catalog/exercise_demos.dart`), held briefly and eased in between, in a loop (1–3 s). Poses are joint angles (`models/exercise_demo.dart`: `Pose`, `Skeleton`, `DemoLayout`); the layout stands the figure on the floor, keeps one joint still (feet, hands or hips), keeps seated exercises on the seat, and shrinks poses that would not fit.
+     - **Equipment drawn with the figure:** mat, chair, bench, step, wall, machine seat, treadmill, bike, rower; dumbbells, bar, handles, bands, cables, leg-press plate, leg-curl pad.
+     - **All 36 exercises** have a demo. Each pose was rendered and checked by eye; a test checks every frame fits in the drawing and stands on the floor.
+     - **Dark mode:** colours come from `AppColors`. With "reduce motion" on, the key poses are shown side by side instead of animating. Pause / play button.
+     - **Card pictures** on the dashboard are now the demo's starting pose.
+     - **Exercise details** (`/exercise/:exerciseId`, from a card): the demo; sets, reps (or time) and rest from the plan; "≈ N kcal for this exercise" with an explanation sheet (MET, weight, active time, ±30 %, no fat-loss claims, age and gender not used); starting position; the 3 steps, the one the demo is showing highlighted; form tip; muscles worked; benefits; the AI's reason, when there is one; the safety note.
+     - Strings: 22 new (English and Bangla).
+     - Tests: 48 new (every demo's frames, skeleton maths, loop timing, details screen, demo animation and pause, kcal explanation, unknown exercise, accessibility in light/dark/Bangla, large text).
+     - **Not yet checked on a device.** Screens were checked as rendered images in light and dark mode. The "Start workout" button comes in phase 6.
   6. ⬜ Workout mode: sets, rest timer, completion, history.
   7. ⬜ Calories into Home and Tracker (no Health double-counting), sync.
   8. ⬜ Polish: accessibility, dark mode, Bangla, emulator run-through.
@@ -324,7 +333,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 7. **Account management (19 ✅).**
 8. **Notifications (18 ✅), polish (22 ✅).**
 
-**Feature 23 (exercise planner) is in progress** (phases 1–4 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+**Feature 23 (exercise planner) is in progress** (phases 1–5 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
 
 **Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 

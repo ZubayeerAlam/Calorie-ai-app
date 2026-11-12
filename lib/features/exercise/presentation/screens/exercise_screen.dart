@@ -71,7 +71,10 @@ class ExerciseScreen extends StatelessWidget {
             : null,
       ),
       body: switch ((setUp, busy)) {
-        (true, _) => const ExerciseDashboard(),
+        (true, _) => ExerciseDashboard(
+          onOpenExercise: (id) =>
+              context.push(AppRoutes.exerciseDetailsLocation(id)),
+        ),
         (false, true) => const _CreatingPlan(),
         (false, false) => const ExerciseSetupView(),
       },
