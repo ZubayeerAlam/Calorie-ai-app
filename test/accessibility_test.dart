@@ -111,6 +111,12 @@ void main() {
         await _checkGuidelines(tester, 'Tracker');
       });
 
+      testWidgets('Exercise', (tester) async {
+        await _pumpApp(tester, themeMode: mode, language: language);
+        await _open(tester, find.byIcon(Icons.fitness_center_outlined));
+        await _checkGuidelines(tester, 'Exercise');
+      });
+
       testWidgets('Account', (tester) async {
         await _pumpApp(tester, themeMode: mode, language: language);
         await _open(tester, find.byIcon(Icons.person_outline_rounded));

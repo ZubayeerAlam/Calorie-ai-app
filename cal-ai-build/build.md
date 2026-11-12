@@ -82,6 +82,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/onboarding` | Onboarding flow |
 | `/` | Home (dashboard) tab |
 | `/tracker` | Tracker tab: week/month stats, weight, calories, macros, steps, history |
+| `/exercise` | Exercise tab (feature 23; a placeholder until the workout planner is built) |
 | `/account` | Account tab: profile (Edit), account (sign in / log out), Health, Appearance, Language, goals, Reset all data |
 | `/reminders` | The Home bell: today's meals and the meal reminder settings |
 | `/sign-in` | Sign in or create an account (optional; also reachable from onboarding) |
@@ -92,7 +93,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/analyze-food?imagePath=…` | AI analysis of a photo (or of a description passed along with the navigation), then review, edit and save |
 
 - **Tabs:** they use `StatefulShellRoute`, so each tab remembers its own screen.
-- **Bottom bar:** three tabs (Home and Tracker on the left, Account on the right) with a raised camera button in the middle. The camera button is an action, not a tab. It opens a chooser sheet with two options: **Scan with camera** (Scan screen, then AI analysis and review) and **Add manually** (describe the meal, then AI analysis and review).
+- **Bottom bar:** four tabs (Home and Tracker on the left, Exercise and Account on the right) with the camera button in the middle of the bar (52 px, inside the bar since feature 23; it no longer rises above it). The camera button is an action, not a tab. It opens a chooser sheet with two options: **Scan with camera** (Scan screen, then AI analysis and review) and **Add manually** (describe the meal, then AI analysis and review).
 - **Redirect:** with no saved profile, every route except `/sign-in` goes to `/onboarding`. After onboarding, `/onboarding` sends you to `/`. The router re-checks only when onboarding status changes (finishing onboarding, restoring an account, logging out).
 
 ## 5. Features built
@@ -234,14 +235,14 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Text size:** follows the phone up to `AppConstants.maxTextScale` (1.3).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton` (48 px tap area), `EmptyState`, `MealIllustration`, `MealPhoto`.
 
-## 8. Tests (179 passing)
+## 8. Tests (183 passing)
 
 | File | Covers |
 |---|---|
 | `test/calorie_calculator_test.dart` | BMR, TDEE, goal adjustment, minimum, macros, breakdown, walking kcal, macro estimate |
 | `test/profile_provider_test.dart` | Custom goals survive a relaunch; reset restores the recommended targets |
 | `test/step_log_repository_test.dart` | Daily steps, new day, phone restart |
-| `test/widget_test.dart` | Home, the bottom bar (3 tabs + camera button), the camera chooser and both of its options, the AI photo and manual flows (review, edit, save, errors, Back keeps text, "Enter numbers myself", demo notices), Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
+| `test/widget_test.dart` | Home, the bottom bar (4 tabs in order, camera button inside the bar, camera from the Exercise tab), the camera chooser and both of its options, the AI photo and manual flows (review, edit, save, errors, Back keeps text, "Enter numbers myself", demo notices), Add Food per meal, activity, date switching, Scan, onboarding redirect, persistence, steps, macro estimates, the empty hint |
 | `test/onboarding_test.dart` | Full onboarding flow, the loader (✕ and completion), the profile being saved, relaunch skipping onboarding |
 | `test/user_profile_test.dart` | Dinner time and focus goals saved and restored, defaults for older profiles, the "8:30 PM" label |
 | `test/onboarding_provider_test.dart` | Goal-step rules: at least one goal, weight goals exclude each other, focus goals combine |
@@ -255,7 +256,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/account_provider_test.dart` | Sign in, create account, wrong password, unreachable backup, log out, sync at start, Firebase error codes |
 | `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; editing the profile (cm and ft/in, validation); Reset all data; reminders from the bell; dark mode; Bangla and the language setting; Health connect |
 | `test/reminder_provider_test.dart` | Reminders off by default, scheduling the coming days, skipping today once logged, refused permission, times, dinner = profile time, the bell dot |
-| `test/accessibility_test.dart` | Tap targets, labels and contrast on 8 screens (light, dark, Bangla); large text at ×1.3 and ×2 (English and Bangla) |
+| `test/accessibility_test.dart` | Tap targets, labels and contrast on 9 screens (light, dark, Bangla); large text at ×1.3 and ×2 (English and Bangla) |
 | `test/fake_*.dart` | Fake step source, camera/gallery, AI, Health, Auth, Firestore and notifications used by the tests |
 
 Run them with:
@@ -276,7 +277,7 @@ flutter test
 
 ## 10. Next steps
 
-All planned features are built (see [plan.md](plan.md); food database/barcode and Articles were dropped). What remains is checking and release work:
+**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phase 1 (Exercise tab, camera in the bar) is done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
 
 - **Firebase:** turn on Email/Password (Console) and try sign-in and sync on the real project. Firestore is already set up in Mumbai.
 - **Devices:** run on iOS and on a real phone: photo AI, Health data, notifications.

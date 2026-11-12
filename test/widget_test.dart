@@ -5,6 +5,7 @@ import 'package:cal_ai_app/core/services/image_picker_service.dart';
 import 'package:cal_ai_app/core/services/local_storage_service.dart';
 import 'package:cal_ai_app/core/utils/calorie_calculator.dart';
 import 'package:cal_ai_app/features/food_log/data/models/food_entry.dart';
+import 'package:cal_ai_app/features/home/presentation/widgets/app_bottom_nav.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_goals.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_profile.dart';
 import 'package:cal_ai_app/features/profile/providers/profile_provider.dart';
@@ -128,22 +129,45 @@ void main() {
     expect(find.text('−0.45 kg / week'), findsOneWidget);
   });
 
-  testWidgets('Bottom bar has three tabs and a camera button', (tester) async {
+  testWidgets('Bottom bar has four tabs and a camera button in the bar', (
+    tester,
+  ) async {
     await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
 
-    for (final label in ['Home', 'Tracker', 'Account']) {
+    for (final label in ['Home', 'Tracker', 'Exercise', 'Account']) {
       expect(find.text(label), findsOneWidget);
     }
     expect(find.text('Insights'), findsNothing);
     expect(find.text('Articles'), findsNothing);
-    expect(find.byKey(const ValueKey('camera-button')), findsOneWidget);
+    final camera = find.byKey(const ValueKey('camera-button'));
+    expect(camera, findsOneWidget);
     expect(find.byIcon(Icons.photo_camera_rounded), findsOneWidget);
 
-    // Tabs on both sides of the camera still work.
+    // Order: Home, Tracker, camera, Exercise, Account (left to right).
+    double x(Finder f) => tester.getCenter(f).dx;
+    expect(x(find.text('Home')), lessThan(x(find.text('Tracker'))));
+    expect(x(find.text('Tracker')), lessThan(x(camera)));
+    expect(x(camera), lessThan(x(find.text('Exercise'))));
+    expect(x(find.text('Exercise')), lessThan(x(find.text('Account'))));
+
+    // The camera sits inside the bar instead of rising above it.
+    final bar = tester.getRect(find.byType(AppBottomNav));
+    final button = tester.getRect(camera);
+    expect(button.top, greaterThanOrEqualTo(bar.top));
+    expect(button.bottom, lessThanOrEqualTo(bar.bottom));
+
+    // Every tab works.
     await tester.tap(find.text('Tracker'));
     await tester.pumpAndSettle();
     expect(find.text('Week'), findsOneWidget);
     expect(find.text('Weight'), findsOneWidget);
+
+    await tester.tap(find.text('Exercise'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('Your personalised workout plan will appear here.'),
+      findsOneWidget,
+    );
 
     await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
@@ -152,6 +176,25 @@ void main() {
     await tester.tap(find.text('Home'));
     await tester.pumpAndSettle();
     expect(find.textContaining('Today, '), findsOneWidget);
+  });
+
+  testWidgets('The camera button works from the Exercise tab', (tester) async {
+    await _pumpApp(tester, await _storage(), profile: _onboardedProfile());
+
+    await tester.tap(find.text('Exercise'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('camera-button')));
+    await tester.pumpAndSettle();
+    expect(find.text('Scan with camera'), findsOneWidget);
+
+    // Dismissing keeps the Exercise tab.
+    await tester.tapAt(const Offset(20, 40));
+    await tester.pumpAndSettle();
+    expect(find.text('Scan with camera'), findsNothing);
+    expect(
+      find.text('Your personalised workout plan will appear here.'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('The camera button opens a chooser with two options', (

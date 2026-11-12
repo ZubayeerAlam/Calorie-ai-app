@@ -5,10 +5,9 @@ import '../../../../core/routes/app_routes.dart';
 import '../../../food_log/presentation/add_food_method.dart';
 import '../../../food_log/presentation/widgets/add_food_chooser_sheet.dart';
 import '../widgets/app_bottom_nav.dart';
-import '../widgets/camera_button.dart';
 
 /// Bottom-navigation scaffold around the tab branches of the router:
-/// four tabs plus a raised camera button in the middle.
+/// four tabs with the camera button (an action) in the middle of the bar.
 class HomeShell extends StatelessWidget {
   const HomeShell({super.key, required this.navigationShell});
 
@@ -29,12 +28,6 @@ class HomeShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      extendBody: false,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: CameraButton(
-        key: const ValueKey('camera-button'),
-        onPressed: () => _onCameraPressed(context),
-      ),
       bottomNavigationBar: AppBottomNav(
         currentIndex: navigationShell.currentIndex,
         // Tapping the current tab again returns it to its first page.
@@ -42,6 +35,7 @@ class HomeShell extends StatelessWidget {
           index,
           initialLocation: index == navigationShell.currentIndex,
         ),
+        onCameraPressed: () => _onCameraPressed(context),
       ),
     );
   }

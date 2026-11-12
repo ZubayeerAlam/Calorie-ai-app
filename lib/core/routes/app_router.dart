@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../features/account/presentation/screens/sign_in_screen.dart';
 import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../../features/exercise/presentation/screens/exercise_screen.dart';
 import '../../features/food_log/data/models/food_entry.dart';
 import '../../features/food_log/presentation/screens/add_food_screen.dart';
 import '../../features/food_log/presentation/screens/manual_entry_screen.dart';
@@ -60,6 +61,7 @@ GoRouter createAppRouter(ProfileProvider profile) {
         branches: [
           _tab(AppRoutes.home, (_) => const DashboardScreen()),
           _tab(AppRoutes.tracker, (_) => const TrackerScreen()),
+          _tab(AppRoutes.exercise, (_) => const ExerciseScreen()),
           _tab(AppRoutes.account, (_) => const ProfileScreen()),
         ],
       ),

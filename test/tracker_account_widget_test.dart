@@ -423,6 +423,9 @@ void main() {
       await _tap(tester, find.byKey(const ValueKey('submit-sign-in')));
       final uid = FakeAuthService.uidFor('sam@x.com');
       expect(cloud.foodOf(uid), isNotEmpty);
+      // Let the "signed in" snack bar go; it covers the bottom of the list.
+      await tester.pump(const Duration(seconds: 5));
+      await tester.pumpAndSettle();
 
       await _tap(tester, find.byKey(const ValueKey('reset-data')));
       expect(find.textContaining("You'll stay signed in"), findsOneWidget);

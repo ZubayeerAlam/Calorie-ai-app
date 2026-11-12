@@ -107,8 +107,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             HeaderWaveBackground(height: topInset + _headerHeight + 150),
             Padding(
-              // Extra bottom space so the raised camera button never covers content.
-              padding: EdgeInsets.fromLTRB(20, topInset, 20, 56),
+              padding: EdgeInsets.fromLTRB(20, topInset, 20, 24),
               child: Column(
                 children: [
                   HomeHeader(

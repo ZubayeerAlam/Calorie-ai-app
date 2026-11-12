@@ -87,8 +87,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.tabTracker)),
       body: ListView(
-        // Extra bottom space so the raised camera button never covers content.
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 56),
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
         children: [
           PeriodToggle(value: _period, onChanged: _selectPeriod),
           const SizedBox(height: 16),

@@ -7,6 +7,7 @@ class AppRoutes {
   // Bottom-nav tabs
   static const String home = '/';
   static const String tracker = '/tracker';
+  static const String exercise = '/exercise';
   static const String account = '/account';
 
   // Pushed screens

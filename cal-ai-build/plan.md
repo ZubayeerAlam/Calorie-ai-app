@@ -22,6 +22,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
    - **Camera:** take or upload a photo of the food, and AI analyses it.
    - **Manual:** describe the food and details by hand, and AI generates the nutrition data.
 4. **The bottom bar becomes:** Home · Tracker · 📷 Camera (centre action, not a tab) · Account. (Articles was dropped on 2026-11-02.)
+   - **Changed 2026-11-12 (feature 23):** Home · Tracker · 📷 Camera · **Exercise** · Account. The camera now sits inside the bar instead of rising above it.
 
 ---
 
@@ -96,7 +97,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - [x] **Save the dinner time.** Done: it's now stored in the profile (`dinnerHour`, `dinnerMinute`) and has a "8:30 PM" label ready for reminders (see 18). Profiles saved before this change get the default 8:30 PM instead of failing to load.
 - [x] **Check iOS permission setup.** Checked: no change needed. This project builds with Swift Package Manager (that's why there is no Podfile), and `permission_handler` switches permissions on from the usage descriptions in `Info.plist`. The build resolves camera, photos and motion to enabled.
 - [x] **Onboarding goal: multi-select.** Done: the goal step now has all six options from the mockup. The three weight goals (Lose, Maintain, Gain weight) exclude each other and set the calorie target. The focus goals (Gain muscle, Boost energy, Improve nutrition) can be combined freely and don't change the target. They are saved in the profile and shown as chips on Home.
-- [ ] **Decide what the focus goals do.** For now they are saved and shown only. Ideas: Gain muscle could raise the protein share, Boost energy could add reminders, Improve nutrition could add food tips. Say which, if any, you want.
+- [ ] **Decide what the focus goals do.** For now they are saved and shown only. Feature 23 will use Gain muscle and Boost energy to shape the workout plan (the calorie targets stay unchanged). Ideas: Gain muscle could raise the protein share, Boost energy could add reminders, Improve nutrition could add food tips. Say which, if any, you want.
 
 ---
 
@@ -106,6 +107,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - **Goal:** the new bar from decision 4. No Firebase needed.
 - **Done:** Insights is gone (route, tab and placeholder). The bar has Home, Tracker, Articles and Account, with a raised green camera button in the middle. The button is an action, so it doesn't change the page behind it.
 - The camera button opens the two-option chooser (feature 12).
+- **Changed 2026-11-12 (feature 23):** the camera no longer rises above the bar; it is a 52 px button in the bar's middle slot, with Exercise added to the right.
 - **Original tasks:**
 - **Tasks:**
   - Remove the Insights tab: its route `/insights` in `app_router.dart`, its item in `app_bottom_nav.dart`, and its placeholder.
@@ -273,6 +275,21 @@ These are agreed and will be built later, in the order shown under "Suggested or
   - What got fixed: the bell, the + buttons, the date button and onboarding's back button were made 48 px. The selected-tab and green text now use the readable green. Labels were added to the reminder switches. Header text stays dark on the green header.
   - **Text size:** follows the phone up to 130% (`AppConstants.maxTextScale`); every main screen is checked at that size in English and Bangla.
 
+### 23. AI exercise and workout planner 🟡 in progress (planned 2026-11-12)
+- **Goal:** an Exercise tab with a personalised plan. The user picks **Home** or **Gym** once (plus optional extras: fitness level, minutes per session, home equipment, limitations). Gemini builds a **weekly rotating plan**, choosing only from a curated catalog of ~32 exercises. Each exercise has a **code-drawn animated demo**, step-by-step instructions, and a set-by-set workout mode with a rest timer.
+- **Calories:** estimates only, net MET method ((MET − 1) × kg × active hours), shown as "≈ N kcal (estimate)", with no fat-loss claims. Finished workouts are added to **Activity** on Home. A workout that overlaps a Health workout in time is skipped, so Health's measured number counts instead.
+- **Data:** `exercise_settings`, `workout_plan` and `workout_sessions` (one Firestore doc per session) are synced; the rule-based planner is used when AI is unavailable.
+- **Changes to earlier decisions:** the bottom bar (decision 4, feature 11); Health workouts will also store start/end times (feature 16); the focus goals now shape the workout plan.
+- **Phases** (each tested, then reviewed by you):
+  1. ✅ **Navigation (2026-11-12):** Exercise tab (`/exercise`, placeholder screen) between the camera and Account; the camera button moved from a raised floating button into the bar (52 px). The extra bottom padding that made room for the raised button was removed from Home, Tracker and Account. `EmptyState` text now uses the readable grey (it failed the contrast check). Tests: tab order, camera inside the bar, camera from the Exercise tab, Exercise screen accessibility (light, dark, Bangla).
+  2. ⬜ Domain: models, exercise catalog with English and Bangla texts, calorie estimator, repositories.
+  3. ⬜ AI: `WorkoutPlanService` (Gemini with a fixed list of exercises to choose from, plus a rule-based fallback), checking the reply.
+  4. ⬜ Setup (Home/Gym + extras) and the dashboard (two-column exercise cards, progress).
+  5. ⬜ Animated demos and the exercise details screen.
+  6. ⬜ Workout mode: sets, rest timer, completion, history.
+  7. ⬜ Calories into Home and Tracker (no Health double-counting), sync.
+  8. ⬜ Polish: accessibility, dark mode, Bangla, emulator run-through.
+
 ---
 
 ## Suggested order
@@ -285,7 +302,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 7. **Account management (19 ✅).**
 8. **Notifications (18 ✅), polish (22 ✅).**
 
-**Development is complete** for the planned features. What's left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+**Feature 23 (exercise planner) is in progress** (phase 1 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
 
 **Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 

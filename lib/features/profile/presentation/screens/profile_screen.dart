@@ -26,8 +26,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.profileAndGoals)),
       body: ListView(
-        // Extra bottom space so the raised camera button never covers content.
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 64),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
         children: [
           if (profile.profile case final user?) ...[
             ProfileCard(profile: user),

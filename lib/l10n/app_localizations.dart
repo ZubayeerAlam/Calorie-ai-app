@@ -1280,6 +1280,18 @@ abstract class AppLocalizations {
   /// **'Tracker'**
   String get tabTracker;
 
+  /// No description provided for @tabExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise'**
+  String get tabExercise;
+
+  /// No description provided for @exercisePlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Your personalised workout plan will appear here.'**
+  String get exercisePlaceholder;
+
   /// No description provided for @tabAccount.
   ///
   /// In en, this message translates to:

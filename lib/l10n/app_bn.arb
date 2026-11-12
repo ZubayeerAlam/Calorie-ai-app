@@ -197,6 +197,8 @@
   "detailLine": "{label}: ",
   "tabHome": "হোম",
   "tabTracker": "ট্র্যাকার",
+  "tabExercise": "ব্যায়াম",
+  "exercisePlaceholder": "আপনার নিজের জন্য তৈরি ব্যায়ামের পরিকল্পনা এখানে দেখা যাবে।",
   "tabAccount": "অ্যাকাউন্ট",
   "howActive": "আপনি কতটা সক্রিয়?",
   "whenBorn": "আপনার জন্ম কবে?",

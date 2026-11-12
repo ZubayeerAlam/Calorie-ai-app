@@ -35,7 +35,7 @@ class ResetDataButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Left-aligned: the raised camera button sits in the centre.
+    // Left-aligned, like a list action.
     return Align(
       alignment: Alignment.centerLeft,
       child: TextButton.icon(

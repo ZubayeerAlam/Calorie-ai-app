@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/l10n.dart';
+import 'camera_button.dart';
 
 class AppNavItem {
   const AppNavItem({
@@ -15,20 +16,20 @@ class AppNavItem {
   final IconData activeIcon;
 }
 
-/// White bottom bar: green icon + label for the active tab, grey otherwise.
+/// Bottom bar: green icon + label for the active tab, grey otherwise.
 ///
-/// Three tabs: Home and Tracker left of an empty middle slot, Account on
-/// the right (it takes the whole right half). The
-/// camera button that sits in that slot is a floating button added by the
-/// scaffold (see `HomeShell`), because a button that rises above the bar
-/// must be outside the bar to receive taps.
+/// Home and Tracker on the left, Exercise and Account on the right, and
+/// the camera button in the middle. The camera is an action (it opens the
+/// Add food chooser), not a tab, so it has no index.
 class AppBottomNav extends StatelessWidget {
   const AppBottomNav({
     super.key,
     required this.currentIndex,
     required this.onTap,
+    required this.onCameraPressed,
   });
 
+  /// The tabs, in branch order (see `createAppRouter`).
   static List<AppNavItem> get items => [
     AppNavItem(
       label: l10n.tabHome,
@@ -41,20 +42,26 @@ class AppBottomNav extends StatelessWidget {
       activeIcon: Icons.grid_view_rounded,
     ),
     AppNavItem(
+      label: l10n.tabExercise,
+      icon: Icons.fitness_center_outlined,
+      activeIcon: Icons.fitness_center_rounded,
+    ),
+    AppNavItem(
       label: l10n.tabAccount,
       icon: Icons.person_outline_rounded,
       activeIcon: Icons.person_rounded,
     ),
   ];
 
-  /// Width reserved in the middle for the camera button.
-  static const double cameraGap = 84;
+  /// Width of the middle slot that holds the camera button.
+  static const double cameraSlot = 72;
 
-  /// How many tabs sit to the left of the camera gap; the rest sit right.
+  /// How many tabs sit to the left of the camera; the rest sit right.
   static const int _tabsOnLeft = 2;
 
   final int currentIndex;
   final ValueChanged<int> onTap;
+  final VoidCallback onCameraPressed;
 
   Widget _tab(int i) => Expanded(
     child: _NavButton(
@@ -66,6 +73,7 @@ class AppBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final count = items.length;
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -78,19 +86,17 @@ class AppBottomNav extends StatelessWidget {
           height: 68,
           child: Row(
             children: [
-              Expanded(
-                child: Row(
-                  children: [for (var i = 0; i < _tabsOnLeft; i++) _tab(i)],
+              for (var i = 0; i < _tabsOnLeft; i++) _tab(i),
+              SizedBox(
+                width: cameraSlot,
+                child: Center(
+                  child: CameraButton(
+                    key: const ValueKey('camera-button'),
+                    onPressed: onCameraPressed,
+                  ),
                 ),
               ),
-              const SizedBox(width: cameraGap),
-              Expanded(
-                child: Row(
-                  children: [
-                    for (var i = _tabsOnLeft; i < items.length; i++) _tab(i),
-                  ],
-                ),
-              ),
+              for (var i = _tabsOnLeft; i < count; i++) _tab(i),
             ],
           ),
         ),
@@ -124,12 +130,17 @@ class _NavButton extends StatelessWidget {
           children: [
             Icon(selected ? item.activeIcon : item.icon, color: color),
             const SizedBox(height: 4),
-            Text(
-              item.label,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                color: color,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: Text(
+                item.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                  color: color,
+                ),
               ),
             ),
           ],

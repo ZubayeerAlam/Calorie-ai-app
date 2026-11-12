@@ -445,6 +445,8 @@
   },
   "tabHome": "Home",
   "tabTracker": "Tracker",
+  "tabExercise": "Exercise",
+  "exercisePlaceholder": "Your personalised workout plan will appear here.",
   "tabAccount": "Account",
   "howActive": "How active are you?",
   "whenBorn": "When were you born?",

@@ -697,6 +697,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabTracker => 'Tracker';
 
   @override
+  String get tabExercise => 'Exercise';
+
+  @override
+  String get exercisePlaceholder =>
+      'Your personalised workout plan will appear here.';
+
+  @override
   String get tabAccount => 'Account';
 
   @override

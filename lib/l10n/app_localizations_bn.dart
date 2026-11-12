@@ -684,6 +684,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get tabTracker => 'ট্র্যাকার';
 
   @override
+  String get tabExercise => 'ব্যায়াম';
+
+  @override
+  String get exercisePlaceholder =>
+      'আপনার নিজের জন্য তৈরি ব্যায়ামের পরিকল্পনা এখানে দেখা যাবে।';
+
+  @override
   String get tabAccount => 'অ্যাকাউন্ট';
 
   @override
