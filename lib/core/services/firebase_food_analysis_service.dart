@@ -9,6 +9,7 @@ import '../../features/food_scan/data/models/food_analysis.dart';
 import '../../features/food_scan/data/models/food_description.dart';
 import '../constants/app_constants.dart';
 import 'food_analysis_service.dart';
+import 'gemini_errors.dart';
 import '../../l10n/l10n.dart';
 
 /// Sends a prompt, plus an optional image, to the model and returns the
@@ -173,7 +174,7 @@ class FirebaseFoodAnalysisService implements FoodAnalysisService {
       // it shows in the console while developing.
       debugPrint('Food analysis failed: $e');
       throw FoodAnalysisException(
-        _isNetworkError(e)
+        isGeminiNetworkError(e)
             ? FoodAnalysisFailure.network
             : FoodAnalysisFailure.unknown,
         '$e',
@@ -181,11 +182,6 @@ class FirebaseFoodAnalysisService implements FoodAnalysisService {
     }
     return parseReply(reply);
   }
-
-  /// Connection problems from the HTTP layer (its `ClientException`).
-  static bool _isNetworkError(Object e) =>
-      e.runtimeType.toString() == 'ClientException' ||
-      '$e'.contains('Failed host lookup');
 
   /// Parses Gemini's JSON reply.
   @visibleForTesting

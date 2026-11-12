@@ -979,5 +979,48 @@
   "exMarchInPlaceStep2": "Lower it and lift the other, swinging your arms.",
   "exMarchInPlaceStep3": "Keep a brisk, steady rhythm for the set time.",
   "exMarchInPlaceTip": "Land softly; lift your knees only as high as feels good.",
-  "exMarchInPlaceBenefit": "Low-impact cardio that gets your heart going gently."
+  "exMarchInPlaceBenefit": "Low-impact cardio that gets your heart going gently.",
+  "planDay": "Day {letter}",
+  "@planDay": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
+  "planFullBody": "Full body {letter}",
+  "@planFullBody": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
+  "planUpperBody": "Upper body {letter}",
+  "@planUpperBody": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
+  "planLowerBody": "Lower body {letter}",
+  "@planLowerBody": {
+    "placeholders": {
+      "letter": {
+        "type": "String"
+      }
+    }
+  },
+  "planFocusFullBody": "Legs, push, pull, core and cardio",
+  "planFocusUpperBody": "Chest, back, shoulders and arms",
+  "planFocusLowerBody": "Legs, glutes and core",
+  "rulesPlanSummary": "{count} workouts a week, made on your phone from your profile.",
+  "@rulesPlanSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

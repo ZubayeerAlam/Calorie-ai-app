@@ -1979,4 +1979,38 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get exMarchInPlaceBenefit =>
       'কম ধাক্কার কার্ডিও, হৃৎস্পন্দন ধীরে বাড়ায়।';
+
+  @override
+  String planDay(String letter) {
+    return 'দিন $letter';
+  }
+
+  @override
+  String planFullBody(String letter) {
+    return 'পুরো শরীর $letter';
+  }
+
+  @override
+  String planUpperBody(String letter) {
+    return 'ওপরের শরীর $letter';
+  }
+
+  @override
+  String planLowerBody(String letter) {
+    return 'নিচের শরীর $letter';
+  }
+
+  @override
+  String get planFocusFullBody => 'পা, ঠেলা, টানা, পেট ও কার্ডিও';
+
+  @override
+  String get planFocusUpperBody => 'বুক, পিঠ, কাঁধ ও হাত';
+
+  @override
+  String get planFocusLowerBody => 'পা, নিতম্ব ও পেট';
+
+  @override
+  String rulesPlanSummary(int count) {
+    return 'সপ্তাহে $countটি ওয়ার্কআউট, আপনার প্রোফাইল থেকে ফোনেই তৈরি।';
+  }
 }

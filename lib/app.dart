@@ -15,7 +15,9 @@ import 'core/services/image_picker_service.dart';
 import 'core/services/local_storage_service.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/permission_service.dart';
+import 'core/services/rule_based_workout_plan_service.dart';
 import 'core/services/step_counter_service.dart';
+import 'core/services/workout_plan_service.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/appearance_controller.dart';
@@ -47,6 +49,7 @@ class CalAiApp extends StatefulWidget {
     this.auth,
     this.cloudStore,
     this.notifications,
+    this.workoutPlans,
   });
 
   /// Local storage, initialised in `main` before the app starts.
@@ -78,6 +81,10 @@ class CalAiApp extends StatefulWidget {
 
   /// Meal reminders; off by default (tests), `main` passes the real one.
   final NotificationService? notifications;
+
+  /// Workout plans; defaults to the built-in rules (no AI), `main` passes
+  /// Gemini (Firebase AI Logic).
+  final WorkoutPlanService? workoutPlans;
 
   @override
   State<CalAiApp> createState() => _CalAiAppState();
@@ -158,6 +165,10 @@ class _CalAiAppState extends State<CalAiApp> with WidgetsBindingObserver {
         Provider(create: (_) => widget.imagePicker ?? ImagePickerService()),
         Provider<FoodAnalysisService>(
           create: (_) => widget.foodAnalysis ?? const DemoFoodAnalysisService(),
+        ),
+        Provider<WorkoutPlanService>(
+          create: (_) =>
+              widget.workoutPlans ?? const RuleBasedWorkoutPlanService(),
         ),
         Provider(
           create: (ctx) => FoodLogRepository(ctx.read<LocalStorageService>()),

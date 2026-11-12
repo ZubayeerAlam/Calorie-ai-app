@@ -589,5 +589,13 @@
   "exMarchInPlaceStep2": "সেটি নামিয়ে হাত দুলিয়ে অন্যটি তুলুন।",
   "exMarchInPlaceStep3": "নির্ধারিত সময় ধরে দ্রুত, স্থির ছন্দে চালিয়ে যান।",
   "exMarchInPlaceTip": "আলতো করে পা ফেলুন; যতটা আরাম লাগে ততটাই হাঁটু তুলুন।",
-  "exMarchInPlaceBenefit": "কম ধাক্কার কার্ডিও, হৃৎস্পন্দন ধীরে বাড়ায়।"
+  "exMarchInPlaceBenefit": "কম ধাক্কার কার্ডিও, হৃৎস্পন্দন ধীরে বাড়ায়।",
+  "planDay": "দিন {letter}",
+  "planFullBody": "পুরো শরীর {letter}",
+  "planUpperBody": "ওপরের শরীর {letter}",
+  "planLowerBody": "নিচের শরীর {letter}",
+  "planFocusFullBody": "পা, ঠেলা, টানা, পেট ও কার্ডিও",
+  "planFocusUpperBody": "বুক, পিঠ, কাঁধ ও হাত",
+  "planFocusLowerBody": "পা, নিতম্ব ও পেট",
+  "rulesPlanSummary": "সপ্তাহে {count}টি ওয়ার্কআউট, আপনার প্রোফাইল থেকে ফোনেই তৈরি।"
 }

@@ -289,7 +289,15 @@ These are agreed and will be built later, in the order shown under "Suggested or
      - **Estimates** (`exercise_estimate.dart`, named `exercise_calories.dart` in the plan): net kcal = (MET − 1) × kg × active hours; planned time = sets + rests; shown kcal rounded (whole below 10, then to 5).
      - **Storage:** `exercise_settings`, `workout_plan`, `workout_sessions` with three repositories (`data/repositories/`). Not synced yet (phase 7).
      - Tests: 31 new (catalog, estimates, models, repositories).
-  3. ⬜ AI: `WorkoutPlanService` (Gemini with a fixed list of exercises to choose from, plus a rule-based fallback), checking the reply.
+  3. ✅ **AI plan service (2026-11-12):**
+     - `WorkoutPlanService` interface (`lib/core/services/workout_plan_service.dart`) with `WorkoutPlanException` (network / invalid response / unknown). Screens will only use this interface.
+     - `WorkoutPlanRequest` (`features/exercise/data/`): profile + settings → allowed exercises, sessions per week, "builds muscle" (gain goal or Gain muscle focus), and `inputsKey`, a fingerprint saved with the plan to notice later changes (weight rounded to whole kg).
+     - `FirebaseWorkoutPlanService`: Gemini (`AppConstants.workoutPlanModel`, `gemini-3.5-flash-lite`, temperature 0.3, 60 s timeout). The prompt lists the user's details and the allowed exercises; the reply schema only accepts their ids (`Schema.enumString`). Texts are asked for in Bangla when the app is in Bangla. The instructions rule out medical advice and fat-loss claims.
+     - `WorkoutPlanValidator`: drops unknown, not allowed and repeated exercises; keeps sets 1–5, reps 4–25, time 15–120 s (cardio machines up to 15 min), rest 20–150 s; 3–8 exercises per session, cut from the end while over the chosen minutes by more than 25 %; no more sessions than workout days; shortens long texts.
+     - `RuleBasedWorkoutPlanService`: works without AI. 2–3 days a week are full body, 4–5 alternate upper and lower body. 4–7 exercises depending on minutes. Sets by level, reps by goal, rest adjusted by goal. It is the default in `CalAiApp` (tests); `main.dart` passes the Gemini service. Falling back to it when AI fails is phase 4.
+     - The network-error check is shared with the food AI (`gemini_errors.dart`). The plan's "move `GeminiCall` to `gemini_call.dart`" wasn't needed: the plan service has its own call type with a schema.
+     - **Not yet done:** a real Gemini call on a device; that is checked in phase 4, once the setup screen exists.
+     - Tests: 27 new (validator, rule-based planner across every setup, Gemini service with a fake model, plan fingerprint).
   4. ⬜ Setup (Home/Gym + extras) and the dashboard (two-column exercise cards, progress).
   5. ⬜ Animated demos and the exercise details screen.
   6. ⬜ Workout mode: sets, rest timer, completion, history.
@@ -308,7 +316,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 7. **Account management (19 ✅).**
 8. **Notifications (18 ✅), polish (22 ✅).**
 
-**Feature 23 (exercise planner) is in progress** (phases 1–2 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+**Feature 23 (exercise planner) is in progress** (phases 1–3 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
 
 **Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 

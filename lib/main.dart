@@ -11,6 +11,7 @@ import 'app.dart';
 import 'core/services/auth_service.dart';
 import 'core/services/cloud_store.dart';
 import 'core/services/firebase_food_analysis_service.dart';
+import 'core/services/firebase_workout_plan_service.dart';
 import 'core/services/health_service.dart';
 import 'core/services/notification_service.dart';
 import 'core/services/local_storage_service.dart';
@@ -54,6 +55,7 @@ Future<void> main() async {
       auth: FirebaseAuthService(),
       cloudStore: FirestoreCloudStore(),
       notifications: notifications,
+      workoutPlans: FirebaseWorkoutPlanService(),
     ),
   );
 }

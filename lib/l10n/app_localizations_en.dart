@@ -2036,4 +2036,38 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get exMarchInPlaceBenefit =>
       'Low-impact cardio that gets your heart going gently.';
+
+  @override
+  String planDay(String letter) {
+    return 'Day $letter';
+  }
+
+  @override
+  String planFullBody(String letter) {
+    return 'Full body $letter';
+  }
+
+  @override
+  String planUpperBody(String letter) {
+    return 'Upper body $letter';
+  }
+
+  @override
+  String planLowerBody(String letter) {
+    return 'Lower body $letter';
+  }
+
+  @override
+  String get planFocusFullBody => 'Legs, push, pull, core and cardio';
+
+  @override
+  String get planFocusUpperBody => 'Chest, back, shoulders and arms';
+
+  @override
+  String get planFocusLowerBody => 'Legs, glutes and core';
+
+  @override
+  String rulesPlanSummary(int count) {
+    return '$count workouts a week, made on your phone from your profile.';
+  }
 }

@@ -17,4 +17,7 @@ class AppConstants {
 
   /// Gemini model used for food analysis (Firebase AI Logic).
   static const String foodAnalysisModel = 'gemini-3.5-flash-lite';
+
+  /// Gemini model used for workout plans (Firebase AI Logic).
+  static const String workoutPlanModel = 'gemini-3.5-flash-lite';
 }

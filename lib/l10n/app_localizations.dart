@@ -3643,6 +3643,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Low-impact cardio that gets your heart going gently.'**
   String get exMarchInPlaceBenefit;
+
+  /// No description provided for @planDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {letter}'**
+  String planDay(String letter);
+
+  /// No description provided for @planFullBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body {letter}'**
+  String planFullBody(String letter);
+
+  /// No description provided for @planUpperBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Upper body {letter}'**
+  String planUpperBody(String letter);
+
+  /// No description provided for @planLowerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower body {letter}'**
+  String planLowerBody(String letter);
+
+  /// No description provided for @planFocusFullBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs, push, pull, core and cardio'**
+  String get planFocusFullBody;
+
+  /// No description provided for @planFocusUpperBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Chest, back, shoulders and arms'**
+  String get planFocusUpperBody;
+
+  /// No description provided for @planFocusLowerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs, glutes and core'**
+  String get planFocusLowerBody;
+
+  /// No description provided for @rulesPlanSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} workouts a week, made on your phone from your profile.'**
+  String rulesPlanSummary(int count);
 }
 
 class _AppLocalizationsDelegate

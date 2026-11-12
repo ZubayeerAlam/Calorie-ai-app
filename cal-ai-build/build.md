@@ -238,7 +238,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Text size:** follows the phone up to `AppConstants.maxTextScale` (1.3).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton` (48 px tap area), `EmptyState`, `MealIllustration`, `MealPhoto`.
 
-## 8. Tests (214 passing)
+## 8. Tests (241 passing)
 
 | File | Covers |
 |---|---|
@@ -263,6 +263,9 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/exercise/exercise_catalog_test.dart` | Feature 23 catalog: unique ids, sensible MET/rest values, English and Bangla texts for every exercise and muscle, which exercises suit Home/Gym, equipment and limitations, every movement type available, a workout still possible with every limitation |
 | `test/exercise/exercise_estimate_test.dart` | Set time, net MET kcal, planned time with rests, shown kcal rounding |
 | `test/exercise/exercise_models_test.dart` | Settings defaults, JSON round trips (settings, plan, workout record), older/newer saved data, exercise and workout status, totals |
+| `test/exercise/workout_plan_validator_test.dart` | Checking AI plans: kept as is, not allowed/unknown/repeated exercises dropped, safe ranges, reps vs time, cardio machines, session time, 8-exercise and day limits, missing names, unusable replies |
+| `test/exercise/rule_based_workout_plan_service_test.dart` | The offline planner for every place, activity, level, length and limitation; full body vs upper/lower; sets by level and reps by goal; cardio machines; home equipment |
+| `test/exercise/firebase_workout_plan_service_test.dart` | The Gemini plan service with a fake model: prompt contents, allowed-id schema, Bangla, checked reply, errors; the plan fingerprint |
 | `test/exercise/exercise_repositories_test.dart` | Settings, plan and workout history saved and read, update by id, per-day kcal, unreadable data dropped |
 | `test/fake_*.dart` | Fake step source, camera/gallery, AI, Health, Auth, Firestore and notifications used by the tests |
 
@@ -284,7 +287,7 @@ flutter test
 
 ## 10. Next steps
 
-**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar) and 2 (exercise catalog, models, calorie estimates, storage) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
+**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar), 2 (exercise catalog, models, calorie estimates, storage) and 3 (AI and offline plan services) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
 
 - **Firebase:** turn on Email/Password (Console) and try sign-in and sync on the real project. Firestore is already set up in Mumbai.
 - **Devices:** run on iOS and on a real phone: photo AI, Health data, notifications.
