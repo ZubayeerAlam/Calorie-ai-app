@@ -4273,6 +4273,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{done} of {total} sets done'**
   String setsDoneLabel(int done, int total);
+
+  /// No description provided for @plusAppWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Plus {kcal} kcal from your Cal AI workouts (no need to log them here)'**
+  String plusAppWorkouts(String kcal);
+
+  /// No description provided for @workoutsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get workoutsTitle;
+
+  /// No description provided for @workoutsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} active days · estimates from your Cal AI workouts'**
+  String workoutsSummary(int days);
+
+  /// No description provided for @noWorkoutsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No workouts in this period. Start one from the Exercise tab.'**
+  String get noWorkoutsYet;
+
+  /// No description provided for @statWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Workouts'**
+  String get statWorkouts;
+
+  /// No description provided for @statActiveMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Active min'**
+  String get statActiveMinutes;
+
+  /// No description provided for @historyWorkouts.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 workout} other{{count} workouts}} · ≈ {kcal} kcal'**
+  String historyWorkouts(int count, int kcal);
 }
 
 class _AppLocalizationsDelegate

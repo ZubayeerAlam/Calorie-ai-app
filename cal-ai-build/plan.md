@@ -195,11 +195,11 @@ These are agreed and will be built later, in the order shown under "Suggested or
 - **Signed in:** the Account card shows the email, "Backed up and synced to your account", and **Log out**. Logging out asks first, then clears this phone and returns to onboarding; the data stays in the account.
 - **How sync works** (`SyncService`, `lib/features/account/data/sync_service.dart`):
   - Local storage stays the source the app reads (works offline). Every local change is copied to Firestore; offline writes are sent later.
-  - Firestore layout: `users/{uid}/data/{storageKey}` (profile, goals, activity, weight log, steps) and `users/{uid}/food_entries/{id}`.
+  - Firestore layout: `users/{uid}/data/{storageKey}` (profile, goals, activity, weight log, steps; since feature 23 also the exercise setup and plan) and one document per entry in `users/{uid}/food_entries/{id}` and (feature 23) `users/{uid}/workout_sessions/{id}`.
   - **Signing in merges:** food entries are combined by id; day-by-day logs are merged per day (the cloud wins on the same day); profile and targets come from the cloud if it has them. What's on this phone is uploaded, so nothing is lost when you create an account.
   - At app start a signed-in user is merged again (or just keeps syncing if offline).
   - If the backup can't be read during sign-in (offline, or Firestore not created), sign-in is undone with a clear message.
-- **Not synced:** device-only data (the step sensor baseline, Health imports, the Health switch) and meal photos (only the file path is stored, so photos show a placeholder on another phone).
+- **Not synced:** device-only data (the step sensor baseline, Health imports including workout times, the Health switch) and meal photos (only the file path is stored, so photos show a placeholder on another phone).
 - **Known limitation:** an entry deleted on one phone comes back from another phone that still has it, the next time that phone connects.
 
 **Notes**
@@ -287,7 +287,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
      - **Catalog** (`catalog/exercise_catalog.dart`): 36 exercises: 19 bodyweight (home, many also gym), 7 with dumbbells or bands, 10 gym machines. Each has places, equipment, movement type, muscles, MET, seconds per rep, default rest, and the limitations it's left out for. `allowedFor(settings)` filters them. "March in place" was added (not in the original list) because with all four limitations ticked Home had no cardio and only 4 exercises.
      - **Texts:** name, starting position, 3 steps, form tip and benefit for every exercise, plus 12 muscle names, in English and Bangla (264 new strings each; `ExerciseTexts`).
      - **Estimates** (`exercise_estimate.dart`, named `exercise_calories.dart` in the plan): net kcal = (MET − 1) × kg × active hours; planned time = sets + rests; shown kcal rounded (whole below 10, then to 5).
-     - **Storage:** `exercise_settings`, `workout_plan`, `workout_sessions` with three repositories (`data/repositories/`). Not synced yet (phase 7).
+     - **Storage:** `exercise_settings`, `workout_plan`, `workout_sessions` with three repositories (`data/repositories/`). Synced since phase 7.
      - Tests: 31 new (catalog, estimates, models, repositories).
   3. ✅ **AI plan service (2026-11-12):**
      - `WorkoutPlanService` interface (`lib/core/services/workout_plan_service.dart`) with `WorkoutPlanException` (network / invalid response / unknown). Screens will only use this interface.
@@ -328,7 +328,15 @@ These are agreed and will be built later, in the order shown under "Suggested or
      - A large-text check found the countdown overflowing its ring; the text now shrinks to fit.
      - Tests: 18 new (controller with a fake clock: sets, rests, auto-advance, +15 s, timed sets, complete, resume, display updates; provider recording; the full flow in the app; End early and Continue; Next exercise; timed countdown; accessibility of every workout step in light/dark/Bangla; large text).
      - **Not yet checked on a device** (the buzz, background timing).
-  7. ⬜ Calories into Home and Tracker (no Health double-counting), sync.
+  7. ✅ **Calories and sync (2026-11-12):**
+     - **Home:** Activity (and so Burned and "kcal left") now includes the estimated kcal of workouts done in the Exercise tab, next to what's logged by hand and Health workouts. The Log activity sheet says "Plus N kcal from your Cal AI workouts (no need to log them here)".
+     - **No double counting with Health:** Health workouts are now imported with their start and end times (`HealthService.workoutsBetween`, stored per day in `health_workouts`, device only; the day total in `health_workout_kcal` stays). A Cal AI workout whose time overlaps a Health workout (5 minutes' leeway for clocks) is left out, and Health's measured number counts. A workout still going on uses its last saved set as its end (`WorkoutRecord.updatedAt`). Without Health connected, every Cal AI workout counts. Activity logged by hand can't be matched, so the sheet asks not to log the same workout there.
+     - **Tracker:** a **Workouts** card (workouts, active minutes, ≈ kcal, active days) and a workout line in History ("1 workout · ≈ 45 kcal"). The Burned numbers per day follow Home automatically.
+     - **Sync:** `CloudStore` now has general entry methods (`readEntries` / `writeEntry` / `deleteEntry` by collection), and `SyncService` handles any list saved by id: food entries and workouts (`users/{uid}/workout_sessions/{id}`). When a workout exists on both sides, the one updated last wins. `exercise_settings` and `workout_plan` are synced like the profile. Reset all data and log out clear them like everything else. Firestore rules unchanged (they already cover `users/{uid}/**`).
+     - The order of the app's providers changed so `ActivityLogProvider` can follow `ExerciseProvider`.
+     - Strings: 7 new (English and Bangla).
+     - Tests: 16 new (overlap rules, Health times stored, Cal AI workouts in Activity, in-progress workouts, disconnecting Health, active time, Tracker totals, sync upload/merge/reset, Home and Tracker in the app, a workout done in workout mode showing up on Home).
+     - **Not yet checked:** real Health data with overlapping workouts (needs a phone and a watch or fitness app), and sync against the real project.
   8. ⬜ Polish: accessibility, dark mode, Bangla, emulator run-through.
 
 ---
@@ -343,7 +351,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 7. **Account management (19 ✅).**
 8. **Notifications (18 ✅), polish (22 ✅).**
 
-**Feature 23 (exercise planner) is in progress** (phases 1–6 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+**Feature 23 (exercise planner) is in progress** (phases 1–7 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
 
 **Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 

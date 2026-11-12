@@ -2355,4 +2355,32 @@ class AppLocalizationsBn extends AppLocalizations {
   String setsDoneLabel(int done, int total) {
     return '$totalটির মধ্যে $doneটি সেট শেষ';
   }
+
+  @override
+  String plusAppWorkouts(String kcal) {
+    return 'এর সাথে আপনার Cal AI ওয়ার্কআউট থেকে $kcal kcal (এখানে আবার লিখতে হবে না)';
+  }
+
+  @override
+  String get workoutsTitle => 'ওয়ার্কআউট';
+
+  @override
+  String workoutsSummary(int days) {
+    return '$days দিন সক্রিয় · আপনার Cal AI ওয়ার্কআউট থেকে আনুমানিক';
+  }
+
+  @override
+  String get noWorkoutsYet =>
+      'এই সময়ে কোনো ওয়ার্কআউট নেই। ব্যায়াম ট্যাব থেকে শুরু করুন।';
+
+  @override
+  String get statWorkouts => 'ওয়ার্কআউট';
+
+  @override
+  String get statActiveMinutes => 'সক্রিয় মিনিট';
+
+  @override
+  String historyWorkouts(int count, int kcal) {
+    return '$countটি ওয়ার্কআউট · ≈ $kcal kcal';
+  }
 }

@@ -13,6 +13,39 @@ enum HealthAvailability {
   unsupported,
 }
 
+/// A workout recorded in Health (by a watch or another app).
+class HealthWorkout {
+  const HealthWorkout({
+    required this.start,
+    required this.end,
+    required this.kcal,
+  });
+
+  final DateTime start;
+  final DateTime end;
+  final int kcal;
+
+  /// Clocks on a watch and the phone differ a little; times this close
+  /// still count as the same workout.
+  static const Duration margin = Duration(minutes: 5);
+
+  /// True when this workout and the time from [from] to [to] overlap.
+  bool overlaps(DateTime from, DateTime to) =>
+      start.subtract(margin).isBefore(to) && end.add(margin).isAfter(from);
+
+  Map<String, dynamic> toJson() => {
+    'start': start.toIso8601String(),
+    'end': end.toIso8601String(),
+    'kcal': kcal,
+  };
+
+  factory HealthWorkout.fromJson(Map<String, dynamic> json) => HealthWorkout(
+    start: DateTime.parse(json['start'] as String),
+    end: DateTime.parse(json['end'] as String),
+    kcal: json['kcal'] as int,
+  );
+}
+
 /// Steps and workouts from Apple Health (iOS) or Health Connect (Android).
 abstract class HealthService {
   /// Shown to the user, e.g. "Apple Health".
@@ -27,8 +60,9 @@ abstract class HealthService {
   /// Total steps between [start] and [end], or null when unknown.
   Future<int?> stepsBetween(DateTime start, DateTime end);
 
-  /// Calories burned in workouts that started between [start] and [end].
-  Future<int> workoutKcalBetween(DateTime start, DateTime end);
+  /// Workouts that started between [start] and [end], with their times
+  /// and calories.
+  Future<List<HealthWorkout>> workoutsBetween(DateTime start, DateTime end);
 
   /// Opens the store page for Health Connect (Android only).
   Future<void> install();
@@ -52,7 +86,10 @@ class UnavailableHealthService implements HealthService {
   Future<int?> stepsBetween(DateTime start, DateTime end) async => null;
 
   @override
-  Future<int> workoutKcalBetween(DateTime start, DateTime end) async => 0;
+  Future<List<HealthWorkout>> workoutsBetween(
+    DateTime start,
+    DateTime end,
+  ) async => const [];
 
   @override
   Future<void> install() async {}
@@ -122,7 +159,10 @@ class HealthPluginService implements HealthService {
   }
 
   @override
-  Future<int> workoutKcalBetween(DateTime start, DateTime end) async {
+  Future<List<HealthWorkout>> workoutsBetween(
+    DateTime start,
+    DateTime end,
+  ) async {
     try {
       await _configure();
       final points = await _health.getHealthDataFromTypes(
@@ -130,15 +170,18 @@ class HealthPluginService implements HealthService {
         startTime: start,
         endTime: end,
       );
-      var kcal = 0;
-      for (final point in points) {
-        final value = point.value;
-        if (value is WorkoutHealthValue) kcal += value.totalEnergyBurned ?? 0;
-      }
-      return kcal;
+      return [
+        for (final point in points)
+          if (point.value case final WorkoutHealthValue value)
+            HealthWorkout(
+              start: point.dateFrom,
+              end: point.dateTo,
+              kcal: value.totalEnergyBurned ?? 0,
+            ),
+      ];
     } catch (e) {
       debugPrint('Health workouts failed: $e');
-      return 0;
+      return const [];
     }
   }
 

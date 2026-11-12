@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 ///
 /// - `users/{uid}/data/{storageKey}`: `{ value: <string or bool> }`, a copy
 ///   of one local storage value (profile, goals, logs…).
-/// - `users/{uid}/food_entries/{id}`: one document per food entry.
+/// - `users/{uid}/<collection>/{id}`: one document per entry, for lists
+///   saved by id: `food_entries` and `workout_sessions`.
 abstract class CloudStore {
   /// Every stored value by storage key; empty for a new account.
   Future<Map<String, Object>> readValues(String uid);
@@ -13,12 +14,20 @@ abstract class CloudStore {
   /// Saves [value] (a String or bool) under [key]; null deletes it.
   Future<void> writeValue(String uid, String key, Object? value);
 
-  /// Every food entry (as JSON) by id.
-  Future<Map<String, Map<String, dynamic>>> readFoodEntries(String uid);
+  /// Every entry of [collection] (as JSON) by id.
+  Future<Map<String, Map<String, dynamic>>> readEntries(
+    String uid,
+    String collection,
+  );
 
-  Future<void> writeFoodEntry(String uid, Map<String, dynamic> entry);
+  /// Saves [entry] under its `id`.
+  Future<void> writeEntry(
+    String uid,
+    String collection,
+    Map<String, dynamic> entry,
+  );
 
-  Future<void> deleteFoodEntry(String uid, String id);
+  Future<void> deleteEntry(String uid, String collection, String id);
 }
 
 /// [CloudStore] on Cloud Firestore. Firestore keeps writes made offline
@@ -49,21 +58,24 @@ class FirestoreCloudStore implements CloudStore {
   }
 
   @override
-  Future<Map<String, Map<String, dynamic>>> readFoodEntries(String uid) async {
-    final snapshot = await _user(uid).collection('food_entries').get();
+  Future<Map<String, Map<String, dynamic>>> readEntries(
+    String uid,
+    String collection,
+  ) async {
+    final snapshot = await _user(uid).collection(collection).get();
     return {for (final doc in snapshot.docs) doc.id: doc.data()};
   }
 
   @override
-  Future<void> writeFoodEntry(String uid, Map<String, dynamic> entry) =>
-      _user(uid)
-          .collection('food_entries')
-          .doc(entry['id'] as String)
-          .set(entry);
+  Future<void> writeEntry(
+    String uid,
+    String collection,
+    Map<String, dynamic> entry,
+  ) => _user(uid).collection(collection).doc(entry['id'] as String).set(entry);
 
   @override
-  Future<void> deleteFoodEntry(String uid, String id) =>
-      _user(uid).collection('food_entries').doc(id).delete();
+  Future<void> deleteEntry(String uid, String collection, String id) =>
+      _user(uid).collection(collection).doc(id).delete();
 }
 
 /// No cloud; the default until Firestore is passed in (never used while
@@ -81,13 +93,19 @@ class UnavailableCloudStore implements CloudStore {
       _fail();
 
   @override
-  Future<Map<String, Map<String, dynamic>>> readFoodEntries(String uid) async =>
-      _fail();
+  Future<Map<String, Map<String, dynamic>>> readEntries(
+    String uid,
+    String collection,
+  ) async => _fail();
 
   @override
-  Future<void> writeFoodEntry(String uid, Map<String, dynamic> entry) async =>
-      _fail();
+  Future<void> writeEntry(
+    String uid,
+    String collection,
+    Map<String, dynamic> entry,
+  ) async => _fail();
 
   @override
-  Future<void> deleteFoodEntry(String uid, String id) async => _fail();
+  Future<void> deleteEntry(String uid, String collection, String id) async =>
+      _fail();
 }

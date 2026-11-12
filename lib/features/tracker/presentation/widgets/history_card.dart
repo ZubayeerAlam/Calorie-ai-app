@@ -86,6 +86,14 @@ class _DayRow extends StatelessWidget {
                     ),
                     style: TextStyle(fontSize: 12, color: AppColors.textLight),
                   ),
+                  if (day.workouts.count > 0)
+                    Text(
+                      l10n.historyWorkouts(
+                        day.workouts.count,
+                        day.workouts.kcal,
+                      ),
+                      style: TextStyle(fontSize: 12, color: AppColors.accent),
+                    ),
                 ],
               ),
             ),

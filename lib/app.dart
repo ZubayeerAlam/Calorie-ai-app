@@ -204,18 +204,6 @@ class _CalAiAppState extends State<CalAiApp> with WidgetsBindingObserver {
         ChangeNotifierProvider(
           create: (ctx) => FoodLogProvider(ctx.read<FoodLogRepository>()),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => ActivityLogProvider(
-            ctx.read<ActivityLogRepository>(),
-            ctx.read<StepLogRepository>(),
-            ctx.read<StepCounterService>(),
-            health: widget.health ?? const UnavailableHealthService(),
-          ),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) =>
-              WeightLogProvider(ctx.read<WeightLogRepository>(), _profile),
-        ),
         Provider(
           create: (ctx) =>
               WorkoutLogRepository(ctx.read<LocalStorageService>()),
@@ -230,6 +218,20 @@ class _CalAiAppState extends State<CalAiApp> with WidgetsBindingObserver {
             planner: ctx.read<WorkoutPlanService>(),
             profile: _profile,
           ),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => ActivityLogProvider(
+            ctx.read<ActivityLogRepository>(),
+            ctx.read<StepLogRepository>(),
+            ctx.read<StepCounterService>(),
+            health: widget.health ?? const UnavailableHealthService(),
+            workouts: ctx.read<WorkoutLogRepository>(),
+            workoutChanges: ctx.read<ExerciseProvider>(),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) =>
+              WeightLogProvider(ctx.read<WeightLogRepository>(), _profile),
         ),
         // Created at start so reminders are scheduled right away.
         ChangeNotifierProvider(

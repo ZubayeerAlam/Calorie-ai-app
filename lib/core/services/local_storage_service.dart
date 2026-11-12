@@ -17,6 +17,7 @@ class StorageKeys {
   static const String healthConnected = 'health_connected';
   static const String healthSteps = 'health_steps';
   static const String healthWorkoutKcal = 'health_workout_kcal';
+  static const String healthWorkouts = 'health_workouts';
   static const String reminders = 'reminders';
   static const String themeMode = 'theme_mode';
   static const String language = 'language';

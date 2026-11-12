@@ -1302,5 +1302,36 @@
         "type": "int"
       }
     }
+  },
+  "plusAppWorkouts": "Plus {kcal} kcal from your Cal AI workouts (no need to log them here)",
+  "@plusAppWorkouts": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "workoutsTitle": "Workouts",
+  "workoutsSummary": "{days} active days · estimates from your Cal AI workouts",
+  "@workoutsSummary": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "noWorkoutsYet": "No workouts in this period. Start one from the Exercise tab.",
+  "statWorkouts": "Workouts",
+  "statActiveMinutes": "Active min",
+  "historyWorkouts": "{count, plural, =1{1 workout} other{{count} workouts}} · ≈ {kcal} kcal",
+  "@historyWorkouts": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "kcal": {
+        "type": "int"
+      }
+    }
   }
 }

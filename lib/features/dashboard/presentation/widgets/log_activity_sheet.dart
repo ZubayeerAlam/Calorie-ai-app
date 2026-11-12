@@ -14,6 +14,7 @@ class LogActivitySheet extends StatefulWidget {
     required this.date,
     required this.initialKcal,
     this.importedKcal = 0,
+    this.appWorkoutKcal = 0,
   });
 
   final DateTime date;
@@ -22,11 +23,15 @@ class LogActivitySheet extends StatefulWidget {
   /// Workout kcal imported from Health that day, added on top.
   final int importedKcal;
 
+  /// Estimated kcal of Cal AI workouts that day, added on top.
+  final int appWorkoutKcal;
+
   static Future<int?> show(
     BuildContext context, {
     required DateTime date,
     required int initialKcal,
     int importedKcal = 0,
+    int appWorkoutKcal = 0,
   }) {
     return showModalBottomSheet<int>(
       context: context,
@@ -39,6 +44,7 @@ class LogActivitySheet extends StatefulWidget {
         date: date,
         initialKcal: initialKcal,
         importedKcal: importedKcal,
+        appWorkoutKcal: appWorkoutKcal,
       ),
     );
   }
@@ -90,6 +96,13 @@ class _LogActivitySheetState extends State<LogActivitySheet> {
             const SizedBox(height: 4),
             Text(
               l10n.plusHealthWorkouts('${widget.importedKcal}'),
+              style: TextStyle(fontSize: 14, color: AppColors.textGrey),
+            ),
+          ],
+          if (widget.appWorkoutKcal > 0) ...[
+            const SizedBox(height: 4),
+            Text(
+              l10n.plusAppWorkouts('${widget.appWorkoutKcal}'),
               style: TextStyle(fontSize: 14, color: AppColors.textGrey),
             ),
           ],

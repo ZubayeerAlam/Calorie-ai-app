@@ -101,4 +101,27 @@ void main() {
     expect(labels[24], '28'); // five days earlier
     expect(labels.where((l) => l.isNotEmpty), hasLength(6));
   });
+
+  test('workouts: totals and active days over the period', () {
+    final stats = TrackerStats.build(
+      period: TrackerPeriod.week,
+      today: _today,
+      entries: const [],
+      stepsOn: (_) => 0,
+      burnedOn: (_) => 0,
+      weights: const [],
+      goals: const UserGoals(),
+      workoutsOn: (day) => switch (_today.difference(day).inDays) {
+        0 => const WorkoutDay(count: 1, minutes: 12, kcal: 45),
+        2 => const WorkoutDay(count: 2, minutes: 20, kcal: 70),
+        _ => WorkoutDay.none,
+      },
+    );
+    expect(stats.totalWorkouts, 3);
+    expect(stats.workoutMinutes, 32);
+    expect(stats.workoutKcal, 115);
+    expect(stats.workoutDays, 2);
+    expect(stats.days.last.workouts.kcal, 45);
+    expect(_stats([]).totalWorkouts, 0); // no workouts given
+  });
 }

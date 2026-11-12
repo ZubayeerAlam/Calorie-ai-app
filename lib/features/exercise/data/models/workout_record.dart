@@ -69,6 +69,7 @@ class WorkoutRecord {
     required this.id,
     required this.startedAt,
     this.endedAt,
+    this.updatedAt,
     required this.planId,
     required this.sessionIndex,
     required this.environment,
@@ -81,6 +82,9 @@ class WorkoutRecord {
 
   /// Set when the workout is completed or ended early.
   final DateTime? endedAt;
+
+  /// When the last set was saved (the workout's end while it's going on).
+  final DateTime? updatedAt;
   final String planId;
 
   /// Which session of the plan this was.
@@ -102,12 +106,14 @@ class WorkoutRecord {
 
   WorkoutRecord copyWith({
     DateTime? endedAt,
+    DateTime? updatedAt,
     WorkoutStatus? status,
     List<ExerciseRecord>? exercises,
   }) => WorkoutRecord(
     id: id,
     startedAt: startedAt,
     endedAt: endedAt ?? this.endedAt,
+    updatedAt: updatedAt ?? this.updatedAt,
     planId: planId,
     sessionIndex: sessionIndex,
     environment: environment,
@@ -119,6 +125,7 @@ class WorkoutRecord {
     'id': id,
     'startedAt': startedAt.toIso8601String(),
     'endedAt': ?endedAt?.toIso8601String(),
+    'updatedAt': ?updatedAt?.toIso8601String(),
     'planId': planId,
     'sessionIndex': sessionIndex,
     'environment': environment.name,
@@ -130,6 +137,10 @@ class WorkoutRecord {
     id: json['id'] as String,
     startedAt: DateTime.parse(json['startedAt'] as String),
     endedAt: switch (json['endedAt']) {
+      final String s => DateTime.parse(s),
+      _ => null,
+    },
+    updatedAt: switch (json['updatedAt']) {
       final String s => DateTime.parse(s),
       _ => null,
     },

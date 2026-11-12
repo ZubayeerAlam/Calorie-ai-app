@@ -179,7 +179,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 
 ### Accounts and sync (optional)
 - **Sign in / create account** with email and password from the Account tab, or from the first onboarding step to restore an account.
-- **Sync:** local storage stays the source the app reads; while signed in every change is copied to Firestore (`users/{uid}/…`). Signing in merges this phone's data with the account's. **Log out** clears this phone and returns to onboarding.
+- **Sync:** local storage stays the source the app reads (food entries and workouts are one Firestore document each; the rest, including the exercise setup and plan, one document per value); while signed in every change is copied to Firestore (`users/{uid}/…`). Signing in merges this phone's data with the account's. **Log out** clears this phone and returns to onboarding.
 - Firestore is in `asia-south1` with per-user rules. Email/Password still needs turning on in the Console (plan.md, feature 15).
 - **Local testing:** `flutter run --dart-define=USE_FIREBASE_EMULATORS=true` uses the local Auth and Firestore emulators instead; see [emulator-testing.md](emulator-testing.md).
 
@@ -196,7 +196,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Accessibility:** 48 px tap targets, labels on all tappable things, readable contrast in both modes, text size up to 130%.
 
 ### Health (Apple Health / Health Connect)
-- **Connect** on the Account tab imports steps and workout calories (last 30 days, then the last 7 days on each start/resume). A day's steps are the higher of the phone sensor and Health; workout kcal is added to Activity on Home.
+- **Connect** on the Account tab imports steps and workout calories (last 30 days, then the last 7 days on each start/resume). A day's steps are the higher of the phone sensor and Health; workout kcal is added to Activity on Home. Each workout's times are kept, so a Cal AI workout Health also recorded is counted once (Health's number).
 
 ### Steps
 - **Source:** the `pedometer` package reports steps since the phone was last switched on. The app saves a starting count each day and uses "now − start". With Health connected, the higher of this and Health's count is used.
@@ -227,12 +227,13 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `health_connected` | `true` while Health is connected (device only) |
 | `health_steps` | `{ "YYYY-MM-DD": steps }` imported from Health (device only) |
 | `health_workout_kcal` | `{ "YYYY-MM-DD": kcal }` workouts imported from Health (device only) |
+| `health_workouts` | `{ "YYYY-MM-DD": [ { start, end, kcal } ] }` each Health workout with its times, to skip Cal AI workouts Health also recorded (device only) |
 | `reminders` | `{ "breakfast": { on, h, m }, … }` meal reminder settings (device only) |
 | `theme_mode` | `system` / `light` / `dark` (device only) |
 | `language` | `en` / `bn`; absent = follow the phone (device only) |
-| `exercise_settings` | `ExerciseSettings` JSON: Home/Gym, level, minutes, home equipment, limitations; absent = Exercise not set up (feature 23; sync added in phase 7) |
+| `exercise_settings` | `ExerciseSettings` JSON: Home/Gym, level, minutes, home equipment, limitations; absent = Exercise not set up (feature 23; synced) |
 | `workout_plan` | The current `WorkoutPlan` JSON (feature 23) |
-| `workout_sessions` | List of `WorkoutRecord` JSON, one per workout (feature 23) |
+| `workout_sessions` | List of `WorkoutRecord` JSON, one per workout (feature 23; synced one document per workout) |
 
 ## 7. Design system
 - **Colours:** `AppColors` has a light and a dark palette (brand green, text greys, card, background, ring colours), plus `onPrimary` (dark text on green) and `accent` (readable green for text on white).
@@ -242,7 +243,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Exercise demos:** drawn in code (`ExerciseFigurePainter` + key poses in `exercise_demos.dart`); to adjust one, change its pose angles (limbs from straight down, torso from straight up, positive = forward).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton` (48 px tap area), `EmptyState`, `MealIllustration`, `MealPhoto`.
 
-## 8. Tests (337 passing)
+## 8. Tests (353 passing)
 
 | File | Covers |
 |---|---|
@@ -256,10 +257,10 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/food_analysis_test.dart` | Parsing the AI reply (valid, not food, malformed), `FoodDescription`, the demo service for photos and text |
 | `test/firebase_food_analysis_service_test.dart` | The real service with a fake Gemini: photo bytes and image type, the text prompt, "no food", bad replies, no connection / timeout, other errors |
 | `test/food_analysis_controller_test.dart` | Analysis states, retry, editing/removing items, meal suggestion, saved entries, closing mid-analysis, text requests |
-| `test/tracker_stats_test.dart` | Days in a period, totals and averages, on target, streak, steps, weights and their change, chart labels |
+| `test/tracker_stats_test.dart` | Days in a period, totals and averages, on target, streak, steps, weights and their change, chart labels, workout totals |
 | `test/weight_log_test.dart` | Starting weight, logging updates the profile and targets, older weigh-ins, removing, custom targets kept |
 | `test/health_import_test.dart` | Connect / refuse / disconnect, imported steps and workouts, higher of sensor and Health, later syncs |
-| `test/sync_service_test.dart` | Upload to a new account, device-only keys, sign-in merge, copying later changes, disconnect, unreadable cloud |
+| `test/sync_service_test.dart` | Upload to a new account, device-only keys, sign-in merge, copying later changes, disconnect, unreadable cloud; exercise setup, plan and workouts (upload, newer copy wins, reset) |
 | `test/account_provider_test.dart` | Sign in, create account, wrong password, unreachable backup, log out, sync at start, Firebase error codes |
 | `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; editing the profile (cm and ft/in, validation); Reset all data; reminders from the bell; dark mode; Bangla and the language setting; Health connect |
 | `test/reminder_provider_test.dart` | Reminders off by default, scheduling the coming days, skipping today once logged, refused permission, times, dinner = profile time, the bell dot |
@@ -269,6 +270,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/exercise/exercise_models_test.dart` | Settings defaults, JSON round trips (settings, plan, workout record), older/newer saved data, exercise and workout status, totals |
 | `test/exercise/exercise_demo_test.dart` | Every exercise has a demo; every frame fits and stands on the floor (seated ones stay on the seat); skeleton angles; loop timing and steps; blending poses |
 | `test/exercise/workout_run_controller_test.dart` | Workout mode with a fake clock: sets and rests, rest ending by itself, +15 s, timed sets waiting for Done, Complete exercise, resuming, display updates |
+| `test/exercise/workout_calories_test.dart` | Cal AI workouts in Activity; Health overlap (5 min leeway) counted once; workouts in progress; Health disconnected; Health times stored; active time |
 | `test/exercise/exercise_provider_test.dart` | Recording sets (start, estimate, complete workout, next session, limits, next exercise); setup, AI plan, fallback to rules and retry, outdated plan, today's session rotation, card status and progress, estimates, reset and reload |
 | `test/exercise/exercise_widget_test.dart` | First visit (Home, extras, loading, dashboard), Gym, AI unavailable and retry, statuses and card labels, session chips, Update plan, Make a new plan, Workout setup, Bangla; exercise details (contents, kcal explanation, demo animation following the steps, pause, reduce motion, unknown exercise); workout mode (sets, rest, +15 s, skip, finish, back to plan, End early and Continue, Complete exercise and Next exercise, timed countdown) |
 | `test/exercise/workout_plan_validator_test.dart` | Checking AI plans: kept as is, not allowed/unknown/repeated exercises dropped, safe ranges, reps vs time, cardio machines, session time, 8-exercise and day limits, missing names, unusable replies |
@@ -295,7 +297,7 @@ flutter test
 
 ## 10. Next steps
 
-**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar), 2 (exercise catalog, models, calorie estimates, storage), 3 (AI and offline plan services), 4 (setup screen and plan dashboard), 5 (animated demos and exercise details) and 6 (workout mode) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
+**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar), 2 (exercise catalog, models, calorie estimates, storage), 3 (AI and offline plan services), 4 (setup screen and plan dashboard), 5 (animated demos and exercise details), 6 (workout mode) and 7 (workout calories on Home and Tracker, sync) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
 
 - **Firebase:** turn on Email/Password (Console) and try sign-in and sync on the real project. Firestore is already set up in Mumbai.
 - **Devices:** run on iOS and on a real phone: photo AI, Health data, notifications.

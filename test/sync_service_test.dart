@@ -161,4 +161,110 @@ void main() {
     await pumpEventQueue();
     expect(cloud.foodOf(_uid).keys, ['a']);
   });
+
+  group('exercise data', () {
+    Map<String, dynamic> workout(String id, String updatedAt, int sets) => {
+      'id': id,
+      'startedAt': '2026-11-12T18:00:00.000',
+      'updatedAt': updatedAt,
+      'planId': 'p',
+      'sessionIndex': 0,
+      'environment': 'home',
+      'status': 'inProgress',
+      'exercises': [
+        {'exerciseId': 'squat', 'setsTarget': 3, 'setsDone': sets},
+      ],
+    };
+
+    List<Map<String, dynamic>> localWorkouts() =>
+        storage.getJsonList(StorageKeys.workoutSessions);
+
+    test('setup, plan and workouts are backed up', () async {
+      await storage.setJson(StorageKeys.exerciseSettings, {
+        'environment': 'gym',
+      });
+      await storage.setJson(StorageKeys.workoutPlan, {'id': 'p'});
+      await storage.setJsonList(StorageKeys.workoutSessions, [
+        workout('w1', '2026-11-12T18:10:00.000', 1),
+      ]);
+      await sync.connect(_uid);
+      await pumpEventQueue();
+
+      expect(
+        cloud.valuesOf(_uid)[StorageKeys.exerciseSettings],
+        '{"environment":"gym"}',
+      );
+      expect(cloud.valuesOf(_uid)[StorageKeys.workoutPlan], '{"id":"p"}');
+      expect(cloud.workoutsOf(_uid).keys, ['w1']);
+
+      // Later sets are copied as they are saved.
+      await storage.setJsonList(StorageKeys.workoutSessions, [
+        workout('w1', '2026-11-12T18:20:00.000', 2),
+      ]);
+      await pumpEventQueue();
+      expect(
+        cloud.workoutsOf(_uid)['w1']!['updatedAt'],
+        '2026-11-12T18:20:00.000',
+      );
+    });
+
+    test('signing in keeps the newer copy of a workout', () async {
+      cloud.workoutsOf(_uid)
+        ..['older-in-cloud'] = workout(
+          'older-in-cloud',
+          '2026-11-12T18:05:00.000',
+          1,
+        )
+        ..['newer-in-cloud'] = workout(
+          'newer-in-cloud',
+          '2026-11-12T19:00:00.000',
+          3,
+        )
+        ..['cloud-only'] = workout('cloud-only', '2026-11-11T18:00:00.000', 3);
+      await storage.setJsonList(StorageKeys.workoutSessions, [
+        workout('older-in-cloud', '2026-11-12T18:30:00.000', 2),
+        workout('newer-in-cloud', '2026-11-12T18:30:00.000', 2),
+        workout('local-only', '2026-11-12T07:00:00.000', 1),
+      ]);
+
+      await sync.connect(_uid);
+      await pumpEventQueue();
+
+      final byId = {for (final w in localWorkouts()) w['id']: w};
+      expect(byId.keys.toSet(), {
+        'older-in-cloud',
+        'newer-in-cloud',
+        'cloud-only',
+        'local-only',
+      });
+      int sets(String id) =>
+          (byId[id]!['exercises'] as List).first['setsDone'] as int;
+      expect(sets('older-in-cloud'), 2); // this phone's is newer
+      expect(sets('newer-in-cloud'), 3); // the cloud's is newer
+      // The cloud now has the merged copy.
+      expect(cloud.workoutsOf(_uid).keys.toSet(), byId.keys.toSet());
+      expect(
+        (cloud.workoutsOf(_uid)['older-in-cloud']!['exercises'] as List)
+            .first['setsDone'],
+        2,
+      );
+    });
+
+    test('Reset all data removes the backed-up workouts too', () async {
+      await storage.setJsonList(StorageKeys.workoutSessions, [
+        workout('w1', '2026-11-12T18:10:00.000', 1),
+      ]);
+      await storage.setJson(StorageKeys.exerciseSettings, {
+        'environment': 'gym',
+      });
+      await sync.connect(_uid);
+      await pumpEventQueue();
+      expect(cloud.workoutsOf(_uid), isNotEmpty);
+
+      await storage.clear();
+      await pumpEventQueue();
+      expect(cloud.workoutsOf(_uid), isEmpty);
+      expect(cloud.valuesOf(_uid)[StorageKeys.exerciseSettings], isNull);
+    });
+  });
 }

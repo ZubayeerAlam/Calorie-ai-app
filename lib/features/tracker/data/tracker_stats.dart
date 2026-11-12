@@ -19,6 +19,18 @@ enum TrackerPeriod {
   };
 }
 
+/// Cal AI workouts on one day: how many, active minutes and estimated
+/// kcal.
+class WorkoutDay {
+  const WorkoutDay({this.count = 0, this.minutes = 0, this.kcal = 0});
+
+  static const none = WorkoutDay();
+
+  final int count;
+  final int minutes;
+  final int kcal;
+}
+
 /// Totals for one day.
 class DaySummary {
   const DaySummary({
@@ -30,6 +42,7 @@ class DaySummary {
     this.entries = 0,
     this.burned = 0,
     this.steps = 0,
+    this.workouts = WorkoutDay.none,
   });
 
   final DateTime date;
@@ -42,6 +55,9 @@ class DaySummary {
   final int entries;
   final int burned;
   final int steps;
+
+  /// Workouts done in the Exercise tab that day.
+  final WorkoutDay workouts;
 
   bool get logged => entries > 0;
 }
@@ -90,6 +106,11 @@ class TrackerStats {
 
   int get totalSteps => days.fold(0, (sum, d) => sum + d.steps);
 
+  int get totalWorkouts => days.fold(0, (sum, d) => sum + d.workouts.count);
+  int get workoutMinutes => days.fold(0, (sum, d) => sum + d.workouts.minutes);
+  int get workoutKcal => days.fold(0, (sum, d) => sum + d.workouts.kcal);
+  int get workoutDays => days.where((d) => d.workouts.count > 0).length;
+
   /// Average over the days with any steps.
   int get averageSteps {
     final walked = days.where((d) => d.steps > 0).toList();
@@ -116,6 +137,7 @@ class TrackerStats {
     required int Function(DateTime day) burnedOn,
     required List<WeightEntry> weights,
     required UserGoals goals,
+    WorkoutDay Function(DateTime day)? workoutsOn,
   }) {
     final end = AppDates.dateOnly(today);
     final start = end.subtract(Duration(days: period.days - 1));
@@ -132,6 +154,7 @@ class TrackerStats {
           byDay,
           stepsOn,
           burnedOn,
+          workoutsOn,
         ),
     ];
 
@@ -152,6 +175,7 @@ class TrackerStats {
     Map<String, List<FoodEntry>> byDay,
     int Function(DateTime) stepsOn,
     int Function(DateTime) burnedOn,
+    WorkoutDay Function(DateTime)? workoutsOn,
   ) {
     final food = byDay[AppDates.key(day)] ?? const <FoodEntry>[];
     return DaySummary(
@@ -163,6 +187,7 @@ class TrackerStats {
       entries: food.length,
       burned: burnedOn(day),
       steps: stepsOn(day),
+      workouts: workoutsOn?.call(day) ?? WorkoutDay.none,
     );
   }
 

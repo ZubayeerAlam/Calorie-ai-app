@@ -694,5 +694,12 @@
   "nextExercise": "পরের ব্যায়াম",
   "backToPlan": "পরিকল্পনায় ফিরুন",
   "secondsLeftLabel": "{seconds} সেকেন্ড বাকি",
-  "setsDoneLabel": "{total}টির মধ্যে {done}টি সেট শেষ"
+  "setsDoneLabel": "{total}টির মধ্যে {done}টি সেট শেষ",
+  "plusAppWorkouts": "এর সাথে আপনার Cal AI ওয়ার্কআউট থেকে {kcal} kcal (এখানে আবার লিখতে হবে না)",
+  "workoutsTitle": "ওয়ার্কআউট",
+  "workoutsSummary": "{days} দিন সক্রিয় · আপনার Cal AI ওয়ার্কআউট থেকে আনুমানিক",
+  "noWorkoutsYet": "এই সময়ে কোনো ওয়ার্কআউট নেই। ব্যায়াম ট্যাব থেকে শুরু করুন।",
+  "statWorkouts": "ওয়ার্কআউট",
+  "statActiveMinutes": "সক্রিয় মিনিট",
+  "historyWorkouts": "{count}টি ওয়ার্কআউট · ≈ {kcal} kcal"
 }

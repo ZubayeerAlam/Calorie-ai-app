@@ -8,6 +8,7 @@ import 'package:cal_ai_app/features/exercise/data/models/workout_plan.dart';
 import 'package:cal_ai_app/features/exercise/data/models/workout_record.dart';
 import 'package:cal_ai_app/features/exercise/data/workout_plan_request.dart';
 import 'package:cal_ai_app/features/exercise/presentation/widgets/countdown_ring.dart';
+import 'package:cal_ai_app/features/tracker/presentation/widgets/workouts_card.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_goals.dart';
 import 'package:cal_ai_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -581,6 +582,91 @@ void main() {
       expect(find.text('0:${timed.durationSeconds}'), findsOneWidget);
       expect(
         find.text("Tap Done when you've finished the set."),
+        findsOneWidget,
+      );
+    });
+  });
+
+  group('workout calories', () {
+    List<WorkoutRecord> doneToday(WorkoutPlan plan) {
+      final first = plan.sessions[0].exercises.first;
+      final now = DateTime.now();
+      return [
+        WorkoutRecord(
+          id: 'w1',
+          startedAt: now.subtract(const Duration(minutes: 20)),
+          updatedAt: now,
+          planId: plan.id,
+          sessionIndex: 0,
+          environment: WorkoutEnvironment.home,
+          exercises: [
+            ExerciseRecord(
+              exerciseId: first.exerciseId,
+              setsTarget: first.sets,
+              setsDone: first.sets,
+              reps: first.reps,
+              durationSeconds: first.durationSeconds,
+              estimatedKcal: 137,
+            ),
+          ],
+        ),
+      ];
+    }
+
+    testWidgets('Home adds them to Activity and says so', (tester) async {
+      final (storage, _) = await _storage(settings: _home, records: doneToday);
+      await _pumpApp(tester, storage);
+
+      // Activity and Burned include the workout.
+      expect(find.text('137'), findsWidgets);
+      await _tap(tester, find.byKey(const ValueKey('add-activity')));
+      expect(
+        find.text(
+          'Plus 137 kcal from your Cal AI workouts (no need to log them here)',
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('Tracker shows the workouts', (tester) async {
+      final (storage, _) = await _storage(settings: _home, records: doneToday);
+      await _pumpApp(tester, storage);
+      await _tapNav(tester, 'Tracker');
+      await tester.scrollUntilVisible(
+        find.byType(WorkoutsCard),
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      expect(find.textContaining('1 active days'), findsOneWidget);
+      expect(find.text('≈ 137'), findsOneWidget);
+    });
+
+    testWidgets('finishing sets in workout mode shows up on Home', (
+      tester,
+    ) async {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      final (storage, _) = await _storage(settings: _home);
+      await _pumpApp(tester, storage);
+      await _openExercise(tester);
+      await _tap(tester, find.byKey(const ValueKey('exercise-squat')));
+      await tester.tap(find.byKey(const ValueKey('start-workout')));
+      await tester.pumpAndSettle();
+      await _tap(tester, find.byKey(const ValueKey('start-sets')));
+      await _tap(tester, find.byKey(const ValueKey('complete-exercise')));
+      await _tap(tester, find.byKey(const ValueKey('back-to-plan')));
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      await _tapNav(tester, 'Home');
+
+      // Squat 2 × 12 at 72 kg: (5 − 1) × 72 × 72 s / 3600 ≈ 6 kcal.
+      await _tap(tester, find.byKey(const ValueKey('add-activity')));
+      expect(
+        find.textContaining('Plus 6 kcal from your Cal AI workouts'),
         findsOneWidget,
       );
     });

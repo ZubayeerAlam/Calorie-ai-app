@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../../../../core/routes/app_routes.dart';
 import '../../../../core/utils/date_utils.dart';
 import '../../../activity/providers/activity_log_provider.dart';
+import '../../../exercise/data/repositories/workout_log_repository.dart';
+import '../../../exercise/providers/exercise_provider.dart';
 import '../../../food_log/data/repositories/food_log_repository.dart';
 import '../../../food_log/providers/food_log_provider.dart';
 import '../../../profile/providers/profile_provider.dart';
@@ -19,6 +21,7 @@ import '../widgets/steps_card.dart';
 import '../widgets/summary_tiles.dart';
 import '../widgets/weight_card.dart';
 import '../widgets/weight_units.dart';
+import '../widgets/workouts_card.dart';
 import '../../../../l10n/l10n.dart';
 
 /// Tracker tab: weight, calories, macros and steps over the last week or
@@ -70,6 +73,9 @@ class _TrackerScreenState extends State<TrackerScreen> {
     final activity = context.watch<ActivityLogProvider>();
     final profileState = context.watch<ProfileProvider>();
     final weights = context.watch<WeightLogProvider>();
+    // Watched so workouts done in the Exercise tab show up.
+    context.watch<ExerciseProvider>();
+    final workouts = context.read<WorkoutLogRepository>();
     final profile = profileState.profile;
     final weightKg = profile?.weightKg ?? _fallbackWeightKg;
     final units = WeightUnits(metric: profile?.useMetric ?? true);
@@ -82,6 +88,20 @@ class _TrackerScreenState extends State<TrackerScreen> {
       burnedOn: (day) => activity.totalBurnedOn(day, weightKg: weightKg),
       weights: weights.entries,
       goals: profileState.goals,
+      workoutsOn: (day) {
+        final done = workouts.doneOn(day);
+        return WorkoutDay(
+          count: done.length,
+          minutes:
+              (done.fold<double>(
+                        0,
+                        (sum, r) => sum + WorkoutLogRepository.activeSeconds(r),
+                      ) /
+                      60)
+                  .round(),
+          kcal: done.fold<double>(0, (sum, r) => sum + r.estimatedKcal).round(),
+        );
+      },
     );
 
     return Scaffold(
@@ -106,6 +126,8 @@ class _TrackerScreenState extends State<TrackerScreen> {
           MacroAveragesCard(stats: stats),
           const SizedBox(height: 16),
           StepsCard(stats: stats),
+          const SizedBox(height: 16),
+          WorkoutsCard(stats: stats),
           const SizedBox(height: 16),
           HistoryCard(stats: stats, onOpenDay: _openDay),
         ],

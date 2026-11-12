@@ -84,6 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       date: date,
       initialKcal: activity.burnedOn(date),
       importedKcal: activity.workoutKcalOn(date),
+      appWorkoutKcal: activity.appWorkoutKcalOn(date),
     );
     if (kcal != null) await activity.setBurned(date, kcal);
   }

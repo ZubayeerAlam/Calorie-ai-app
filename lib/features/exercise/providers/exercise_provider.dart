@@ -272,6 +272,7 @@ class ExerciseProvider extends ChangeNotifier {
         exercises: exercises,
         status: allDone ? WorkoutStatus.completed : WorkoutStatus.inProgress,
         endedAt: allDone ? now : null,
+        updatedAt: now,
       ),
     );
     // Keep showing this session even if "today's" moves on.

@@ -1,5 +1,7 @@
 import '../../../../core/services/local_storage_service.dart';
 import '../../../../core/utils/date_utils.dart';
+import '../catalog/exercise_catalog.dart';
+import '../exercise_estimate.dart';
 import '../models/workout_record.dart';
 
 /// Workout history (`workout_sessions`): one record per workout, stored as
@@ -44,6 +46,29 @@ class WorkoutLogRepository {
   /// set done counts).
   double kcalOn(DateTime date) =>
       on(date).fold(0, (sum, r) => sum + r.estimatedKcal);
+
+  /// Seconds of exercise in [record]: the sets done (rests not counted).
+  static double activeSeconds(WorkoutRecord record) {
+    var seconds = 0.0;
+    for (final e in record.exercises) {
+      final exercise = ExerciseCatalog.byId(e.exerciseId);
+      if (exercise == null) continue;
+      seconds +=
+          e.setsDone *
+          ExerciseEstimate.setSeconds(
+            exercise,
+            reps: e.reps,
+            duration: e.durationSeconds,
+          );
+    }
+    return seconds;
+  }
+
+  /// Workouts with at least one set done on [date].
+  List<WorkoutRecord> doneOn(DateTime date) => [
+    for (final r in on(date))
+      if (r.exercises.any((e) => e.setsDone > 0)) r,
+  ];
 
   Future<void> _write(List<WorkoutRecord> records) => _storage.setJsonList(
     StorageKeys.workoutSessions,

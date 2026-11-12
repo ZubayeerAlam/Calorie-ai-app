@@ -6,20 +6,29 @@ import '../../../core/services/health_service.dart';
 import '../../../core/services/step_counter_service.dart';
 import '../../../core/utils/calorie_calculator.dart';
 import '../../../core/utils/date_utils.dart';
+import '../../exercise/data/repositories/workout_log_repository.dart';
 import '../data/activity_log_repository.dart';
 import '../data/step_log_repository.dart';
 
 enum StepTrackingStatus { off, tracking, denied, unavailable }
 
 /// Burned calories: activity logged by hand, workouts imported from
-/// Health, and walking from steps (phone sensor or Health).
+/// Health, workouts done in Cal AI's Exercise tab, and walking from steps
+/// (phone sensor or Health).
+///
+/// A Cal AI workout that Health also recorded (their times overlap, e.g.
+/// tracked on a watch too) is counted once: Health's measured number is
+/// used and Cal AI's estimate is left out.
 class ActivityLogProvider extends ChangeNotifier {
   ActivityLogProvider(
     this._repository,
     this._steps,
     this._stepCounter, {
     this._health = const UnavailableHealthService(),
+    this._workouts,
+    this._workoutChanges,
   }) {
+    _workoutChanges?.addListener(notifyListeners);
     // Health data changes while the app is in the background.
     _lifecycle = AppLifecycleListener(onResume: syncHealth);
   }
@@ -28,6 +37,10 @@ class ActivityLogProvider extends ChangeNotifier {
   final StepLogRepository _steps;
   final StepCounterService _stepCounter;
   final HealthService _health;
+
+  /// Cal AI workouts, and what notifies when they change.
+  final WorkoutLogRepository? _workouts;
+  final Listenable? _workoutChanges;
   late final AppLifecycleListener _lifecycle;
 
   StreamSubscription<int>? _subscription;
@@ -48,8 +61,26 @@ class ActivityLogProvider extends ChangeNotifier {
   /// Workout kcal imported from Health for [date].
   int workoutKcalOn(DateTime date) => _repository.workoutKcalOn(date);
 
-  /// Hand-logged activity plus imported workouts.
-  int activityOn(DateTime date) => burnedOn(date) + workoutKcalOn(date);
+  /// Estimated kcal of the Cal AI workouts on [date] that Health didn't
+  /// also record.
+  int appWorkoutKcalOn(DateTime date) {
+    final workouts = _workouts;
+    if (workouts == null) return 0;
+    final health = healthConnected
+        ? _repository.healthWorkoutsOn(date)
+        : const <HealthWorkout>[];
+    var kcal = 0.0;
+    for (final record in workouts.on(date)) {
+      final end = record.endedAt ?? record.updatedAt ?? record.startedAt;
+      if (health.any((w) => w.overlaps(record.startedAt, end))) continue;
+      kcal += record.estimatedKcal;
+    }
+    return kcal.round();
+  }
+
+  /// Hand-logged activity, imported workouts and Cal AI workouts.
+  int activityOn(DateTime date) =>
+      burnedOn(date) + workoutKcalOn(date) + appWorkoutKcalOn(date);
 
   int stepsOn(DateTime date) => _steps.stepsOn(date);
 
@@ -120,9 +151,9 @@ class ActivityLogProvider extends ChangeNotifier {
             : DateTime(start.year, start.month, start.day + 1);
         final steps = await _health.stepsBetween(start, end);
         if (steps != null) await _steps.setHealthSteps(start, steps);
-        await _repository.setWorkoutKcal(
+        await _repository.setHealthWorkouts(
           start,
-          await _health.workoutKcalBetween(start, end),
+          await _health.workoutsBetween(start, end),
         );
       }
     } finally {
@@ -142,6 +173,7 @@ class ActivityLogProvider extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
+    _workoutChanges?.removeListener(notifyListeners);
     _lifecycle.dispose();
     _subscription?.cancel();
     super.dispose();

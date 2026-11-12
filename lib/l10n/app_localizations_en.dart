@@ -2418,4 +2418,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String setsDoneLabel(int done, int total) {
     return '$done of $total sets done';
   }
+
+  @override
+  String plusAppWorkouts(String kcal) {
+    return 'Plus $kcal kcal from your Cal AI workouts (no need to log them here)';
+  }
+
+  @override
+  String get workoutsTitle => 'Workouts';
+
+  @override
+  String workoutsSummary(int days) {
+    return '$days active days · estimates from your Cal AI workouts';
+  }
+
+  @override
+  String get noWorkoutsYet =>
+      'No workouts in this period. Start one from the Exercise tab.';
+
+  @override
+  String get statWorkouts => 'Workouts';
+
+  @override
+  String get statActiveMinutes => 'Active min';
+
+  @override
+  String historyWorkouts(int count, int kcal) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count workouts',
+      one: '1 workout',
+    );
+    return '$_temp0 · ≈ $kcal kcal';
+  }
 }
