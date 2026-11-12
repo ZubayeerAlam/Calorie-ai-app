@@ -1,5 +1,8 @@
 import 'package:cal_ai_app/app.dart';
 import 'package:cal_ai_app/core/services/local_storage_service.dart';
+import 'package:cal_ai_app/core/services/rule_based_workout_plan_service.dart';
+import 'package:cal_ai_app/features/exercise/data/models/exercise_settings.dart';
+import 'package:cal_ai_app/features/exercise/data/workout_plan_request.dart';
 import 'package:cal_ai_app/features/food_log/data/models/food_entry.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_goals.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_profile.dart';
@@ -23,6 +26,7 @@ Future<void> _pumpApp(
   bool onboarded = true,
   String themeMode = 'light',
   String language = 'en',
+  bool exercisePlan = false,
 }) async {
   SharedPreferences.setMockInitialValues({});
   final storage = await LocalStorageService.init();
@@ -55,6 +59,22 @@ Future<void> _pumpApp(
         loggedAt: DateTime.now(),
       ).toJson(),
     ]);
+  }
+  if (exercisePlan) {
+    const settings = ExerciseSettings(
+      environment: WorkoutEnvironment.home,
+      level: FitnessLevel.beginner,
+    );
+    await storage.setJson(StorageKeys.exerciseSettings, settings.toJson());
+    final profile = UserProfile.fromJson(
+      storage.getJson(StorageKeys.userProfile)!,
+    );
+    await storage.setJson(
+      StorageKeys.workoutPlan,
+      RuleBasedWorkoutPlanService.build(
+        WorkoutPlanRequest(profile: profile, settings: settings),
+      ).toJson(),
+    );
   }
   tester.view.physicalSize = const Size(1290, 2796);
   tester.view.devicePixelRatio = 3;
@@ -115,6 +135,30 @@ void main() {
         await _pumpApp(tester, themeMode: mode, language: language);
         await _open(tester, find.byIcon(Icons.fitness_center_outlined));
         await _checkGuidelines(tester, 'Exercise');
+      });
+
+      testWidgets('Exercise plan', (tester) async {
+        await _pumpApp(
+          tester,
+          themeMode: mode,
+          language: language,
+          exercisePlan: true,
+        );
+        await _open(tester, find.byIcon(Icons.fitness_center_outlined));
+        await _checkGuidelines(tester, 'Exercise plan');
+      });
+
+      testWidgets('Workout setup', (tester) async {
+        await _pumpApp(
+          tester,
+          themeMode: mode,
+          language: language,
+          exercisePlan: true,
+        );
+        await _open(tester, find.byIcon(Icons.fitness_center_outlined));
+        await _open(tester, find.byKey(const ValueKey('workout-setup')));
+        await _open(tester, find.byKey(const ValueKey('setup-extras')));
+        await _checkGuidelines(tester, 'Workout setup');
       });
 
       testWidgets('Account', (tester) async {
@@ -209,6 +253,19 @@ void main() {
       fits('Camera chooser');
       await _open(tester, find.byIcon(Icons.edit_note_rounded));
       fits('Add manually');
+    });
+
+    testWidgets('large text ×$scale, $language: Exercise fits', (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = scale;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await _pumpApp(tester, language: language, exercisePlan: true);
+      await _open(tester, find.byIcon(Icons.fitness_center_outlined));
+      expect(tester.takeException(), isNull, reason: 'Exercise plan');
+      await _open(tester, find.byKey(const ValueKey('session-2')));
+      expect(tester.takeException(), isNull, reason: 'Another session');
+      await _open(tester, find.byKey(const ValueKey('workout-setup')));
+      await _open(tester, find.byKey(const ValueKey('setup-extras')));
+      expect(tester.takeException(), isNull, reason: 'Workout setup');
     });
 
     testWidgets('large text ×$scale, $language: onboarding fits', (

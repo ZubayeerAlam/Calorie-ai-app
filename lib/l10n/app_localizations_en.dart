@@ -700,10 +700,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabExercise => 'Exercise';
 
   @override
-  String get exercisePlaceholder =>
-      'Your personalised workout plan will appear here.';
-
-  @override
   String get tabAccount => 'Account';
 
   @override
@@ -2070,4 +2066,198 @@ class AppLocalizationsEn extends AppLocalizations {
   String rulesPlanSummary(int count) {
     return '$count workouts a week, made on your phone from your profile.';
   }
+
+  @override
+  String get exerciseSetupTitle => 'Workout setup';
+
+  @override
+  String get exerciseIntroTitle => 'Where do you work out?';
+
+  @override
+  String get exerciseIntroBody =>
+      'Pick one and we\'ll make a weekly plan for your profile and goals. You can change it any time.';
+
+  @override
+  String get envHome => 'Home workout';
+
+  @override
+  String get envHomeDesc =>
+      'Bodyweight exercises, no gym needed. Add dumbbells or bands if you have them.';
+
+  @override
+  String get envGym => 'Gym workout';
+
+  @override
+  String get envGymDesc => 'Machines, dumbbells and cardio equipment.';
+
+  @override
+  String get setupExtras => 'Customise (optional)';
+
+  @override
+  String get setupExtrasHint => 'Leave these as they are if you\'re not sure.';
+
+  @override
+  String get setupLevel => 'Fitness level';
+
+  @override
+  String get levelBeginner => 'Beginner';
+
+  @override
+  String get levelIntermediate => 'Intermediate';
+
+  @override
+  String get levelAdvanced => 'Advanced';
+
+  @override
+  String get setupMinutes => 'Minutes per workout';
+
+  @override
+  String minutesShort(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get setupEquipment => 'Equipment at home';
+
+  @override
+  String get equipDumbbells => 'Dumbbells';
+
+  @override
+  String get equipBands => 'Resistance bands';
+
+  @override
+  String get setupLimitations => 'Go easy on';
+
+  @override
+  String get setupLimitationsHint =>
+      'Exercises that load these areas are left out.';
+
+  @override
+  String get limitKnees => 'Knees';
+
+  @override
+  String get limitLowerBack => 'Lower back';
+
+  @override
+  String get limitShoulders => 'Shoulders';
+
+  @override
+  String get limitWrists => 'Wrists';
+
+  @override
+  String get setupSafety =>
+      'This is general fitness guidance, not medical advice. If you have a health condition or an injury, check with a doctor first, and stop any exercise that hurts.';
+
+  @override
+  String get createPlan => 'Create my plan';
+
+  @override
+  String get updatePlan => 'Update my plan';
+
+  @override
+  String get creatingPlan => 'Creating your plan…';
+
+  @override
+  String get regeneratePlan => 'Make a new plan';
+
+  @override
+  String get regenerateTitle => 'Make a new plan?';
+
+  @override
+  String get regenerateBody =>
+      'Your current plan is replaced. Workouts you\'ve done stay in your history.';
+
+  @override
+  String get planMadeOffline =>
+      'Made without AI because it couldn\'t be reached. Try again for a plan written for you by AI.';
+
+  @override
+  String get planTryAi => 'Try AI again';
+
+  @override
+  String get planOutdated =>
+      'Your profile or setup changed since this plan was made.';
+
+  @override
+  String get planUpdate => 'Update plan';
+
+  @override
+  String get todaysWorkout => 'Today\'s workout';
+
+  @override
+  String progressDone(int done, int total) {
+    return '$done of $total done';
+  }
+
+  @override
+  String get statExercises => 'Exercises';
+
+  @override
+  String get statDone => 'Done';
+
+  @override
+  String get statLeft => 'Left';
+
+  @override
+  String get statTime => 'Minutes';
+
+  @override
+  String get statKcal => 'Est. kcal';
+
+  @override
+  String aboutMinutes(int minutes) {
+    return '≈ $minutes min';
+  }
+
+  @override
+  String aboutKcal(int kcal) {
+    return '≈ $kcal kcal';
+  }
+
+  @override
+  String setsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sets',
+      one: '1 set',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String repsCount(int count) {
+    return '$count reps';
+  }
+
+  @override
+  String secondsShort(int seconds) {
+    return '$seconds s';
+  }
+
+  @override
+  String setsTimesReps(int sets, String reps) {
+    return '$sets × $reps';
+  }
+
+  @override
+  String get statusNotStarted => 'Not started';
+
+  @override
+  String get statusInProgress => 'In progress';
+
+  @override
+  String get statusCompleted => 'Done';
+
+  @override
+  String get kcalDisclaimer =>
+      'Calories are rough estimates (often off by 30% or more). Fat loss depends on your overall eating and activity over weeks, not on single exercises.';
+
+  @override
+  String exerciseCardLabel(String name, String detail, String status) {
+    return '$name: $detail, $status';
+  }
+
+  @override
+  String get workoutSetupTooltip => 'Workout setup';
 }

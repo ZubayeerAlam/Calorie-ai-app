@@ -446,7 +446,6 @@
   "tabHome": "Home",
   "tabTracker": "Tracker",
   "tabExercise": "Exercise",
-  "exercisePlaceholder": "Your personalised workout plan will appear here.",
   "tabAccount": "Account",
   "howActive": "How active are you?",
   "whenBorn": "When were you born?",
@@ -1022,5 +1021,134 @@
         "type": "int"
       }
     }
-  }
+  },
+  "exerciseSetupTitle": "Workout setup",
+  "exerciseIntroTitle": "Where do you work out?",
+  "exerciseIntroBody": "Pick one and we'll make a weekly plan for your profile and goals. You can change it any time.",
+  "envHome": "Home workout",
+  "envHomeDesc": "Bodyweight exercises, no gym needed. Add dumbbells or bands if you have them.",
+  "envGym": "Gym workout",
+  "envGymDesc": "Machines, dumbbells and cardio equipment.",
+  "setupExtras": "Customise (optional)",
+  "setupExtrasHint": "Leave these as they are if you're not sure.",
+  "setupLevel": "Fitness level",
+  "levelBeginner": "Beginner",
+  "levelIntermediate": "Intermediate",
+  "levelAdvanced": "Advanced",
+  "setupMinutes": "Minutes per workout",
+  "minutesShort": "{minutes} min",
+  "@minutesShort": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "setupEquipment": "Equipment at home",
+  "equipDumbbells": "Dumbbells",
+  "equipBands": "Resistance bands",
+  "setupLimitations": "Go easy on",
+  "setupLimitationsHint": "Exercises that load these areas are left out.",
+  "limitKnees": "Knees",
+  "limitLowerBack": "Lower back",
+  "limitShoulders": "Shoulders",
+  "limitWrists": "Wrists",
+  "setupSafety": "This is general fitness guidance, not medical advice. If you have a health condition or an injury, check with a doctor first, and stop any exercise that hurts.",
+  "createPlan": "Create my plan",
+  "updatePlan": "Update my plan",
+  "creatingPlan": "Creating your plan…",
+  "regeneratePlan": "Make a new plan",
+  "regenerateTitle": "Make a new plan?",
+  "regenerateBody": "Your current plan is replaced. Workouts you've done stay in your history.",
+  "planMadeOffline": "Made without AI because it couldn't be reached. Try again for a plan written for you by AI.",
+  "planTryAi": "Try AI again",
+  "planOutdated": "Your profile or setup changed since this plan was made.",
+  "planUpdate": "Update plan",
+  "todaysWorkout": "Today's workout",
+  "progressDone": "{done} of {total} done",
+  "@progressDone": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "statExercises": "Exercises",
+  "statDone": "Done",
+  "statLeft": "Left",
+  "statTime": "Minutes",
+  "statKcal": "Est. kcal",
+  "aboutMinutes": "≈ {minutes} min",
+  "@aboutMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "aboutKcal": "≈ {kcal} kcal",
+  "@aboutKcal": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "setsCount": "{count, plural, =1{1 set} other{{count} sets}}",
+  "@setsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "repsCount": "{count} reps",
+  "@repsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "secondsShort": "{seconds} s",
+  "@secondsShort": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "setsTimesReps": "{sets} × {reps}",
+  "@setsTimesReps": {
+    "placeholders": {
+      "sets": {
+        "type": "int"
+      },
+      "reps": {
+        "type": "String"
+      }
+    }
+  },
+  "statusNotStarted": "Not started",
+  "statusInProgress": "In progress",
+  "statusCompleted": "Done",
+  "kcalDisclaimer": "Calories are rough estimates (often off by 30% or more). Fat loss depends on your overall eating and activity over weeks, not on single exercises.",
+  "exerciseCardLabel": "{name}: {detail}, {status}",
+  "@exerciseCardLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "workoutSetupTooltip": "Workout setup"
 }

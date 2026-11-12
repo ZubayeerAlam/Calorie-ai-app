@@ -23,6 +23,10 @@ import 'core/theme/app_theme.dart';
 import 'core/theme/appearance_controller.dart';
 import 'features/account/data/sync_service.dart';
 import 'features/account/providers/account_provider.dart';
+import 'features/exercise/data/repositories/exercise_settings_repository.dart';
+import 'features/exercise/data/repositories/workout_log_repository.dart';
+import 'features/exercise/data/repositories/workout_plan_repository.dart';
+import 'features/exercise/providers/exercise_provider.dart';
 import 'features/activity/data/activity_log_repository.dart';
 import 'features/activity/data/step_log_repository.dart';
 import 'features/activity/providers/activity_log_provider.dart';
@@ -212,6 +216,21 @@ class _CalAiAppState extends State<CalAiApp> with WidgetsBindingObserver {
           create: (ctx) =>
               WeightLogProvider(ctx.read<WeightLogRepository>(), _profile),
         ),
+        Provider(
+          create: (ctx) =>
+              WorkoutLogRepository(ctx.read<LocalStorageService>()),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => ExerciseProvider(
+            settingsRepo: ExerciseSettingsRepository(
+              ctx.read<LocalStorageService>(),
+            ),
+            planRepo: WorkoutPlanRepository(ctx.read<LocalStorageService>()),
+            log: ctx.read<WorkoutLogRepository>(),
+            planner: ctx.read<WorkoutPlanService>(),
+            profile: _profile,
+          ),
+        ),
         // Created at start so reminders are scheduled right away.
         ChangeNotifierProvider(
           lazy: false,
@@ -236,6 +255,7 @@ class _CalAiAppState extends State<CalAiApp> with WidgetsBindingObserver {
               ctx.read<FoodLogProvider>().load();
               ctx.read<ActivityLogProvider>().reload();
               ctx.read<WeightLogProvider>().reload();
+              ctx.read<ExerciseProvider>().reload();
             },
           )..start(),
         ),

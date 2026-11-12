@@ -298,7 +298,15 @@ These are agreed and will be built later, in the order shown under "Suggested or
      - The network-error check is shared with the food AI (`gemini_errors.dart`). The plan's "move `GeminiCall` to `gemini_call.dart`" wasn't needed: the plan service has its own call type with a schema.
      - **Not yet done:** a real Gemini call on a device; that is checked in phase 4, once the setup screen exists.
      - Tests: 27 new (validator, rule-based planner across every setup, Gemini service with a fake model, plan fingerprint).
-  4. ⬜ Setup (Home/Gym + extras) and the dashboard (two-column exercise cards, progress).
+  4. ✅ **Setup and dashboard (2026-11-12):**
+     - `ExerciseProvider`: saves the setup and makes the plan. If the AI fails, the built-in rules make it instead and the dashboard says so, with **Try AI again**. It notices when the profile or setup changed since the plan was made ("Update plan"). Today's session is the one after the last finished workout of this plan (or today's, once started). Card status and progress come from today's workout record. It reloads after sign-in, log out and Reset all data.
+     - **First visit:** the Exercise tab shows the Home / Gym choice with **Customise (optional)** folded away: fitness level (defaults from the activity level), minutes (15–60), home equipment (Home only) and limitations; plus the safety note. **Create my plan** shows "Creating your plan…".
+     - **Dashboard:** offline or outdated notice, the plan summary, session chips (today's marked), a progress card (ring done/total; exercises, done, left, ≈ minutes, ≈ kcal), the session focus, a **two-column grid** of exercise cards (picture, name, sets × reps or time, ≈ kcal, Not started / In progress / Done with their own colours; completed cards turn green) and the calorie disclaimer. Any number of exercises; rows take the taller card's height.
+     - **App bar:** Make a new plan (asks first) and **Workout setup** (`/exercise-setup`, prefilled; **Update my plan** saves and makes a new plan).
+     - Card pictures are icons for the movement type until the demos (phase 5). Tapping a card does nothing yet (details are phase 5).
+     - Strings: 53 new (English and Bangla).
+     - Tests: 30 new (provider, widgets, accessibility in light/dark/Bangla, large text ×1.3 and ×2).
+     - **Not yet checked:** a real Gemini plan on a device, and how it looks on a phone. The emulator available today (`nx-api33`) is locked with a screen lock, so the app can't start on it.
   5. ⬜ Animated demos and the exercise details screen.
   6. ⬜ Workout mode: sets, rest timer, completion, history.
   7. ⬜ Calories into Home and Tracker (no Health double-counting), sync.
@@ -316,7 +324,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 7. **Account management (19 ✅).**
 8. **Notifications (18 ✅), polish (22 ✅).**
 
-**Feature 23 (exercise planner) is in progress** (phases 1–3 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+**Feature 23 (exercise planner) is in progress** (phases 1–4 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
 
 **Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 

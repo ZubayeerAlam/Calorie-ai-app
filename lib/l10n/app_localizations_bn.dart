@@ -687,10 +687,6 @@ class AppLocalizationsBn extends AppLocalizations {
   String get tabExercise => 'ব্যায়াম';
 
   @override
-  String get exercisePlaceholder =>
-      'আপনার নিজের জন্য তৈরি ব্যায়ামের পরিকল্পনা এখানে দেখা যাবে।';
-
-  @override
   String get tabAccount => 'অ্যাকাউন্ট';
 
   @override
@@ -2013,4 +2009,192 @@ class AppLocalizationsBn extends AppLocalizations {
   String rulesPlanSummary(int count) {
     return 'সপ্তাহে $countটি ওয়ার্কআউট, আপনার প্রোফাইল থেকে ফোনেই তৈরি।';
   }
+
+  @override
+  String get exerciseSetupTitle => 'ব্যায়ামের সেটআপ';
+
+  @override
+  String get exerciseIntroTitle => 'আপনি কোথায় ব্যায়াম করেন?';
+
+  @override
+  String get exerciseIntroBody =>
+      'একটি বেছে নিন, আমরা আপনার প্রোফাইল ও লক্ষ্য অনুযায়ী সাপ্তাহিক পরিকল্পনা বানাব। যেকোনো সময় বদলাতে পারবেন।';
+
+  @override
+  String get envHome => 'বাসায় ব্যায়াম';
+
+  @override
+  String get envHomeDesc =>
+      'শরীরের ওজনে ব্যায়াম, জিম লাগবে না। ডাম্বেল বা ব্যান্ড থাকলে যোগ করুন।';
+
+  @override
+  String get envGym => 'জিমে ব্যায়াম';
+
+  @override
+  String get envGymDesc => 'মেশিন, ডাম্বেল ও কার্ডিও সরঞ্জাম।';
+
+  @override
+  String get setupExtras => 'নিজের মতো করুন (ঐচ্ছিক)';
+
+  @override
+  String get setupExtrasHint => 'নিশ্চিত না হলে যেমন আছে রেখে দিন।';
+
+  @override
+  String get setupLevel => 'ফিটনেসের মাত্রা';
+
+  @override
+  String get levelBeginner => 'শুরু করছি';
+
+  @override
+  String get levelIntermediate => 'মাঝারি';
+
+  @override
+  String get levelAdvanced => 'অভিজ্ঞ';
+
+  @override
+  String get setupMinutes => 'প্রতি ওয়ার্কআউটে মিনিট';
+
+  @override
+  String minutesShort(int minutes) {
+    return '$minutes মিনিট';
+  }
+
+  @override
+  String get setupEquipment => 'বাসায় যে সরঞ্জাম আছে';
+
+  @override
+  String get equipDumbbells => 'ডাম্বেল';
+
+  @override
+  String get equipBands => 'রেজিস্ট্যান্স ব্যান্ড';
+
+  @override
+  String get setupLimitations => 'যেসব জায়গায় সাবধান';
+
+  @override
+  String get setupLimitationsHint =>
+      'এসব জায়গায় চাপ দেয় এমন ব্যায়াম বাদ দেওয়া হবে।';
+
+  @override
+  String get limitKnees => 'হাঁটু';
+
+  @override
+  String get limitLowerBack => 'কোমরের নিচের অংশ';
+
+  @override
+  String get limitShoulders => 'কাঁধ';
+
+  @override
+  String get limitWrists => 'কবজি';
+
+  @override
+  String get setupSafety =>
+      'এটি সাধারণ ফিটনেস পরামর্শ, চিকিৎসা পরামর্শ নয়। কোনো অসুখ বা আঘাত থাকলে আগে ডাক্তারের সাথে কথা বলুন, আর কোনো ব্যায়ামে ব্যথা হলে থামুন।';
+
+  @override
+  String get createPlan => 'আমার পরিকল্পনা বানান';
+
+  @override
+  String get updatePlan => 'পরিকল্পনা হালনাগাদ করুন';
+
+  @override
+  String get creatingPlan => 'আপনার পরিকল্পনা তৈরি হচ্ছে…';
+
+  @override
+  String get regeneratePlan => 'নতুন পরিকল্পনা বানান';
+
+  @override
+  String get regenerateTitle => 'নতুন পরিকল্পনা বানাবেন?';
+
+  @override
+  String get regenerateBody =>
+      'বর্তমান পরিকল্পনা বদলে যাবে। যেসব ওয়ার্কআউট করেছেন সেগুলো ইতিহাসে থাকবে।';
+
+  @override
+  String get planMadeOffline =>
+      'AI-এর সাথে যোগাযোগ না হওয়ায় AI ছাড়া বানানো হয়েছে। আপনার জন্য AI-এর লেখা পরিকল্পনা পেতে আবার চেষ্টা করুন।';
+
+  @override
+  String get planTryAi => 'আবার AI দিয়ে চেষ্টা';
+
+  @override
+  String get planOutdated =>
+      'এই পরিকল্পনা বানানোর পর আপনার প্রোফাইল বা সেটআপ বদলেছে।';
+
+  @override
+  String get planUpdate => 'হালনাগাদ করুন';
+
+  @override
+  String get todaysWorkout => 'আজকের ওয়ার্কআউট';
+
+  @override
+  String progressDone(int done, int total) {
+    return '$totalটির মধ্যে $doneটি শেষ';
+  }
+
+  @override
+  String get statExercises => 'ব্যায়াম';
+
+  @override
+  String get statDone => 'শেষ';
+
+  @override
+  String get statLeft => 'বাকি';
+
+  @override
+  String get statTime => 'মিনিট';
+
+  @override
+  String get statKcal => 'আনুমানিক kcal';
+
+  @override
+  String aboutMinutes(int minutes) {
+    return '≈ $minutes মিনিট';
+  }
+
+  @override
+  String aboutKcal(int kcal) {
+    return '≈ $kcal kcal';
+  }
+
+  @override
+  String setsCount(int count) {
+    return '$count সেট';
+  }
+
+  @override
+  String repsCount(int count) {
+    return '$count বার';
+  }
+
+  @override
+  String secondsShort(int seconds) {
+    return '$seconds সে.';
+  }
+
+  @override
+  String setsTimesReps(int sets, String reps) {
+    return '$sets × $reps';
+  }
+
+  @override
+  String get statusNotStarted => 'শুরু হয়নি';
+
+  @override
+  String get statusInProgress => 'চলছে';
+
+  @override
+  String get statusCompleted => 'শেষ';
+
+  @override
+  String get kcalDisclaimer =>
+      'ক্যালরি মোটামুটি হিসাব (প্রায়ই ৩০% বা তার বেশি কমবেশি)। চর্বি কমা নির্ভর করে সপ্তাহজুড়ে আপনার খাওয়া ও সক্রিয়তার ওপর, একক ব্যায়ামের ওপর নয়।';
+
+  @override
+  String exerciseCardLabel(String name, String detail, String status) {
+    return '$name: $detail, $status';
+  }
+
+  @override
+  String get workoutSetupTooltip => 'ব্যায়ামের সেটআপ';
 }

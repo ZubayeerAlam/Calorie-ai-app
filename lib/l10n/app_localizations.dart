@@ -1286,12 +1286,6 @@ abstract class AppLocalizations {
   /// **'Exercise'**
   String get tabExercise;
 
-  /// No description provided for @exercisePlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Your personalised workout plan will appear here.'**
-  String get exercisePlaceholder;
-
   /// No description provided for @tabAccount.
   ///
   /// In en, this message translates to:
@@ -3691,6 +3685,330 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} workouts a week, made on your phone from your profile.'**
   String rulesPlanSummary(int count);
+
+  /// No description provided for @exerciseSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout setup'**
+  String get exerciseSetupTitle;
+
+  /// No description provided for @exerciseIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do you work out?'**
+  String get exerciseIntroTitle;
+
+  /// No description provided for @exerciseIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick one and we\'ll make a weekly plan for your profile and goals. You can change it any time.'**
+  String get exerciseIntroBody;
+
+  /// No description provided for @envHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home workout'**
+  String get envHome;
+
+  /// No description provided for @envHomeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Bodyweight exercises, no gym needed. Add dumbbells or bands if you have them.'**
+  String get envHomeDesc;
+
+  /// No description provided for @envGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym workout'**
+  String get envGym;
+
+  /// No description provided for @envGymDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Machines, dumbbells and cardio equipment.'**
+  String get envGymDesc;
+
+  /// No description provided for @setupExtras.
+  ///
+  /// In en, this message translates to:
+  /// **'Customise (optional)'**
+  String get setupExtras;
+
+  /// No description provided for @setupExtrasHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave these as they are if you\'re not sure.'**
+  String get setupExtrasHint;
+
+  /// No description provided for @setupLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness level'**
+  String get setupLevel;
+
+  /// No description provided for @levelBeginner.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner'**
+  String get levelBeginner;
+
+  /// No description provided for @levelIntermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get levelIntermediate;
+
+  /// No description provided for @levelAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced'**
+  String get levelAdvanced;
+
+  /// No description provided for @setupMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes per workout'**
+  String get setupMinutes;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String minutesShort(int minutes);
+
+  /// No description provided for @setupEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment at home'**
+  String get setupEquipment;
+
+  /// No description provided for @equipDumbbells.
+  ///
+  /// In en, this message translates to:
+  /// **'Dumbbells'**
+  String get equipDumbbells;
+
+  /// No description provided for @equipBands.
+  ///
+  /// In en, this message translates to:
+  /// **'Resistance bands'**
+  String get equipBands;
+
+  /// No description provided for @setupLimitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Go easy on'**
+  String get setupLimitations;
+
+  /// No description provided for @setupLimitationsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercises that load these areas are left out.'**
+  String get setupLimitationsHint;
+
+  /// No description provided for @limitKnees.
+  ///
+  /// In en, this message translates to:
+  /// **'Knees'**
+  String get limitKnees;
+
+  /// No description provided for @limitLowerBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower back'**
+  String get limitLowerBack;
+
+  /// No description provided for @limitShoulders.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulders'**
+  String get limitShoulders;
+
+  /// No description provided for @limitWrists.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrists'**
+  String get limitWrists;
+
+  /// No description provided for @setupSafety.
+  ///
+  /// In en, this message translates to:
+  /// **'This is general fitness guidance, not medical advice. If you have a health condition or an injury, check with a doctor first, and stop any exercise that hurts.'**
+  String get setupSafety;
+
+  /// No description provided for @createPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Create my plan'**
+  String get createPlan;
+
+  /// No description provided for @updatePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Update my plan'**
+  String get updatePlan;
+
+  /// No description provided for @creatingPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating your plan…'**
+  String get creatingPlan;
+
+  /// No description provided for @regeneratePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a new plan'**
+  String get regeneratePlan;
+
+  /// No description provided for @regenerateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a new plan?'**
+  String get regenerateTitle;
+
+  /// No description provided for @regenerateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current plan is replaced. Workouts you\'ve done stay in your history.'**
+  String get regenerateBody;
+
+  /// No description provided for @planMadeOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Made without AI because it couldn\'t be reached. Try again for a plan written for you by AI.'**
+  String get planMadeOffline;
+
+  /// No description provided for @planTryAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Try AI again'**
+  String get planTryAi;
+
+  /// No description provided for @planOutdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile or setup changed since this plan was made.'**
+  String get planOutdated;
+
+  /// No description provided for @planUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Update plan'**
+  String get planUpdate;
+
+  /// No description provided for @todaysWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s workout'**
+  String get todaysWorkout;
+
+  /// No description provided for @progressDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} done'**
+  String progressDone(int done, int total);
+
+  /// No description provided for @statExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercises'**
+  String get statExercises;
+
+  /// No description provided for @statDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get statDone;
+
+  /// No description provided for @statLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get statLeft;
+
+  /// No description provided for @statTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes'**
+  String get statTime;
+
+  /// No description provided for @statKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'Est. kcal'**
+  String get statKcal;
+
+  /// No description provided for @aboutMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'≈ {minutes} min'**
+  String aboutMinutes(int minutes);
+
+  /// No description provided for @aboutKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'≈ {kcal} kcal'**
+  String aboutKcal(int kcal);
+
+  /// No description provided for @setsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 set} other{{count} sets}}'**
+  String setsCount(int count);
+
+  /// No description provided for @repsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} reps'**
+  String repsCount(int count);
+
+  /// No description provided for @secondsShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} s'**
+  String secondsShort(int seconds);
+
+  /// No description provided for @setsTimesReps.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets} × {reps}'**
+  String setsTimesReps(int sets, String reps);
+
+  /// No description provided for @statusNotStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not started'**
+  String get statusNotStarted;
+
+  /// No description provided for @statusInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get statusInProgress;
+
+  /// No description provided for @statusCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get statusCompleted;
+
+  /// No description provided for @kcalDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories are rough estimates (often off by 30% or more). Fat loss depends on your overall eating and activity over weeks, not on single exercises.'**
+  String get kcalDisclaimer;
+
+  /// No description provided for @exerciseCardLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {detail}, {status}'**
+  String exerciseCardLabel(String name, String detail, String status);
+
+  /// No description provided for @workoutSetupTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout setup'**
+  String get workoutSetupTooltip;
 }
 
 class _AppLocalizationsDelegate

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../features/account/presentation/screens/sign_in_screen.dart';
 import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_screen.dart';
+import '../../features/exercise/presentation/screens/exercise_setup_screen.dart';
 import '../../features/food_log/data/models/food_entry.dart';
 import '../../features/food_log/presentation/screens/add_food_screen.dart';
 import '../../features/food_log/presentation/screens/manual_entry_screen.dart';
@@ -86,6 +87,11 @@ GoRouter createAppRouter(ProfileProvider profile) {
       GoRoute(
         path: AppRoutes.reminders,
         builder: (context, state) => const RemindersScreen(),
+      ),
+      // Exercise → Workout setup (Home/Gym and extras).
+      GoRoute(
+        path: AppRoutes.exerciseSetup,
+        builder: (context, state) => const ExerciseSetupScreen(),
       ),
       // Account → Edit profile.
       GoRoute(

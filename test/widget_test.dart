@@ -164,10 +164,7 @@ void main() {
 
     await tester.tap(find.text('Exercise'));
     await tester.pumpAndSettle();
-    expect(
-      find.text('Your personalised workout plan will appear here.'),
-      findsOneWidget,
-    );
+    expect(find.text('Where do you work out?'), findsOneWidget);
 
     await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
@@ -191,10 +188,7 @@ void main() {
     await tester.tapAt(const Offset(20, 40));
     await tester.pumpAndSettle();
     expect(find.text('Scan with camera'), findsNothing);
-    expect(
-      find.text('Your personalised workout plan will appear here.'),
-      findsOneWidget,
-    );
+    expect(find.text('Where do you work out?'), findsOneWidget);
   });
 
   testWidgets('The camera button opens a chooser with two options', (

@@ -82,7 +82,8 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/onboarding` | Onboarding flow |
 | `/` | Home (dashboard) tab |
 | `/tracker` | Tracker tab: week/month stats, weight, calories, macros, steps, history |
-| `/exercise` | Exercise tab (feature 23; a placeholder until the workout planner is built) |
+| `/exercise` | Exercise tab: the Home/Gym setup the first time, then the workout plan dashboard (feature 23) |
+| `/exercise-setup` | Workout setup: change Home/Gym and the extras, then make a new plan |
 | `/account` | Account tab: profile (Edit), account (sign in / log out), Health, Appearance, Language, goals, Reset all data |
 | `/reminders` | The Home bell: today's meals and the meal reminder settings |
 | `/sign-in` | Sign in or create an account (optional; also reachable from onboarding) |
@@ -238,7 +239,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Text size:** follows the phone up to `AppConstants.maxTextScale` (1.3).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton` (48 px tap area), `EmptyState`, `MealIllustration`, `MealPhoto`.
 
-## 8. Tests (241 passing)
+## 8. Tests (271 passing)
 
 | File | Covers |
 |---|---|
@@ -259,10 +260,12 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/account_provider_test.dart` | Sign in, create account, wrong password, unreachable backup, log out, sync at start, Firebase error codes |
 | `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; editing the profile (cm and ft/in, validation); Reset all data; reminders from the bell; dark mode; Bangla and the language setting; Health connect |
 | `test/reminder_provider_test.dart` | Reminders off by default, scheduling the coming days, skipping today once logged, refused permission, times, dinner = profile time, the bell dot |
-| `test/accessibility_test.dart` | Tap targets, labels and contrast on 9 screens (light, dark, Bangla); large text at ×1.3 and ×2 (English and Bangla) |
+| `test/accessibility_test.dart` | Tap targets, labels and contrast on 11 screens (including the Exercise setup, plan and Workout setup) (light, dark, Bangla); large text at ×1.3 and ×2 (English and Bangla) |
 | `test/exercise/exercise_catalog_test.dart` | Feature 23 catalog: unique ids, sensible MET/rest values, English and Bangla texts for every exercise and muscle, which exercises suit Home/Gym, equipment and limitations, every movement type available, a workout still possible with every limitation |
 | `test/exercise/exercise_estimate_test.dart` | Set time, net MET kcal, planned time with rests, shown kcal rounding |
 | `test/exercise/exercise_models_test.dart` | Settings defaults, JSON round trips (settings, plan, workout record), older/newer saved data, exercise and workout status, totals |
+| `test/exercise/exercise_provider_test.dart` | Setup, AI plan, fallback to rules and retry, outdated plan, today's session rotation, card status and progress, estimates, reset and reload |
+| `test/exercise/exercise_widget_test.dart` | First visit (Home, extras, loading, dashboard), Gym, AI unavailable and retry, statuses and card labels, session chips, Update plan, Make a new plan, Workout setup, Bangla |
 | `test/exercise/workout_plan_validator_test.dart` | Checking AI plans: kept as is, not allowed/unknown/repeated exercises dropped, safe ranges, reps vs time, cardio machines, session time, 8-exercise and day limits, missing names, unusable replies |
 | `test/exercise/rule_based_workout_plan_service_test.dart` | The offline planner for every place, activity, level, length and limitation; full body vs upper/lower; sets by level and reps by goal; cardio machines; home equipment |
 | `test/exercise/firebase_workout_plan_service_test.dart` | The Gemini plan service with a fake model: prompt contents, allowed-id schema, Bangla, checked reply, errors; the plan fingerprint |
@@ -287,7 +290,7 @@ flutter test
 
 ## 10. Next steps
 
-**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar), 2 (exercise catalog, models, calorie estimates, storage) and 3 (AI and offline plan services) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
+**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar), 2 (exercise catalog, models, calorie estimates, storage), 3 (AI and offline plan services) and 4 (setup screen and plan dashboard) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
 
 - **Firebase:** turn on Email/Password (Console) and try sign-in and sync on the real project. Firestore is already set up in Mumbai.
 - **Devices:** run on iOS and on a real phone: photo AI, Health data, notifications.
