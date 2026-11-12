@@ -84,7 +84,8 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `/tracker` | Tracker tab: week/month stats, weight, calories, macros, steps, history |
 | `/exercise` | Exercise tab: the Home/Gym setup the first time, then the workout plan dashboard (feature 23) |
 | `/exercise-setup` | Workout setup: change Home/Gym and the extras, then make a new plan |
-| `/exercise/:exerciseId` | One exercise: animated demo, sets/reps/rest, kcal estimate and how it's made, starting position, steps, form tip, muscles, benefits |
+| `/exercise/:exerciseId` | One exercise: animated demo, sets/reps/rest, kcal estimate and how it's made, starting position, steps, form tip, muscles, benefits; Start workout |
+| `/exercise/:exerciseId/workout` | Workout mode: sets (reps confirmed by hand, or a countdown), rest timer, complete, next exercise |
 | `/account` | Account tab: profile (Edit), account (sign in / log out), Health, Appearance, Language, goals, Reset all data |
 | `/reminders` | The Home bell: today's meals and the meal reminder settings |
 | `/sign-in` | Sign in or create an account (optional; also reachable from onboarding) |
@@ -241,7 +242,7 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 - **Exercise demos:** drawn in code (`ExerciseFigurePainter` + key poses in `exercise_demos.dart`); to adjust one, change its pose angles (limbs from straight down, torso from straight up, positive = forward).
 - **Shared widgets:** `ProgressRing`, `AddCircleButton` (48 px tap area), `EmptyState`, `MealIllustration`, `MealPhoto`.
 
-## 8. Tests (319 passing)
+## 8. Tests (337 passing)
 
 | File | Covers |
 |---|---|
@@ -262,13 +263,14 @@ Routing uses `go_router` and is set up in `lib/core/routes/app_router.dart`.
 | `test/account_provider_test.dart` | Sign in, create account, wrong password, unreachable backup, log out, sync at start, Firebase error codes |
 | `test/tracker_account_widget_test.dart` | Tracker summary, logging a weight, opening a day; Account sign-up and log out, wrong password, restoring from onboarding; editing the profile (cm and ft/in, validation); Reset all data; reminders from the bell; dark mode; Bangla and the language setting; Health connect |
 | `test/reminder_provider_test.dart` | Reminders off by default, scheduling the coming days, skipping today once logged, refused permission, times, dinner = profile time, the bell dot |
-| `test/accessibility_test.dart` | Tap targets, labels and contrast on 12 screens (including the Exercise setup, plan, details and Workout setup) (light, dark, Bangla); large text at ×1.3 and ×2 (English and Bangla) |
+| `test/accessibility_test.dart` | Tap targets, labels and contrast on 13 screens (including the Exercise setup, plan, details, every step of workout mode and Workout setup) (light, dark, Bangla); large text at ×1.3 and ×2 (English and Bangla) |
 | `test/exercise/exercise_catalog_test.dart` | Feature 23 catalog: unique ids, sensible MET/rest values, English and Bangla texts for every exercise and muscle, which exercises suit Home/Gym, equipment and limitations, every movement type available, a workout still possible with every limitation |
 | `test/exercise/exercise_estimate_test.dart` | Set time, net MET kcal, planned time with rests, shown kcal rounding |
 | `test/exercise/exercise_models_test.dart` | Settings defaults, JSON round trips (settings, plan, workout record), older/newer saved data, exercise and workout status, totals |
 | `test/exercise/exercise_demo_test.dart` | Every exercise has a demo; every frame fits and stands on the floor (seated ones stay on the seat); skeleton angles; loop timing and steps; blending poses |
-| `test/exercise/exercise_provider_test.dart` | Setup, AI plan, fallback to rules and retry, outdated plan, today's session rotation, card status and progress, estimates, reset and reload |
-| `test/exercise/exercise_widget_test.dart` | First visit (Home, extras, loading, dashboard), Gym, AI unavailable and retry, statuses and card labels, session chips, Update plan, Make a new plan, Workout setup, Bangla; exercise details (contents, kcal explanation, demo animation following the steps, pause, reduce motion, unknown exercise) |
+| `test/exercise/workout_run_controller_test.dart` | Workout mode with a fake clock: sets and rests, rest ending by itself, +15 s, timed sets waiting for Done, Complete exercise, resuming, display updates |
+| `test/exercise/exercise_provider_test.dart` | Recording sets (start, estimate, complete workout, next session, limits, next exercise); setup, AI plan, fallback to rules and retry, outdated plan, today's session rotation, card status and progress, estimates, reset and reload |
+| `test/exercise/exercise_widget_test.dart` | First visit (Home, extras, loading, dashboard), Gym, AI unavailable and retry, statuses and card labels, session chips, Update plan, Make a new plan, Workout setup, Bangla; exercise details (contents, kcal explanation, demo animation following the steps, pause, reduce motion, unknown exercise); workout mode (sets, rest, +15 s, skip, finish, back to plan, End early and Continue, Complete exercise and Next exercise, timed countdown) |
 | `test/exercise/workout_plan_validator_test.dart` | Checking AI plans: kept as is, not allowed/unknown/repeated exercises dropped, safe ranges, reps vs time, cardio machines, session time, 8-exercise and day limits, missing names, unusable replies |
 | `test/exercise/rule_based_workout_plan_service_test.dart` | The offline planner for every place, activity, level, length and limitation; full body vs upper/lower; sets by level and reps by goal; cardio machines; home equipment |
 | `test/exercise/firebase_workout_plan_service_test.dart` | The Gemini plan service with a fake model: prompt contents, allowed-id schema, Bangla, checked reply, errors; the plan fingerprint |
@@ -293,7 +295,7 @@ flutter test
 
 ## 10. Next steps
 
-**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar), 2 (exercise catalog, models, calorie estimates, storage), 3 (AI and offline plan services), 4 (setup screen and plan dashboard) and 5 (animated demos and exercise details) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
+**In progress: feature 23, AI exercise and workout planner** (see [plan.md](plan.md)). Phases 1 (Exercise tab, camera in the bar), 2 (exercise catalog, models, calorie estimates, storage), 3 (AI and offline plan services), 4 (setup screen and plan dashboard), 5 (animated demos and exercise details) and 6 (workout mode) are done. Everything else planned is built (food database/barcode and Articles were dropped). Also left, checking and release work:
 
 - **Firebase:** turn on Email/Password (Console) and try sign-in and sync on the real project. Firestore is already set up in Mumbai.
 - **Devices:** run on iOS and on a real phone: photo AI, Health data, notifications.

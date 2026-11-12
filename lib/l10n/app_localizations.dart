@@ -4141,6 +4141,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'How calories are estimated'**
   String get kcalInfoTooltip;
+
+  /// No description provided for @startWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Start workout'**
+  String get startWorkout;
+
+  /// No description provided for @continueWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue ({done} of {total} sets done)'**
+  String continueWorkout(int done, int total);
+
+  /// No description provided for @doneToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Done today'**
+  String get doneToday;
+
+  /// No description provided for @setOfTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Set {current} of {total}'**
+  String setOfTotal(int current, int total);
+
+  /// No description provided for @doneNextSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Done — next set'**
+  String get doneNextSet;
+
+  /// No description provided for @doneLastSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Done — finish'**
+  String get doneLastSet;
+
+  /// No description provided for @completeExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete exercise'**
+  String get completeExercise;
+
+  /// No description provided for @endEarly.
+  ///
+  /// In en, this message translates to:
+  /// **'End early'**
+  String get endEarly;
+
+  /// No description provided for @restLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get restLabel;
+
+  /// No description provided for @skipRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip rest'**
+  String get skipRest;
+
+  /// No description provided for @addRestSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'+{seconds} s'**
+  String addRestSeconds(int seconds);
+
+  /// No description provided for @nextSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: set {current} of {total}'**
+  String nextSetUp(int current, int total);
+
+  /// No description provided for @tapWhenDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Done when you\'ve finished the set.'**
+  String get tapWhenDone;
+
+  /// No description provided for @timeUpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Time\'s up! Tap Done.'**
+  String get timeUpHint;
+
+  /// No description provided for @getReadyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Get into the starting position, then tap Start.'**
+  String get getReadyHint;
+
+  /// No description provided for @exerciseCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise complete'**
+  String get exerciseCompleteTitle;
+
+  /// No description provided for @exerciseCompleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets} sets · ≈ {kcal} kcal (estimate)'**
+  String exerciseCompleteBody(int sets, int kcal);
+
+  /// No description provided for @workoutCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s workout is complete!'**
+  String get workoutCompleteTitle;
+
+  /// No description provided for @nextExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Next exercise'**
+  String get nextExercise;
+
+  /// No description provided for @backToPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to plan'**
+  String get backToPlan;
+
+  /// No description provided for @secondsLeftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds} seconds left'**
+  String secondsLeftLabel(int seconds);
+
+  /// No description provided for @setsDoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} sets done'**
+  String setsDoneLabel(int done, int total);
 }
 
 class _AppLocalizationsDelegate

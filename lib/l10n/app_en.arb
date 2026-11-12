@@ -1216,5 +1216,91 @@
     }
   },
   "exerciseNotFound": "This exercise isn't available.",
-  "kcalInfoTooltip": "How calories are estimated"
+  "kcalInfoTooltip": "How calories are estimated",
+  "startWorkout": "Start workout",
+  "continueWorkout": "Continue ({done} of {total} sets done)",
+  "@continueWorkout": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "doneToday": "Done today",
+  "setOfTotal": "Set {current} of {total}",
+  "@setOfTotal": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "doneNextSet": "Done — next set",
+  "doneLastSet": "Done — finish",
+  "completeExercise": "Complete exercise",
+  "endEarly": "End early",
+  "restLabel": "Rest",
+  "skipRest": "Skip rest",
+  "addRestSeconds": "+{seconds} s",
+  "@addRestSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "nextSetUp": "Next: set {current} of {total}",
+  "@nextSetUp": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "tapWhenDone": "Tap Done when you've finished the set.",
+  "timeUpHint": "Time's up! Tap Done.",
+  "getReadyHint": "Get into the starting position, then tap Start.",
+  "exerciseCompleteTitle": "Exercise complete",
+  "exerciseCompleteBody": "{sets} sets · ≈ {kcal} kcal (estimate)",
+  "@exerciseCompleteBody": {
+    "placeholders": {
+      "sets": {
+        "type": "int"
+      },
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "workoutCompleteTitle": "Today's workout is complete!",
+  "nextExercise": "Next exercise",
+  "backToPlan": "Back to plan",
+  "secondsLeftLabel": "{seconds} seconds left",
+  "@secondsLeftLabel": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "setsDoneLabel": "{done} of {total} sets done",
+  "@setsDoneLabel": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

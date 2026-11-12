@@ -2275,4 +2275,84 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get kcalInfoTooltip => 'ক্যালরি কীভাবে হিসাব করা হয়';
+
+  @override
+  String get startWorkout => 'ওয়ার্কআউট শুরু করুন';
+
+  @override
+  String continueWorkout(int done, int total) {
+    return 'চালিয়ে যান ($totalটির মধ্যে $doneটি সেট শেষ)';
+  }
+
+  @override
+  String get doneToday => 'আজ শেষ';
+
+  @override
+  String setOfTotal(int current, int total) {
+    return '$totalটির মধ্যে সেট $current';
+  }
+
+  @override
+  String get doneNextSet => 'শেষ — পরের সেট';
+
+  @override
+  String get doneLastSet => 'শেষ — সমাপ্ত';
+
+  @override
+  String get completeExercise => 'ব্যায়াম সম্পূর্ণ করুন';
+
+  @override
+  String get endEarly => 'আগেই থামুন';
+
+  @override
+  String get restLabel => 'বিশ্রাম';
+
+  @override
+  String get skipRest => 'বিশ্রাম বাদ দিন';
+
+  @override
+  String addRestSeconds(int seconds) {
+    return '+$seconds সে.';
+  }
+
+  @override
+  String nextSetUp(int current, int total) {
+    return 'এরপর: $totalটির মধ্যে সেট $current';
+  }
+
+  @override
+  String get tapWhenDone => 'সেট শেষ হলে \"শেষ\" চাপুন।';
+
+  @override
+  String get timeUpHint => 'সময় শেষ! \"শেষ\" চাপুন।';
+
+  @override
+  String get getReadyHint => 'শুরুর অবস্থানে আসুন, তারপর শুরু চাপুন।';
+
+  @override
+  String get exerciseCompleteTitle => 'ব্যায়াম সম্পূর্ণ';
+
+  @override
+  String exerciseCompleteBody(int sets, int kcal) {
+    return '$setsটি সেট · ≈ $kcal kcal (আনুমানিক)';
+  }
+
+  @override
+  String get workoutCompleteTitle => 'আজকের ওয়ার্কআউট সম্পূর্ণ!';
+
+  @override
+  String get nextExercise => 'পরের ব্যায়াম';
+
+  @override
+  String get backToPlan => 'পরিকল্পনায় ফিরুন';
+
+  @override
+  String secondsLeftLabel(int seconds) {
+    return '$seconds সেকেন্ড বাকি';
+  }
+
+  @override
+  String setsDoneLabel(int done, int total) {
+    return '$totalটির মধ্যে $doneটি সেট শেষ';
+  }
 }

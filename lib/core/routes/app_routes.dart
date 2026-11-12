@@ -26,6 +26,12 @@ class AppRoutes {
   static String exerciseDetailsLocation(String exerciseId) =>
       '/exercise/${Uri.encodeComponent(exerciseId)}';
 
+  static const String exerciseWorkout = '/exercise/:exerciseId/workout';
+
+  /// Doing one exercise of today's plan, set by set.
+  static String exerciseWorkoutLocation(String exerciseId) =>
+      '${exerciseDetailsLocation(exerciseId)}/workout';
+
   /// Query parameters for [addFood].
   static const String imagePathParam = 'imagePath';
   static const String mealParam = 'meal';

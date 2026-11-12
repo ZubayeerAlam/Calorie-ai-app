@@ -7,6 +7,7 @@ import '../../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_details_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_screen.dart';
 import '../../features/exercise/presentation/screens/exercise_setup_screen.dart';
+import '../../features/exercise/presentation/screens/workout_screen.dart';
 import '../../features/food_log/data/models/food_entry.dart';
 import '../../features/food_log/presentation/screens/add_food_screen.dart';
 import '../../features/food_log/presentation/screens/manual_entry_screen.dart';
@@ -100,6 +101,12 @@ GoRouter createAppRouter(ProfileProvider profile) {
         builder: (context, state) => ExerciseDetailsScreen(
           exerciseId: state.pathParameters['exerciseId']!,
         ),
+      ),
+      // Exercise details → Start workout: sets, rests, done.
+      GoRoute(
+        path: AppRoutes.exerciseWorkout,
+        builder: (context, state) =>
+            WorkoutScreen(exerciseId: state.pathParameters['exerciseId']!),
       ),
       // Account → Edit profile.
       GoRoute(

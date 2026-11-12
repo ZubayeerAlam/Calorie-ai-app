@@ -169,6 +169,27 @@ void main() {
         await _checkGuidelines(tester, 'Exercise details');
       });
 
+      testWidgets('Workout mode', (tester) async {
+        _reduceMotion(tester);
+        await _pumpApp(
+          tester,
+          themeMode: mode,
+          language: language,
+          exercisePlan: true,
+        );
+        await _open(tester, find.byIcon(Icons.fitness_center_outlined));
+        await _open(tester, find.byType(ExerciseCard).first);
+        await _checkGuidelines(tester, 'Exercise details (start button)');
+        await _open(tester, find.byKey(const ValueKey('start-workout')));
+        await _checkGuidelines(tester, 'Workout: ready');
+        await _open(tester, find.byKey(const ValueKey('start-sets')));
+        await _checkGuidelines(tester, 'Workout: set');
+        await _open(tester, find.byKey(const ValueKey('finish-set')));
+        await _checkGuidelines(tester, 'Workout: rest');
+        await _open(tester, find.byKey(const ValueKey('complete-exercise')));
+        await _checkGuidelines(tester, 'Workout: done');
+      });
+
       testWidgets('Workout setup', (tester) async {
         await _pumpApp(
           tester,
@@ -293,6 +314,13 @@ void main() {
       await tester.pumpAndSettle();
       await _open(tester, find.byType(ExerciseCard).first);
       expect(tester.takeException(), isNull, reason: 'Exercise details');
+      await _open(tester, find.byKey(const ValueKey('start-workout')));
+      await _open(tester, find.byKey(const ValueKey('start-sets')));
+      expect(tester.takeException(), isNull, reason: 'Workout: set');
+      await _open(tester, find.byKey(const ValueKey('finish-set')));
+      expect(tester.takeException(), isNull, reason: 'Workout: rest');
+      await _open(tester, find.byKey(const ValueKey('complete-exercise')));
+      expect(tester.takeException(), isNull, reason: 'Workout: done');
     });
 
     testWidgets('large text ×$scale, $language: onboarding fits', (

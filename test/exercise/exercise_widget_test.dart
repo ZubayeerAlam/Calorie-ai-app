@@ -2,10 +2,12 @@ import 'package:cal_ai_app/app.dart';
 import 'package:cal_ai_app/core/services/local_storage_service.dart';
 import 'package:cal_ai_app/core/services/rule_based_workout_plan_service.dart';
 import 'package:cal_ai_app/core/services/workout_plan_service.dart';
+import 'package:cal_ai_app/features/exercise/data/catalog/exercise_texts.dart';
 import 'package:cal_ai_app/features/exercise/data/models/exercise_settings.dart';
 import 'package:cal_ai_app/features/exercise/data/models/workout_plan.dart';
 import 'package:cal_ai_app/features/exercise/data/models/workout_record.dart';
 import 'package:cal_ai_app/features/exercise/data/workout_plan_request.dart';
+import 'package:cal_ai_app/features/exercise/presentation/widgets/countdown_ring.dart';
 import 'package:cal_ai_app/features/profile/data/models/user_goals.dart';
 import 'package:cal_ai_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -451,6 +453,136 @@ void main() {
       router.push('/exercise/flying_kick');
       await tester.pumpAndSettle();
       expect(find.text("This exercise isn't available."), findsOneWidget);
+    });
+  });
+
+  group('workout mode', () {
+    void reduceMotion(WidgetTester tester) {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+    }
+
+    Future<WorkoutPlan> openSquat(WidgetTester tester) async {
+      reduceMotion(tester);
+      final (storage, plan) = await _storage(settings: _home);
+      await _pumpApp(tester, storage);
+      await _openExercise(tester);
+      await _tap(tester, find.byKey(const ValueKey('exercise-squat')));
+      return plan!;
+    }
+
+    Future<void> press(WidgetTester tester, String key) async {
+      await _tap(tester, find.byKey(ValueKey(key)));
+    }
+
+    testWidgets('do the sets, rest, complete, and see it on the plan', (
+      tester,
+    ) async {
+      final plan = await openSquat(tester);
+      final squat = plan.sessions[0].exercises.first; // 2 × 12
+      expect(squat.sets, 2);
+
+      await tester.tap(find.byKey(const ValueKey('start-workout')));
+      await tester.pumpAndSettle();
+      expect(find.text('Set 1 of 2'), findsOneWidget);
+      expect(
+        find.textContaining('Get into the starting position'),
+        findsOneWidget,
+      );
+
+      await press(tester, 'start-sets');
+      expect(find.text('12 reps'), findsOneWidget);
+      expect(find.text('Done — next set'), findsOneWidget);
+
+      await press(tester, 'finish-set');
+      // Resting: a countdown, +15 s, and what's next.
+      expect(find.text('Rest'), findsOneWidget);
+      expect(find.text(CountdownRing.clock(squat.restSeconds)), findsOneWidget);
+      expect(find.text('Next: set 2 of 2'), findsOneWidget);
+      await press(tester, 'add-rest');
+      expect(
+        find.text(CountdownRing.clock(squat.restSeconds + 15)),
+        findsOneWidget,
+      );
+
+      await press(tester, 'skip-rest');
+      expect(find.text('Set 2 of 2'), findsOneWidget);
+      expect(find.text('Done — finish'), findsOneWidget);
+      await press(tester, 'finish-set');
+
+      expect(find.text('Exercise complete'), findsOneWidget);
+      expect(find.textContaining('2 sets'), findsOneWidget);
+      // The next exercise is offered.
+      expect(find.byKey(const ValueKey('next-exercise')), findsOneWidget);
+
+      await press(tester, 'back-to-plan');
+      expect(find.text('Done today'), findsOneWidget); // details button
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      await _scrollToTop(tester);
+      expect(
+        find.textContaining('1 of ${plan.sessions[0].exercises.length} done'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('End early keeps the sets done; Continue carries on', (
+      tester,
+    ) async {
+      await openSquat(tester);
+      await tester.tap(find.byKey(const ValueKey('start-workout')));
+      await tester.pumpAndSettle();
+      await press(tester, 'start-sets');
+      await press(tester, 'finish-set');
+      await press(tester, 'end-early');
+
+      expect(find.text('Continue (1 of 2 sets done)'), findsOneWidget);
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      expect(find.text('In progress'), findsOneWidget);
+
+      await _tap(tester, find.byKey(const ValueKey('exercise-squat')));
+      await tester.tap(find.byKey(const ValueKey('start-workout')));
+      await tester.pumpAndSettle();
+      expect(find.text('Set 2 of 2'), findsOneWidget);
+      expect(find.text('Continue (1 of 2 sets done)'), findsOneWidget);
+    });
+
+    testWidgets('Complete exercise, then go straight to the next one', (
+      tester,
+    ) async {
+      final plan = await openSquat(tester);
+      await tester.tap(find.byKey(const ValueKey('start-workout')));
+      await tester.pumpAndSettle();
+      await press(tester, 'start-sets');
+      await press(tester, 'complete-exercise');
+      expect(find.text('Exercise complete'), findsOneWidget);
+
+      await press(tester, 'next-exercise');
+      final second = plan.sessions[0].exercises[1].exerciseId;
+      expect(find.text(ExerciseTexts.nameOf(second)), findsOneWidget);
+      expect(find.text('Set 1 of 2'), findsOneWidget);
+    });
+
+    testWidgets('timed exercises show a countdown', (tester) async {
+      final plan = await openSquat(tester);
+      final timed = plan.sessions[0].exercises.firstWhere(
+        (e) => e.durationSeconds != null,
+      );
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      await _tap(tester, find.byKey(ValueKey('exercise-${timed.exerciseId}')));
+      await tester.tap(find.byKey(const ValueKey('start-workout')));
+      await tester.pumpAndSettle();
+      await press(tester, 'start-sets');
+      expect(find.text('0:${timed.durationSeconds}'), findsOneWidget);
+      expect(
+        find.text("Tap Done when you've finished the set."),
+        findsOneWidget,
+      );
     });
   });
 }

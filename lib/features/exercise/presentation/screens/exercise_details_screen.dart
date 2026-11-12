@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../../../../core/routes/app_routes.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../l10n/l10n.dart';
@@ -15,6 +18,7 @@ import '../widgets/demo_step_list.dart';
 import '../widgets/exercise_demo_view.dart';
 import '../widgets/exercise_stat_row.dart';
 import '../widgets/muscle_chips.dart';
+import '../widgets/primary_button.dart';
 import '../widgets/safety_note.dart';
 
 /// One exercise: the animated demo, how to do it, the prescription from
@@ -34,9 +38,8 @@ class _ExerciseDetailsScreenState extends State<ExerciseDetailsScreen> {
   /// The plan's prescription, or catalog defaults if the exercise isn't in
   /// the shown session (e.g. the plan changed meanwhile).
   PlannedExercise _planned(ExerciseProvider exercise) {
-    for (final p in exercise.selectedSession?.exercises ?? const []) {
-      if (p.exerciseId == widget.exerciseId) return p;
-    }
+    final planned = exercise.plannedFor(widget.exerciseId);
+    if (planned != null) return planned;
     final e = ExerciseCatalog.byId(widget.exerciseId)!;
     return PlannedExercise(
       exerciseId: e.id,
@@ -65,8 +68,33 @@ class _ExerciseDetailsScreenState extends State<ExerciseDetailsScreen> {
         true;
     final textStyle = TextStyle(fontSize: 14.5, color: AppColors.textDark);
 
+    // Only exercises of the shown session can be started.
+    final inPlan = provider.plannedFor(exercise.id) != null;
+    final done = provider.setsDoneToday(exercise.id);
+    final completed = inPlan && done >= planned.sets;
+
     return Scaffold(
       appBar: AppBar(title: Text(texts.name)),
+      bottomNavigationBar: inPlan
+          ? SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+                child: PrimaryButton(
+                  key: const ValueKey('start-workout'),
+                  label: completed
+                      ? l10n.doneToday
+                      : done > 0
+                      ? l10n.continueWorkout(done, planned.sets)
+                      : l10n.startWorkout,
+                  onPressed: completed
+                      ? null
+                      : () => context.push(
+                          AppRoutes.exerciseWorkoutLocation(exercise.id),
+                        ),
+                ),
+              ),
+            )
+          : null,
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
         children: [

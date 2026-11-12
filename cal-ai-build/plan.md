@@ -317,7 +317,17 @@ These are agreed and will be built later, in the order shown under "Suggested or
      - Strings: 22 new (English and Bangla).
      - Tests: 48 new (every demo's frames, skeleton maths, loop timing, details screen, demo animation and pause, kcal explanation, unknown exercise, accessibility in light/dark/Bangla, large text).
      - **Not yet checked on a device.** Screens were checked as rendered images in light and dark mode. The "Start workout" button comes in phase 6.
-  6. ⬜ Workout mode: sets, rest timer, completion, history.
+  6. ✅ **Workout mode (2026-11-12):**
+     - **Start workout** at the bottom of an exercise's details (or **Continue (1 of 3 sets done)**, or **Done today** when finished) opens `/exercise/:exerciseId/workout`.
+     - **Flow:** ready (the prescription and "get into position") → **Start workout** → set: "12 reps" (confirmed by hand: the app never counts reps from a timer) or a countdown for timed exercises ("Time's up! Tap Done", still waiting for Done) → **Done — next set** → rest countdown with **+15 s** and **Skip rest**; when the rest ends the next set starts by itself → … → **Done — finish** → "Exercise complete" (sets, ≈ kcal) with **Next exercise** (the next one not done) and **Back to plan**. **Complete exercise** marks all sets done; **End early** leaves, keeping the sets done.
+     - Set indicator ("Set 2 of 3" and dots), the demo above, a buzz when a countdown ends.
+     - `WorkoutRunController` keeps end times rather than counting ticks, so countdowns stay right if the app goes to the background; the screen only refreshes the display 4 times a second.
+     - **History:** each finished set is saved at once in today's `WorkoutRecord` for that session (`ExerciseProvider.recordSets`), with the estimated kcal of the sets done. When every exercise is done the workout is marked completed (with its end time) and shows "Today's workout is complete!"; the next day the next session is up. The dashboard cards and progress update straight away.
+     - An unfinished workout stays "in progress" (the `partial` status from phase 2 isn't used yet).
+     - Strings: 22 new (English and Bangla).
+     - A large-text check found the countdown overflowing its ring; the text now shrinks to fit.
+     - Tests: 18 new (controller with a fake clock: sets, rests, auto-advance, +15 s, timed sets, complete, resume, display updates; provider recording; the full flow in the app; End early and Continue; Next exercise; timed countdown; accessibility of every workout step in light/dark/Bangla; large text).
+     - **Not yet checked on a device** (the buzz, background timing).
   7. ⬜ Calories into Home and Tracker (no Health double-counting), sync.
   8. ⬜ Polish: accessibility, dark mode, Bangla, emulator run-through.
 
@@ -333,7 +343,7 @@ These are agreed and will be built later, in the order shown under "Suggested or
 7. **Account management (19 ✅).**
 8. **Notifications (18 ✅), polish (22 ✅).**
 
-**Feature 23 (exercise planner) is in progress** (phases 1–5 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
+**Feature 23 (exercise planner) is in progress** (phases 1–6 of 8 done); the other planned features are complete. Also left is checking and release work: turn on Email/Password and try sign-in on the real project, run on iOS and a real phone (photo AI, Health data, notifications), then the release checklist under feature 15 (real app ID, Play signing SHA-256, App Attest, privacy policy for Health Connect).
 
 **Dropped (2026-11-02):** food database and barcode (was 20) and the Articles tab (was 21); the Articles tab was removed from the bottom bar.
 

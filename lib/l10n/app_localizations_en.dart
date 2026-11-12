@@ -2338,4 +2338,84 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get kcalInfoTooltip => 'How calories are estimated';
+
+  @override
+  String get startWorkout => 'Start workout';
+
+  @override
+  String continueWorkout(int done, int total) {
+    return 'Continue ($done of $total sets done)';
+  }
+
+  @override
+  String get doneToday => 'Done today';
+
+  @override
+  String setOfTotal(int current, int total) {
+    return 'Set $current of $total';
+  }
+
+  @override
+  String get doneNextSet => 'Done — next set';
+
+  @override
+  String get doneLastSet => 'Done — finish';
+
+  @override
+  String get completeExercise => 'Complete exercise';
+
+  @override
+  String get endEarly => 'End early';
+
+  @override
+  String get restLabel => 'Rest';
+
+  @override
+  String get skipRest => 'Skip rest';
+
+  @override
+  String addRestSeconds(int seconds) {
+    return '+$seconds s';
+  }
+
+  @override
+  String nextSetUp(int current, int total) {
+    return 'Next: set $current of $total';
+  }
+
+  @override
+  String get tapWhenDone => 'Tap Done when you\'ve finished the set.';
+
+  @override
+  String get timeUpHint => 'Time\'s up! Tap Done.';
+
+  @override
+  String get getReadyHint => 'Get into the starting position, then tap Start.';
+
+  @override
+  String get exerciseCompleteTitle => 'Exercise complete';
+
+  @override
+  String exerciseCompleteBody(int sets, int kcal) {
+    return '$sets sets · ≈ $kcal kcal (estimate)';
+  }
+
+  @override
+  String get workoutCompleteTitle => 'Today\'s workout is complete!';
+
+  @override
+  String get nextExercise => 'Next exercise';
+
+  @override
+  String get backToPlan => 'Back to plan';
+
+  @override
+  String secondsLeftLabel(int seconds) {
+    return '$seconds seconds left';
+  }
+
+  @override
+  String setsDoneLabel(int done, int total) {
+    return '$done of $total sets done';
+  }
 }

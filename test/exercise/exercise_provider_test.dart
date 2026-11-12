@@ -247,4 +247,72 @@ void main() {
     p.reload();
     expect(p.isSetUp, isTrue);
   });
+
+  group('recording sets', () {
+    test('the first set starts today\'s workout and is estimated', () async {
+      final p = provider();
+      await p.setUp(_home);
+      final first = p.selectedSession!.exercises.first;
+      expect(p.selectedRecord, isNull);
+
+      await p.recordSets(first.exerciseId, 1);
+      final record = p.selectedRecord!;
+      expect(record.startedAt, now);
+      expect(record.planId, p.plan!.id);
+      expect(record.sessionIndex, 0);
+      expect(record.status, WorkoutStatus.inProgress);
+      expect(record.exercises, hasLength(p.totalExercises));
+      expect(p.statusOf(first.exerciseId), ExerciseStatus.inProgress);
+      expect(p.setsDoneToday(first.exerciseId), 1);
+      expect(record.exercises.first.estimatedKcal, greaterThan(0));
+      expect(
+        record.exercises.first.estimatedKcal,
+        lessThan(p.plannedKcal(first)),
+      );
+    });
+
+    test('finishing every exercise completes the workout', () async {
+      final p = provider();
+      await p.setUp(_home);
+      final exercises = p.selectedSession!.exercises;
+      for (final e in exercises.take(exercises.length - 1)) {
+        await p.recordSets(e.exerciseId, e.sets);
+      }
+      expect(p.sessionCompleted, isFalse);
+      expect(
+        p.nextExerciseAfter(exercises.first.exerciseId),
+        exercises.last.exerciseId,
+      );
+
+      now = now.add(const Duration(minutes: 25));
+      await p.recordSets(exercises.last.exerciseId, exercises.last.sets);
+      expect(p.sessionCompleted, isTrue);
+      expect(p.completedExercises, exercises.length);
+      expect(p.selectedRecord!.endedAt, now);
+      expect(p.nextExerciseAfter(exercises.last.exerciseId), isNull);
+      expect(p.selectedRecord!.estimatedKcal, closeTo(p.estimatedKcal, 0.001));
+
+      // Tomorrow, the next session is up.
+      now = DateTime(2026, 11, 13, 9);
+      expect(p.todaySessionIndex, 1);
+    });
+
+    test('sets are kept within the plan', () async {
+      final p = provider();
+      await p.setUp(_home);
+      final first = p.selectedSession!.exercises.first;
+      await p.recordSets(first.exerciseId, 99);
+      expect(p.setsDoneToday(first.exerciseId), first.sets);
+      expect(p.plannedFor('flying_kick'), isNull);
+    });
+
+    test('next exercise skips finished ones and wraps round', () async {
+      final p = provider();
+      await p.setUp(_home);
+      final ids = [for (final e in p.selectedSession!.exercises) e.exerciseId];
+      await p.recordSets(ids[1], 99);
+      expect(p.nextExerciseAfter(ids[0]), ids[2]);
+      expect(p.nextExerciseAfter(ids.last), ids[0]);
+    });
+  });
 }

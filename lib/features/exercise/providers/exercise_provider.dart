@@ -198,6 +198,107 @@ class ExerciseProvider extends ChangeNotifier {
     (sum, e) => sum + plannedKcal(e),
   );
 
+  // Doing a workout
+
+  /// The shown session's planned exercise [exerciseId], if it is in it.
+  PlannedExercise? plannedFor(String exerciseId) {
+    for (final p in selectedSession?.exercises ?? const <PlannedExercise>[]) {
+      if (p.exerciseId == exerciseId) return p;
+    }
+    return null;
+  }
+
+  /// Sets of [exerciseId] already done today in the shown session.
+  int setsDoneToday(String exerciseId) {
+    for (final e in selectedRecord?.exercises ?? const <ExerciseRecord>[]) {
+      if (e.exerciseId == exerciseId) return e.setsDone;
+    }
+    return 0;
+  }
+
+  /// The next exercise of the shown session that isn't done, after
+  /// [exerciseId] (wrapping round); null when all are done.
+  String? nextExerciseAfter(String exerciseId) {
+    final exercises = selectedSession?.exercises ?? const <PlannedExercise>[];
+    final start = exercises.indexWhere((e) => e.exerciseId == exerciseId);
+    for (var i = 1; i <= exercises.length; i++) {
+      final e = exercises[(start + i) % exercises.length];
+      if (e.exerciseId == exerciseId) continue;
+      if (statusOf(e.exerciseId) != ExerciseStatus.completed) {
+        return e.exerciseId;
+      }
+    }
+    return null;
+  }
+
+  /// Saves that [setsDone] sets of [exerciseId] are done in today's
+  /// workout of the shown session (started on the first set). When every
+  /// exercise is done, the workout is marked completed.
+  Future<void> recordSets(String exerciseId, int setsDone) async {
+    final plan = _plan;
+    final session = selectedSession;
+    if (plan == null || session == null) return;
+    final now = _clock();
+    final record =
+        selectedRecord ??
+        WorkoutRecord(
+          id: 'w-${now.microsecondsSinceEpoch}',
+          startedAt: now,
+          planId: plan.id,
+          sessionIndex: selectedSessionIndex,
+          environment: plan.environment,
+          exercises: [
+            for (final p in session.exercises)
+              ExerciseRecord(
+                exerciseId: p.exerciseId,
+                setsTarget: p.sets,
+                reps: p.reps,
+                durationSeconds: p.durationSeconds,
+              ),
+          ],
+        );
+    final exercises = [
+      for (final e in record.exercises)
+        if (e.exerciseId == exerciseId)
+          _withSets(e, setsDone.clamp(0, e.setsTarget))
+        else
+          e,
+    ];
+    final allDone = exercises.every(
+      (e) => e.status == ExerciseStatus.completed,
+    );
+    await _log.save(
+      record.copyWith(
+        exercises: exercises,
+        status: allDone ? WorkoutStatus.completed : WorkoutStatus.inProgress,
+        endedAt: allDone ? now : null,
+      ),
+    );
+    // Keep showing this session even if "today's" moves on.
+    _selected ??= selectedSessionIndex;
+    notifyListeners();
+  }
+
+  ExerciseRecord _withSets(ExerciseRecord e, int setsDone) {
+    final exercise = ExerciseCatalog.byId(e.exerciseId);
+    return e.copyWith(
+      setsDone: setsDone,
+      estimatedKcal: exercise == null
+          ? 0
+          : ExerciseEstimate.netKcal(
+              exercise,
+              sets: setsDone,
+              reps: e.reps,
+              duration: e.durationSeconds,
+              weightKg: weightKg,
+            ),
+    );
+  }
+
+  /// True when today's workout of the shown session is complete.
+  bool get sessionCompleted =>
+      selectedRecord?.status == WorkoutStatus.completed;
+
   // Keeping in step
 
   /// Re-reads storage (after sign-in, log out or Reset all data).
